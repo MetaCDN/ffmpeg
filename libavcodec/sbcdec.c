@@ -32,7 +32,9 @@
 
 #include "avcodec.h"
 #include "internal.h"
+#include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
+#include "libavutil/mem_internal.h"
 #include "sbc.h"
 #include "sbcdec_data.h"
 
@@ -362,7 +364,7 @@ static int sbc_decode_frame(AVCodecContext *avctx,
     return frame_length;
 }
 
-AVCodec ff_sbc_decoder = {
+const AVCodec ff_sbc_decoder = {
     .name                  = "sbc",
     .long_name             = NULL_IF_CONFIG_SMALL("SBC (low-complexity subband codec)"),
     .type                  = AVMEDIA_TYPE_AUDIO,
@@ -370,7 +372,7 @@ AVCodec ff_sbc_decoder = {
     .priv_data_size        = sizeof(SBCDecContext),
     .init                  = sbc_decode_init,
     .decode                = sbc_decode_frame,
-    .capabilities          = AV_CODEC_CAP_DR1,
+    .capabilities          = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .caps_internal         = FF_CODEC_CAP_INIT_THREADSAFE,
     .channel_layouts       = (const uint64_t[]) { AV_CH_LAYOUT_MONO,
                                                   AV_CH_LAYOUT_STEREO, 0},

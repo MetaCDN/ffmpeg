@@ -21,6 +21,7 @@
 #include "libavutil/intmath.h"
 #include "libavutil/log.h"
 #include "libavutil/opt.h"
+#include "libavutil/thread.h"
 #include "avcodec.h"
 #include "me_cmp.h"
 #include "snow_dwt.h"
@@ -30,7 +31,6 @@
 
 #include "rangecoder.h"
 #include "mathops.h"
-#include "h263.h"
 
 
 void ff_snow_inner_add_yblock(const uint8_t *obmc, const int obmc_stride, uint8_t * * block, int b_w, int b_h,
@@ -115,22 +115,13 @@ int ff_snow_alloc_blocks(SnowContext *s){
     s->b_height= h;
 
     av_free(s->block);
-    s->block= av_mallocz_array(w * h,  sizeof(BlockNode) << (s->block_max_depth*2));
+    s->block = av_calloc(w * h,  sizeof(*s->block) << (s->block_max_depth*2));
     if (!s->block)
         return AVERROR(ENOMEM);
 
     return 0;
 }
 
-static av_cold void init_qexp(void){
-    int i;
-    double v=128;
-
-    for(i=0; i<QROOT; i++){
-        ff_qexp[i]= lrintf(v);
-        v *= pow(2, 1.0 / QROOT);
-    }
-}
 static void mc_block(Plane *p, uint8_t *dst, const uint8_t *src, int stride, int b_w, int b_h, int dx, int dy){
     static const uint8_t weight[64]={
     8,7,6,5,4,3,2,1,
@@ -427,10 +418,18 @@ mca( 8, 0,8)
 mca( 0, 8,8)
 mca( 8, 8,8)
 
+static av_cold void snow_static_init(void)
+{
+    for (int i = 0; i < MAX_REF_FRAMES; i++)
+        for (int j = 0; j < MAX_REF_FRAMES; j++)
+            ff_scale_mv_ref[i][j] = 256 * (i + 1) / (j + 1);
+}
+
 av_cold int ff_snow_common_init(AVCodecContext *avctx){
+    static AVOnce init_static_once = AV_ONCE_INIT;
     SnowContext *s = avctx->priv_data;
     int width, height;
-    int i, j;
+    int i;
 
     s->avctx= avctx;
     s->max_ref_frames=1; //just make sure it's not an invalid value in case of no initial keyframe
@@ -480,8 +479,6 @@ av_cold int ff_snow_common_init(AVCodecContext *avctx){
     mcfh(0, 8)
     mcfh(8, 8)
 
-    init_qexp();
-
 //    dec += FFMAX(s->chroma_h_shift, s->chroma_v_shift);
 
     width= s->avctx->width;
@@ -495,8 +492,6 @@ av_cold int ff_snow_common_init(AVCodecContext *avctx){
         return AVERROR(ENOMEM);
 
     for(i=0; i<MAX_REF_FRAMES; i++) {
-        for(j=0; j<MAX_REF_FRAMES; j++)
-            ff_scale_mv_ref[i][j] = 256*(i+1)/(j+1);
         s->last_picture[i] = av_frame_alloc();
         if (!s->last_picture[i])
             return AVERROR(ENOMEM);
@@ -506,6 +501,8 @@ av_cold int ff_snow_common_init(AVCodecContext *avctx){
     s->current_picture = av_frame_alloc();
     if (!s->mconly_picture || !s->current_picture)
         return AVERROR(ENOMEM);
+
+    ff_thread_once(&init_static_once, snow_static_init);
 
     return 0;
 }
@@ -569,7 +566,8 @@ int ff_snow_common_init_after_header(AVCodecContext *avctx) {
                     b->parent= &s->plane[plane_index].band[level-1][orientation];
                 //FIXME avoid this realloc
                 av_freep(&b->x_coeff);
-                b->x_coeff=av_mallocz_array(((b->width+1) * b->height+1), sizeof(x_and_coeff));
+                b->x_coeff = av_calloc((b->width + 1) * b->height + 1,
+                                       sizeof(*b->x_coeff));
                 if (!b->x_coeff)
                     return AVERROR(ENOMEM);
             }

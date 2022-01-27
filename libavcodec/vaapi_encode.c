@@ -21,6 +21,7 @@
 
 #include "libavutil/avassert.h"
 #include "libavutil/common.h"
+#include "libavutil/internal.h"
 #include "libavutil/log.h"
 #include "libavutil/pixdesc.h"
 
@@ -28,7 +29,7 @@
 #include "encode.h"
 #include "avcodec.h"
 
-const AVCodecHWConfigInternal *ff_vaapi_encode_hw_configs[] = {
+const AVCodecHWConfigInternal *const ff_vaapi_encode_hw_configs[] = {
     HW_CONFIG_ENCODER_FRAMES(VAAPI, VAAPI),
     NULL,
 };
@@ -428,7 +429,7 @@ static int vaapi_encode_issue(AVCodecContext *avctx,
     if (pic->nb_slices == 0)
         pic->nb_slices = ctx->nb_slices;
     if (pic->nb_slices > 0) {
-        pic->slices = av_mallocz_array(pic->nb_slices, sizeof(*pic->slices));
+        pic->slices = av_calloc(pic->nb_slices, sizeof(*pic->slices));
         if (!pic->slices) {
             err = AVERROR(ENOMEM);
             goto fail;
@@ -510,7 +511,7 @@ static int vaapi_encode_issue(AVCodecContext *avctx,
             nb_roi = ctx->roi_max_regions;
         }
 
-        pic->roi = av_mallocz_array(nb_roi, sizeof(*pic->roi));
+        pic->roi = av_calloc(nb_roi, sizeof(*pic->roi));
         if (!pic->roi) {
             err = AVERROR(ENOMEM);
             goto fail;
@@ -649,7 +650,7 @@ static int vaapi_encode_output(AVCodecContext *avctx,
     for (buf = buf_list; buf; buf = buf->next)
         total_size += buf->size;
 
-    err = av_new_packet(pkt, total_size);
+    err = ff_get_encode_buffer(avctx, pkt, total_size, 0);
     ptr = pkt->data;
 
     if (err < 0)
@@ -2234,7 +2235,7 @@ static void vaapi_encode_free_output_buffer(void *opaque,
 }
 
 static AVBufferRef *vaapi_encode_alloc_output_buffer(void *opaque,
-                                                     int size)
+                                                     size_t size)
 {
     AVCodecContext   *avctx = opaque;
     VAAPIEncodeContext *ctx = avctx->priv_data;
@@ -2365,6 +2366,11 @@ av_cold int ff_vaapi_encode_init(AVCodecContext *avctx)
     VAStatus vas;
     int err;
 
+    ctx->va_config  = VA_INVALID_ID;
+    ctx->va_context = VA_INVALID_ID;
+
+    /* If you add something that can fail above this av_frame_alloc(),
+     * modify ff_vaapi_encode_close() accordingly. */
     ctx->frame = av_frame_alloc();
     if (!ctx->frame) {
         return AVERROR(ENOMEM);
@@ -2375,9 +2381,6 @@ av_cold int ff_vaapi_encode_init(AVCodecContext *avctx)
                "required to associate the encoding device.\n");
         return AVERROR(EINVAL);
     }
-
-    ctx->va_config  = VA_INVALID_ID;
-    ctx->va_context = VA_INVALID_ID;
 
     ctx->input_frames_ref = av_buffer_ref(avctx->hw_frames_ctx);
     if (!ctx->input_frames_ref) {
@@ -2529,6 +2532,11 @@ av_cold int ff_vaapi_encode_close(AVCodecContext *avctx)
 {
     VAAPIEncodeContext *ctx = avctx->priv_data;
     VAAPIEncodePicture *pic, *next;
+
+    /* We check ctx->frame to know whether ff_vaapi_encode_init()
+     * has been called and va_config/va_context initialized. */
+    if (!ctx->frame)
+        return 0;
 
     for (pic = ctx->pic_start; pic; pic = next) {
         next = pic->next;

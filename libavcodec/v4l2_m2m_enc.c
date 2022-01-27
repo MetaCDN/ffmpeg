@@ -295,16 +295,20 @@ static int v4l2_receive_packet(AVCodecContext *avctx, AVPacket *avpkt)
     if (s->draining)
         goto dequeue;
 
-    ret = ff_encode_get_frame(avctx, frame);
-    if (ret < 0 && ret != AVERROR_EOF)
-        return ret;
+    if (!frame->buf[0]) {
+        ret = ff_encode_get_frame(avctx, frame);
+        if (ret < 0 && ret != AVERROR_EOF)
+            return ret;
 
-    if (ret == AVERROR_EOF)
-        frame = NULL;
+        if (ret == AVERROR_EOF)
+            frame = NULL;
+    }
 
     ret = v4l2_send_frame(avctx, frame);
-    av_frame_unref(frame);
-    if (ret < 0)
+    if (ret != AVERROR(EAGAIN))
+        av_frame_unref(frame);
+
+    if (ret < 0 && ret != AVERROR(EAGAIN))
         return ret;
 
     if (!output->streamon) {
@@ -417,7 +421,7 @@ static const AVCodecDefault v4l2_m2m_defaults[] = {
 
 #define M2MENC(NAME, LONGNAME, OPTIONS_NAME, CODEC) \
     M2MENC_CLASS(NAME, OPTIONS_NAME) \
-    AVCodec ff_ ## NAME ## _v4l2m2m_encoder = { \
+    const AVCodec ff_ ## NAME ## _v4l2m2m_encoder = { \
         .name           = #NAME "_v4l2m2m" , \
         .long_name      = NULL_IF_CONFIG_SMALL("V4L2 mem2mem " LONGNAME " encoder wrapper"), \
         .type           = AVMEDIA_TYPE_VIDEO, \

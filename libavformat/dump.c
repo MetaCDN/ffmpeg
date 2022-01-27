@@ -37,6 +37,7 @@
 #include "libavutil/timecode.h"
 
 #include "avformat.h"
+#include "internal.h"
 
 #define HEXDUMP_PRINT(...)                                                    \
     do {                                                                      \
@@ -322,11 +323,7 @@ static void dump_cpb(void *ctx, const AVPacketSideData *sd)
     }
 
     av_log(ctx, AV_LOG_INFO,
-#if FF_API_UNSANITIZED_BITRATES
-           "bitrate max/min/avg: %d/%d/%d buffer size: %d ",
-#else
-           "bitrate max/min/avg: %"PRId64"/%"PRId64"/%"PRId64" buffer size: %d ",
-#endif
+           "bitrate max/min/avg: %"PRId64"/%"PRId64"/%"PRId64" buffer size: %"PRId64" ",
            cpb->max_bitrate, cpb->min_bitrate, cpb->avg_bitrate,
            cpb->buffer_size);
     if (cpb->vbv_delay == UINT64_MAX)
@@ -408,7 +405,7 @@ static void dump_dovi_conf(void *ctx, const AVPacketSideData *sd)
            dovi->dv_bl_signal_compatibility_id);
 }
 
-static void dump_s12m_timecode(void *ctx, const AVPacketSideData *sd)
+static void dump_s12m_timecode(void *ctx, const AVStream *st, const AVPacketSideData *sd)
 {
     const uint32_t *tc = (const uint32_t *)sd->data;
 
@@ -419,7 +416,7 @@ static void dump_s12m_timecode(void *ctx, const AVPacketSideData *sd)
 
     for (int j = 1; j <= tc[0]; j++) {
         char tcbuf[AV_TIMECODE_STR_SIZE];
-        av_timecode_make_smpte_tc_string(tcbuf, tc[j], 0);
+        av_timecode_make_smpte_tc_string2(tcbuf, st->avg_frame_rate, tc[j], 0, 0);
         av_log(ctx, AV_LOG_INFO, "timecode - %s%s", tcbuf, j != tc[0] ? ", " : "");
     }
 }
@@ -492,11 +489,11 @@ static void dump_sidedata(void *ctx, const AVStream *st, const char *indent)
             break;
         case AV_PKT_DATA_S12M_TIMECODE:
             av_log(ctx, AV_LOG_INFO, "SMPTE ST 12-1:2014: ");
-            dump_s12m_timecode(ctx, sd);
+            dump_s12m_timecode(ctx, st, sd);
             break;
         default:
-            av_log(ctx, AV_LOG_INFO,
-                   "unknown side data type %d (%d bytes)", sd->type, sd->size);
+            av_log(ctx, AV_LOG_INFO, "unknown side data type %d "
+                   "(%"SIZE_SPECIFIER" bytes)", sd->type, sd->size);
             break;
         }
 
@@ -511,6 +508,7 @@ static void dump_stream_format(const AVFormatContext *ic, int i,
     char buf[256];
     int flags = (is_output ? ic->oformat->flags : ic->iformat->flags);
     const AVStream *st = ic->streams[i];
+    const FFStream *const sti = cffstream(st);
     const AVDictionaryEntry *lang = av_dict_get(st->metadata, "language", NULL, 0);
     const char *separator = ic->dump_separator;
     AVCodecContext *avctx;
@@ -526,24 +524,20 @@ static void dump_stream_format(const AVFormatContext *ic, int i,
         return;
     }
 
-#if FF_API_LAVF_AVCTX
-FF_DISABLE_DEPRECATION_WARNINGS
     // Fields which are missing from AVCodecParameters need to be taken from the AVCodecContext
-    avctx->properties = st->codec->properties;
-    avctx->codec      = st->codec->codec;
-    avctx->qmin       = st->codec->qmin;
-    avctx->qmax       = st->codec->qmax;
-    avctx->coded_width  = st->codec->coded_width;
-    avctx->coded_height = st->codec->coded_height;
-FF_ENABLE_DEPRECATION_WARNINGS
-#endif
+    avctx->properties   = sti->avctx->properties;
+    avctx->codec        = sti->avctx->codec;
+    avctx->qmin         = sti->avctx->qmin;
+    avctx->qmax         = sti->avctx->qmax;
+    avctx->coded_width  = sti->avctx->coded_width;
+    avctx->coded_height = sti->avctx->coded_height;
 
     if (separator)
         av_opt_set(avctx, "dump_separator", separator, 0);
     avcodec_string(buf, sizeof(buf), avctx, is_output);
     avcodec_free_context(&avctx);
 
-    av_log(NULL, AV_LOG_INFO, "    Stream #%d:%d", index, i);
+    av_log(NULL, AV_LOG_INFO, "  Stream #%d:%d", index, i);
 
     /* the pid is an important information, so we display it */
     /* XXX: add a generic system */
@@ -551,7 +545,7 @@ FF_ENABLE_DEPRECATION_WARNINGS
         av_log(NULL, AV_LOG_INFO, "[0x%x]", st->id);
     if (lang)
         av_log(NULL, AV_LOG_INFO, "(%s)", lang->value);
-    av_log(NULL, AV_LOG_DEBUG, ", %d, %d/%d", st->codec_info_nb_frames,
+    av_log(NULL, AV_LOG_DEBUG, ", %d, %d/%d", sti->codec_info_nb_frames,
            st->time_base.num, st->time_base.den);
     av_log(NULL, AV_LOG_INFO, ": %s", buf);
 
@@ -571,29 +565,16 @@ FF_ENABLE_DEPRECATION_WARNINGS
         int fps = st->avg_frame_rate.den && st->avg_frame_rate.num;
         int tbr = st->r_frame_rate.den && st->r_frame_rate.num;
         int tbn = st->time_base.den && st->time_base.num;
-#if FF_API_LAVF_AVCTX
-FF_DISABLE_DEPRECATION_WARNINGS
-        int tbc = st->codec->time_base.den && st->codec->time_base.num;
-FF_ENABLE_DEPRECATION_WARNINGS
-#else
-        int tbc = 0;
-#endif
 
-        if (fps || tbr || tbn || tbc)
+        if (fps || tbr || tbn)
             av_log(NULL, AV_LOG_INFO, "%s", separator);
 
         if (fps)
-            print_fps(av_q2d(st->avg_frame_rate), tbr || tbn || tbc ? "fps, " : "fps");
+            print_fps(av_q2d(st->avg_frame_rate), tbr || tbn ? "fps, " : "fps");
         if (tbr)
-            print_fps(av_q2d(st->r_frame_rate), tbn || tbc ? "tbr, " : "tbr");
+            print_fps(av_q2d(st->r_frame_rate), tbn ? "tbr, " : "tbr");
         if (tbn)
-            print_fps(1 / av_q2d(st->time_base), tbc ? "tbn, " : "tbn");
-#if FF_API_LAVF_AVCTX
-FF_DISABLE_DEPRECATION_WARNINGS
-        if (tbc)
-            print_fps(1 / av_q2d(st->codec->time_base), "tbc");
-FF_ENABLE_DEPRECATION_WARNINGS
-#endif
+            print_fps(1 / av_q2d(st->time_base), "tbn");
     }
 
     if (st->disposition & AV_DISPOSITION_DEFAULT)
@@ -686,6 +667,8 @@ void av_dump_format(AVFormatContext *ic, int index,
         av_log(NULL, AV_LOG_INFO, "\n");
     }
 
+    if (ic->nb_chapters)
+        av_log(NULL, AV_LOG_INFO, "  Chapters:\n");
     for (i = 0; i < ic->nb_chapters; i++) {
         const AVChapter *ch = ic->chapters[i];
         av_log(NULL, AV_LOG_INFO, "    Chapter #%d:%d: ", index, i);
@@ -694,7 +677,7 @@ void av_dump_format(AVFormatContext *ic, int index,
         av_log(NULL, AV_LOG_INFO,
                "end %f\n", ch->end * av_q2d(ch->time_base));
 
-        dump_metadata(NULL, ch->metadata, "    ");
+        dump_metadata(NULL, ch->metadata, "      ");
     }
 
     if (ic->nb_programs) {

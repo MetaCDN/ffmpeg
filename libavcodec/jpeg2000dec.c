@@ -34,7 +34,6 @@
 #include "libavutil/imgutils.h"
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
-#include "libavutil/thread.h"
 #include "avcodec.h"
 #include "bytestream.h"
 #include "internal.h"
@@ -362,7 +361,7 @@ static int get_siz(Jpeg2000DecoderContext *s)
         return AVERROR(EINVAL);
     }
 
-    s->tile = av_mallocz_array(s->numXtiles * s->numYtiles, sizeof(*s->tile));
+    s->tile = av_calloc(s->numXtiles * s->numYtiles, sizeof(*s->tile));
     if (!s->tile) {
         s->numXtiles = s->numYtiles = 0;
         return AVERROR(ENOMEM);
@@ -1177,7 +1176,7 @@ static int jpeg2000_decode_packet(Jpeg2000DecoderContext *s, Jpeg2000Tile *tile,
             cblk->nb_lengthinc = 0;
             cblk->nb_terminationsinc = 0;
             av_free(cblk->lengthinc);
-            cblk->lengthinc  = av_mallocz_array(newpasses    , sizeof(*cblk->lengthinc));
+            cblk->lengthinc = av_calloc(newpasses, sizeof(*cblk->lengthinc));
             if (!cblk->lengthinc)
                 return AVERROR(ENOMEM);
             tmp = av_realloc_array(cblk->data_start, cblk->nb_terminations + newpasses + 1, sizeof(*cblk->data_start));
@@ -1465,20 +1464,20 @@ static int jpeg2000_decode_packets_po_iteration(Jpeg2000DecoderContext *s, Jpeg2
                         if (reslevelno >= codsty->nreslevels)
                             continue;
 
-                        trx0 = ff_jpeg2000_ceildiv(tile->coord[0][0], s->cdx[compno] << reducedresno);
-                        try0 = ff_jpeg2000_ceildiv(tile->coord[1][0], s->cdy[compno] << reducedresno);
+                        trx0 = ff_jpeg2000_ceildiv(tile->coord[0][0], (int64_t)s->cdx[compno] << reducedresno);
+                        try0 = ff_jpeg2000_ceildiv(tile->coord[1][0], (int64_t)s->cdy[compno] << reducedresno);
 
                         if (!(y % ((uint64_t)s->cdy[compno] << (rlevel->log2_prec_height + reducedresno)) == 0 ||
-                             (y == tile->coord[1][0] && (try0 << reducedresno) % (1U << (reducedresno + rlevel->log2_prec_height)))))
+                             (y == tile->coord[1][0] && ((int64_t)try0 << reducedresno) % (1ULL << (reducedresno + rlevel->log2_prec_height)))))
                             continue;
 
                         if (!(x % ((uint64_t)s->cdx[compno] << (rlevel->log2_prec_width + reducedresno)) == 0 ||
-                             (x == tile->coord[0][0] && (trx0 << reducedresno) % (1U << (reducedresno + rlevel->log2_prec_width)))))
+                             (x == tile->coord[0][0] && ((int64_t)trx0 << reducedresno) % (1ULL << (reducedresno + rlevel->log2_prec_width)))))
                             continue;
 
                         // check if a precinct exists
-                        prcx   = ff_jpeg2000_ceildiv(x, s->cdx[compno] << reducedresno) >> rlevel->log2_prec_width;
-                        prcy   = ff_jpeg2000_ceildiv(y, s->cdy[compno] << reducedresno) >> rlevel->log2_prec_height;
+                        prcx   = ff_jpeg2000_ceildiv(x, (int64_t)s->cdx[compno] << reducedresno) >> rlevel->log2_prec_width;
+                        prcy   = ff_jpeg2000_ceildiv(y, (int64_t)s->cdy[compno] << reducedresno) >> rlevel->log2_prec_height;
                         prcx  -= ff_jpeg2000_ceildivpow2(comp->coord_o[0][0], reducedresno) >> rlevel->log2_prec_width;
                         prcy  -= ff_jpeg2000_ceildivpow2(comp->coord_o[1][0], reducedresno) >> rlevel->log2_prec_height;
 
@@ -1543,20 +1542,20 @@ static int jpeg2000_decode_packets_po_iteration(Jpeg2000DecoderContext *s, Jpeg2
                         Jpeg2000ResLevel *rlevel = comp->reslevel + reslevelno;
                         int trx0, try0;
 
-                        trx0 = ff_jpeg2000_ceildiv(tile->coord[0][0], s->cdx[compno] << reducedresno);
-                        try0 = ff_jpeg2000_ceildiv(tile->coord[1][0], s->cdy[compno] << reducedresno);
+                        trx0 = ff_jpeg2000_ceildiv(tile->coord[0][0], (int64_t)s->cdx[compno] << reducedresno);
+                        try0 = ff_jpeg2000_ceildiv(tile->coord[1][0], (int64_t)s->cdy[compno] << reducedresno);
 
                         if (!(y % ((uint64_t)s->cdy[compno] << (rlevel->log2_prec_height + reducedresno)) == 0 ||
-                             (y == tile->coord[1][0] && (try0 << reducedresno) % (1U << (reducedresno + rlevel->log2_prec_height)))))
+                             (y == tile->coord[1][0] && ((int64_t)try0 << reducedresno) % (1ULL << (reducedresno + rlevel->log2_prec_height)))))
                              continue;
 
                         if (!(x % ((uint64_t)s->cdx[compno] << (rlevel->log2_prec_width + reducedresno)) == 0 ||
-                             (x == tile->coord[0][0] && (trx0 << reducedresno) % (1U << (reducedresno + rlevel->log2_prec_width)))))
+                             (x == tile->coord[0][0] && ((int64_t)trx0 << reducedresno) % (1ULL << (reducedresno + rlevel->log2_prec_width)))))
                              continue;
 
                         // check if a precinct exists
-                        prcx   = ff_jpeg2000_ceildiv(x, s->cdx[compno] << reducedresno) >> rlevel->log2_prec_width;
-                        prcy   = ff_jpeg2000_ceildiv(y, s->cdy[compno] << reducedresno) >> rlevel->log2_prec_height;
+                        prcx   = ff_jpeg2000_ceildiv(x, (int64_t)s->cdx[compno] << reducedresno) >> rlevel->log2_prec_width;
+                        prcy   = ff_jpeg2000_ceildiv(y, (int64_t)s->cdy[compno] << reducedresno) >> rlevel->log2_prec_height;
                         prcx  -= ff_jpeg2000_ceildivpow2(comp->coord_o[0][0], reducedresno) >> rlevel->log2_prec_width;
                         prcy  -= ff_jpeg2000_ceildivpow2(comp->coord_o[1][0], reducedresno) >> rlevel->log2_prec_height;
 
@@ -2184,7 +2183,9 @@ static int jpeg2000_read_main_headers(Jpeg2000DecoderContext *s)
             }
 
             if (s->has_ppm) {
-                uint32_t tp_header_size = bytestream2_get_be32u(&s->packed_headers_stream);
+                uint32_t tp_header_size = bytestream2_get_be32(&s->packed_headers_stream);
+                if (bytestream2_get_bytes_left(&s->packed_headers_stream) < tp_header_size)
+                    return AVERROR_INVALIDDATA;
                 bytestream2_init(&tp->header_tpg, s->packed_headers_stream.buffer, tp_header_size);
                 bytestream2_skip(&s->packed_headers_stream, tp_header_size);
             }
@@ -2340,8 +2341,12 @@ static int jp2_find_codestream(Jpeg2000DecoderContext *s)
                 return 0;
             }
             atom_size = bytestream2_get_be32u(&s->g);
+            if (atom_size < 16 || (int64_t)bytestream2_tell(&s->g) + atom_size - 16 > INT_MAX)
+                return AVERROR_INVALIDDATA;
             atom_end  = bytestream2_tell(&s->g) + atom_size - 16;
         } else {
+            if (atom_size <  8 || (int64_t)bytestream2_tell(&s->g) + atom_size -  8 > INT_MAX)
+                return AVERROR_INVALIDDATA;
             atom_end  = bytestream2_tell(&s->g) + atom_size -  8;
         }
 
@@ -2355,6 +2360,8 @@ static int jp2_find_codestream(Jpeg2000DecoderContext *s)
                    atom_size >= 16) {
             uint32_t atom2_size, atom2, atom2_end;
             do {
+                if (bytestream2_get_bytes_left(&s->g) < 8)
+                    break;
                 atom2_size = bytestream2_get_be32u(&s->g);
                 atom2      = bytestream2_get_be32u(&s->g);
                 atom2_end  = bytestream2_tell(&s->g) + atom2_size - 8;
@@ -2467,19 +2474,12 @@ static int jp2_find_codestream(Jpeg2000DecoderContext *s)
     return 0;
 }
 
-static av_cold void jpeg2000_init_static_data(void)
-{
-    ff_jpeg2000_init_tier1_luts();
-    ff_mqc_init_context_tables();
-}
-
 static av_cold int jpeg2000_decode_init(AVCodecContext *avctx)
 {
-    static AVOnce init_static_once = AV_ONCE_INIT;
     Jpeg2000DecoderContext *s = avctx->priv_data;
 
-    ff_thread_once(&init_static_once, jpeg2000_init_static_data);
     ff_jpeg2000dsp_init(&s->dsp);
+    ff_jpeg2000_init_tier1_luts();
 
     return 0;
 }
@@ -2572,7 +2572,7 @@ static const AVClass jpeg2000_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-AVCodec ff_jpeg2000_decoder = {
+const AVCodec ff_jpeg2000_decoder = {
     .name             = "jpeg2000",
     .long_name        = NULL_IF_CONFIG_SMALL("JPEG 2000"),
     .type             = AVMEDIA_TYPE_VIDEO,
@@ -2583,5 +2583,6 @@ AVCodec ff_jpeg2000_decoder = {
     .decode           = jpeg2000_decode_frame,
     .priv_class       = &jpeg2000_class,
     .max_lowres       = 5,
-    .profiles         = NULL_IF_CONFIG_SMALL(ff_jpeg2000_profiles)
+    .profiles         = NULL_IF_CONFIG_SMALL(ff_jpeg2000_profiles),
+    .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE,
 };
