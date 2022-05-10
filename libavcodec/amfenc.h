@@ -27,6 +27,7 @@
 #include "libavutil/fifo.h"
 
 #include "avcodec.h"
+#include "hwconfig.h"
 
 
 /**
@@ -71,7 +72,7 @@ typedef struct AmfContext {
     AVFrame            *delayed_frame;
 
     // shift dts back by max_b_frames in timing
-    AVFifoBuffer       *timestamp_list;
+    AVFifo             *timestamp_list;
     int64_t             dts_delay;
 
     // common encoder option options
@@ -116,6 +117,8 @@ typedef struct AmfContext {
     int                 max_qp_p;
     int                 tier;
 } AmfContext;
+
+extern const AVCodecHWConfigInternal *const ff_amfenc_hw_configs[];
 
 /**
 * Common encoder initization function

@@ -28,7 +28,6 @@
 #include <dirent.h>
 #include <fcntl.h>
 #include "libavcodec/avcodec.h"
-#include "libavcodec/internal.h"
 #include "libavutil/pixdesc.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/pixfmt.h"
@@ -329,7 +328,9 @@ static void v4l2_m2m_destroy_context(void *opaque, uint8_t *context)
     sem_destroy(&s->refsync);
 
     close(s->fd);
+    av_frame_unref(s->frame);
     av_frame_free(&s->frame);
+    av_packet_unref(&s->buf_pkt);
 
     av_free(s);
 }
@@ -339,13 +340,18 @@ int ff_v4l2_m2m_codec_end(V4L2m2mPriv *priv)
     V4L2m2mContext *s = priv->context;
     int ret;
 
-    ret = ff_v4l2_context_set_status(&s->output, VIDIOC_STREAMOFF);
-    if (ret)
-        av_log(s->avctx, AV_LOG_ERROR, "VIDIOC_STREAMOFF %s\n", s->output.name);
+    if (!s)
+        return 0;
 
-    ret = ff_v4l2_context_set_status(&s->capture, VIDIOC_STREAMOFF);
-    if (ret)
-        av_log(s->avctx, AV_LOG_ERROR, "VIDIOC_STREAMOFF %s\n", s->capture.name);
+    if (s->fd >= 0) {
+        ret = ff_v4l2_context_set_status(&s->output, VIDIOC_STREAMOFF);
+        if (ret)
+            av_log(s->avctx, AV_LOG_ERROR, "VIDIOC_STREAMOFF %s\n", s->output.name);
+
+        ret = ff_v4l2_context_set_status(&s->capture, VIDIOC_STREAMOFF);
+        if (ret)
+            av_log(s->avctx, AV_LOG_ERROR, "VIDIOC_STREAMOFF %s\n", s->capture.name);
+    }
 
     ff_v4l2_context_release(&s->output);
 

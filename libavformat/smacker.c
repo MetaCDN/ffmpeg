@@ -52,6 +52,7 @@ typedef struct SmackerContext {
     int cur_frame;
     int videoindex;
     int indexes[7];
+    int duration_size[7];
     /* current frame for demuxing */
     uint32_t frame_size;
     int flags;
@@ -93,6 +94,7 @@ static int smacker_read_header(AVFormatContext *s)
     AVStream *st;
     AVCodecParameters *par;
     uint32_t magic, width, height, flags, treesize;
+    int64_t pos;
     int i, ret, pts_inc;
     int tbase;
 
@@ -104,8 +106,8 @@ static int smacker_read_header(AVFormatContext *s)
     height = avio_rl32(pb);
     smk->frames = avio_rl32(pb);
     pts_inc = avio_rl32(pb);
-    if (pts_inc > INT_MAX / 100) {
-        av_log(s, AV_LOG_ERROR, "pts_inc %d is too large\n", pts_inc);
+    if (pts_inc > INT_MAX / 100 || pts_inc == INT_MIN) {
+        av_log(s, AV_LOG_ERROR, "pts_inc %d is invalid\n", pts_inc);
         return AVERROR_INVALIDDATA;
     }
 
@@ -185,19 +187,16 @@ static int smacker_read_header(AVFormatContext *s)
             } else {
                 par->codec_id  = AV_CODEC_ID_PCM_U8;
             }
-            if (aflag & SMK_AUD_STEREO) {
-                par->channels       = 2;
-                par->channel_layout = AV_CH_LAYOUT_STEREO;
-            } else {
-                par->channels       = 1;
-                par->channel_layout = AV_CH_LAYOUT_MONO;
-            }
+            av_channel_layout_default(&par->ch_layout,
+                                      !!(aflag & SMK_AUD_STEREO) + 1);
             par->sample_rate = rate;
             par->bits_per_coded_sample = (aflag & SMK_AUD_16BITS) ? 16 : 8;
             if (par->bits_per_coded_sample == 16 &&
                 par->codec_id == AV_CODEC_ID_PCM_U8)
                 par->codec_id = AV_CODEC_ID_PCM_S16LE;
-            avpriv_set_pts_info(ast, 64, 1, par->sample_rate * par->channels
+            else
+                smk->duration_size[i] = 4;
+            avpriv_set_pts_info(ast, 64, 1, par->sample_rate * par->ch_layout.nb_channels
                                             * par->bits_per_coded_sample / 8);
         }
     }
@@ -213,8 +212,13 @@ static int smacker_read_header(AVFormatContext *s)
     smk->frm_flags = (void*)(smk->frm_size + smk->frames);
 
     /* read frame info */
+    pos = 0;
     for (i = 0; i < smk->frames; i++) {
         smk->frm_size[i] = avio_rl32(pb);
+        if ((ret = av_add_index_entry(st, pos, i, smk->frm_size[i], 0,
+                                      (i == 0 || (smk->frm_size[i] & 1)) ? AVINDEX_KEYFRAME : 0)) < 0)
+            return ret;
+        pos += smk->frm_size[i];
     }
     if ((ret = ffio_read_size(pb, smk->frm_flags, smk->frames)) < 0 ||
         /* load trees to extradata, they will be unpacked by decoder */
@@ -297,7 +301,7 @@ static int smacker_read_packet(AVFormatContext *s, AVPacket *pkt)
             uint32_t size;
 
             size = avio_rl32(s->pb);
-            if ((int)size < 8 || size > smk->frame_size) {
+            if ((int)size < 4 + smk->duration_size[i] || size > smk->frame_size) {
                 av_log(s, AV_LOG_ERROR, "Invalid audio part size\n");
                 ret = AVERROR_INVALIDDATA;
                 goto next_frame;
@@ -305,8 +309,11 @@ static int smacker_read_packet(AVFormatContext *s, AVPacket *pkt)
             smk->frame_size -= size;
             size            -= 4;
 
-            if (smk->indexes[i] < 0) {
-                avio_skip(s->pb, size);
+            if (smk->indexes[i] < 0 ||
+                s->streams[smk->indexes[i]]->discard >= AVDISCARD_ALL) {
+                smk->aud_pts[i] += smk->duration_size[i] ? avio_rl32(s->pb)
+                                                         : size;
+                avio_skip(s->pb, size - smk->duration_size[i]);
                 continue;
             }
             if ((ret = av_get_packet(s->pb, pkt, size)) != size) {
@@ -315,12 +322,18 @@ static int smacker_read_packet(AVFormatContext *s, AVPacket *pkt)
             }
             pkt->stream_index = smk->indexes[i];
             pkt->pts          = smk->aud_pts[i];
-            smk->aud_pts[i]  += AV_RL32(pkt->data);
+            pkt->duration     = smk->duration_size[i] ? AV_RL32(pkt->data)
+                                                      : size;
+            smk->aud_pts[i]  += pkt->duration;
             smk->next_audio_index = i + 1;
             return 0;
         }
     }
 
+    if (s->streams[smk->videoindex]->discard >= AVDISCARD_ALL) {
+        ret = FFERROR_REDO;
+        goto next_frame;
+    }
     if (smk->frame_size >= INT_MAX/2) {
         ret = AVERROR_INVALIDDATA;
         goto next_frame;
@@ -328,7 +341,7 @@ static int smacker_read_packet(AVFormatContext *s, AVPacket *pkt)
     if ((ret = av_new_packet(pkt, smk->frame_size + 769)) < 0)
         goto next_frame;
     flags = smk->new_palette;
-    if (smk->frm_size[smk->cur_frame] & 1)
+    if ((smk->frm_size[smk->cur_frame] & 1) || smk->cur_frame == 0)
         flags |= 2;
     pkt->data[0] = flags;
     memcpy(pkt->data + 1, smk->pal, 768);
@@ -337,6 +350,9 @@ static int smacker_read_packet(AVFormatContext *s, AVPacket *pkt)
         goto next_frame;
     pkt->stream_index = smk->videoindex;
     pkt->pts          = smk->cur_frame;
+    pkt->duration = 1;
+    if (flags & 2)
+        pkt->flags |= AV_PKT_FLAG_KEY;
     smk->next_audio_index = 0;
     smk->new_palette = 0;
     smk->cur_frame++;
@@ -349,11 +365,45 @@ next_frame:
     return ret;
 }
 
-AVInputFormat ff_smacker_demuxer = {
+static int smacker_read_seek(AVFormatContext *s, int stream_index,
+                             int64_t timestamp, int flags)
+{
+    AVStream *st = s->streams[stream_index];
+    SmackerContext *smk = s->priv_data;
+    int64_t pos;
+    int ret;
+
+    if (!(s->pb->seekable & AVIO_SEEKABLE_NORMAL))
+        return -1;
+
+    if (timestamp < 0 || timestamp >= smk->frames)
+        return AVERROR(EINVAL);
+
+    ret = av_index_search_timestamp(st, timestamp, flags);
+    if (ret < 0)
+        return ret;
+
+    pos  = ffformatcontext(s)->data_offset;
+    pos += ffstream(st)->index_entries[ret].pos;
+    pos  = avio_seek(s->pb, pos, SEEK_SET);
+    if (pos < 0)
+        return pos;
+
+    smk->cur_frame = ret;
+    smk->next_audio_index = 0;
+    smk->new_palette = 0;
+    memset(smk->pal, 0, sizeof(smk->pal));
+    memset(smk->aud_pts, 0, sizeof(smk->aud_pts));
+
+    return 0;
+}
+
+const AVInputFormat ff_smacker_demuxer = {
     .name           = "smk",
     .long_name      = NULL_IF_CONFIG_SMALL("Smacker"),
     .priv_data_size = sizeof(SmackerContext),
     .read_probe     = smacker_probe,
     .read_header    = smacker_read_header,
     .read_packet    = smacker_read_packet,
+    .read_seek      = smacker_read_seek,
 };
