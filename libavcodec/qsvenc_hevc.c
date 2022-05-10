@@ -258,7 +258,6 @@ static const AVOption options[] = {
 #if QSV_VERSION_ATLEAST(1, 26)
     { "transform_skip", "Turn this option ON to enable transformskip",   OFFSET(qsv.transform_skip),          AV_OPT_TYPE_INT,    { .i64 = -1},   -1, 1,  VE},
 #endif
-<<<<<<< HEAD
     { "int_ref_type", "Intra refresh type. B frames should be set to 0",         OFFSET(qsv.int_ref_type),            AV_OPT_TYPE_INT, { .i64 = -1 }, -1, UINT16_MAX, VE, "int_ref_type" },
         { "none",     NULL, 0, AV_OPT_TYPE_CONST, { .i64 = 0 }, .flags = VE, "int_ref_type" },
         { "vertical", NULL, 0, AV_OPT_TYPE_CONST, { .i64 = 1 }, .flags = VE, "int_ref_type" },
@@ -268,8 +267,6 @@ static const AVOption options[] = {
 #if QSV_VERSION_ATLEAST(1, 16)
     { "int_ref_cycle_dist",   "Distance between the beginnings of the intra-refresh cycles in frames",  OFFSET(qsv.int_ref_cycle_dist),      AV_OPT_TYPE_INT, { .i64 = -1 }, -1, INT16_MAX, VE },
 #endif
-=======
->>>>>>> refs/remotes/origin/master
 
     { NULL },
 };
@@ -294,15 +291,9 @@ static const FFCodecDefault qsv_enc_defaults[] = {
     { NULL },
 };
 
-<<<<<<< HEAD
 const FFCodec ff_hevc_qsv_encoder = {
     .p.name         = "hevc_qsv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("HEVC (Intel Quick Sync Video acceleration)"),
-=======
-const AVCodec ff_hevc_qsv_encoder = {
-    .name           = "hevc_qsv",
-    .long_name      = NULL_IF_CONFIG_SMALL("HEVC (Intel Quick Sync Video acceleration)"),
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(QSVHEVCEncContext),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HEVC,

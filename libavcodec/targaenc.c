@@ -27,13 +27,8 @@
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "rle.h"
 #include "targa.h"
 
@@ -207,19 +202,11 @@ static const AVClass targa_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_targa_encoder = {
     .p.name         = "targa",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Truevision Targa image"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_TARGA,
-=======
-const AVCodec ff_targa_encoder = {
-    .name           = "targa",
-    .long_name      = NULL_IF_CONFIG_SMALL("Truevision Targa image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_TARGA,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(TargaContext),
     .p.priv_class   = &targa_class,
     .init           = targa_encode_init,

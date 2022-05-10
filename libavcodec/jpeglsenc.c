@@ -29,18 +29,11 @@
 #include "libavutil/opt.h"
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "get_bits.h"
 #include "put_bits.h"
 #include "put_golomb.h"
-<<<<<<< HEAD
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "mathops.h"
 #include "mjpeg.h"
 #include "jpegls.h"
@@ -480,7 +473,6 @@ static const AVClass jpegls_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_jpegls_encoder = {
     .p.name         = "jpegls",
     .p.long_name    = NULL_IF_CONFIG_SMALL("JPEG-LS"),
@@ -493,20 +485,6 @@ const FFCodec ff_jpegls_encoder = {
     FF_CODEC_ENCODE_CB(encode_picture_ls),
     .close          = encode_jpegls_close,
     .p.pix_fmts     = (const enum AVPixelFormat[]) {
-=======
-const AVCodec ff_jpegls_encoder = {
-    .name           = "jpegls",
-    .long_name      = NULL_IF_CONFIG_SMALL("JPEG-LS"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_JPEGLS,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
-    .priv_data_size = sizeof(JPEGLSContext),
-    .priv_class     = &jpegls_class,
-    .init           = encode_jpegls_init,
-    .encode2        = encode_picture_ls,
-    .close          = encode_jpegls_close,
-    .pix_fmts       = (const enum AVPixelFormat[]) {
->>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_BGR24, AV_PIX_FMT_RGB24,
         AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY16,
         AV_PIX_FMT_NONE

@@ -29,10 +29,7 @@
 #include "mpegvideo.h"
 #include "msmpeg4.h"
 #include "msmpeg4data.h"
-<<<<<<< HEAD
 #include "msmpeg4dec.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "simple_idct.h"
 #include "wmv2.h"
 #include "wmv2data.h"
@@ -102,54 +99,7 @@ void ff_wmv2_add_mb(MpegEncContext *s, int16_t block1[6][64],
     wmv2_add_block(w, block1[5], dest_cr, s->uvlinesize, 5);
 }
 
-<<<<<<< HEAD
 static int parse_mb_skip(WMV2DecContext *w)
-=======
-static void wmv2_add_block(Wmv2Context *w, int16_t *block1,
-                           uint8_t *dst, int stride, int n)
-{
-    MpegEncContext *const s = &w->s;
-
-    if (s->block_last_index[n] >= 0) {
-        switch (w->abt_type_table[n]) {
-        case 0:
-            w->wdsp.idct_add(dst, stride, block1);
-            break;
-        case 1:
-            ff_simple_idct84_add(dst, stride, block1);
-            ff_simple_idct84_add(dst + 4 * stride, stride, w->abt_block2[n]);
-            s->bdsp.clear_block(w->abt_block2[n]);
-            break;
-        case 2:
-            ff_simple_idct48_add(dst, stride, block1);
-            ff_simple_idct48_add(dst + 4, stride, w->abt_block2[n]);
-            s->bdsp.clear_block(w->abt_block2[n]);
-            break;
-        default:
-            av_log(s->avctx, AV_LOG_ERROR, "internal error in WMV2 abt\n");
-        }
-    }
-}
-
-void ff_wmv2_add_mb(MpegEncContext *s, int16_t block1[6][64],
-                    uint8_t *dest_y, uint8_t *dest_cb, uint8_t *dest_cr)
-{
-    Wmv2Context *const w = (Wmv2Context *) s;
-
-    wmv2_add_block(w, block1[0], dest_y,                       s->linesize, 0);
-    wmv2_add_block(w, block1[1], dest_y + 8,                   s->linesize, 1);
-    wmv2_add_block(w, block1[2], dest_y + 8 * s->linesize,     s->linesize, 2);
-    wmv2_add_block(w, block1[3], dest_y + 8 + 8 * s->linesize, s->linesize, 3);
-
-    if (s->avctx->flags & AV_CODEC_FLAG_GRAY)
-        return;
-
-    wmv2_add_block(w, block1[4], dest_cb, s->uvlinesize, 4);
-    wmv2_add_block(w, block1[5], dest_cr, s->uvlinesize, 5);
-}
-
-static int parse_mb_skip(Wmv2Context *w)
->>>>>>> refs/remotes/origin/master
 {
     int mb_x, mb_y;
     int coded_mb_count = 0;
@@ -397,11 +347,7 @@ int ff_wmv2_decode_secondary_picture_header(MpegEncContext *s)
     return 0;
 }
 
-<<<<<<< HEAD
 static inline void wmv2_decode_motion(WMV2DecContext *w, int *mx_ptr, int *my_ptr)
-=======
-static inline void wmv2_decode_motion(Wmv2Context *w, int *mx_ptr, int *my_ptr)
->>>>>>> refs/remotes/origin/master
 {
     MpegEncContext *const s = &w->s;
 
@@ -410,11 +356,7 @@ static inline void wmv2_decode_motion(Wmv2Context *w, int *mx_ptr, int *my_ptr)
     if ((((*mx_ptr) | (*my_ptr)) & 1) && s->mspel)
         w->common.hshift = get_bits1(&s->gb);
     else
-<<<<<<< HEAD
         w->common.hshift = 0;
-=======
-        w->hshift = 0;
->>>>>>> refs/remotes/origin/master
 }
 
 static int16_t *wmv2_pred_motion(WMV2DecContext *w, int *px, int *py)
@@ -649,21 +591,12 @@ static av_cold int wmv2_decode_end(AVCodecContext *avctx)
     return ff_h263_decode_end(avctx);
 }
 
-<<<<<<< HEAD
 const FFCodec ff_wmv2_decoder = {
     .p.name         = "wmv2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Video 8"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_WMV2,
     .priv_data_size = sizeof(WMV2DecContext),
-=======
-const AVCodec ff_wmv2_decoder = {
-    .name           = "wmv2",
-    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 8"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_WMV2,
-    .priv_data_size = sizeof(Wmv2Context),
->>>>>>> refs/remotes/origin/master
     .init           = wmv2_decode_init,
     .close          = wmv2_decode_end,
     FF_CODEC_DECODE_CB(ff_h263_decode_frame),

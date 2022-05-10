@@ -19,14 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
 #include "libavutil/avstring.h"
 #include "libavutil/channel_layout.h"
-=======
-#include "libavutil/avstring.h"
->>>>>>> refs/remotes/origin/master
 #include "avformat.h"
 #include "internal.h"
 #include "pcm.h"
@@ -59,7 +55,6 @@ static int pcm_read_header(AVFormatContext *s)
     par->codec_type  = AVMEDIA_TYPE_AUDIO;
     par->codec_id    = s->iformat->raw_codec_id;
     par->sample_rate = s1->sample_rate;
-<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
     if (s1->ch_layout.nb_channels) {
 #endif
@@ -70,9 +65,6 @@ static int pcm_read_header(AVFormatContext *s)
     } else
         par->ch_layout.nb_channels = s1->channels;
 #endif
-=======
-    par->channels    = s1->channels;
->>>>>>> refs/remotes/origin/master
 
     av_opt_get(s->pb, "mime_type", AV_OPT_SEARCH_CHILDREN, &mime_type);
     if (mime_type && s->iformat->mime_type) {
@@ -100,15 +92,10 @@ static int pcm_read_header(AVFormatContext *s)
                 return AVERROR_INVALIDDATA;
             }
             par->sample_rate = rate;
-<<<<<<< HEAD
             if (channels > 0) {
                 av_channel_layout_uninit(&par->ch_layout);
                 par->ch_layout.nb_channels = channels;
             }
-=======
-            if (channels > 0)
-                par->channels = channels;
->>>>>>> refs/remotes/origin/master
             if (little_endian)
                 par->codec_id = AV_CODEC_ID_PCM_S16LE;
         }
@@ -119,11 +106,7 @@ static int pcm_read_header(AVFormatContext *s)
 
     av_assert0(par->bits_per_coded_sample > 0);
 
-<<<<<<< HEAD
     par->block_align = par->bits_per_coded_sample * par->ch_layout.nb_channels / 8;
-=======
-    par->block_align = par->bits_per_coded_sample * par->channels / 8;
->>>>>>> refs/remotes/origin/master
 
     avpriv_set_pts_info(st, 64, 1, par->sample_rate);
     return 0;

@@ -321,7 +321,6 @@ static const AVClass fits_decoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_fits_decoder = {
     .p.name         = "fits",
     .p.type         = AVMEDIA_TYPE_VIDEO,
@@ -329,12 +328,6 @@ const FFCodec ff_fits_decoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     .p.long_name    = NULL_IF_CONFIG_SMALL("Flexible Image Transport System"),
     .p.priv_class   = &fits_decoder_class,
-=======
-const AVCodec ff_fits_decoder = {
-    .name           = "fits",
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_FITS,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(FITSContext),
     FF_CODEC_DECODE_CB(fits_decode_frame),
 };

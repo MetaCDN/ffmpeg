@@ -59,12 +59,7 @@ static void print_formats_internal(AVFilterLink **links, const AVFilterPad *pads
 
             for (unsigned j = 0; layouts && j < layouts->nb_channel_layouts; j++) {
                 char buf[256];
-<<<<<<< HEAD
                 av_channel_layout_describe(&layouts->channel_layouts[j], buf, sizeof(buf));
-=======
-                av_get_channel_layout_string(buf, sizeof(buf), -1,
-                                             layouts->channel_layouts[j]);
->>>>>>> refs/remotes/origin/master
                 printf("%s[%u] %s: chlayout:%s\n",
                        inout_string, i, pad_name, buf);
             }

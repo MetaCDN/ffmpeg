@@ -32,10 +32,7 @@
 #include "mpeg_er.h"
 #include "mpegutils.h"
 #include "mpegvideo.h"
-<<<<<<< HEAD
 #include "mpegvideodec.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "h261.h"
 #include "internal.h"
 
@@ -52,7 +49,6 @@ static VLC h261_mtype_vlc;
 static VLC h261_mv_vlc;
 static VLC h261_cbp_vlc;
 
-<<<<<<< HEAD
 typedef struct H261DecContext {
     MpegEncContext s;
 
@@ -66,8 +62,6 @@ typedef struct H261DecContext {
     int gob_start_code_skipped; // 1 if gob start code is already read before gob header is read
 } H261DecContext;
 
-=======
->>>>>>> refs/remotes/origin/master
 static av_cold void h261_decode_init_static(void)
 {
     INIT_VLC_STATIC(&h261_mba_vlc, H261_MBA_VLC_BITS, 35,
@@ -88,11 +82,7 @@ static av_cold void h261_decode_init_static(void)
 static av_cold int h261_decode_init(AVCodecContext *avctx)
 {
     static AVOnce init_static_once = AV_ONCE_INIT;
-<<<<<<< HEAD
     H261DecContext *const h = avctx->priv_data;
-=======
-    H261Context *h          = avctx->priv_data;
->>>>>>> refs/remotes/origin/master
     MpegEncContext *const s = &h->s;
 
     s->private_ctx = &h->common;
@@ -452,11 +442,7 @@ static int h261_decode_mb(H261DecContext *h)
     }
 
     // Read cbp
-<<<<<<< HEAD
     if (HAS_CBP(com->mtype))
-=======
-    if (HAS_CBP(h->mtype))
->>>>>>> refs/remotes/origin/master
         cbp = get_vlc2(&s->gb, h261_cbp_vlc.table, H261_CBP_VLC_BITS, 1) + 1;
 
     if (s->mb_intra) {
@@ -694,7 +680,6 @@ static av_cold int h261_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_h261_decoder = {
     .p.name         = "h261",
     .p.long_name    = NULL_IF_CONFIG_SMALL("H.261"),
@@ -707,18 +692,4 @@ const FFCodec ff_h261_decoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
     .p.max_lowres   = 3,
-=======
-const AVCodec ff_h261_decoder = {
-    .name           = "h261",
-    .long_name      = NULL_IF_CONFIG_SMALL("H.261"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_H261,
-    .priv_data_size = sizeof(H261Context),
-    .init           = h261_decode_init,
-    .close          = h261_decode_end,
-    .decode         = h261_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
-    .max_lowres     = 3,
->>>>>>> refs/remotes/origin/master
 };

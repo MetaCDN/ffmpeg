@@ -626,19 +626,11 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_fmvc_decoder = {
     .p.name           = "fmvc",
     .p.long_name      = NULL_IF_CONFIG_SMALL("FM Screen Capture Codec"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_FMVC,
-=======
-const AVCodec ff_fmvc_decoder = {
-    .name             = "fmvc",
-    .long_name        = NULL_IF_CONFIG_SMALL("FM Screen Capture Codec"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_FMVC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(FMVCContext),
     .init             = decode_init,
     .close            = decode_close,

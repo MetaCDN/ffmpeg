@@ -28,10 +28,7 @@
 #include <stdint.h>
 
 #include "config.h"
-<<<<<<< HEAD
 #include "config_components.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/avassert.h"
 #include "libavutil/dict.h"
 #include "libavutil/intreadwrite.h"
@@ -225,17 +222,11 @@ static int wav_parse_xma2_tag(AVFormatContext *s, int64_t size, AVStream *st)
         channels += avio_r8(pb);
         avio_skip(pb, 3);
     }
-<<<<<<< HEAD
     av_channel_layout_uninit(&st->codecpar->ch_layout);
     st->codecpar->ch_layout.order       = AV_CHANNEL_ORDER_UNSPEC;
     st->codecpar->ch_layout.nb_channels = channels;
 
     if (st->codecpar->ch_layout.nb_channels <= 0 || st->codecpar->sample_rate <= 0)
-=======
-    st->codecpar->channels = channels;
-
-    if (st->codecpar->channels <= 0 || st->codecpar->sample_rate <= 0)
->>>>>>> refs/remotes/origin/master
         return AVERROR_INVALIDDATA;
 
     avpriv_set_pts_info(st, 64, 1, st->codecpar->sample_rate);
@@ -669,15 +660,9 @@ break_loop:
     } else if (st->codecpar->codec_id == AV_CODEC_ID_XMA1 ||
                st->codecpar->codec_id == AV_CODEC_ID_XMA2) {
         st->codecpar->block_align = 2048;
-<<<<<<< HEAD
     } else if (st->codecpar->codec_id == AV_CODEC_ID_ADPCM_MS && st->codecpar->ch_layout.nb_channels > 2 &&
                st->codecpar->block_align < INT_MAX / st->codecpar->ch_layout.nb_channels) {
         st->codecpar->block_align *= st->codecpar->ch_layout.nb_channels;
-=======
-    } else if (st->codecpar->codec_id == AV_CODEC_ID_ADPCM_MS && st->codecpar->channels > 2 &&
-               st->codecpar->block_align < INT_MAX / st->codecpar->channels) {
-        st->codecpar->block_align *= st->codecpar->channels;
->>>>>>> refs/remotes/origin/master
     }
 
     ff_metadata_conv_ctx(s, NULL, wav_metadata_conv);

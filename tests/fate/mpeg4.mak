@@ -9,11 +9,7 @@ fate-mpeg4-bsf-unpack-bframes: CMD = md5 -i $(TARGET_SAMPLES)/mpeg4/packed_bfram
 FATE_MPEG4-$(call DEMMUX, AVI, AVI, MPEG4_UNPACK_BFRAMES_BSF) += fate-mpeg4-bsf-unpack-bframes
 
 fate-mpeg4-packed: CMD = framecrc -flags +bitexact -idct simple -i $(TARGET_SAMPLES)/mpeg4/packed_bframes.avi -flags +bitexact -fflags +bitexact -vsync cfr
-<<<<<<< HEAD
 FATE_MPEG4-$(call FRAMECRC, AVI, MPEG4) += fate-mpeg4-packed
-=======
-FATE_MPEG4-$(call ALLYES, AVI_DEMUXER MPEG4_DECODER) += fate-mpeg4-packed
->>>>>>> refs/remotes/origin/master
 
 FATE_MPEG4-$(call ALLYES, FILE_PROTOCOL M4V_DEMUXER MPEG4_DECODER SCALE_FILTER \
                           RAWVIDEO_ENCODER FRAMECRC_MUXER PIPE_PROTOCOL) \

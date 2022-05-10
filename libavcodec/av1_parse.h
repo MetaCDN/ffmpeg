@@ -24,15 +24,9 @@
 #include <limits.h>
 #include <stdint.h>
 
-<<<<<<< HEAD
 #include "libavutil/error.h"
 #include "libavutil/intmath.h"
 #include "libavutil/macros.h"
-=======
-#include "libavutil/common.h"
-#include "libavutil/error.h"
-#include "libavutil/intmath.h"
->>>>>>> refs/remotes/origin/master
 
 #include "av1.h"
 #include "get_bits.h"

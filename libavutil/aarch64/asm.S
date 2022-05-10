@@ -36,7 +36,6 @@
 #   define __has_feature(x) 0
 #endif
 
-<<<<<<< HEAD
 
 /* Support macros for
  *   - Armv8.3-A Pointer Authentication and
@@ -110,12 +109,6 @@
  *   https: *github.com/ARM-software/abi-aa/blob/master/aaelf64/aaelf64.rst
  * - "Providing protection for complex software"
  *   https://developer.arm.com/architectures/learn-the-architecture/providing-protection-for-complex-software
-=======
-/* Support macros for the Armv8.5-A Branch Target Identification feature which
- * requires emitting a .note.gnu.property section with the appropriate
- * architecture-dependent feature bits set.
- * Read more: "ELF for the Arm® 64-bit Architecture"
->>>>>>> refs/remotes/origin/master
  */
 #if defined(__ARM_FEATURE_BTI_DEFAULT) && (__ARM_FEATURE_BTI_DEFAULT == 1)
 #   define GNU_PROPERTY_AARCH64_BTI (1 << 0)   // Has BTI
@@ -127,7 +120,6 @@
 #   define AARCH64_VALID_JUMP_TARGET
 #endif
 
-<<<<<<< HEAD
 #if defined(__ARM_FEATURE_PAC_DEFAULT)
 #   if ((__ARM_FEATURE_PAC_DEFAULT & (1 << 0)) != 0) // authentication using key A
 #       define AARCH64_SIGN_LINK_REGISTER      paciasp
@@ -150,9 +142,6 @@
 
 
 #if (GNU_PROPERTY_AARCH64_BTI != 0 || GNU_PROPERTY_AARCH64_PAC != 0) && defined(__ELF__)
-=======
-#if (GNU_PROPERTY_AARCH64_BTI != 0)
->>>>>>> refs/remotes/origin/master
         .pushsection .note.gnu.property, "a"
         .balign 8
         .long 4
@@ -161,11 +150,7 @@
         .asciz "GNU"
         .long 0xc0000000 /* GNU_PROPERTY_AARCH64_FEATURE_1_AND */
         .long 4
-<<<<<<< HEAD
         .long (GNU_PROPERTY_AARCH64_BTI | GNU_PROPERTY_AARCH64_PAC)
-=======
-        .long GNU_PROPERTY_AARCH64_BTI
->>>>>>> refs/remotes/origin/master
         .long 0
         .popsection
 #endif

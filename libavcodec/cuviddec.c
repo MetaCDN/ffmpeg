@@ -657,13 +657,8 @@ static av_cold int cuvid_decode_end(AVCodecContext *avctx)
     AVHWDeviceContext *device_ctx = (AVHWDeviceContext *)ctx->hwdevice->data;
     AVCUDADeviceContext *device_hwctx = device_ctx->hwctx;
     CUcontext dummy, cuda_ctx = device_hwctx->cuda_ctx;
-<<<<<<< HEAD
 
     av_fifo_freep2(&ctx->frame_queue);
-=======
->>>>>>> refs/remotes/origin/master
-
-    ctx->cudl->cuCtxPushCurrent(cuda_ctx);
 
     ctx->cudl->cuCtxPushCurrent(cuda_ctx);
 
@@ -1108,38 +1103,21 @@ static const AVCodecHWConfigInternal *const cuvid_hw_configs[] = {
         .option = options, \
         .version = LIBAVUTIL_VERSION_INT, \
     }; \
-<<<<<<< HEAD
     const FFCodec ff_##x##_cuvid_decoder = { \
         .p.name         = #x "_cuvid", \
         .p.long_name    = NULL_IF_CONFIG_SMALL("Nvidia CUVID " #X " decoder"), \
         .p.type         = AVMEDIA_TYPE_VIDEO, \
         .p.id           = AV_CODEC_ID_##X, \
-=======
-    const AVCodec ff_##x##_cuvid_decoder = { \
-        .name           = #x "_cuvid", \
-        .long_name      = NULL_IF_CONFIG_SMALL("Nvidia CUVID " #X " decoder"), \
-        .type           = AVMEDIA_TYPE_VIDEO, \
-        .id             = AV_CODEC_ID_##X, \
->>>>>>> refs/remotes/origin/master
         .priv_data_size = sizeof(CuvidContext), \
         .p.priv_class   = &x##_cuvid_class, \
         .init           = cuvid_decode_init, \
         .close          = cuvid_decode_end, \
-<<<<<<< HEAD
         FF_CODEC_RECEIVE_FRAME_CB(cuvid_output_frame), \
         .flush          = cuvid_flush, \
         .bsfs           = bsf_name, \
         .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_AVOID_PROBING | AV_CODEC_CAP_HARDWARE, \
         .caps_internal  = FF_CODEC_CAP_SETS_FRAME_PROPS, \
         .p.pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_CUDA, \
-=======
-        .receive_frame  = cuvid_output_frame, \
-        .flush          = cuvid_flush, \
-        .bsfs           = bsf_name, \
-        .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_AVOID_PROBING | AV_CODEC_CAP_HARDWARE, \
-        .caps_internal  = FF_CODEC_CAP_SETS_FRAME_PROPS, \
-        .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_CUDA, \
->>>>>>> refs/remotes/origin/master
                                                         AV_PIX_FMT_NV12, \
                                                         AV_PIX_FMT_P010, \
                                                         AV_PIX_FMT_P016, \

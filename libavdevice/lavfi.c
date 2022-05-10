@@ -332,16 +332,10 @@ av_cold static int lavfi_read_header(AVFormatContext *avctx)
             st       ->sample_aspect_ratio =
             par->sample_aspect_ratio = av_buffersink_get_sample_aspect_ratio(sink);
         } else if (par->codec_type == AVMEDIA_TYPE_AUDIO) {
-<<<<<<< HEAD
             par->sample_rate = av_buffersink_get_sample_rate(sink);
             ret = av_buffersink_get_ch_layout(sink, &par->ch_layout);
             if (ret < 0)
                 goto end;
-=======
-            par->channels    = av_buffersink_get_channels(sink);
-            par->sample_rate = av_buffersink_get_sample_rate(sink);
-            par->channel_layout = av_buffersink_get_channel_layout(sink);
->>>>>>> refs/remotes/origin/master
             par->format      = av_buffersink_get_format(sink);
             par->codec_id    = av_get_pcm_codec(par->format, -1);
             if (par->codec_id == AV_CODEC_ID_NONE)

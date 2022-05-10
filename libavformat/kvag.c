@@ -20,11 +20,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/channel_layout.h"
 #include "avformat.h"
 #include "avio_internal.h"
@@ -80,11 +77,7 @@ static int kvag_read_header(AVFormatContext *s)
     par->sample_rate            = hdr.sample_rate;
     par->bits_per_coded_sample  = 4;
     par->block_align            = 1;
-<<<<<<< HEAD
     par->bit_rate               = par->ch_layout.nb_channels *
-=======
-    par->bit_rate               = par->channels *
->>>>>>> refs/remotes/origin/master
                                   (uint64_t)par->sample_rate *
                                   par->bits_per_coded_sample;
 

@@ -400,11 +400,7 @@ static int mv_read_header(AVFormatContext *avctx)
             avio_skip(pb, 8);
             if (ast) {
                 av_add_index_entry(ast, pos, timestamp, asize, 0, AVINDEX_KEYFRAME);
-<<<<<<< HEAD
                 timestamp += asize / (ast->codecpar->ch_layout.nb_channels * (uint64_t)bytes_per_sample);
-=======
-                timestamp += asize / (ast->codecpar->channels * (uint64_t)bytes_per_sample);
->>>>>>> refs/remotes/origin/master
             }
             av_add_index_entry(vst, pos + asize, i, vsize, 0, AVINDEX_KEYFRAME);
         }

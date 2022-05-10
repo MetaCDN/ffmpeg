@@ -172,21 +172,12 @@ static av_cold int peak_init_writer(AVFormatContext *s)
                "Writing 16 bit peak for 8 bit audio does not make sense\n");
         return AVERROR(EINVAL);
     }
-<<<<<<< HEAD
     if (par->ch_layout.nb_channels > INT_MAX / (wav->peak_bps * wav->peak_ppv))
         return AVERROR(ERANGE);
     wav->size_increment = par->ch_layout.nb_channels * wav->peak_bps * wav->peak_ppv;
 
     wav->peak_maxpos = av_calloc(par->ch_layout.nb_channels, sizeof(*wav->peak_maxpos));
     wav->peak_maxneg = av_calloc(par->ch_layout.nb_channels, sizeof(*wav->peak_maxneg));
-=======
-    if (par->channels > INT_MAX / (wav->peak_bps * wav->peak_ppv))
-        return AVERROR(ERANGE);
-    wav->size_increment = par->channels * wav->peak_bps * wav->peak_ppv;
-
-    wav->peak_maxpos = av_calloc(par->channels, sizeof(*wav->peak_maxpos));
-    wav->peak_maxneg = av_calloc(par->channels, sizeof(*wav->peak_maxneg));
->>>>>>> refs/remotes/origin/master
     if (!wav->peak_maxpos || !wav->peak_maxneg)
         goto nomem;
 

@@ -244,7 +244,6 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_mscc_decoder = {
     .p.name           = "mscc",
     .p.long_name      = NULL_IF_CONFIG_SMALL("Mandsoft Screen Capture Codec"),
@@ -268,30 +267,5 @@ const FFCodec ff_srgc_decoder = {
     .close            = decode_close,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities   = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_mscc_decoder = {
-    .name             = "mscc",
-    .long_name        = NULL_IF_CONFIG_SMALL("Mandsoft Screen Capture Codec"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_MSCC,
-    .priv_data_size   = sizeof(MSCCContext),
-    .init             = decode_init,
-    .close            = decode_close,
-    .decode           = decode_frame,
-    .capabilities     = AV_CODEC_CAP_DR1,
-    .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-};
-
-const AVCodec ff_srgc_decoder = {
-    .name             = "srgc",
-    .long_name        = NULL_IF_CONFIG_SMALL("Screen Recorder Gold Codec"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_SRGC,
-    .priv_data_size   = sizeof(MSCCContext),
-    .init             = decode_init,
-    .close            = decode_close,
-    .decode           = decode_frame,
-    .capabilities     = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

@@ -1,5 +1,4 @@
 
-<<<<<<< HEAD
 ifneq ($(strip $(KEEP)),)
 ifneq ($(strip $(KEEP)),0)
 # KEEP_FILES is normally undefined; it is set to 2 # if the user requested
@@ -12,8 +11,6 @@ KEEP_FILES = 2
 endif
 endif
 
-=======
->>>>>>> refs/remotes/origin/master
 THREADS = 1
 VREF = tests/vsynth1/00.pgm
 AREF = tests/data/asynth1.sw
@@ -261,11 +258,7 @@ $(FATE_FFMPEG) $(FATE_FFMPEG_FFPROBE) $(FATE_SAMPLES_AVCONV) $(FATE_SAMPLES_FFMP
 $(FATE_FFPROBE) $(FATE_FFMPEG_FFPROBE) $(FATE_SAMPLES_FFPROBE) $(FATE_SAMPLES_FFMPEG_FFPROBE): ffprobe$(PROGSSUF)$(EXESUF)
 
 $(FATE_SAMPLES_FASTSTART): tools/qt-faststart$(EXESUF)
-<<<<<<< HEAD
 $(FATE_SAMPLES_DUMP_DATA) $(FATE_SAMPLES_DUMP_DATA-yes): tools/venc_data_dump$(EXESUF)
-=======
-$(FATE_SAMPLES_DUMP_DATA): tools/venc_data_dump$(EXESUF)
->>>>>>> refs/remotes/origin/master
 $(FATE_SAMPLES_SCALE_SLICE): tools/scale_slice_test$(EXESUF)
 
 ifdef SAMPLES

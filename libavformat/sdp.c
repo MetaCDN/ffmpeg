@@ -593,11 +593,7 @@ static int sdp_write_media_attributes(char *buff, int size, const AVStream *st,
                 return ret;
             av_strlcatf(buff, size, "a=rtpmap:%d MP4A-LATM/%d/%d\r\n"
                                     "a=fmtp:%d profile-level-id=%d;cpresent=0;config=%s\r\n",
-<<<<<<< HEAD
                                      payload_type, p->sample_rate, p->ch_layout.nb_channels,
-=======
-                                     payload_type, p->sample_rate, p->channels,
->>>>>>> refs/remotes/origin/master
                                      payload_type, latm_context2profilelevel(p), config);
         } else {
             if (p->extradata_size) {
@@ -615,11 +611,7 @@ static int sdp_write_media_attributes(char *buff, int size, const AVStream *st,
                                     "a=fmtp:%d profile-level-id=1;"
                                     "mode=AAC-hbr;sizelength=13;indexlength=3;"
                                     "indexdeltalength=3%s\r\n",
-<<<<<<< HEAD
                                      payload_type, p->sample_rate, p->ch_layout.nb_channels,
-=======
-                                     payload_type, p->sample_rate, p->channels,
->>>>>>> refs/remotes/origin/master
                                      payload_type, config);
         }
         break;
@@ -627,60 +619,36 @@ static int sdp_write_media_attributes(char *buff, int size, const AVStream *st,
         if (payload_type >= RTP_PT_PRIVATE)
             av_strlcatf(buff, size, "a=rtpmap:%d L16/%d/%d\r\n",
                                      payload_type,
-<<<<<<< HEAD
                                      p->sample_rate, p->ch_layout.nb_channels);
-=======
-                                     p->sample_rate, p->channels);
->>>>>>> refs/remotes/origin/master
         break;
     case AV_CODEC_ID_PCM_S24BE:
         if (payload_type >= RTP_PT_PRIVATE)
             av_strlcatf(buff, size, "a=rtpmap:%d L24/%d/%d\r\n",
                                      payload_type,
-<<<<<<< HEAD
                                      p->sample_rate, p->ch_layout.nb_channels);
-=======
-                                     p->sample_rate, p->channels);
->>>>>>> refs/remotes/origin/master
         break;
     case AV_CODEC_ID_PCM_MULAW:
         if (payload_type >= RTP_PT_PRIVATE)
             av_strlcatf(buff, size, "a=rtpmap:%d PCMU/%d/%d\r\n",
                                      payload_type,
-<<<<<<< HEAD
                                      p->sample_rate, p->ch_layout.nb_channels);
-=======
-                                     p->sample_rate, p->channels);
->>>>>>> refs/remotes/origin/master
         break;
     case AV_CODEC_ID_PCM_ALAW:
         if (payload_type >= RTP_PT_PRIVATE)
             av_strlcatf(buff, size, "a=rtpmap:%d PCMA/%d/%d\r\n",
                                      payload_type,
-<<<<<<< HEAD
                                      p->sample_rate, p->ch_layout.nb_channels);
-=======
-                                     p->sample_rate, p->channels);
->>>>>>> refs/remotes/origin/master
         break;
     case AV_CODEC_ID_AMR_NB:
         av_strlcatf(buff, size, "a=rtpmap:%d AMR/%d/%d\r\n"
                                 "a=fmtp:%d octet-align=1\r\n",
-<<<<<<< HEAD
                                  payload_type, p->sample_rate, p->ch_layout.nb_channels,
-=======
-                                 payload_type, p->sample_rate, p->channels,
->>>>>>> refs/remotes/origin/master
                                  payload_type);
         break;
     case AV_CODEC_ID_AMR_WB:
         av_strlcatf(buff, size, "a=rtpmap:%d AMR-WB/%d/%d\r\n"
                                 "a=fmtp:%d octet-align=1\r\n",
-<<<<<<< HEAD
                                  payload_type, p->sample_rate, p->ch_layout.nb_channels,
-=======
-                                 payload_type, p->sample_rate, p->channels,
->>>>>>> refs/remotes/origin/master
                                  payload_type);
         break;
     case AV_CODEC_ID_VORBIS:
@@ -695,11 +663,7 @@ static int sdp_write_media_attributes(char *buff, int size, const AVStream *st,
 
         av_strlcatf(buff, size, "a=rtpmap:%d vorbis/%d/%d\r\n"
                                 "a=fmtp:%d configuration=%s\r\n",
-<<<<<<< HEAD
                                 payload_type, p->sample_rate, p->ch_layout.nb_channels,
-=======
-                                payload_type, p->sample_rate, p->channels,
->>>>>>> refs/remotes/origin/master
                                 payload_type, config);
         break;
     case AV_CODEC_ID_THEORA: {
@@ -792,11 +756,7 @@ static int sdp_write_media_attributes(char *buff, int size, const AVStream *st,
         if (payload_type >= RTP_PT_PRIVATE)
             av_strlcatf(buff, size, "a=rtpmap:%d G722/%d/%d\r\n",
                                      payload_type,
-<<<<<<< HEAD
                                      8000, p->ch_layout.nb_channels);
-=======
-                                     8000, p->channels);
->>>>>>> refs/remotes/origin/master
         break;
     case AV_CODEC_ID_ADPCM_G726: {
         if (payload_type >= RTP_PT_PRIVATE)
@@ -833,11 +793,7 @@ static int sdp_write_media_attributes(char *buff, int size, const AVStream *st,
            receivers MUST be able to receive and process stereo packets. */
         av_strlcatf(buff, size, "a=rtpmap:%d opus/48000/2\r\n",
                                  payload_type);
-<<<<<<< HEAD
         if (p->ch_layout.nb_channels == 2) {
-=======
-        if (p->channels == 2) {
->>>>>>> refs/remotes/origin/master
             av_strlcatf(buff, size, "a=fmtp:%d sprop-stereo=1\r\n",
                                      payload_type);
         }

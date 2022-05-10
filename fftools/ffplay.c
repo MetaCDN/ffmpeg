@@ -60,10 +60,7 @@
 #include <SDL_thread.h>
 
 #include "cmdutils.h"
-<<<<<<< HEAD
 #include "opt_common.h"
-=======
->>>>>>> refs/remotes/origin/master
 
 const char program_name[] = "ffplay";
 const int program_birth_year = 2003;
@@ -120,11 +117,7 @@ typedef struct MyAVPacketList {
 } MyAVPacketList;
 
 typedef struct PacketQueue {
-<<<<<<< HEAD
     AVFifo *pkt_list;
-=======
-    AVFifoBuffer *pkt_list;
->>>>>>> refs/remotes/origin/master
     int nb_packets;
     int size;
     int64_t duration;
@@ -423,32 +416,18 @@ int cmp_audio_fmts(enum AVSampleFormat fmt1, int64_t channel_count1,
 static int packet_queue_put_private(PacketQueue *q, AVPacket *pkt)
 {
     MyAVPacketList pkt1;
-<<<<<<< HEAD
     int ret;
-=======
->>>>>>> refs/remotes/origin/master
 
     if (q->abort_request)
        return -1;
 
-<<<<<<< HEAD
-=======
-    if (av_fifo_space(q->pkt_list) < sizeof(pkt1)) {
-        if (av_fifo_grow(q->pkt_list, sizeof(pkt1)) < 0)
-            return -1;
-    }
->>>>>>> refs/remotes/origin/master
 
     pkt1.pkt = pkt;
     pkt1.serial = q->serial;
 
-<<<<<<< HEAD
     ret = av_fifo_write(q->pkt_list, &pkt1, 1);
     if (ret < 0)
         return ret;
-=======
-    av_fifo_generic_write(q->pkt_list, &pkt1, sizeof(pkt1), NULL);
->>>>>>> refs/remotes/origin/master
     q->nb_packets++;
     q->size += pkt1.pkt->size + sizeof(pkt1);
     q->duration += pkt1.pkt->duration;
@@ -489,11 +468,7 @@ static int packet_queue_put_nullpacket(PacketQueue *q, AVPacket *pkt, int stream
 static int packet_queue_init(PacketQueue *q)
 {
     memset(q, 0, sizeof(PacketQueue));
-<<<<<<< HEAD
     q->pkt_list = av_fifo_alloc2(1, sizeof(MyAVPacketList), AV_FIFO_FLAG_AUTO_GROW);
-=======
-    q->pkt_list = av_fifo_alloc(sizeof(MyAVPacketList));
->>>>>>> refs/remotes/origin/master
     if (!q->pkt_list)
         return AVERROR(ENOMEM);
     q->mutex = SDL_CreateMutex();
@@ -515,15 +490,8 @@ static void packet_queue_flush(PacketQueue *q)
     MyAVPacketList pkt1;
 
     SDL_LockMutex(q->mutex);
-<<<<<<< HEAD
     while (av_fifo_read(q->pkt_list, &pkt1, 1) >= 0)
         av_packet_free(&pkt1.pkt);
-=======
-    while (av_fifo_size(q->pkt_list) >= sizeof(pkt1)) {
-        av_fifo_generic_read(q->pkt_list, &pkt1, sizeof(pkt1), NULL);
-        av_packet_free(&pkt1.pkt);
-    }
->>>>>>> refs/remotes/origin/master
     q->nb_packets = 0;
     q->size = 0;
     q->duration = 0;
@@ -534,11 +502,7 @@ static void packet_queue_flush(PacketQueue *q)
 static void packet_queue_destroy(PacketQueue *q)
 {
     packet_queue_flush(q);
-<<<<<<< HEAD
     av_fifo_freep2(&q->pkt_list);
-=======
-    av_fifo_freep(&q->pkt_list);
->>>>>>> refs/remotes/origin/master
     SDL_DestroyMutex(q->mutex);
     SDL_DestroyCond(q->cond);
 }
@@ -576,12 +540,7 @@ static int packet_queue_get(PacketQueue *q, AVPacket *pkt, int block, int *seria
             break;
         }
 
-<<<<<<< HEAD
         if (av_fifo_read(q->pkt_list, &pkt1, 1) >= 0) {
-=======
-        if (av_fifo_size(q->pkt_list) >= sizeof(pkt1)) {
-            av_fifo_generic_read(q->pkt_list, &pkt1, sizeof(pkt1), NULL);
->>>>>>> refs/remotes/origin/master
             q->nb_packets--;
             q->size -= pkt1.pkt->size + sizeof(pkt1);
             q->duration -= pkt1.pkt->duration;
@@ -1988,10 +1947,7 @@ static int configure_audio_filters(VideoState *is, const char *afilters, int for
     AVFilterContext *filt_asrc = NULL, *filt_asink = NULL;
     char aresample_swr_opts[512] = "";
     const AVDictionaryEntry *e = NULL;
-<<<<<<< HEAD
     AVBPrint bp;
-=======
->>>>>>> refs/remotes/origin/master
     char asrc_args[256];
     int ret;
 
@@ -2034,11 +1990,6 @@ static int configure_audio_filters(VideoState *is, const char *afilters, int for
         goto end;
 
     if (force_output_format) {
-<<<<<<< HEAD
-=======
-        channel_layouts[0] = is->audio_tgt.channel_layout;
-        channels       [0] = is->audio_tgt.channel_layout ? -1 : is->audio_tgt.channels;
->>>>>>> refs/remotes/origin/master
         sample_rates   [0] = is->audio_tgt.freq;
         if ((ret = av_opt_set_int(filt_asink, "all_channel_counts", 0, AV_OPT_SEARCH_CHILDREN)) < 0)
             goto end;
@@ -2607,13 +2558,8 @@ static int stream_component_open(VideoState *is, int stream_index)
     const char *forced_codec_name = NULL;
     AVDictionary *opts = NULL;
     const AVDictionaryEntry *t = NULL;
-<<<<<<< HEAD
     int sample_rate;
     AVChannelLayout ch_layout = { 0 };
-=======
-    int sample_rate, nb_channels;
-    int64_t channel_layout;
->>>>>>> refs/remotes/origin/master
     int ret = 0;
     int stream_lowres = lowres;
 

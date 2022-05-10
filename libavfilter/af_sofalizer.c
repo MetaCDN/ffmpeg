@@ -187,13 +187,8 @@ static int preload_sofa(AVFilterContext *ctx, char *filename, int *samplingrate)
 
 static int parse_channel_name(AVFilterContext *ctx, char **arg, int *rchannel)
 {
-<<<<<<< HEAD
     int len;
     enum AVChannel channel_id = 0;
-=======
-    int len, i, channel_id = 0;
-    int64_t layout, layout0;
->>>>>>> refs/remotes/origin/master
     char buf[8] = {0};
 
     /* try to parse a channel name, e.g. "FL" */
@@ -203,15 +198,7 @@ static int parse_channel_name(AVFilterContext *ctx, char **arg, int *rchannel)
             av_log(ctx, AV_LOG_WARNING, "Failed to parse \'%s\' as channel name.\n", buf);
             return AVERROR(EINVAL);
         }
-<<<<<<< HEAD
 
-=======
-        /* reject layouts that are not a single channel */
-        if (channel_id >= 64 || layout0 != 1LL << channel_id) {
-            av_log(ctx, AV_LOG_WARNING, "Failed to parse \'%s\' as channel name.\n", buf);
-            return AVERROR(EINVAL);
-        }
->>>>>>> refs/remotes/origin/master
         *rchannel = channel_id;
         *arg += len;
         return 0;
@@ -262,17 +249,10 @@ static int get_speaker_pos(AVFilterContext *ctx,
                            float *speaker_azim, float *speaker_elev)
 {
     struct SOFAlizerContext *s = ctx->priv;
-<<<<<<< HEAD
     AVChannelLayout *channel_layout = &ctx->inputs[0]->ch_layout;
     float azim[64] = { 0 };
     float elev[64] = { 0 };
     int ch, n_conv = ctx->inputs[0]->ch_layout.nb_channels; /* get no. input channels */
-=======
-    uint64_t channels_layout = ctx->inputs[0]->channel_layout;
-    float azim[64] = { 0 };
-    float elev[64] = { 0 };
-    int m, ch, n_conv = ctx->inputs[0]->channels; /* get no. input channels */
->>>>>>> refs/remotes/origin/master
 
     if (n_conv < 0 || n_conv > 64)
         return AVERROR(EINVAL);

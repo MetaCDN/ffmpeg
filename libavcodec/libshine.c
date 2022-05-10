@@ -25,13 +25,8 @@
 #include "libavutil/intreadwrite.h"
 #include "audio_frame_queue.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "mpegaudio.h"
 #include "mpegaudiodecheader.h"
 
@@ -136,30 +131,17 @@ static const int libshine_sample_rates[] = {
     44100, 48000, 32000, 0
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libshine_encoder = {
     .p.name                = "libshine",
     .p.long_name           = NULL_IF_CONFIG_SMALL("libshine MP3 (MPEG audio layer 3)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_MP3,
     .p.capabilities        = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
-=======
-const AVCodec ff_libshine_encoder = {
-    .name                  = "libshine",
-    .long_name             = NULL_IF_CONFIG_SMALL("libshine MP3 (MPEG audio layer 3)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_MP3,
-    .capabilities          = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(SHINEContext),
     .init                  = libshine_encode_init,
     FF_CODEC_ENCODE_CB(libshine_encode_frame),
     .close                 = libshine_encode_close,
-<<<<<<< HEAD
     .p.sample_fmts         = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16P,
-=======
-    .sample_fmts           = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16P,
->>>>>>> refs/remotes/origin/master
                                                             AV_SAMPLE_FMT_NONE },
     .p.supported_samplerates = libshine_sample_rates,
 #if FF_API_OLD_CHANNEL_LAYOUT

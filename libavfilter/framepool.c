@@ -96,17 +96,11 @@ FFFramePool *ff_frame_pool_video_init(AVBufferRef* (*alloc)(size_t size),
         goto fail;
     }
 
-<<<<<<< HEAD
     for (i = 0; i < 4 && sizes[i]; i++) {
         if (sizes[i] > SIZE_MAX - align)
             goto fail;
         pool->pools[i] = av_buffer_pool_init(sizes[i] + align, alloc);
         if (!pool->pools[i])
-=======
-    if (desc->flags & AV_PIX_FMT_FLAG_PAL) {
-        pool->pools[1] = av_buffer_pool_init(AVPALETTE_SIZE, alloc);
-        if (!pool->pools[1])
->>>>>>> refs/remotes/origin/master
             goto fail;
     }
 

@@ -252,25 +252,12 @@ static av_cold int init_filter(AVFilterContext *ctx, AVFrame *in)
             return AVERROR(EINVAL);
         }
 
-<<<<<<< HEAD
         RET(ff_vk_create_buf(vkctx, &s->params_buf,
                              sizeof(*par),
                              VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
                              VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT));
 
         RET(ff_vk_map_buffers(vkctx, &s->params_buf, (uint8_t **)&par, 1, 0));
-=======
-        err = ff_vk_create_buf(vkctx, &s->params_buf,
-                               sizeof(*par),
-                               VK_BUFFER_USAGE_STORAGE_BUFFER_BIT,
-                               VK_MEMORY_PROPERTY_HOST_VISIBLE_BIT);
-        if (err)
-            return err;
-
-        err = ff_vk_map_buffers(vkctx, &s->params_buf, (uint8_t **)&par, 1, 0);
-        if (err)
-            return err;
->>>>>>> refs/remotes/origin/master
 
         ff_fill_rgb2yuv_table(lcoeffs, tmp_mat);
 
@@ -282,13 +269,7 @@ static av_cold int init_filter(AVFilterContext *ctx, AVFrame *in)
 
         par->yuv_matrix[3][3] = 1.0;
 
-<<<<<<< HEAD
         RET(ff_vk_unmap_buffers(vkctx, &s->params_buf, 1, 1));
-=======
-        err = ff_vk_unmap_buffers(vkctx, &s->params_buf, 1, 1);
-        if (err)
-            return err;
->>>>>>> refs/remotes/origin/master
 
         s->params_desc.buffer = s->params_buf.buf;
         s->params_desc.range  = VK_WHOLE_SIZE;

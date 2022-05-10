@@ -240,34 +240,20 @@ static const AVOption options[] = {
 
 #define M2MDEC(NAME, LONGNAME, CODEC, bsf_name) \
     M2MDEC_CLASS(NAME) \
-<<<<<<< HEAD
     const FFCodec ff_ ## NAME ## _v4l2m2m_decoder = { \
         .p.name         = #NAME "_v4l2m2m" , \
         .p.long_name    = NULL_IF_CONFIG_SMALL("V4L2 mem2mem " LONGNAME " decoder wrapper"), \
         .p.type         = AVMEDIA_TYPE_VIDEO, \
         .p.id           = CODEC , \
-=======
-    const AVCodec ff_ ## NAME ## _v4l2m2m_decoder = { \
-        .name           = #NAME "_v4l2m2m" , \
-        .long_name      = NULL_IF_CONFIG_SMALL("V4L2 mem2mem " LONGNAME " decoder wrapper"), \
-        .type           = AVMEDIA_TYPE_VIDEO, \
-        .id             = CODEC , \
->>>>>>> refs/remotes/origin/master
         .priv_data_size = sizeof(V4L2m2mPriv), \
         .p.priv_class   = &v4l2_m2m_ ## NAME ## _dec_class, \
         .init           = v4l2_decode_init, \
         FF_CODEC_RECEIVE_FRAME_CB(v4l2_receive_frame), \
         .close          = v4l2_decode_close, \
         .bsfs           = bsf_name, \
-<<<<<<< HEAD
         .p.capabilities = AV_CODEC_CAP_HARDWARE | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_AVOID_PROBING, \
         .caps_internal  = FF_CODEC_CAP_SETS_PKT_DTS | FF_CODEC_CAP_INIT_CLEANUP, \
         .p.wrapper_name = "v4l2m2m", \
-=======
-        .capabilities   = AV_CODEC_CAP_HARDWARE | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_AVOID_PROBING, \
-        .caps_internal  = FF_CODEC_CAP_SETS_PKT_DTS | FF_CODEC_CAP_INIT_CLEANUP, \
-        .wrapper_name   = "v4l2m2m", \
->>>>>>> refs/remotes/origin/master
     }
 
 M2MDEC(h264,  "H.264", AV_CODEC_ID_H264,       "h264_mp4toannexb");

@@ -273,15 +273,10 @@ static av_cold int geq_init(AVFilterContext *ctx)
         if (!geq->expr_str[V]) geq->expr_str[V] = av_strdup(geq->expr_str[U]);
     }
 
-<<<<<<< HEAD
     if (!geq->expr_str[A] && geq->bps != 32) {
         geq->expr_str[A] = av_asprintf("%d", (1<<geq->bps) - 1);
     } else if (!geq->expr_str[A]) {
         geq->expr_str[A] = av_asprintf("%f", 1.f);
-=======
-    if (!geq->expr_str[A]) {
-        geq->expr_str[A] = av_asprintf("%d", (1<<geq->bps) - 1);
->>>>>>> refs/remotes/origin/master
     }
     if (!geq->expr_str[G])
         geq->expr_str[G] = av_strdup("g(X,Y)");

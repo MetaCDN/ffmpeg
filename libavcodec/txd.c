@@ -164,7 +164,6 @@ unsupported:
     return AVERROR_PATCHWELCOME;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_txd_decoder = {
     .p.name         = "txd",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Renderware TXD (TeXture Dictionary) image"),
@@ -172,13 +171,4 @@ const FFCodec ff_txd_decoder = {
     .p.id           = AV_CODEC_ID_TXD,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(txd_decode_frame),
-=======
-const AVCodec ff_txd_decoder = {
-    .name           = "txd",
-    .long_name      = NULL_IF_CONFIG_SMALL("Renderware TXD (TeXture Dictionary) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_TXD,
-    .decode         = txd_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
 };

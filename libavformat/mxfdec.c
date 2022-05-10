@@ -591,19 +591,11 @@ static int mxf_get_d10_aes3_packet(AVIOContext *pb, AVStream *st, AVPacket *pkt,
     end_ptr = pkt->data + length;
     buf_ptr = pkt->data + 4; /* skip SMPTE 331M header */
 
-<<<<<<< HEAD
     if (st->codecpar->ch_layout.nb_channels > 8)
         return AVERROR_INVALIDDATA;
 
     for (; end_ptr - buf_ptr >= st->codecpar->ch_layout.nb_channels * 4; ) {
         for (i = 0; i < st->codecpar->ch_layout.nb_channels; i++) {
-=======
-    if (st->codecpar->channels > 8)
-        return AVERROR_INVALIDDATA;
-
-    for (; end_ptr - buf_ptr >= st->codecpar->channels * 4; ) {
-        for (i = 0; i < st->codecpar->channels; i++) {
->>>>>>> refs/remotes/origin/master
             uint32_t sample = bytestream_get_le32(&buf_ptr);
             if (st->codecpar->bits_per_coded_sample == 24)
                 bytestream_put_le24(&data_ptr, (sample >> 4) & 0xffffff);
@@ -2557,10 +2549,7 @@ static int parse_mca_labels(MXFContext *mxf, MXFTrack *source_track, MXFDescript
 
     if (has_channel_label) {
         uint64_t channel_layout = 0;
-<<<<<<< HEAD
         int ret;
-=======
->>>>>>> refs/remotes/origin/master
 
         for (int i = 0; i < descriptor->channels; i++) {
             if (!routing[i]) {
@@ -2569,17 +2558,11 @@ static int parse_mca_labels(MXFContext *mxf, MXFTrack *source_track, MXFDescript
                 return 0;
             }
             if (channel_layout & routing[i]) {
-<<<<<<< HEAD
                 char buf[32];
                 av_channel_name(buf, sizeof(buf), routing[i]);
                 av_log(mxf->fc, AV_LOG_WARNING, "%s audio channel is used multiple times in stream #%d, "
                                                 "falling back to unknown channel layout\n",
                                                 buf, st->index);
-=======
-                av_log(mxf->fc, AV_LOG_WARNING, "%s audio channel is used multiple times in stream #%d, "
-                                                "falling back to unknown channel layout\n",
-                                                av_get_channel_name(routing[i]), st->index);
->>>>>>> refs/remotes/origin/master
                 return 0;
             }
             if (routing[i] < channel_layout) {
@@ -2590,17 +2573,11 @@ static int parse_mca_labels(MXFContext *mxf, MXFTrack *source_track, MXFDescript
             channel_layout |= routing[i];
         }
 
-<<<<<<< HEAD
         av_assert0(descriptor->channels == av_popcount64(channel_layout));
 
         ret = av_channel_layout_from_mask(&st->codecpar->ch_layout, channel_layout);
         if (ret < 0)
             return ret;
-=======
-        av_assert0(descriptor->channels == av_get_channel_layout_nb_channels(channel_layout));
-
-        st->codecpar->channel_layout = channel_layout;
->>>>>>> refs/remotes/origin/master
     }
 
     return 0;

@@ -85,11 +85,7 @@ static av_cold int decode_init(AVCodecContext *avctx)
         return AVERROR_INVALIDDATA;
     }
 
-<<<<<<< HEAD
     s->max_samples = AV_RL32(avctx->extradata + 4) / avctx->ch_layout.nb_channels;
-=======
-    s->max_samples = AV_RL32(avctx->extradata + 4) / avctx->channels;
->>>>>>> refs/remotes/origin/master
     if (s->max_samples == 0)
         s->max_samples = UINT64_MAX;
     s->level = AV_RL16(avctx->extradata + 12) & 0xf;
@@ -589,11 +585,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
     if ((ret = init_get_bits8(gb, buf, buf_size)) < 0)
         return ret;
 
-<<<<<<< HEAD
     frame->nb_samples = FFMIN(s->block_len / avctx->ch_layout.nb_channels, s->max_samples);
-=======
-    frame->nb_samples = FFMIN(s->block_len / avctx->channels, s->max_samples);
->>>>>>> refs/remotes/origin/master
     s->max_samples -= FFMIN(frame->nb_samples, s->max_samples);
     if ((ret = ff_get_buffer(avctx, frame, 0)) < 0)
         return ret;
@@ -640,7 +632,6 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_interplay_acm_decoder = {
     .p.name         = "interplayacm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Interplay ACM"),
@@ -650,17 +641,6 @@ const FFCodec ff_interplay_acm_decoder = {
     .close          = decode_close,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_interplay_acm_decoder = {
-    .name           = "interplayacm",
-    .long_name      = NULL_IF_CONFIG_SMALL("Interplay ACM"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_INTERPLAY_ACM,
-    .init           = decode_init,
-    .close          = decode_close,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .priv_data_size = sizeof(InterplayACMContext),
 };

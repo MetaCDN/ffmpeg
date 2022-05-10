@@ -111,11 +111,7 @@ static av_cold int init(AVFilterContext *ctx)
         }
 
         if ((ret = ff_append_outpad(ctx, &pad)) < 0)
-<<<<<<< HEAD
             goto fail;
-=======
-            return ret;
->>>>>>> refs/remotes/origin/master
     }
 
 fail:
@@ -140,11 +136,7 @@ static int query_formats(AVFilterContext *ctx)
         (ret = ff_set_common_all_samplerates(ctx)) < 0)
         return ret;
 
-<<<<<<< HEAD
     if ((ret = ff_add_channel_layout(&in_layouts, &s->channel_layout)) < 0 ||
-=======
-    if ((ret = ff_add_channel_layout(&in_layouts, s->channel_layout)) < 0 ||
->>>>>>> refs/remotes/origin/master
         (ret = ff_channel_layouts_ref(in_layouts, &ctx->inputs[0]->outcfg.channel_layouts)) < 0)
         return ret;
 
@@ -153,12 +145,8 @@ static int query_formats(AVFilterContext *ctx)
         AVFilterChannelLayouts *out_layouts = NULL;
         enum AVChannel channel = av_channel_layout_channel_from_index(&s->channel_layout, s->map[i]);
 
-<<<<<<< HEAD
         if ((ret = av_channel_layout_from_mask(&channel_layout, 1ULL << channel)) < 0 ||
             (ret = ff_add_channel_layout(&out_layouts, &channel_layout)) < 0 ||
-=======
-        if ((ret = ff_add_channel_layout(&out_layouts, channel)) < 0 ||
->>>>>>> refs/remotes/origin/master
             (ret = ff_channel_layouts_ref(out_layouts, &ctx->outputs[i]->incfg.channel_layouts)) < 0)
             return ret;
     }
@@ -257,11 +245,8 @@ const AVFilter ff_af_channelsplit = {
     .priv_size      = sizeof(ChannelSplitContext),
     .priv_class     = &channelsplit_class,
     .init           = init,
-<<<<<<< HEAD
     .activate       = activate,
     .uninit         = uninit,
-=======
->>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(avfilter_af_channelsplit_inputs),
     .outputs        = NULL,
     FILTER_QUERY_FUNC(query_formats),

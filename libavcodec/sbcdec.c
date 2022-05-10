@@ -365,7 +365,6 @@ static int sbc_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return frame_length;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_sbc_decoder = {
     .p.name                = "sbc",
     .p.long_name           = NULL_IF_CONFIG_SMALL("SBC (low-complexity subband codec)"),
@@ -375,17 +374,6 @@ const FFCodec ff_sbc_decoder = {
     .init                  = sbc_decode_init,
     FF_CODEC_DECODE_CB(sbc_decode_frame),
     .p.capabilities        = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-=======
-const AVCodec ff_sbc_decoder = {
-    .name                  = "sbc",
-    .long_name             = NULL_IF_CONFIG_SMALL("SBC (low-complexity subband codec)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_SBC,
-    .priv_data_size        = sizeof(SBCDecContext),
-    .init                  = sbc_decode_init,
-    .decode                = sbc_decode_frame,
-    .capabilities          = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
->>>>>>> refs/remotes/origin/master
     .caps_internal         = FF_CODEC_CAP_INIT_THREADSAFE,
 #if FF_API_OLD_CHANNEL_LAYOUT
     .p.channel_layouts     = (const uint64_t[]) { AV_CH_LAYOUT_MONO,

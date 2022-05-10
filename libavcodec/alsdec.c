@@ -356,11 +356,7 @@ static av_cold int read_specific_config(ALSDecContext *ctx)
     if (als_id != MKBETAG('A','L','S','\0'))
         return AVERROR_INVALIDDATA;
 
-<<<<<<< HEAD
     if (avctx->ch_layout.nb_channels > FF_SANE_NB_CHANNELS) {
-=======
-    if (avctx->channels > FF_SANE_NB_CHANNELS) {
->>>>>>> refs/remotes/origin/master
         avpriv_request_sample(avctx, "Huge number of channels");
         return AVERROR_PATCHWELCOME;
     }
@@ -2107,27 +2103,12 @@ static av_cold int decode_init(AVCodecContext *avctx)
         ctx->reverted_channels = NULL;
     }
 
-<<<<<<< HEAD
     if (sconf->floating) {
         ctx->acf               = av_malloc_array(channels, sizeof(*ctx->acf));
         ctx->shift_value       = av_malloc_array(channels, sizeof(*ctx->shift_value));
         ctx->last_shift_value  = av_malloc_array(channels, sizeof(*ctx->last_shift_value));
         ctx->last_acf_mantissa = av_malloc_array(channels, sizeof(*ctx->last_acf_mantissa));
         ctx->raw_mantissa      = av_calloc(channels, sizeof(*ctx->raw_mantissa));
-=======
-    channel_size      = sconf->frame_length + sconf->max_order;
-
-    ctx->prev_raw_samples = av_malloc_array(sconf->max_order, sizeof(*ctx->prev_raw_samples));
-    ctx->raw_buffer       = av_calloc(avctx->channels * channel_size, sizeof(*ctx->raw_buffer));
-    ctx->raw_samples      = av_malloc_array(avctx->channels, sizeof(*ctx->raw_samples));
-
-    if (sconf->floating) {
-        ctx->acf               = av_malloc_array(avctx->channels, sizeof(*ctx->acf));
-        ctx->shift_value       = av_malloc_array(avctx->channels, sizeof(*ctx->shift_value));
-        ctx->last_shift_value  = av_malloc_array(avctx->channels, sizeof(*ctx->last_shift_value));
-        ctx->last_acf_mantissa = av_malloc_array(avctx->channels, sizeof(*ctx->last_acf_mantissa));
-        ctx->raw_mantissa      = av_calloc(avctx->channels, sizeof(*ctx->raw_mantissa));
->>>>>>> refs/remotes/origin/master
 
         ctx->larray = av_malloc_array(ctx->cur_frame_length * 4, sizeof(*ctx->larray));
         ctx->nbits  = av_malloc_array(ctx->cur_frame_length, sizeof(*ctx->nbits));
@@ -2144,11 +2125,7 @@ static av_cold int decode_init(AVCodecContext *avctx)
             return ret;
         ff_mlz_flush_dict(ctx->mlz);
 
-<<<<<<< HEAD
         for (c = 0; c < channels; ++c) {
-=======
-        for (c = 0; c < avctx->channels; ++c) {
->>>>>>> refs/remotes/origin/master
             ctx->raw_mantissa[c] = av_calloc(ctx->cur_frame_length, sizeof(**ctx->raw_mantissa));
         }
     }
@@ -2198,29 +2175,16 @@ static av_cold void flush(AVCodecContext *avctx)
 }
 
 
-<<<<<<< HEAD
 const FFCodec ff_als_decoder = {
     .p.name         = "als",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MPEG-4 Audio Lossless Coding (ALS)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_MP4ALS,
-=======
-const AVCodec ff_als_decoder = {
-    .name           = "als",
-    .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 Audio Lossless Coding (ALS)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_MP4ALS,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ALSDecContext),
     .init           = decode_init,
     .close          = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),
     .flush          = flush,
-<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-=======
-    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-    .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
->>>>>>> refs/remotes/origin/master
 };

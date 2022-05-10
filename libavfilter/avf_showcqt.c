@@ -1325,12 +1325,8 @@ static int query_formats(AVFilterContext *ctx)
         AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUV422P,
         AV_PIX_FMT_YUV444P, AV_PIX_FMT_RGB24, AV_PIX_FMT_NONE
     };
-<<<<<<< HEAD
     static const AVChannelLayout channel_layouts[] = { AV_CHANNEL_LAYOUT_STEREO,
                                                        AV_CHANNEL_LAYOUT_STEREO_DOWNMIX, { 0 } };
-=======
-    static const int64_t channel_layouts[] = { AV_CH_LAYOUT_STEREO, AV_CH_LAYOUT_STEREO_DOWNMIX, -1 };
->>>>>>> refs/remotes/origin/master
     int ret;
 
     /* set input audio formats */
@@ -1338,11 +1334,7 @@ static int query_formats(AVFilterContext *ctx)
     if ((ret = ff_formats_ref(formats, &inlink->outcfg.formats)) < 0)
         return ret;
 
-<<<<<<< HEAD
     layouts = ff_make_channel_layout_list(channel_layouts);
-=======
-    layouts = ff_make_format64_list(channel_layouts);
->>>>>>> refs/remotes/origin/master
     if ((ret = ff_channel_layouts_ref(layouts, &inlink->outcfg.channel_layouts)) < 0)
         return ret;
 

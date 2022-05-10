@@ -2047,7 +2047,6 @@ typedef struct AVCodecContext {
      * - decoding: unused
      */
     int (*get_encode_buffer)(struct AVCodecContext *s, AVPacket *pkt, int flags);
-<<<<<<< HEAD
 
     /**
      * Audio channel layout.
@@ -2058,12 +2057,6 @@ typedef struct AVCodecContext {
     AVChannelLayout ch_layout;
 } AVCodecContext;
 
-=======
-} AVCodecContext;
-
-struct MpegEncContext;
-
->>>>>>> refs/remotes/origin/master
 /**
  * @defgroup lavc_hwaccel AVHWAccel
  *

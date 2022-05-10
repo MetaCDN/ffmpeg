@@ -30,10 +30,7 @@
 
 #include "avcodec.h"
 #include "blockdsp.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "fdctdsp.h"
 #include "mathops.h"
@@ -1355,31 +1352,18 @@ static const FFCodecDefault dnxhd_defaults[] = {
     { NULL },
 };
 
-<<<<<<< HEAD
 const FFCodec ff_dnxhd_encoder = {
     .p.name         = "dnxhd",
     .p.long_name    = NULL_IF_CONFIG_SMALL("VC3/DNxHD"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_DNXHD,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS |
-=======
-const AVCodec ff_dnxhd_encoder = {
-    .name           = "dnxhd",
-    .long_name      = NULL_IF_CONFIG_SMALL("VC3/DNxHD"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_DNXHD,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS |
->>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_SLICE_THREADS,
     .priv_data_size = sizeof(DNXHDEncContext),
     .init           = dnxhd_encode_init,
     FF_CODEC_ENCODE_CB(dnxhd_encode_picture),
     .close          = dnxhd_encode_end,
-<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) {
-=======
-    .pix_fmts       = (const enum AVPixelFormat[]) {
->>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_YUV422P,
         AV_PIX_FMT_YUV422P10,
         AV_PIX_FMT_YUV444P10,
@@ -1388,10 +1372,6 @@ const AVCodec ff_dnxhd_encoder = {
     },
     .p.priv_class   = &dnxhd_class,
     .defaults       = dnxhd_defaults,
-<<<<<<< HEAD
     .p.profiles     = NULL_IF_CONFIG_SMALL(ff_dnxhd_profiles),
-=======
-    .profiles       = NULL_IF_CONFIG_SMALL(ff_dnxhd_profiles),
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

@@ -703,7 +703,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
 }
 
 
-<<<<<<< HEAD
 const FFCodec ff_indeo4_decoder = {
     .p.name         = "indeo4",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Intel Indeo Video Interactive 4"),
@@ -714,17 +713,5 @@ const FFCodec ff_indeo4_decoder = {
     .close          = ff_ivi_decode_close,
     FF_CODEC_DECODE_CB(ff_ivi_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_indeo4_decoder = {
-    .name           = "indeo4",
-    .long_name      = NULL_IF_CONFIG_SMALL("Intel Indeo Video Interactive 4"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_INDEO4,
-    .priv_data_size = sizeof(IVI45DecContext),
-    .init           = decode_init,
-    .close          = ff_ivi_decode_close,
-    .decode         = ff_ivi_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

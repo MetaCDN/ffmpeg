@@ -1886,7 +1886,6 @@ const AVFilter ff_vsrc_colorspectrum = {
 };
 
 #endif /* CONFIG_COLORSPECTRUM_FILTER */
-<<<<<<< HEAD
 
 #if CONFIG_COLORCHART_FILTER
 
@@ -2039,5 +2038,3 @@ const AVFilter ff_vsrc_colorchart = {
 };
 
 #endif /* CONFIG_COLORCHART_FILTER */
-=======
->>>>>>> refs/remotes/origin/master

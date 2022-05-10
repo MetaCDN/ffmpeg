@@ -1281,17 +1281,10 @@ static int config_output(AVFilterLink *outlink)
         return ret;
 
     if (s->format == -1) {
-<<<<<<< HEAD
         convert_sf2tf(ctx, inlink->ch_layout.nb_channels);
         s->format = 0;
     } else if (s->format == 2) {
         convert_pr2zp(ctx, inlink->ch_layout.nb_channels);
-=======
-        convert_sf2tf(ctx, inlink->channels);
-        s->format = 0;
-    } else if (s->format == 2) {
-        convert_pr2zp(ctx, inlink->channels);
->>>>>>> refs/remotes/origin/master
     } else if (s->format == 3) {
         convert_pd2zp(ctx, inlink->ch_layout.nb_channels);
     } else if (s->format == 4) {
@@ -1329,7 +1322,6 @@ static int config_output(AVFilterLink *outlink)
         av_log(ctx, AV_LOG_ERROR, "Parallel processing is not implemented for transfer function.\n");
         return AVERROR_PATCHWELCOME;
     } else if (s->format > 0 && s->process == 1) {
-<<<<<<< HEAD
         ret = decompose_zp2biquads(ctx, inlink->ch_layout.nb_channels);
         if (ret < 0)
             return ret;
@@ -1340,29 +1332,8 @@ static int config_output(AVFilterLink *outlink)
         if (ret < 0)
             return ret;
         ret = convert_serial2parallel(ctx, inlink->ch_layout.nb_channels);
-=======
-        ret = decompose_zp2biquads(ctx, inlink->channels);
->>>>>>> refs/remotes/origin/master
         if (ret < 0)
             return ret;
-    } else if (s->format > 0 && s->process == 2) {
-        if (s->precision > 1)
-            av_log(ctx, AV_LOG_WARNING, "Parallel processing is not recommended for fixed-point precisions.\n");
-        ret = decompose_zp2biquads(ctx, inlink->channels);
-        if (ret < 0)
-            return ret;
-        ret = convert_serial2parallel(ctx, inlink->channels);
-        if (ret < 0)
-            return ret;
-    }
-
-    for (ch = 0; s->format == -2 && ch < inlink->channels; ch++) {
-        IIRChannel *iir = &s->iir[ch];
-
-        if (iir->nb_ab[0] != iir->nb_ab[1] + 1) {
-            av_log(ctx, AV_LOG_ERROR, "Number of ladder coefficients must be one more than number of reflection coefficients.\n");
-            return AVERROR(EINVAL);
-        }
     }
 
     for (ch = 0; s->format == -2 && ch < inlink->ch_layout.nb_channels; ch++) {
@@ -1430,11 +1401,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
     td.in  = in;
     td.out = out;
-<<<<<<< HEAD
     ff_filter_execute(ctx, s->iir_channel, &td, NULL, outlink->ch_layout.nb_channels);
-=======
-    ff_filter_execute(ctx, s->iir_channel, &td, NULL, outlink->channels);
->>>>>>> refs/remotes/origin/master
 
     for (ch = 0; ch < outlink->ch_layout.nb_channels; ch++) {
         if (s->iir[ch].clippings > 0)

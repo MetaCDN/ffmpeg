@@ -336,7 +336,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_loco_decoder = {
     .p.name         = "loco",
     .p.long_name    = NULL_IF_CONFIG_SMALL("LOCO"),
@@ -346,16 +345,5 @@ const FFCodec ff_loco_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_loco_decoder = {
-    .name           = "loco",
-    .long_name      = NULL_IF_CONFIG_SMALL("LOCO"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_LOCO,
-    .priv_data_size = sizeof(LOCOContext),
-    .init           = decode_init,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

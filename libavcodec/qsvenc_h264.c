@@ -177,15 +177,9 @@ static const FFCodecDefault qsv_enc_defaults[] = {
     { NULL },
 };
 
-<<<<<<< HEAD
 const FFCodec ff_h264_qsv_encoder = {
     .p.name         = "h264_qsv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (Intel Quick Sync Video acceleration)"),
-=======
-const AVCodec ff_h264_qsv_encoder = {
-    .name           = "h264_qsv",
-    .long_name      = NULL_IF_CONFIG_SMALL("H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 (Intel Quick Sync Video acceleration)"),
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(QSVH264EncContext),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_H264,

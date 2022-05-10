@@ -20,16 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
 #include "libavutil/channel_layout.h"
 #include "aptx.h"
 #include "codec_internal.h"
-=======
-#include "libavutil/channel_layout.h"
-#include "aptx.h"
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 
 /*
@@ -250,21 +245,12 @@ static av_cold int aptx_close(AVCodecContext *avctx)
 }
 
 #if CONFIG_APTX_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_aptx_encoder = {
     .p.name                = "aptx",
     .p.long_name           = NULL_IF_CONFIG_SMALL("aptX (Audio Processing Technology for Bluetooth)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_APTX,
     .p.capabilities        = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SMALL_LAST_FRAME,
-=======
-const AVCodec ff_aptx_encoder = {
-    .name                  = "aptx",
-    .long_name             = NULL_IF_CONFIG_SMALL("aptX (Audio Processing Technology for Bluetooth)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_APTX,
-    .capabilities          = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SMALL_LAST_FRAME,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(AptXContext),
     .init                  = ff_aptx_init,
     FF_CODEC_ENCODE_CB(aptx_encode_frame),
@@ -281,21 +267,12 @@ const AVCodec ff_aptx_encoder = {
 #endif
 
 #if CONFIG_APTX_HD_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_aptx_hd_encoder = {
     .p.name                = "aptx_hd",
     .p.long_name           = NULL_IF_CONFIG_SMALL("aptX HD (Audio Processing Technology for Bluetooth)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_APTX_HD,
     .p.capabilities        = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SMALL_LAST_FRAME,
-=======
-const AVCodec ff_aptx_hd_encoder = {
-    .name                  = "aptx_hd",
-    .long_name             = NULL_IF_CONFIG_SMALL("aptX HD (Audio Processing Technology for Bluetooth)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_APTX_HD,
-    .capabilities          = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SMALL_LAST_FRAME,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(AptXContext),
     .init                  = ff_aptx_init,
     FF_CODEC_ENCODE_CB(aptx_encode_frame),

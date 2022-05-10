@@ -613,7 +613,6 @@ Accepts a non-negative integer, which assigns a variable chance of it being drop
 in proportion to the value. Default is 0 which results in no drops. This option is kept for backwards
 compatibility and is equivalent to setting drop to a negative value with the same magnitude
 i.e. @code{dropamount=4} is the same as @code{drop=-4}. Ignored if drop is also specified.
-<<<<<<< HEAD
 @end table
 
 Both @code{amount} and @code{drop} accept expressions containing the following variables:
@@ -646,40 +645,6 @@ Whether packet is marked as a keyframe.
 A pseudo random integer, primarily derived from the content of packet payload.
 @end table
 
-=======
-@end table
-
-Both @code{amount} and @code{drop} accept expressions containing the following variables:
-
-@table @samp
-@item n
-The index of the packet, starting from zero.
-@item tb
-The timebase for packet timestamps.
-@item pts
-Packet presentation timestamp.
-@item dts
-Packet decoding timestamp.
-@item nopts
-Constant representing AV_NOPTS_VALUE.
-@item startpts
-First non-AV_NOPTS_VALUE PTS seen in the stream.
-@item startdts
-First non-AV_NOPTS_VALUE DTS seen in the stream.
-@item duration
-@itemx d
-Packet duration, in timebase units.
-@item pos
-Packet position in input; may be -1 when unknown or not set.
-@item size
-Packet size, in bytes.
-@item key
-Whether packet is marked as a keyframe.
-@item state
-A pseudo random integer, primarily derived from the content of packet payload.
-@end table
-
->>>>>>> refs/remotes/origin/master
 @subsection Examples
 Apply modification to every byte but don't drop any packets.
 @example
@@ -688,21 +653,12 @@ ffmpeg -i INPUT -c copy -bsf noise=1 output.mkv
 
 Drop every video packet not marked as a keyframe after timestamp 30s but do not
 modify any of the remaining packets.
-<<<<<<< HEAD
 @example
 ffmpeg -i INPUT -c copy -bsf:v noise=drop='gt(t\,30)*not(key)' output.mkv
 @end example
 
 Drop one second of audio every 10 seconds and add some random noise to the rest.
 @example
-=======
-@example
-ffmpeg -i INPUT -c copy -bsf:v noise=drop='gt(t\,30)*not(key)' output.mkv
-@end example
-
-Drop one second of audio every 10 seconds and add some random noise to the rest.
-@example
->>>>>>> refs/remotes/origin/master
 ffmpeg -i INPUT -c copy -bsf:a noise=amount=-1:drop='between(mod(t\,10)\,9\,10)' output.mkv
 @end example
 
@@ -845,13 +801,10 @@ It accepts the following parameters:
 @item pts
 @item dts
 Set expressions for PTS, DTS or both.
-<<<<<<< HEAD
 @item duration
 Set expression for duration.
 @item time_base
 Set output time base.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 The expressions are evaluated through the eval API and can contain the following
@@ -875,12 +828,9 @@ The demux timestamp in input.
 @item PTS
 The presentation timestamp in input.
 
-<<<<<<< HEAD
 @item DURATION
 The duration in input.
 
-=======
->>>>>>> refs/remotes/origin/master
 @item STARTDTS
 The DTS of the first packet.
 
@@ -893,19 +843,15 @@ The previous input DTS.
 @item PREV_INPTS
 The previous input PTS.
 
-<<<<<<< HEAD
 @item PREV_INDURATION
 The previous input duration.
 
-=======
->>>>>>> refs/remotes/origin/master
 @item PREV_OUTDTS
 The previous output DTS.
 
 @item PREV_OUTPTS
 The previous output PTS.
 
-<<<<<<< HEAD
 @item PREV_OUTDURATION
 The previous output duration.
 
@@ -924,11 +870,6 @@ The timebase of stream packet belongs.
 @item TB_OUT
 The output timebase.
 
-=======
-@item TB
-The timebase of stream packet belongs.
-
->>>>>>> refs/remotes/origin/master
 @item SR
 The sample rate of stream packet belongs.
 

@@ -21,12 +21,6 @@
 #ifndef AVCODEC_WMV2_H
 #define AVCODEC_WMV2_H
 
-<<<<<<< HEAD
-=======
-#include "libavutil/mem_internal.h"
-
-#include "intrax8.h"
->>>>>>> refs/remotes/origin/master
 #include "mpegvideo.h"
 #include "wmv2dsp.h"
 

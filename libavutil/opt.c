@@ -1928,12 +1928,9 @@ int av_opt_copy(void *dst, const void *src)
             ret2 = av_dict_copy(ddict, *sdict, 0);
             if (ret2 < 0)
                 ret = ret2;
-<<<<<<< HEAD
         } else if (o->type == AV_OPT_TYPE_CHLAYOUT) {
             if (field_dst != field_src)
                 ret = av_channel_layout_copy(field_dst, field_src);
-=======
->>>>>>> refs/remotes/origin/master
         } else {
             int size = opt_size(o->type);
             if (size < 0)

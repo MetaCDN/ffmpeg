@@ -295,30 +295,17 @@ static const AVClass vaapi_encode_vp9_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_vp9_vaapi_encoder = {
     .p.name         = "vp9_vaapi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("VP9 (VAAPI)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_VP9,
-=======
-const AVCodec ff_vp9_vaapi_encoder = {
-    .name           = "vp9_vaapi",
-    .long_name      = NULL_IF_CONFIG_SMALL("VP9 (VAAPI)"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_VP9,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VAAPIEncodeVP9Context),
     .init           = &vaapi_encode_vp9_init,
     FF_CODEC_RECEIVE_PACKET_CB(&ff_vaapi_encode_receive_packet),
     .close          = &ff_vaapi_encode_close,
-<<<<<<< HEAD
     .p.priv_class   = &vaapi_encode_vp9_class,
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
-=======
-    .priv_class     = &vaapi_encode_vp9_class,
-    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
->>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
     .defaults       = vaapi_encode_vp9_defaults,

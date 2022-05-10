@@ -200,19 +200,11 @@ static const AVClass hevc_nvenc_class = {
     .version = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_hevc_nvenc_encoder = {
     .p.name         = "hevc_nvenc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("NVIDIA NVENC hevc encoder"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HEVC,
-=======
-const AVCodec ff_hevc_nvenc_encoder = {
-    .name           = "hevc_nvenc",
-    .long_name      = NULL_IF_CONFIG_SMALL("NVIDIA NVENC hevc encoder"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_HEVC,
->>>>>>> refs/remotes/origin/master
     .init           = ff_nvenc_encode_init,
     FF_CODEC_RECEIVE_PACKET_CB(ff_nvenc_receive_packet),
     .close          = ff_nvenc_encode_close,
@@ -220,13 +212,8 @@ const AVCodec ff_hevc_nvenc_encoder = {
     .priv_data_size = sizeof(NvencContext),
     .p.priv_class   = &hevc_nvenc_class,
     .defaults       = defaults,
-<<<<<<< HEAD
     .p.pix_fmts     = ff_nvenc_pix_fmts,
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
-=======
-    .pix_fmts       = ff_nvenc_pix_fmts,
-    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
->>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_ENCODER_FLUSH | AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
     .p.wrapper_name = "nvenc",

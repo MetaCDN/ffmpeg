@@ -913,7 +913,6 @@ Cut frequencies above detection threshold.
 Boost frequencies bellow detection threshold.
 @end table
 Default mode is @samp{cut}.
-<<<<<<< HEAD
 
 @item tftype
 Set the type of target filter, can be one of the following:
@@ -924,8 +923,6 @@ Set the type of target filter, can be one of the following:
 @item highshelf
 @end table
 Default type is @samp{bell}.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Commands
@@ -1685,94 +1682,6 @@ aformat=sample_fmts=u8|s16:channel_layouts=stereo
 
 @section afreqshift
 Apply frequency shift to input audio samples.
-<<<<<<< HEAD
-=======
-
-The filter accepts the following options:
-
-@table @option
-@item shift
-Specify frequency shift. Allowed range is -INT_MAX to INT_MAX.
-Default value is 0.0.
-
-@item level
-Set output gain applied to final output. Allowed range is from 0.0 to 1.0.
-Default value is 1.0.
-
-@item order
-Set filter order used for filtering. Allowed range is from 1 to 16.
-Default value is 8.
-@end table
-
-@subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section afwtdn
-Reduce broadband noise from input samples using Wavelets.
-
-A description of the accepted options follows.
-
-@table @option
-@item sigma
-Set the noise sigma, allowed range is from 0 to 1.
-Default value is 0.
-This option controls strength of denoising applied to input samples.
-Most useful way to set this option is via decibels, eg. -45dB.
-
-@item levels
-Set the number of wavelet levels of decomposition.
-Allowed range is from 1 to 12.
-Default value is 10.
-Setting this too low make denoising performance very poor.
-
-@item wavet
-Set wavelet type for decomposition of input frame.
-They are sorted by number of coefficients, from lowest to highest.
-More coefficients means worse filtering speed, but overall better quality.
-Available wavelets are:
-
-@table @samp
-@item sym2
-@item sym4
-@item rbior68
-@item deb10
-@item sym10
-@item coif5
-@item bl3
-@end table
-
-@item percent
-Set percent of full denoising. Allowed range is from 0 to 100 percent.
-Default value is 85 percent or partial denoising.
-
-@item profile
-If enabled, first input frame will be used as noise profile.
-If first frame samples contain non-noise performance will be very poor.
-
-@item adaptive
-If enabled, input frames are analyzed for presence of noise.
-If noise is detected with high possibility then input frame profile will be
-used for processing following frames, until new noise frame is detected.
-
-@item samples
-Set size of single frame in number of samples. Allowed range is from 512 to
-65536. Default frame size is 8192 samples.
-
-@item softness
-Set softness applied inside thresholding function. Allowed range is from 0 to
-10. Default softness is 1.
-@end table
-
-@subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section agate
-
-A gate is mainly used to reduce lower parts of a signal. This kind of signal
-processing reduces disturbing noise between useful signals.
->>>>>>> refs/remotes/origin/master
 
 The filter accepts the following options:
 
@@ -2141,10 +2050,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -2432,11 +2338,7 @@ The filter accepts the following options:
 
 @table @option
 @item strength, s
-<<<<<<< HEAD
 Set denoising strength. Allowed range is from 0.00001 to 10000. Default value is 0.00001.
-=======
-Set denoising strength. Allowed range is from 0.00001 to 10. Default value is 0.00001.
->>>>>>> refs/remotes/origin/master
 
 @item patch, p
 Set patch radius duration. Allowed range is from 1 to 100 milliseconds.
@@ -2464,11 +2366,7 @@ Default value is @var{o}.
 @end table
 
 @item smooth, m
-<<<<<<< HEAD
 Set smooth factor. Default value is @var{11}. Allowed range is from @var{1} to @var{1000}.
-=======
-Set smooth factor. Default value is @var{11}. Allowed range is from @var{1} to @var{15}.
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Commands
@@ -2682,62 +2580,6 @@ Output only difference samples, useful to hear introduced distortions.
 By default is disabled.
 
 @item adaptive
-Set strenght of adaptive distortion applied. Default value is 0.5.
-Allowed range is from 0 to 1.
-
-@item iterations
-Set number of iterations of psychoacoustic clipper.
-Allowed range is from 1 to 20. Default value is 10.
-
-@item level
-Auto level output signal. Default is disabled.
-This normalizes audio back to 0dBFS if enabled.
-@end table
-
-<<<<<<< HEAD
-@section aphaseshift
-Apply phase shift to input audio samples.
-
-The filter accepts the following options:
-
-@table @option
-@item shift
-Specify phase shift. Allowed range is from -1.0 to 1.0.
-Default value is 0.0.
-
-@item level
-Set output gain applied to final output. Allowed range is from 0.0 to 1.0.
-Default value is 1.0.
-
-@item order
-Set filter order used for filtering. Allowed range is from 1 to 16.
-Default value is 8.
-@end table
-
-@subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section apsyclip
-Apply Psychoacoustic clipper to input audio stream.
-
-The filter accepts the following options:
-
-@table @option
-@item level_in
-Set input gain. By default it is 1. Range is [0.015625 - 64].
-
-@item level_out
-Set output gain. By default it is 1. Range is [0.015625 - 64].
-
-@item clip
-Set the clipping start value. Default value is 0dBFS or 1.
-
-@item diff
-Output only difference samples, useful to hear introduced distortions.
-By default is disabled.
-
-@item adaptive
 Set strength of adaptive distortion applied. Default value is 0.5.
 Allowed range is from 0 to 1.
 
@@ -2750,8 +2592,6 @@ Auto level output signal. Default is disabled.
 This normalizes audio back to 0dBFS if enabled.
 @end table
 
-=======
->>>>>>> refs/remotes/origin/master
 @subsection Commands
 
 This filter supports the all above options as @ref{commands}.
@@ -3318,8 +3158,6 @@ This filter supports the all above options as @ref{commands}.
 
 @section asubcut
 Cut subwoofer frequencies.
-<<<<<<< HEAD
-=======
 
 This filter allows to set custom, steeper
 roll off than highpass filter, and thus is able to more attenuate
@@ -3363,137 +3201,6 @@ Set input gain level. Allowed range is from 0 to 1. Default value is 1.
 @end table
 
 @subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section asuperpass
-Apply high order Butterworth band-pass filter.
-
-The filter accepts the following options:
-
-@table @option
-@item centerf
-Set center frequency in Hertz. Allowed range is 2 to 999999.
-Default value is 1000.
-
-@item order
-Set filter order. Available values are from 4 to 20.
-Default value is 4.
-
-@item qfactor
-Set Q-factor. Allowed range is from 0.01 to 100. Default value is 1.
-
-@item level
-Set input gain level. Allowed range is from 0 to 2. Default value is 1.
-@end table
-
-@subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section asuperstop
-Apply high order Butterworth band-stop filter.
-
-The filter accepts the following options:
-
-@table @option
-@item centerf
-Set center frequency in Hertz. Allowed range is 2 to 999999.
-Default value is 1000.
-
-@item order
-Set filter order. Available values are from 4 to 20.
-Default value is 4.
-
-@item qfactor
-Set Q-factor. Allowed range is from 0.01 to 100. Default value is 1.
-
-@item level
-Set input gain level. Allowed range is from 0 to 2. Default value is 1.
-@end table
-
-@subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section atempo
->>>>>>> refs/remotes/origin/master
-
-This filter allows to set custom, steeper
-roll off than highpass filter, and thus is able to more attenuate
-frequency content in stop-band.
-
-The filter accepts the following options:
-
-@table @option
-@item cutoff
-Set cutoff frequency in Hertz. Allowed range is 2 to 200.
-Default value is 20.
-
-@item order
-Set filter order. Available values are from 3 to 20.
-Default value is 10.
-
-@item level
-Set input gain level. Allowed range is from 0 to 1. Default value is 1.
-@end table
-
-@subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section asupercut
-Cut super frequencies.
-
-The filter accepts the following options:
-
-@table @option
-@item cutoff
-Set cutoff frequency in Hertz. Allowed range is 20000 to 192000.
-Default value is 20000.
-
-@item order
-Set filter order. Available values are from 3 to 20.
-Default value is 10.
-
-@item level
-Set input gain level. Allowed range is from 0 to 1. Default value is 1.
-@end table
-
-<<<<<<< HEAD
-@subsection Commands
-=======
-@section atilt
-Apply spectral tilt filter to audio stream.
-
-This filter apply any spectral roll-off slope over any specified frequency band.
-
-The filter accepts the following options:
-
-@table @option
-@item freq
-Set central frequency of tilt in Hz. Default is 10000 Hz.
-
-@item slope
-Set slope direction of tilt. Default is 0. Allowed range is from -1 to 1.
-
-@item width
-Set width of tilt. Default is 1000. Allowed range is from 100 to 10000.
-
-@item order
-Set order of tilt filter.
-
-@item level
-Set input volume level. Allowed range is from 0 to 4.
-Defalt is 1.
-@end table
-
-@subsection Commands
-
-This filter supports the all above options as @ref{commands}.
-
-@section atrim
->>>>>>> refs/remotes/origin/master
 
 This filter supports the all above options as @ref{commands}.
 
@@ -3773,10 +3480,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -3796,7 +3500,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -3804,8 +3507,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Commands
@@ -3875,10 +3576,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -3898,7 +3596,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -3906,8 +3603,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Commands
@@ -3987,10 +3682,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -4010,7 +3702,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -4018,8 +3709,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Commands
@@ -4084,10 +3773,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -4107,7 +3793,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -4115,8 +3800,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @section bs2b
@@ -4898,10 +4581,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -4921,7 +4601,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -4929,8 +4608,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Examples
@@ -5414,10 +5091,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -5437,7 +5111,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -5445,8 +5118,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Commands
@@ -5779,10 +5450,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -5802,7 +5470,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -5810,8 +5477,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Examples
@@ -7030,10 +6695,7 @@ Set transform type of IIR filter.
 @table @option
 @item di
 @item dii
-<<<<<<< HEAD
 @item tdi
-=======
->>>>>>> refs/remotes/origin/master
 @item tdii
 @item latt
 @item svf
@@ -7053,7 +6715,6 @@ Always use float 32-bit.
 @item f64
 Always use float 64-bit.
 @end table
-<<<<<<< HEAD
 
 @item block_size, b
 Set block size used for reverse IIR processing. If this value is set to high enough
@@ -7061,8 +6722,6 @@ value (higher than impulse response length truncated when reaches near zero valu
 will become linear phase otherwise if not big enough it will just produce nasty artifacts.
 
 Note that filter delay will be exactly this many samples when set to non-zero value.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Commands
@@ -8140,13 +7799,6 @@ Set planes to filter. Default is first only.
 @end table
 
 @subsection Commands
-<<<<<<< HEAD
-=======
-
-This filter supports the all above options as @ref{commands}.
-
-@section bitplanenoise
->>>>>>> refs/remotes/origin/master
 
 This filter supports the all above options as @ref{commands}.
 
@@ -8427,7 +8079,6 @@ tblend=all_mode=grainextract
 @subsection Commands
 This filter supports same @ref{commands} as options.
 
-<<<<<<< HEAD
 @anchor{blurdetect}
 @section blurdetect
 
@@ -8480,8 +8131,6 @@ blurdetect=block_width=32:block_height=32:block_pct=80
 @end example
 @end itemize
 
-=======
->>>>>>> refs/remotes/origin/master
 @section bm3d
 
 Denoise frames using Block-Matching 3D algorithm.
@@ -11238,116 +10887,6 @@ Set the configs to be passed into backend
 
 For tensorflow backend, you can set its configs with @option{sess_config} options,
 please use tools/python/tf_sess_config.py to get the configs for your system.
-
-@end table
-
-@section dnn_detect
-
-Do object detection with deep neural networks.
-
-The filter accepts the following options:
-
-@table @option
-@item dnn_backend
-Specify which DNN backend to use for model loading and execution. This option accepts
-only openvino now, tensorflow backends will be added.
-
-@item model
-Set path to model file specifying network architecture and its parameters.
-Note that different backends use different file formats.
-
-@item input
-Set the input name of the dnn network.
-
-@item output
-Set the output name of the dnn network.
-
-@item confidence
-Set the confidence threshold (default: 0.5).
-
-@item labels
-Set path to label file specifying the mapping between label id and name.
-Each label name is written in one line, tailing spaces and empty lines are skipped.
-The first line is the name of label id 0 (usually it is 'background'),
-and the second line is the name of label id 1, etc.
-The label id is considered as name if the label file is not provided.
-
-@item backend_configs
-Set the configs to be passed into backend. To use async execution, set async (default: set).
-Roll back to sync execution if the backend does not support async.
-
-@end table
-
-@section dnn_classify
-
-Do classification with deep neural networks based on bounding boxes.
-
-The filter accepts the following options:
-
-@table @option
-@item dnn_backend
-Specify which DNN backend to use for model loading and execution. This option accepts
-<<<<<<< HEAD
-only openvino now, tensorflow backends will be added.
-=======
-the following values:
-
-@table @samp
-@item native
-Native implementation of DNN loading and execution.
-
-@item tensorflow
-TensorFlow backend. To enable this backend you
-need to install the TensorFlow for C library (see
-@url{https://www.tensorflow.org/install/lang_c}) and configure FFmpeg with
-@code{--enable-libtensorflow}
-
-@item openvino
-OpenVINO backend. To enable this backend you
-need to build and install the OpenVINO for C library (see
-@url{https://github.com/openvinotoolkit/openvino/blob/master/build-instruction.md}) and configure FFmpeg with
-@code{--enable-libopenvino} (--extra-cflags=-I... --extra-ldflags=-L... might
-be needed if the header files and libraries are not installed into system path)
-
-@end table
-
-Default value is @samp{native}.
->>>>>>> refs/remotes/origin/master
-
-@item model
-Set path to model file specifying network architecture and its parameters.
-Note that different backends use different file formats.
-
-@item input
-Set the input name of the dnn network.
-
-@item output
-Set the output name of the dnn network.
-
-<<<<<<< HEAD
-@item confidence
-Set the confidence threshold (default: 0.5).
-
-@item labels
-Set path to label file specifying the mapping between label id and name.
-Each label name is written in one line, tailing spaces and empty lines are skipped.
-The first line is the name of label id 0,
-and the second line is the name of label id 1, etc.
-The label id is considered as name if the label file is not provided.
-
-@item backend_configs
-Set the configs to be passed into backend
-
-For tensorflow backend, you can set its configs with @option{sess_config} options,
-please use tools/python/tf_sess_config.py to get the configs for your system.
-=======
-@item backend_configs
-Set the configs to be passed into backend. To use async execution, set async (default: set).
-Roll back to sync execution if the backend does not support async.
-
-For tensorflow backend, you can set its configs with @option{sess_config} options,
-please use tools/python/tf_sess_config.py to get the configs of TensorFlow backend for your system.
->>>>>>> refs/remotes/origin/master
 
 @end table
 
@@ -14210,12 +13749,9 @@ Display number of samples taken from filter.
 
 @item sample_count_out
 Display number of samples given out from filter.
-<<<<<<< HEAD
 
 @item sample_count_delta
 Display delta number of samples between above two values.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @item rate, r
@@ -14278,8 +13814,6 @@ greyedge=difford=1:minknorm=0:sigma=2
 
 @section guided
 Apply guided filter for edge-preserving smoothing, dehazing and so on.
-<<<<<<< HEAD
-=======
 
 The filter accepts the following options:
 @table @option
@@ -14305,73 +13839,6 @@ Set guidance mode. Can be @code{off} or @code{on}. Default is @code{off}.
 If @code{off}, single input is required.
 If @code{on}, two inputs of the same resolution and pixel format are required.
 The second input serves as the guidance.
-
-@item planes
-Set planes to filter. Default is first only.
-@end table
-
-@subsection Commands
-This filter supports the all above options as @ref{commands}.
-
-@subsection Examples
-@itemize
-@item
-Edge-preserving smoothing with guided filter:
-@example
-ffmpeg -i in.png -vf guided out.png
-@end example
-
-@item
-Dehazing, structure-transferring filtering, detail enhancement with guided filter.
-For the generation of guidance image, refer to paper "Guided Image Filtering".
-See: @url{http://kaiminghe.com/publications/pami12guidedfilter.pdf}.
-@example
-ffmpeg -i in.png -i guidance.png -filter_complex guided=guidance=on out.png
-@end example
-
-@end itemize
-
-@anchor{haldclut}
-@section haldclut
-
-Apply a Hald CLUT to a video stream.
-
-First input is the video stream to process, and second one is the Hald CLUT.
-The Hald CLUT input can be a simple picture or a complete video stream.
->>>>>>> refs/remotes/origin/master
-
-The filter accepts the following options:
-@table @option
-@item radius
-Set the box radius in pixels.
-Allowed range is 1 to 20. Default is 3.
-
-@item eps
-Set regularization parameter (with square).
-Allowed range is 0 to 1. Default is 0.01.
-
-@item mode
-Set filter mode. Can be @code{basic} or @code{fast}.
-Default is @code{basic}.
-
-@item sub
-Set subsampling ratio for @code{fast} mode.
-Range is 2 to 64. Default is 4.
-No subsampling occurs in @code{basic} mode.
-
-<<<<<<< HEAD
-@item guidance
-Set guidance mode. Can be @code{off} or @code{on}. Default is @code{off}.
-If @code{off}, single input is required.
-If @code{on}, two inputs of the same resolution and pixel format are required.
-The second input serves as the guidance.
-=======
-@subsection Commands
-
-This filter supports the @code{interp} option as @ref{commands}.
-
-@subsection Workflow examples
->>>>>>> refs/remotes/origin/master
 
 @item planes
 Set planes to filter. Default is first only.
@@ -15038,62 +14505,6 @@ Adjusting hues can change lightness from original RGB triplet,
 with this option enabled lightness is kept at same value.
 @end table
 
-@section huesaturation
-Apply hue-saturation-intensity adjustments to input video stream.
-
-This filter operates in RGB colorspace.
-
-This filter accepts the following options:
-
-@table @option
-@item hue
-Set the hue shift in degrees to apply. Default is 0.
-Allowed range is from -180 to 180.
-
-@item saturation
-Set the saturation shift. Default is 0.
-Allowed range is from -1 to 1.
-
-@item intensity
-Set the intensity shift. Default is 0.
-Allowed range is from -1 to 1.
-
-@item colors
-Set which primary and complementary colors are going to be adjusted.
-This options is set by providing one or multiple values.
-This can select multiple colors at once. By default all colors are selected.
-@table @samp
-@item r
-Adjust reds.
-@item y
-Adjust yellows.
-@item g
-Adjust greens.
-@item c
-Adjust cyans.
-@item b
-Adjust blues.
-@item m
-Adjust magentas.
-@item a
-Adjust all colors.
-@end table
-
-@item strength
-Set strength of filtering. Allowed range is from 0 to 100.
-Default value is 1.
-
-@item rw, gw, bw
-Set weight for each RGB component. Allowed range is from 0 to 1.
-By default is set to 0.333, 0.334, 0.333.
-Those options are used in saturation and lightess processing.
-
-@item lightness
-Set preserving lightness, by default is disabled.
-Adjusting hues can change lightness from original RGB triplet,
-with this option enabled lightness is kept at same value.
-@end table
-
 @section hysteresis
 
 Grow first stream into second stream by connecting components.
@@ -15115,7 +14526,6 @@ By default value is 0.
 
 The @code{hysteresis} filter also supports the @ref{framesync} options.
 
-<<<<<<< HEAD
 @section iccdetect
 
 Detect the colorspace  from an embedded ICC profile (if present), and update
@@ -15151,8 +14561,6 @@ If true, an ICC profile will be generated even if it would overwrite an
 already existing ICC profile. Disabled by default.
 @end table
 
-=======
->>>>>>> refs/remotes/origin/master
 @section identity
 
 Obtain the identity score between two input videos.
@@ -16542,10 +15950,6 @@ All expressions default to "clipval".
 
 This filter supports same @ref{commands} as options.
 
-@subsection Commands
-
-This filter supports same @ref{commands} as options.
-
 @subsection Examples
 
 @itemize
@@ -17175,10 +16579,7 @@ This filter supports the following commands:
 @table @option
 @item weights
 @item scale
-<<<<<<< HEAD
 @item planes
-=======
->>>>>>> refs/remotes/origin/master
 Syntax is same as option with same name.
 @end table
 
@@ -17308,7 +16709,6 @@ with the reference file @file{ref.mpg}.
 @example
 ffmpeg -i main.mpg -i ref.mpg -lavfi msad -f null -
 @end example
-<<<<<<< HEAD
 
 @section multiply
 Multiply first video stream pixels values with second video stream pixels values.
@@ -17332,8 +16732,6 @@ By default all planes are processed.
 @subsection Commands
 
 This filter supports same @ref{commands} as options.
-=======
->>>>>>> refs/remotes/origin/master
 
 @section negate
 
@@ -20383,60 +19781,6 @@ Only available with @code{eval=frame}.
 The presentation timestamp of the input frame, expressed as a number of
 seconds. Only available with @code{eval=frame}.
 
-<<<<<<< HEAD
-=======
-@item eval
-Specify when to evaluate @var{width} and @var{height} expression. It accepts the following values:
-
-@table @samp
-@item init
-Only evaluate expressions once during the filter initialization or when a command is processed.
-
-@item frame
-Evaluate expressions for each incoming frame.
-
-@end table
-
-@end table
-
-The values of the @option{w} and @option{h} options are expressions
-containing the following constants:
-
-@table @var
-@item in_w
-@item in_h
-The input width and height
-
-@item iw
-@item ih
-These are the same as @var{in_w} and @var{in_h}.
-
-@item out_w
-@item out_h
-The output (scaled) width and height
-
-@item ow
-@item oh
-These are the same as @var{out_w} and @var{out_h}
-
-@item a
-The same as @var{iw} / @var{ih}
-
-@item sar
-input sample aspect ratio
-
-@item dar
-The input display aspect ratio. Calculated from @code{(iw / ih) * sar}.
-
-@item n
-The (sequential) number of the input frame, starting from 0.
-Only available with @code{eval=frame}.
-
-@item t
-The presentation timestamp of the input frame, expressed as a number of
-seconds. Only available with @code{eval=frame}.
-
->>>>>>> refs/remotes/origin/master
 @item pos
 The position (byte offset) of the frame in the input stream, or NaN if
 this information is unavailable and/or meaningless (for example in case of synthetic video).
@@ -22770,10 +22114,7 @@ This filter supports the following commands:
 @table @option
 @item weights
 @item scale
-<<<<<<< HEAD
 @item planes
-=======
->>>>>>> refs/remotes/origin/master
 Syntax is same as option with same name.
 @end table
 
@@ -26850,12 +26191,9 @@ supposed to be generated forever.
 
 @item speed
 Set speed of gradients rotation.
-<<<<<<< HEAD
 
 @item type, t
 Set type of gradients, can be @code{linear} or @code{radial} or @code{circular} or @code{spiral}.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 
@@ -27155,10 +26493,7 @@ ffplay -f lavfi life=s=300x200:mold=10:r=60:ratio=0.1:death_color=#C83232:life_c
 @anchor{allrgb}
 @anchor{allyuv}
 @anchor{color}
-<<<<<<< HEAD
 @anchor{colorchart}
-=======
->>>>>>> refs/remotes/origin/master
 @anchor{colorspectrum}
 @anchor{haldclutsrc}
 @anchor{nullsrc}
@@ -27170,11 +26505,7 @@ ffplay -f lavfi life=s=300x200:mold=10:r=60:ratio=0.1:death_color=#C83232:life_c
 @anchor{testsrc}
 @anchor{testsrc2}
 @anchor{yuvtestsrc}
-<<<<<<< HEAD
 @section allrgb, allyuv, color, colorchart, colorspectrum, haldclutsrc, nullsrc, pal75bars, pal100bars, rgbtestsrc, smptebars, smptehdbars, testsrc, testsrc2, yuvtestsrc
-=======
-@section allrgb, allyuv, color, colorspectrum, haldclutsrc, nullsrc, pal75bars, pal100bars, rgbtestsrc, smptebars, smptehdbars, testsrc, testsrc2, yuvtestsrc
->>>>>>> refs/remotes/origin/master
 
 The @code{allrgb} source returns frames of size 4096x4096 of all rgb colors.
 
@@ -27182,11 +26513,8 @@ The @code{allyuv} source returns frames of size 4096x4096 of all yuv colors.
 
 The @code{color} source provides an uniformly colored input.
 
-<<<<<<< HEAD
 The @code{colorchart} source provides a colors checker chart.
 
-=======
->>>>>>> refs/remotes/origin/master
 The @code{colorspectrum} source provides a color spectrum input.
 
 The @code{haldclutsrc} source provides an identity Hald CLUT. See also
@@ -27290,7 +26618,6 @@ Set the type of the color spectrum, only available in the
 @item white
 @item all
 @end table
-<<<<<<< HEAD
 
 @item patch_size
 Set patch size of single color patch, only available in the
@@ -27307,8 +26634,6 @@ Available values are:
 @end table
 
 Default value is @code{reference}.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Examples
@@ -28309,13 +27634,10 @@ A processing speed faster than what is possible without these filters cannot
 be achieved.
 @end table
 
-<<<<<<< HEAD
 @subsection Commands
 
 Both filters supports the all above options as @ref{commands}.
 
-=======
->>>>>>> refs/remotes/origin/master
 @section segment, asegment
 
 Split single input stream into multiple streams.
@@ -29371,12 +28693,9 @@ It accepts the following values:
 @item delay
 @end table
 Default is @code{magnitude}.
-<<<<<<< HEAD
 
 @item channels
 Set channels to use when processing audio. By default all are processed.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @section showspatial
@@ -29626,12 +28945,9 @@ Allowed range is from 10 to 200.
 @item limit
 Set upper limit of input audio samples volume in dBFS. Default is 0 dBFS.
 Allowed range is from -100 to 100.
-<<<<<<< HEAD
 
 @item opacity
 Set opacity strength when using pixel format output with alpha component.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 The usage is very similar to the showwaves filter; see the examples in that
@@ -29813,12 +29129,9 @@ Allowed range is from 10 to 200.
 @item limit
 Set upper limit of input audio samples volume in dBFS. Default is 0 dBFS.
 Allowed range is from -100 to 100.
-<<<<<<< HEAD
 
 @item opacity
 Set opacity strength when using pixel format output with alpha component.
-=======
->>>>>>> refs/remotes/origin/master
 @end table
 
 @subsection Examples

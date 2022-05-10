@@ -19,10 +19,7 @@ FATE_CHECKASM = fate-checkasm-aacpsdsp                                  \
                 fate-checkasm-hevc_pel                                  \
                 fate-checkasm-hevc_sao                                  \
                 fate-checkasm-huffyuvdsp                                \
-<<<<<<< HEAD
                 fate-checkasm-idctdsp                                   \
-=======
->>>>>>> refs/remotes/origin/master
                 fate-checkasm-jpeg2000dsp                               \
                 fate-checkasm-llviddsp                                  \
                 fate-checkasm-llviddspenc                               \

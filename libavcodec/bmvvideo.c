@@ -285,19 +285,11 @@ static av_cold int decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_bmv_video_decoder = {
     .p.name         = "bmv_video",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Discworld II BMV video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_BMV_VIDEO,
-=======
-const AVCodec ff_bmv_video_decoder = {
-    .name           = "bmv_video",
-    .long_name      = NULL_IF_CONFIG_SMALL("Discworld II BMV video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_BMV_VIDEO,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(BMVDecContext),
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),

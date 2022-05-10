@@ -23,12 +23,8 @@
 
 #include <stddef.h>
 
-<<<<<<< HEAD
 #include "libavutil/error.h"
 #include "libavutil/macros.h"
-=======
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem.h"
 #include "libavutil/slicethread.h"
 

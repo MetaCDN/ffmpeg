@@ -27,10 +27,6 @@
 
 #include "config.h"
 #include "libavutil/avassert.h"
-<<<<<<< HEAD
-=======
-#include "libavutil/avstring.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/channel_layout.h"
 #include "libavutil/intreadwrite.h"
 #include "libavutil/mem.h"
@@ -39,7 +35,6 @@
 #include "libavutil/pixfmt.h"
 #include "avcodec.h"
 #include "codec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "hwconfig.h"
 #include "thread.h"
@@ -47,19 +42,8 @@
 #include "internal.h"
 #include "put_bits.h"
 #include "startcode.h"
-=======
-#include "hwconfig.h"
-#include "thread.h"
-#include "internal.h"
-#include "put_bits.h"
-#include "raw.h"
->>>>>>> refs/remotes/origin/master
 #include <stdlib.h>
 #include <limits.h>
-<<<<<<< HEAD
-=======
-#include <float.h>
->>>>>>> refs/remotes/origin/master
 
 void av_fast_padded_malloc(void *ptr, unsigned int *size, size_t min_size)
 {
@@ -457,11 +441,7 @@ void ff_color_frame(AVFrame *frame, const int c[4])
 }
 
 int avpriv_codec_get_cap_skip_frame_fill_param(const AVCodec *codec){
-<<<<<<< HEAD
     return !!(ffcodec(codec)->caps_internal & FF_CODEC_CAP_SKIP_FRAME_FILL_PARAM);
-=======
-    return !!(codec->caps_internal & FF_CODEC_CAP_SKIP_FRAME_FILL_PARAM);
->>>>>>> refs/remotes/origin/master
 }
 
 const char *avcodec_get_name(enum AVCodecID id)
@@ -831,7 +811,6 @@ static int get_audio_frame_duration(enum AVCodecID id, int sr, int ch, int ba,
 
 int av_get_audio_frame_duration(AVCodecContext *avctx, int frame_bytes)
 {
-<<<<<<< HEAD
    int channels = avctx->ch_layout.nb_channels;
    int duration;
 #if FF_API_OLD_CHANNEL_LAYOUT
@@ -842,10 +821,6 @@ FF_ENABLE_DEPRECATION_WARNINGS
 #endif
     duration = get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
                                     channels, avctx->block_align,
-=======
-    int duration = get_audio_frame_duration(avctx->codec_id, avctx->sample_rate,
-                                    avctx->channels, avctx->block_align,
->>>>>>> refs/remotes/origin/master
                                     avctx->codec_tag, avctx->bits_per_coded_sample,
                                     avctx->bit_rate, avctx->extradata, avctx->frame_size,
                                     frame_bytes);
@@ -854,7 +829,6 @@ FF_ENABLE_DEPRECATION_WARNINGS
 
 int av_get_audio_frame_duration2(AVCodecParameters *par, int frame_bytes)
 {
-<<<<<<< HEAD
    int channels = par->ch_layout.nb_channels;
    int duration;
 #if FF_API_OLD_CHANNEL_LAYOUT
@@ -865,10 +839,6 @@ FF_ENABLE_DEPRECATION_WARNINGS
 #endif
     duration = get_audio_frame_duration(par->codec_id, par->sample_rate,
                                     channels, par->block_align,
-=======
-    int duration = get_audio_frame_duration(par->codec_id, par->sample_rate,
-                                    par->channels, par->block_align,
->>>>>>> refs/remotes/origin/master
                                     par->codec_tag, par->bits_per_coded_sample,
                                     par->bit_rate, par->extradata, par->frame_size,
                                     frame_bytes);

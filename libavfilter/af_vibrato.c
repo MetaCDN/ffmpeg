@@ -130,11 +130,7 @@ static int config_input(AVFilterLink *inlink)
     s->buf = av_calloc(inlink->ch_layout.nb_channels, sizeof(*s->buf));
     if (!s->buf)
         return AVERROR(ENOMEM);
-<<<<<<< HEAD
     s->channels = inlink->ch_layout.nb_channels;
-=======
-    s->channels = inlink->channels;
->>>>>>> refs/remotes/origin/master
     s->buf_size = lrint(inlink->sample_rate * 0.005 + 0.5);
     for (c = 0; c < s->channels; c++) {
         s->buf[c] = av_malloc_array(s->buf_size, sizeof(*s->buf[c]));
@@ -178,8 +174,5 @@ const AVFilter ff_af_vibrato = {
     FILTER_INPUTS(avfilter_af_vibrato_inputs),
     FILTER_OUTPUTS(avfilter_af_vibrato_outputs),
     FILTER_SINGLE_SAMPLEFMT(AV_SAMPLE_FMT_DBLP),
-<<<<<<< HEAD
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC,
-=======
->>>>>>> refs/remotes/origin/master
 };

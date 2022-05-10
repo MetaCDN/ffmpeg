@@ -102,13 +102,8 @@ static int threedostr_read_header(AVFormatContext *s)
 
             st->codecpar->codec_type  = AVMEDIA_TYPE_AUDIO;
             st->codecpar->sample_rate = avio_rb32(s->pb);
-<<<<<<< HEAD
             st->codecpar->ch_layout.nb_channels = avio_rb32(s->pb);
             if (st->codecpar->ch_layout.nb_channels <= 0 || st->codecpar->sample_rate <= 0)
-=======
-            st->codecpar->channels    = avio_rb32(s->pb);
-            if (st->codecpar->channels <= 0 || st->codecpar->sample_rate <= 0)
->>>>>>> refs/remotes/origin/master
                 return AVERROR_INVALIDDATA;
             codec                  = avio_rl32(s->pb);
             avio_skip(s->pb, 4);
@@ -183,11 +178,7 @@ static int threedostr_read_packet(AVFormatContext *s, AVPacket *pkt)
             ret = av_get_packet(s->pb, pkt, size);
             pkt->pos = pos;
             pkt->stream_index = 0;
-<<<<<<< HEAD
             pkt->duration = size / st->codecpar->ch_layout.nb_channels;
-=======
-            pkt->duration = size / st->codecpar->channels;
->>>>>>> refs/remotes/origin/master
             return ret;
         default:
             av_log(s, AV_LOG_DEBUG, "skipping unknown chunk: %X\n", chunk);

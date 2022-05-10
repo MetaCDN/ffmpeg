@@ -24,11 +24,8 @@
 #include "aes_ctr.h"
 #include "aes.h"
 #include "aes_internal.h"
-<<<<<<< HEAD
 #include "macros.h"
 #include "mem.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "random_seed.h"
 
 #define AES_BLOCK_SIZE (16)

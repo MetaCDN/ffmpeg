@@ -19,11 +19,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/avstring.h"
 #include "libavutil/hash.h"
 #include "libavutil/intreadwrite.h"

@@ -2625,11 +2625,7 @@ static int vp8_decode_mb_row_sliced(AVCodecContext *avctx, void *tdata,
 }
 
 static av_always_inline
-<<<<<<< HEAD
 int vp78_decode_frame(AVCodecContext *avctx, AVFrame *rframe, int *got_frame,
-=======
-int vp78_decode_frame(AVCodecContext *avctx, void *data, int *got_frame,
->>>>>>> refs/remotes/origin/master
                       const AVPacket *avpkt, int is_vp7)
 {
     VP8Context *s = avctx->priv_data;
@@ -2943,7 +2939,6 @@ static int vp8_decode_update_thread_context(AVCodecContext *dst,
 #endif /* CONFIG_VP8_DECODER */
 
 #if CONFIG_VP7_DECODER
-<<<<<<< HEAD
 const FFCodec ff_vp7_decoder = {
     .p.name                = "vp7",
     .p.long_name           = NULL_IF_CONFIG_SMALL("On2 VP7"),
@@ -2954,37 +2949,17 @@ const FFCodec ff_vp7_decoder = {
     .close                 = ff_vp8_decode_free,
     FF_CODEC_DECODE_CB(vp7_decode_frame),
     .p.capabilities        = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_vp7_decoder = {
-    .name                  = "vp7",
-    .long_name             = NULL_IF_CONFIG_SMALL("On2 VP7"),
-    .type                  = AVMEDIA_TYPE_VIDEO,
-    .id                    = AV_CODEC_ID_VP7,
-    .priv_data_size        = sizeof(VP8Context),
-    .init                  = vp7_decode_init,
-    .close                 = ff_vp8_decode_free,
-    .decode                = vp7_decode_frame,
-    .capabilities          = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal         = FF_CODEC_CAP_INIT_THREADSAFE,
     .flush                 = vp8_decode_flush,
 };
 #endif /* CONFIG_VP7_DECODER */
 
 #if CONFIG_VP8_DECODER
-<<<<<<< HEAD
 const FFCodec ff_vp8_decoder = {
     .p.name                = "vp8",
     .p.long_name           = NULL_IF_CONFIG_SMALL("On2 VP8"),
     .p.type                = AVMEDIA_TYPE_VIDEO,
     .p.id                  = AV_CODEC_ID_VP8,
-=======
-const AVCodec ff_vp8_decoder = {
-    .name                  = "vp8",
-    .long_name             = NULL_IF_CONFIG_SMALL("On2 VP8"),
-    .type                  = AVMEDIA_TYPE_VIDEO,
-    .id                    = AV_CODEC_ID_VP8,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(VP8Context),
     .init                  = ff_vp8_decode_init,
     .close                 = ff_vp8_decode_free,

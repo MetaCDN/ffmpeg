@@ -21,10 +21,6 @@
 #ifndef AVCODEC_DCA_XLL_H
 #define AVCODEC_DCA_XLL_H
 
-<<<<<<< HEAD
-=======
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 
 #include "avcodec.h"

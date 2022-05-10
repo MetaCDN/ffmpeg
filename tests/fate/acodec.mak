@@ -1,10 +1,6 @@
 fate-acodec-%: CODEC = $(@:fate-acodec-%=%)
 fate-acodec-%: SRC = tests/data/asynth-44100-2.wav
-<<<<<<< HEAD
 fate-acodec-%: CMD = enc_dec wav $(SRC) $(FMT) "-b:a 128k -c $(CODEC) $(ENCOPTS)" wav "-c pcm_s16le $(DECOPTS)"
-=======
-fate-acodec-%: CMD = enc_dec wav $(SRC) $(FMT) "-b:a 128k -c $(CODEC) $(ENCOPTS)" wav "-c pcm_s16le $(DECOPTS)" "$(KEEP_OVERRIDE)"
->>>>>>> refs/remotes/origin/master
 fate-acodec-%: CMP_UNIT = 2
 fate-acodec-%: REF = $(SRC_PATH)/tests/ref/acodec/$(@:fate-acodec-%=%)
 
@@ -50,7 +46,6 @@ fate-acodec-pcm-u%be: FMT = nut
 fate-acodec-pcm-u%le: FMT = nut
 fate-acodec-pcm-f%be: FMT = au
 
-<<<<<<< HEAD
 FATE_ACODEC_ADPCM_RESAMPLE-$(call ENCDEC, ADPCM_ADX,  ADX)      += adx
 FATE_ACODEC_ADPCM_RESAMPLE-$(call ENCDEC, ADPCM_ARGO, ARGO_ASF) += argo
 FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_APM, APM)      += ima_apm
@@ -58,28 +53,15 @@ FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_ALP, ALP)      += ima_alp
 FATE_ACODEC_ADPCM_RESAMPLE-$(call ENCDEC, ADPCM_IMA_QT,  AIFF)  += ima_qt
 FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_SSI, KVAG)     += ima_ssi
 FATE_ACODEC_ADPCM_RESAMPLE-$(call ENCDEC, ADPCM_IMA_WAV, WAV)   += ima_wav
-=======
-FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_ADX,     ADX)      += adx
-FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_ARGO,    ARGO_ASF) += argo
-FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_APM, APM)      += ima_apm
-FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_ALP, ALP)      += ima_alp
-FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_QT,  AIFF)     += ima_qt
-FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_SSI, KVAG)     += ima_ssi
-FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_WAV, WAV)      += ima_wav
->>>>>>> refs/remotes/origin/master
 FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_IMA_WS,  WSAUD)    += ima_ws
 FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_MS,      WAV)      += ms
 FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_SWF,     FLV)      += swf
 FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_SWF,     WAV)      += swf-wav
 FATE_ACODEC_ADPCM-$(call ENCDEC, ADPCM_YAMAHA,  WAV)      += yamaha
 
-<<<<<<< HEAD
 FATE_ACODEC_ADPCM-$(CONFIG_ARESAMPLE_FILTER) += $(FATE_ACODEC_ADPCM_RESAMPLE-yes)
 FATE_ACODEC_ADPCM := $(if $(call ENCDEC, PCM_S16LE, WAV), $(FATE_ACODEC_ADPCM-yes))
 FATE_ACODEC_ADPCM := $(FATE_ACODEC_ADPCM:%=fate-acodec-adpcm-%)
-=======
-FATE_ACODEC_ADPCM := $(FATE_ACODEC_ADPCM-yes:%=fate-acodec-adpcm-%)
->>>>>>> refs/remotes/origin/master
 FATE_ACODEC += $(FATE_ACODEC_ADPCM)
 fate-acodec-adpcm: $(FATE_ACODEC_ADPCM)
 
@@ -102,16 +84,7 @@ fate-acodec-adpcm-swf-wav: CODEC = adpcm_swf
 fate-acodec-adpcm-ima_alp: FMT     = alp
 fate-acodec-adpcm-ima_alp: ENCOPTS = -type pcm
 
-<<<<<<< HEAD
 FATE_ACODEC_ADPCM_TRELLIS := ima_qt ima_wav ms swf yamaha
-=======
-FATE_ACODEC_ADPCM_TRELLIS-$(call ENCDEC, ADPCM_ADX,     ADX)  += adx
-FATE_ACODEC_ADPCM_TRELLIS-$(call ENCDEC, ADPCM_IMA_QT,  AIFF) += ima_qt
-FATE_ACODEC_ADPCM_TRELLIS-$(call ENCDEC, ADPCM_IMA_WAV, WAV)  += ima_wav
-FATE_ACODEC_ADPCM_TRELLIS-$(call ENCDEC, ADPCM_MS,      WAV)  += ms
-FATE_ACODEC_ADPCM_TRELLIS-$(call ENCDEC, ADPCM_SWF,     FLV)  += swf
-FATE_ACODEC_ADPCM_TRELLIS-$(call ENCDEC, ADPCM_YAMAHA,  WAV)  += yamaha
->>>>>>> refs/remotes/origin/master
 
 FATE_ACODEC_ADPCM_TRELLIS := $(FATE_ACODEC_ADPCM_TRELLIS:%=fate-acodec-adpcm-%-trellis)
 FATE_ACODEC_ADPCM_TRELLIS := $(filter $(addsuffix -trellis,$(FATE_ACODEC_ADPCM)), $(FATE_ACODEC_ADPCM_TRELLIS))
@@ -148,11 +121,7 @@ fate-acodec-dca: CMD = md5 -i $(TARGET_PATH)/$(SRC) -c:a dca -strict -2 -f dts -
 fate-acodec-dca: CMP = oneline
 fate-acodec-dca: REF = 2aa580ac67820fce4f581b96ebb34acc
 
-<<<<<<< HEAD
 FATE_ACODEC-$(call ENCDEC, DCA, WAV, ARESAMPLE_FILTER) += fate-acodec-dca2
-=======
-FATE_ACODEC-$(call ENCDEC, DCA, WAV) += fate-acodec-dca2
->>>>>>> refs/remotes/origin/master
 fate-acodec-dca2: CMD = enc_dec_pcm dts wav s16le $(SRC) -c:a dca -strict -2 -flags +bitexact -af aresample
 fate-acodec-dca2: REF = $(SRC)
 fate-acodec-dca2: CMP = stddev

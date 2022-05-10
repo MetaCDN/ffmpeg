@@ -26,10 +26,7 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 
@@ -354,19 +351,11 @@ static av_cold int decode_init(AVCodecContext *avctx){
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_qpeg_decoder = {
     .p.name         = "qpeg",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Q-team QPEG"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_QPEG,
-=======
-const AVCodec ff_qpeg_decoder = {
-    .name           = "qpeg",
-    .long_name      = NULL_IF_CONFIG_SMALL("Q-team QPEG"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_QPEG,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(QpegContext),
     .init           = decode_init,
     .close          = decode_end,

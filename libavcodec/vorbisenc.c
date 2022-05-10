@@ -28,13 +28,8 @@
 #include "libavutil/float_dsp.h"
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "fft.h"
 #include "mathops.h"
 #include "vorbis.h"
@@ -1300,19 +1295,11 @@ static av_cold int vorbis_encode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_vorbis_encoder = {
     .p.name         = "vorbis",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Vorbis"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_VORBIS,
-=======
-const AVCodec ff_vorbis_encoder = {
-    .name           = "vorbis",
-    .long_name      = NULL_IF_CONFIG_SMALL("Vorbis"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_VORBIS,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(vorbis_enc_context),
     .init           = vorbis_encode_init,
     FF_CODEC_ENCODE_CB(vorbis_encode_frame),
@@ -1320,9 +1307,5 @@ const AVCodec ff_vorbis_encoder = {
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_EXPERIMENTAL,
     .p.sample_fmts  = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLTP,
                                                      AV_SAMPLE_FMT_NONE },
-<<<<<<< HEAD
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-=======
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
->>>>>>> refs/remotes/origin/master
 };

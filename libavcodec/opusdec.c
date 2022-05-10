@@ -458,11 +458,7 @@ static int opus_decode_packet(AVCodecContext *avctx, AVFrame *frame,
         return ret;
     frame->nb_samples = 0;
 
-<<<<<<< HEAD
     for (i = 0; i < avctx->ch_layout.nb_channels; i++) {
-=======
-    for (i = 0; i < avctx->channels; i++) {
->>>>>>> refs/remotes/origin/master
         ChannelMap *map = &c->channel_maps[i];
         if (!map->copy)
             c->streams[map->stream_idx].out[map->channel_idx] = (float*)frame->extended_data[i];
@@ -708,30 +704,17 @@ static const AVClass opus_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_opus_decoder = {
     .p.name          = "opus",
     .p.long_name     = NULL_IF_CONFIG_SMALL("Opus"),
     .p.priv_class    = &opus_class,
     .p.type          = AVMEDIA_TYPE_AUDIO,
     .p.id            = AV_CODEC_ID_OPUS,
-=======
-const AVCodec ff_opus_decoder = {
-    .name            = "opus",
-    .long_name       = NULL_IF_CONFIG_SMALL("Opus"),
-    .priv_class      = &opus_class,
-    .type            = AVMEDIA_TYPE_AUDIO,
-    .id              = AV_CODEC_ID_OPUS,
->>>>>>> refs/remotes/origin/master
     .priv_data_size  = sizeof(OpusContext),
     .init            = opus_decode_init,
     .close           = opus_decode_close,
     FF_CODEC_DECODE_CB(opus_decode_packet),
     .flush           = opus_decode_flush,
-<<<<<<< HEAD
     .p.capabilities  = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_CHANNEL_CONF,
-=======
-    .capabilities    = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_CHANNEL_CONF,
->>>>>>> refs/remotes/origin/master
     .caps_internal   = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

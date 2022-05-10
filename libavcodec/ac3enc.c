@@ -38,11 +38,8 @@
 #include "libavutil/opt.h"
 #include "libavutil/thread.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "config_components.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "me_cmp.h"
@@ -137,11 +134,7 @@ const AVClass ff_ac3enc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodecDefault ff_ac3_enc_defaults[] = {
-=======
-const AVCodecDefault ff_ac3_enc_defaults[] = {
->>>>>>> refs/remotes/origin/master
     { "b",  "0" },
     { NULL }
 };
@@ -2257,10 +2250,6 @@ static av_cold int set_channel_info(AVCodecContext *avctx)
     s->has_surround =  s->channel_mode & 0x04;
 
     s->channel_map  = ac3_enc_channel_map[s->channel_mode][s->lfe_on];
-<<<<<<< HEAD
-=======
-    *channel_layout = ch_layout;
->>>>>>> refs/remotes/origin/master
     if (s->lfe_on)
         mask |= AV_CH_LOW_FREQUENCY;
     av_channel_layout_from_mask(&avctx->ch_layout, mask);

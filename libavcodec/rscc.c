@@ -43,10 +43,7 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 
@@ -365,19 +362,11 @@ end:
     return ret;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_rscc_decoder = {
     .p.name         = "rscc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("innoHeim/Rsupport Screen Capture Codec"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_RSCC,
-=======
-const AVCodec ff_rscc_decoder = {
-    .name           = "rscc",
-    .long_name      = NULL_IF_CONFIG_SMALL("innoHeim/Rsupport Screen Capture Codec"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_RSCC,
->>>>>>> refs/remotes/origin/master
     .init           = rscc_init,
     FF_CODEC_DECODE_CB(rscc_decode_frame),
     .close          = rscc_close,

@@ -119,7 +119,6 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *pic,
     return avpkt->size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_v210x_decoder = {
     .p.name         = "v210x",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
@@ -128,15 +127,5 @@ const FFCodec ff_v210x_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_v210x_decoder = {
-    .name           = "v210x",
-    .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_V210X,
-    .init           = decode_init,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

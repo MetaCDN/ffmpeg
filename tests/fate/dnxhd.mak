@@ -9,14 +9,11 @@ FATE_DNXHD_SCALE := fate-dnxhd-mbaff     \
                     fate-dnxhr-444       \
                     fate-dnxhr-12bit     \
 
-<<<<<<< HEAD
 FATE_DNXHD-$(call FRAMECRC, MOV, DNXHD) += $(FATE_DNXHD)
 FATE_DNXHD-$(call FRAMECRC, MOV, DNXHD, SCALE_FILTER) += $(FATE_DNXHD_SCALE)
 FATE_SAMPLES_FFMPEG += $(FATE_DNXHD-yes)
 fate-dnxhd: $(FATE_DNXHD-yes) $(FATE_VCODEC_DNXHD)
 
-=======
->>>>>>> refs/remotes/origin/master
 fate-dnxhd-mbaff: CMD = framecrc -flags +bitexact -idct simple -i $(TARGET_SAMPLES)/dnxhd/dnxhd100_cid1260.mov -pix_fmt yuv422p10le -vf scale
 fate-dnxhr-444:   CMD = framecrc -flags +bitexact -idct simple -i $(TARGET_SAMPLES)/dnxhd/dnxhr444_cid1270.mov -pix_fmt yuv444p10le -vf scale
 fate-dnxhr-12bit: CMD = framecrc -flags +bitexact -idct simple -i $(TARGET_SAMPLES)/dnxhd/dnxhr_cid1271_12bit.mov -pix_fmt yuv422p12le -vf scale

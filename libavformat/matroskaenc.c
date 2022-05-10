@@ -22,10 +22,7 @@
 #include <stdint.h>
 
 #include "config.h"
-<<<<<<< HEAD
 #include "config_components.h"
-=======
->>>>>>> refs/remotes/origin/master
 
 #include "av1.h"
 #include "avc.h"

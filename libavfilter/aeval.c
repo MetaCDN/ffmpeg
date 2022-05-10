@@ -23,11 +23,8 @@
  * eval audio source
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/avstring.h"
 #include "libavutil/channel_layout.h"
 #include "libavutil/eval.h"

@@ -81,7 +81,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_cljr_decoder = {
     .p.name         = "cljr",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Cirrus Logic AccuPak"),
@@ -90,16 +89,6 @@ const FFCodec ff_cljr_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_cljr_decoder = {
-    .name           = "cljr",
-    .long_name      = NULL_IF_CONFIG_SMALL("Cirrus Logic AccuPak"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_CLJR,
-    .init           = decode_init,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 

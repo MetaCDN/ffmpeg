@@ -34,11 +34,7 @@
 
 #include "avcodec.h"
 #include "encode.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "put_bits.h"
 #include "put_golomb.h"
 #include "rangecoder.h"
@@ -1281,19 +1277,11 @@ static const AVClass ffv1_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_ffv1_encoder = {
     .p.name         = "ffv1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("FFmpeg video codec #1"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FFV1,
-=======
-const AVCodec ff_ffv1_encoder = {
-    .name           = "ffv1",
-    .long_name      = NULL_IF_CONFIG_SMALL("FFmpeg video codec #1"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_FFV1,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(FFV1Context),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
@@ -1322,10 +1310,6 @@ const AVCodec ff_ffv1_encoder = {
         AV_PIX_FMT_NONE
 
     },
-<<<<<<< HEAD
     .p.priv_class   = &ffv1_class,
-=======
-    .priv_class     = &ffv1_class,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

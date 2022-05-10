@@ -23,10 +23,7 @@
 
 #include "libavutil/avassert.h"
 
-<<<<<<< HEAD
 #include "threadframe.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "vp56.h"
 #include "vp9.h"
 #include "vp9data.h"

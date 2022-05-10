@@ -28,15 +28,9 @@
 #include <limits.h>
 #include <stdio.h>
 #include <string.h>
-<<<<<<< HEAD
 #include "libavutil/error.h"
 #include "libavutil/log.h"
 #include "libavutil/macros.h"
-=======
-#include "libavutil/common.h"
-#include "libavutil/error.h"
-#include "libavutil/log.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem.h"
 #include "atsc_a53.h"
 #include "get_bits.h"

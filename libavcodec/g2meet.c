@@ -1622,19 +1622,11 @@ static av_cold int g2m_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_g2m_decoder = {
     .p.name         = "g2m",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Go2Meeting"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_G2M,
-=======
-const AVCodec ff_g2m_decoder = {
-    .name           = "g2m",
-    .long_name      = NULL_IF_CONFIG_SMALL("Go2Meeting"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_G2M,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(G2MContext),
     .init           = g2m_decode_init,
     .close          = g2m_decode_end,

@@ -2356,19 +2356,11 @@ static int dirac_decode_frame(AVCodecContext *avctx, AVFrame *picture,
     return buf_idx;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_dirac_decoder = {
     .p.name         = "dirac",
     .p.long_name    = NULL_IF_CONFIG_SMALL("BBC Dirac VC-2"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_DIRAC,
-=======
-const AVCodec ff_dirac_decoder = {
-    .name           = "dirac",
-    .long_name      = NULL_IF_CONFIG_SMALL("BBC Dirac VC-2"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_DIRAC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(DiracContext),
     .init           = dirac_decode_init,
     .close          = dirac_decode_end,

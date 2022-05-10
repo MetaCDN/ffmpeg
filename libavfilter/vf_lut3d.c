@@ -1218,14 +1218,11 @@ static const AVOption lut3d_haldclut_options[] = {
 #if CONFIG_LUT3D_FILTER
     { "file", "set 3D LUT file name", OFFSET(file), AV_OPT_TYPE_STRING, {.str=NULL}, .flags = FLAGS },
 #endif
-<<<<<<< HEAD
 #if CONFIG_HALDCLUT_FILTER
     { "clut", "when to process CLUT", OFFSET(clut), AV_OPT_TYPE_INT, {.i64=1}, 0, 1, .flags = TFLAGS, "clut" },
     {   "first", "process only first CLUT, ignore rest", 0, AV_OPT_TYPE_CONST, {.i64=0}, .flags = TFLAGS, "clut" },
     {   "all",   "process all CLUTs",                    0, AV_OPT_TYPE_CONST, {.i64=1}, .flags = TFLAGS, "clut" },
 #endif
-=======
->>>>>>> refs/remotes/origin/master
     COMMON_OPTIONS
 };
 

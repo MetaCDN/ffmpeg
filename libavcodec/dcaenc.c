@@ -1240,7 +1240,6 @@ static const FFCodecDefault defaults[] = {
     { NULL },
 };
 
-<<<<<<< HEAD
 const FFCodec ff_dca_encoder = {
     .p.name                = "dca",
     .p.long_name           = NULL_IF_CONFIG_SMALL("DCA (DTS Coherent Acoustics)"),
@@ -1251,18 +1250,6 @@ const FFCodec ff_dca_encoder = {
     .init                  = encode_init,
     .close                 = encode_close,
     FF_CODEC_ENCODE_CB(encode_frame),
-=======
-const AVCodec ff_dca_encoder = {
-    .name                  = "dca",
-    .long_name             = NULL_IF_CONFIG_SMALL("DCA (DTS Coherent Acoustics)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_DTS,
-    .capabilities          = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_EXPERIMENTAL,
-    .priv_data_size        = sizeof(DCAEncContext),
-    .init                  = encode_init,
-    .close                 = encode_close,
-    .encode2               = encode_frame,
->>>>>>> refs/remotes/origin/master
     .caps_internal         = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.sample_fmts         = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S32,
                                                             AV_SAMPLE_FMT_NONE },

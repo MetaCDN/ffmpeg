@@ -199,11 +199,7 @@ static int config_input(AVFilterLink *inlink)
     s->rdft = av_calloc(inlink->ch_layout.nb_channels, sizeof(*s->rdft));
     if (!s->rdft)
         return AVERROR(ENOMEM);
-<<<<<<< HEAD
     s->nb_in_channels = inlink->ch_layout.nb_channels;
-=======
-    s->nb_in_channels = inlink->channels;
->>>>>>> refs/remotes/origin/master
 
     for (ch = 0; ch < inlink->ch_layout.nb_channels; ch++) {
         float scale = 1.f;
@@ -272,11 +268,7 @@ static int config_output(AVFilterLink *outlink)
     s->irdft = av_calloc(outlink->ch_layout.nb_channels, sizeof(*s->irdft));
     if (!s->irdft)
         return AVERROR(ENOMEM);
-<<<<<<< HEAD
     s->nb_out_channels = outlink->ch_layout.nb_channels;
-=======
-    s->nb_out_channels = outlink->channels;
->>>>>>> refs/remotes/origin/master
 
     for (ch = 0; ch < outlink->ch_layout.nb_channels; ch++) {
         float iscale = 1.f;
@@ -1604,11 +1596,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     AudioSurroundContext *s = ctx->priv;
     AVFrame *out;
 
-<<<<<<< HEAD
     ff_filter_execute(ctx, fft_channel, in, NULL, inlink->ch_layout.nb_channels);
-=======
-    ff_filter_execute(ctx, fft_channel, NULL, NULL, inlink->channels);
->>>>>>> refs/remotes/origin/master
 
     s->filter(ctx);
 
@@ -1616,11 +1604,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     if (!out)
         return AVERROR(ENOMEM);
 
-<<<<<<< HEAD
     ff_filter_execute(ctx, ifft_channel, out, NULL, outlink->ch_layout.nb_channels);
-=======
-    ff_filter_execute(ctx, ifft_channel, out, NULL, outlink->channels);
->>>>>>> refs/remotes/origin/master
 
     out->pts = in->pts;
     out->nb_samples = in->nb_samples;

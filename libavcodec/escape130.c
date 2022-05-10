@@ -345,7 +345,6 @@ static int escape130_decode_frame(AVCodecContext *avctx, AVFrame *pic,
     return buf_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_escape130_decoder = {
     .p.name         = "escape130",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Escape 130"),
@@ -356,17 +355,5 @@ const FFCodec ff_escape130_decoder = {
     .close          = escape130_decode_close,
     FF_CODEC_DECODE_CB(escape130_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_escape130_decoder = {
-    .name           = "escape130",
-    .long_name      = NULL_IF_CONFIG_SMALL("Escape 130"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_ESCAPE130,
-    .priv_data_size = sizeof(Escape130Context),
-    .init           = escape130_decode_init,
-    .close          = escape130_decode_close,
-    .decode         = escape130_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

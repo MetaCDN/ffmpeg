@@ -24,13 +24,7 @@
  * Context Adaptive Binary Arithmetic Coder.
  */
 
-<<<<<<< HEAD
 #include "libavutil/error.h"
-=======
-#include <string.h>
-
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 
 #include "cabac.h"

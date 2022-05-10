@@ -29,7 +29,7 @@ OBJS = allformats.o         \
 OBJS-$(HAVE_LIBC_MSVCRT)                 += file_open.o
 
 # subsystems
-OBJS-$(CONFIG_ISO_MEDIA)                 += isom.o isom_tags.o
+OBJS-$(CONFIG_ISO_MEDIA)                 += isom.o
 OBJS-$(CONFIG_NETWORK)                   += network.o
 OBJS-$(CONFIG_RIFFDEC)                   += riffdec.o
 OBJS-$(CONFIG_RIFFENC)                   += riffenc.o
@@ -123,7 +123,7 @@ OBJS-$(CONFIG_AST_DEMUXER)               += ast.o astdec.o
 OBJS-$(CONFIG_AST_MUXER)                 += ast.o astenc.o
 OBJS-$(CONFIG_AU_DEMUXER)                += au.o pcm.o
 OBJS-$(CONFIG_AU_MUXER)                  += au.o rawenc.o
-OBJS-$(CONFIG_AVI_DEMUXER)               += avidec.o isom_tags.o
+OBJS-$(CONFIG_AVI_DEMUXER)               += avidec.o
 OBJS-$(CONFIG_AVI_MUXER)                 += avienc.o mpegtsenc.o avlanguage.o rawutils.o
 OBJS-$(CONFIG_AVM2_MUXER)                += swfenc.o swf.o
 OBJS-$(CONFIG_AVR_DEMUXER)               += avr.o pcm.o
@@ -321,15 +321,11 @@ OBJS-$(CONFIG_LXF_DEMUXER)               += lxfdec.o
 OBJS-$(CONFIG_M4V_DEMUXER)               += m4vdec.o rawdec.o
 OBJS-$(CONFIG_M4V_MUXER)                 += rawenc.o
 OBJS-$(CONFIG_MATROSKA_DEMUXER)          += matroskadec.o matroska.o  \
-<<<<<<< HEAD
                                             flac_picture.o rmsipr.o \
-=======
-                                            flac_picture.o isom_tags.o rmsipr.o \
->>>>>>> refs/remotes/origin/master
                                             oggparsevorbis.o vorbiscomment.o \
                                             qtpalette.o replaygain.o dovi_isom.o
 OBJS-$(CONFIG_MATROSKA_MUXER)            += matroskaenc.o matroska.o \
-                                            av1.o avc.o hevc.o isom_tags.o \
+                                            av1.o avc.o hevc.o \
                                             flacenc_header.o avlanguage.o \
                                             vorbiscomment.o wv.o dovi_isom.o
 OBJS-$(CONFIG_MCA_DEMUXER)               += mca.o
@@ -391,11 +387,7 @@ OBJS-$(CONFIG_NISTSPHERE_DEMUXER)        += nistspheredec.o pcm.o
 OBJS-$(CONFIG_NSP_DEMUXER)               += nspdec.o pcm.o
 OBJS-$(CONFIG_NSV_DEMUXER)               += nsvdec.o
 OBJS-$(CONFIG_NULL_MUXER)                += nullenc.o
-<<<<<<< HEAD
 OBJS-$(CONFIG_NUT_DEMUXER)               += nutdec.o nut.o
-=======
-OBJS-$(CONFIG_NUT_DEMUXER)               += nutdec.o nut.o isom_tags.o
->>>>>>> refs/remotes/origin/master
 OBJS-$(CONFIG_NUT_MUXER)                 += nutenc.o nut.o
 OBJS-$(CONFIG_NUV_DEMUXER)               += nuv.o
 OBJS-$(CONFIG_AV1_DEMUXER)               += av1dec.o

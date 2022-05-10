@@ -170,13 +170,8 @@ static av_cold int mpc8_decode_init(AVCodecContext * avctx)
     c->frames = 1 << (get_bits(&gb, 3) * 2);
 
     avctx->sample_fmt = AV_SAMPLE_FMT_S16P;
-<<<<<<< HEAD
     av_channel_layout_uninit(&avctx->ch_layout);
     av_channel_layout_default(&avctx->ch_layout, channels);
-=======
-    avctx->channel_layout = (channels==2) ? AV_CH_LAYOUT_STEREO : AV_CH_LAYOUT_MONO;
-    avctx->channels = channels;
->>>>>>> refs/remotes/origin/master
 
     ff_thread_once(&init_static_once, mpc8_init_static);
 
@@ -388,30 +383,17 @@ static av_cold void mpc8_decode_flush(AVCodecContext *avctx)
     c->cur_frame = 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_mpc8_decoder = {
     .p.name         = "mpc8",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Musepack SV8"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_MUSEPACK8,
-=======
-const AVCodec ff_mpc8_decoder = {
-    .name           = "mpc8",
-    .long_name      = NULL_IF_CONFIG_SMALL("Musepack SV8"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_MUSEPACK8,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MPCContext),
     .init           = mpc8_decode_init,
     FF_CODEC_DECODE_CB(mpc8_decode_frame),
     .flush          = mpc8_decode_flush,
-<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
-=======
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
->>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

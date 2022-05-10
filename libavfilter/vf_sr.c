@@ -76,25 +76,15 @@ static int config_output(AVFilterLink *outlink)
 {
     AVFilterContext *context = outlink->src;
     SRContext *ctx = context->priv;
-<<<<<<< HEAD
     int result;
-=======
-    DNNReturnType result;
->>>>>>> refs/remotes/origin/master
     AVFilterLink *inlink = context->inputs[0];
     int out_width, out_height;
 
     // have a try run in case that the dnn model resize the frame
     result = ff_dnn_get_output(&ctx->dnnctx, inlink->w, inlink->h, &out_width, &out_height);
-<<<<<<< HEAD
     if (result != 0) {
         av_log(ctx, AV_LOG_ERROR, "could not get output from the model\n");
         return result;
-=======
-    if (result != DNN_SUCCESS) {
-        av_log(ctx, AV_LOG_ERROR, "could not get output from the model\n");
-        return AVERROR(EIO);
->>>>>>> refs/remotes/origin/master
     }
 
     if (inlink->w != out_width || inlink->h != out_height) {
@@ -149,19 +139,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
         dnn_result = ff_dnn_execute_model(&ctx->dnnctx, in, out);
     }
 
-<<<<<<< HEAD
     if (dnn_result != 0){
         av_log(ctx, AV_LOG_ERROR, "failed to execute loaded model\n");
         av_frame_free(&in);
         av_frame_free(&out);
         return dnn_result;
-=======
-    if (dnn_result != DNN_SUCCESS){
-        av_log(ctx, AV_LOG_ERROR, "failed to execute loaded model\n");
-        av_frame_free(&in);
-        av_frame_free(&out);
-        return AVERROR(EIO);
->>>>>>> refs/remotes/origin/master
     }
 
     do {

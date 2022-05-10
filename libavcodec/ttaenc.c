@@ -22,10 +22,7 @@
 #include "ttadata.h"
 #include "ttaencdsp.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "put_bits.h"
 #include "internal.h"
@@ -205,19 +202,11 @@ static av_cold int tta_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_tta_encoder = {
     .p.name         = "tta",
     .p.long_name    = NULL_IF_CONFIG_SMALL("TTA (True Audio)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_TTA,
-=======
-const AVCodec ff_tta_encoder = {
-    .name           = "tta",
-    .long_name      = NULL_IF_CONFIG_SMALL("TTA (True Audio)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_TTA,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(TTAEncContext),
     .init           = tta_encode_init,
     .close          = tta_encode_close,

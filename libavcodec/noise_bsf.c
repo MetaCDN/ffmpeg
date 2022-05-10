@@ -23,7 +23,6 @@
 #include "bsf.h"
 #include "bsf_internal.h"
 
-#include "libavutil/avstring.h"
 #include "libavutil/log.h"
 #include "libavutil/opt.h"
 #include "libavutil/eval.h"
@@ -224,10 +223,6 @@ const FFBitStreamFilter ff_noise_bsf = {
     .p.name         = "noise",
     .p.priv_class   = &noise_class,
     .priv_data_size = sizeof(NoiseContext),
-<<<<<<< HEAD
-=======
-    .priv_class     = &noise_class,
->>>>>>> refs/remotes/origin/master
     .init           = noise_init,
     .close          = noise_close,
     .filter         = noise,

@@ -39,13 +39,8 @@
 #include "libavutil/common.h"
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "gsm.h"
 
 static av_cold int libgsm_encode_close(AVCodecContext *avctx) {
@@ -122,21 +117,12 @@ static const FFCodecDefault libgsm_defaults[] = {
 };
 
 #if CONFIG_LIBGSM_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_libgsm_encoder = {
     .p.name         = "libgsm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libgsm GSM"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_GSM,
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_libgsm_encoder = {
-    .name           = "libgsm",
-    .long_name      = NULL_IF_CONFIG_SMALL("libgsm GSM"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_GSM,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .init           = libgsm_encode_init,
     FF_CODEC_ENCODE_CB(libgsm_encode_frame),
     .close          = libgsm_encode_close,
@@ -151,21 +137,12 @@ const AVCodec ff_libgsm_encoder = {
 };
 #endif
 #if CONFIG_LIBGSM_MS_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_libgsm_ms_encoder = {
     .p.name         = "libgsm_ms",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libgsm GSM Microsoft variant"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_GSM_MS,
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_libgsm_ms_encoder = {
-    .name           = "libgsm_ms",
-    .long_name      = NULL_IF_CONFIG_SMALL("libgsm GSM Microsoft variant"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_GSM_MS,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .init           = libgsm_encode_init,
     FF_CODEC_ENCODE_CB(libgsm_encode_frame),
     .close          = libgsm_encode_close,

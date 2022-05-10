@@ -28,10 +28,6 @@
 #include "avfilter.h"
 #include "formats.h"
 #include "framequeue.h"
-<<<<<<< HEAD
-=======
-#include "version.h"
->>>>>>> refs/remotes/origin/master
 #include "video.h"
 
 typedef struct AVFilterCommand {

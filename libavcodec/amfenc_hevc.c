@@ -310,37 +310,21 @@ static const AVClass hevc_amf_class = {
     .version = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_hevc_amf_encoder = {
     .p.name         = "hevc_amf",
     .p.long_name    = NULL_IF_CONFIG_SMALL("AMD AMF HEVC encoder"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HEVC,
-=======
-const AVCodec ff_hevc_amf_encoder = {
-    .name           = "hevc_amf",
-    .long_name      = NULL_IF_CONFIG_SMALL("AMD AMF HEVC encoder"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_HEVC,
->>>>>>> refs/remotes/origin/master
     .init           = amf_encode_init_hevc,
     FF_CODEC_RECEIVE_PACKET_CB(ff_amf_receive_packet),
     .close          = ff_amf_encode_close,
     .priv_data_size = sizeof(AmfContext),
     .p.priv_class   = &hevc_amf_class,
     .defaults       = defaults,
-<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
                       AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
     .p.pix_fmts     = ff_amf_pix_fmts,
     .p.wrapper_name = "amf",
-=======
-    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
-                      AV_CODEC_CAP_DR1,
-    .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
-    .pix_fmts       = ff_amf_pix_fmts,
-    .wrapper_name   = "amf",
->>>>>>> refs/remotes/origin/master
     .hw_configs     = ff_amfenc_hw_configs,
 };

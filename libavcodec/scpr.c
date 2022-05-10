@@ -667,19 +667,11 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_scpr_decoder = {
     .p.name           = "scpr",
     .p.long_name      = NULL_IF_CONFIG_SMALL("ScreenPressor"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_SCPR,
-=======
-const AVCodec ff_scpr_decoder = {
-    .name             = "scpr",
-    .long_name        = NULL_IF_CONFIG_SMALL("ScreenPressor"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_SCPR,
->>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(SCPRContext),
     .init             = decode_init,
     .close            = decode_close,

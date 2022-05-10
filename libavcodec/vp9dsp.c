@@ -25,10 +25,6 @@
 
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
-<<<<<<< HEAD
-=======
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 
 #include "vp9dsp.h"

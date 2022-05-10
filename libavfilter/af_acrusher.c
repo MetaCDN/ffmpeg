@@ -296,11 +296,7 @@ static int config_input(AVFilterLink *inlink)
     s->lfo.amount = .5;
 
     if (!s->sr)
-<<<<<<< HEAD
         s->sr = av_calloc(inlink->ch_layout.nb_channels, sizeof(*s->sr));
-=======
-        s->sr = av_calloc(inlink->channels, sizeof(*s->sr));
->>>>>>> refs/remotes/origin/master
     if (!s->sr)
         return AVERROR(ENOMEM);
 
@@ -346,8 +342,5 @@ const AVFilter ff_af_acrusher = {
     FILTER_OUTPUTS(avfilter_af_acrusher_outputs),
     FILTER_SINGLE_SAMPLEFMT(AV_SAMPLE_FMT_DBL),
     .process_command = process_command,
-<<<<<<< HEAD
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-=======
->>>>>>> refs/remotes/origin/master
 };

@@ -24,10 +24,7 @@
 
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 
@@ -83,7 +80,6 @@ static int v408_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
 static const enum AVPixelFormat pix_fmt[] = { AV_PIX_FMT_YUVA444P, AV_PIX_FMT_NONE };
 
 #if CONFIG_AYUV_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_ayuv_encoder = {
     .p.name       = "ayuv",
     .p.long_name  = NULL_IF_CONFIG_SMALL("Uncompressed packed MS 4:4:4:4"),
@@ -93,22 +89,10 @@ const FFCodec ff_ayuv_encoder = {
     .init         = v408_encode_init,
     FF_CODEC_ENCODE_CB(v408_encode_frame),
     .p.pix_fmts   = pix_fmt,
-=======
-const AVCodec ff_ayuv_encoder = {
-    .name         = "ayuv",
-    .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed MS 4:4:4:4"),
-    .type         = AVMEDIA_TYPE_VIDEO,
-    .id           = AV_CODEC_ID_AYUV,
-    .capabilities = AV_CODEC_CAP_DR1,
-    .init         = v408_encode_init,
-    .encode2      = v408_encode_frame,
-    .pix_fmts     = pix_fmt,
->>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_V408_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_v408_encoder = {
     .p.name       = "v408",
     .p.long_name  = NULL_IF_CONFIG_SMALL("Uncompressed packed QT 4:4:4:4"),
@@ -118,17 +102,6 @@ const FFCodec ff_v408_encoder = {
     .init         = v408_encode_init,
     FF_CODEC_ENCODE_CB(v408_encode_frame),
     .p.pix_fmts   = pix_fmt,
-=======
-const AVCodec ff_v408_encoder = {
-    .name         = "v408",
-    .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed QT 4:4:4:4"),
-    .type         = AVMEDIA_TYPE_VIDEO,
-    .id           = AV_CODEC_ID_V408,
-    .capabilities = AV_CODEC_CAP_DR1,
-    .init         = v408_encode_init,
-    .encode2      = v408_encode_frame,
-    .pix_fmts     = pix_fmt,
->>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif

@@ -557,11 +557,7 @@ static int filter_frame(AVFilterLink *inlink)
         goto fail;
 
     td.out = out;
-<<<<<<< HEAD
     ret = ff_filter_execute(ctx, filter_channel, &td, NULL, inlink->ch_layout.nb_channels);
-=======
-    ret = ff_filter_execute(ctx, filter_channel, &td, NULL, inlink->channels);
->>>>>>> refs/remotes/origin/master
     if (ret < 0)
         goto fail;
 

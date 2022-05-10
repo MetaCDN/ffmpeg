@@ -330,12 +330,8 @@ static int config_output(AVFilterLink *outlink)
     W3FDIFContext *s = ctx->priv;
 
     outlink->time_base = av_mul_q(inlink->time_base, (AVRational){1, 2});
-<<<<<<< HEAD
     if (s->mode)
         outlink->frame_rate = av_mul_q(inlink->frame_rate, (AVRational){2, 1});
-=======
-    outlink->frame_rate = av_mul_q(inlink->frame_rate, (AVRational){2, 1});
->>>>>>> refs/remotes/origin/master
 
     return 0;
 }

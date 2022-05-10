@@ -84,8 +84,6 @@ typedef struct QSVFrame {
 
     mfxPayload *payloads[QSV_MAX_ENC_PAYLOAD]; ///< used for enc_ctrl.Payload
 
-    mfxPayload *payloads[QSV_MAX_ENC_PAYLOAD]; ///< used for enc_ctrl.Payload
-
     int queued;
     int used;
 

@@ -27,10 +27,6 @@
 #include "libavutil/common.h"
 #include "libavutil/cpu.h"
 #include "libavutil/intreadwrite.h"
-<<<<<<< HEAD
-=======
-#include "libavutil/mathematics.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 #include "libavutil/pixdesc.h"
 #include "config.h"

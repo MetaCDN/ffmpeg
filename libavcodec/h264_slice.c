@@ -200,18 +200,10 @@ static int alloc_picture(H264Context *h, H264Picture *pic)
         goto fail;
 
     if (pic->needs_fg) {
-<<<<<<< HEAD
         pic->f_grain->format = pic->f->format;
         pic->f_grain->width = pic->f->width;
         pic->f_grain->height = pic->f->height;
         ret = ff_thread_get_buffer(h->avctx, pic->f_grain, 0);
-=======
-        pic->tf_grain.f = pic->f_grain;
-        pic->f_grain->format = pic->f->format;
-        pic->f_grain->width = pic->f->width;
-        pic->f_grain->height = pic->f->height;
-        ret = ff_thread_get_buffer(h->avctx, &pic->tf_grain, 0);
->>>>>>> refs/remotes/origin/master
         if (ret < 0)
             goto fail;
     }
@@ -1702,11 +1694,7 @@ static int h264_field_start(H264Context *h, const H264SliceContext *sl,
                 ff_thread_await_progress(&prev->tf, INT_MAX, 0);
                 if (prev->field_picture)
                     ff_thread_await_progress(&prev->tf, INT_MAX, 1);
-<<<<<<< HEAD
                 ff_thread_release_ext_buffer(h->avctx, &h->short_ref[0]->tf);
-=======
-                ff_thread_release_buffer(h->avctx, &h->short_ref[0]->tf);
->>>>>>> refs/remotes/origin/master
                 h->short_ref[0]->tf.f = h->short_ref[0]->f;
                 ret = ff_thread_ref_frame(&h->short_ref[0]->tf, &prev->tf);
                 if (ret < 0)

@@ -27,13 +27,8 @@
 #include "libavutil/opt.h"
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "put_bits.h"
 
 typedef struct CLJRContext {
@@ -113,21 +108,12 @@ static const AVClass cljr_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_cljr_encoder = {
     .p.name         = "cljr",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Cirrus Logic AccuPak"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_CLJR,
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_cljr_encoder = {
-    .name           = "cljr",
-    .long_name      = NULL_IF_CONFIG_SMALL("Cirrus Logic AccuPak"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_CLJR,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(CLJRContext),
     FF_CODEC_ENCODE_CB(encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV411P,

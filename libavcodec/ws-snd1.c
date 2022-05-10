@@ -170,7 +170,6 @@ static int ws_snd_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return buf_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_ws_snd1_decoder = {
     .p.name         = "ws_snd1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Westwood Audio (SND1)"),
@@ -179,15 +178,5 @@ const FFCodec ff_ws_snd1_decoder = {
     .init           = ws_snd_decode_init,
     FF_CODEC_DECODE_CB(ws_snd_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-=======
-const AVCodec ff_ws_snd1_decoder = {
-    .name           = "ws_snd1",
-    .long_name      = NULL_IF_CONFIG_SMALL("Westwood Audio (SND1)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_WESTWOOD_SND1,
-    .init           = ws_snd_decode_init,
-    .decode         = ws_snd_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

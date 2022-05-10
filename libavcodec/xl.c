@@ -126,7 +126,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_xl_decoder = {
     .p.name       = "xl",
     .p.long_name  = NULL_IF_CONFIG_SMALL("Miro VideoXL"),
@@ -135,15 +134,5 @@ const FFCodec ff_xl_decoder = {
     .init         = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_xl_decoder = {
-    .name         = "xl",
-    .long_name    = NULL_IF_CONFIG_SMALL("Miro VideoXL"),
-    .type         = AVMEDIA_TYPE_VIDEO,
-    .id           = AV_CODEC_ID_VIXL,
-    .init         = decode_init,
-    .decode       = decode_frame,
-    .capabilities = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

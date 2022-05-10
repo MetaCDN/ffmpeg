@@ -137,16 +137,10 @@ static av_cold int init(AVFilterContext *ctx)
     const lfLens **lenses;
 
     db = lf_db_create();
-<<<<<<< HEAD
     if ((lensfun->db_path ? lf_db_load_path(db, lensfun->db_path) : lf_db_load(db)) != LF_NO_ERROR) {
         lf_db_destroy(db);
         av_log(ctx, AV_LOG_FATAL, "Failed to load lensfun database from %s path\n",
                lensfun->db_path ? lensfun->db_path : "default");
-=======
-    if (lf_db_load(db) != LF_NO_ERROR) {
-        lf_db_destroy(db);
-        av_log(ctx, AV_LOG_FATAL, "Failed to load lensfun database\n");
->>>>>>> refs/remotes/origin/master
         return AVERROR_INVALIDDATA;
     }
 

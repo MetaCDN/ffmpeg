@@ -53,11 +53,7 @@ typedef struct AmplifyContext {
 static const enum AVPixelFormat pixel_fmts[] = {
     AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY9,
     AV_PIX_FMT_GRAY10, AV_PIX_FMT_GRAY12, AV_PIX_FMT_GRAY14,
-<<<<<<< HEAD
     AV_PIX_FMT_GRAY16, AV_PIX_FMT_GRAYF32,
-=======
-    AV_PIX_FMT_GRAY16,
->>>>>>> refs/remotes/origin/master
     AV_PIX_FMT_YUV410P, AV_PIX_FMT_YUV411P,
     AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUV422P,
     AV_PIX_FMT_YUV440P, AV_PIX_FMT_YUV444P,
@@ -78,10 +74,7 @@ static const enum AVPixelFormat pixel_fmts[] = {
     AV_PIX_FMT_YUVA422P9, AV_PIX_FMT_YUVA422P10, AV_PIX_FMT_YUVA422P12, AV_PIX_FMT_YUVA422P16,
     AV_PIX_FMT_YUVA420P9, AV_PIX_FMT_YUVA420P10, AV_PIX_FMT_YUVA420P16,
     AV_PIX_FMT_GBRAP,     AV_PIX_FMT_GBRAP10,    AV_PIX_FMT_GBRAP12,    AV_PIX_FMT_GBRAP16,
-<<<<<<< HEAD
     AV_PIX_FMT_GBRPF32, AV_PIX_FMT_GBRAPF32,
-=======
->>>>>>> refs/remotes/origin/master
     AV_PIX_FMT_NONE
 };
 

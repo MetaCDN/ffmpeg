@@ -127,7 +127,6 @@ static int libcelt_dec_decode(AVCodecContext *c, AVFrame *frame,
     return pkt->size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_libcelt_decoder = {
     .p.name         = "libcelt",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Xiph CELT decoder using libcelt"),
@@ -135,13 +134,6 @@ const FFCodec ff_libcelt_decoder = {
     .p.id           = AV_CODEC_ID_CELT,
     .p.capabilities = AV_CODEC_CAP_DR1,
     .p.wrapper_name = "libcelt",
-=======
-const AVCodec ff_libcelt_decoder = {
-    .name           = "libcelt",
-    .long_name      = NULL_IF_CONFIG_SMALL("Xiph CELT decoder using libcelt"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_CELT,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(struct libcelt_context),
     .init           = libcelt_dec_init,
     .close          = libcelt_dec_close,

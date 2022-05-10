@@ -80,10 +80,7 @@ OBJS-$(CONFIG_CBS_MPEG2)               += cbs_mpeg2.o
 OBJS-$(CONFIG_CBS_VP9)                 += cbs_vp9.o
 OBJS-$(CONFIG_CRYSTALHD)               += crystalhd.o
 OBJS-$(CONFIG_DCT)                     += dct.o dct32_fixed.o dct32_float.o
-<<<<<<< HEAD
 OBJS-$(CONFIG_DEFLATE_WRAPPER)         += zlib_wrapper.o
-=======
->>>>>>> refs/remotes/origin/master
 OBJS-$(CONFIG_DOVI_RPU)                += dovi_rpu.o
 OBJS-$(CONFIG_ERROR_RESILIENCE)        += error_resilience.o
 OBJS-$(CONFIG_EXIF)                    += exif.o tiff_common.o
@@ -103,11 +100,7 @@ OBJS-$(CONFIG_H264PARSE)               += h264_parse.o h2645_parse.o h264_ps.o
 OBJS-$(CONFIG_H264PRED)                += h264pred.o
 OBJS-$(CONFIG_H264QPEL)                += h264qpel.o
 OBJS-$(CONFIG_HEVCPARSE)               += hevc_parse.o h2645_parse.o hevc_ps.o hevc_sei.o hevc_data.o \
-<<<<<<< HEAD
                                           dynamic_hdr10_plus.o dynamic_hdr_vivid.o
-=======
-                                          dynamic_hdr10_plus.o
->>>>>>> refs/remotes/origin/master
 OBJS-$(CONFIG_HPELDSP)                 += hpeldsp.o
 OBJS-$(CONFIG_HUFFMAN)                 += huffman.o
 OBJS-$(CONFIG_HUFFYUVDSP)              += huffyuvdsp.o

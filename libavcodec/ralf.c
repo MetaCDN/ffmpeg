@@ -513,35 +513,19 @@ static void decode_flush(AVCodecContext *avctx)
 }
 
 
-<<<<<<< HEAD
 const FFCodec ff_ralf_decoder = {
     .p.name         = "ralf",
     .p.long_name    = NULL_IF_CONFIG_SMALL("RealAudio Lossless"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_RALF,
-=======
-const AVCodec ff_ralf_decoder = {
-    .name           = "ralf",
-    .long_name      = NULL_IF_CONFIG_SMALL("RealAudio Lossless"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_RALF,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(RALFContext),
     .init           = decode_init,
     .close          = decode_close,
     FF_CODEC_DECODE_CB(decode_frame),
     .flush          = decode_flush,
-<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_CHANNEL_CONF |
                       AV_CODEC_CAP_DR1,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-=======
-    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
-                      AV_CODEC_CAP_DR1,
-    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
-                                                      AV_SAMPLE_FMT_NONE },
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
->>>>>>> refs/remotes/origin/master
 };

@@ -760,7 +760,6 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *p,
     return buf_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_dpx_decoder = {
     .p.name         = "dpx",
     .p.long_name    = NULL_IF_CONFIG_SMALL("DPX (Digital Picture Exchange) image"),
@@ -768,13 +767,4 @@ const FFCodec ff_dpx_decoder = {
     .p.id           = AV_CODEC_ID_DPX,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_dpx_decoder = {
-    .name           = "dpx",
-    .long_name      = NULL_IF_CONFIG_SMALL("DPX (Digital Picture Exchange) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_DPX,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
 };

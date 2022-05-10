@@ -28,11 +28,6 @@
  * FF Video Codec 1 (a lossless codec)
  */
 
-<<<<<<< HEAD
-=======
-#include "libavutil/crc.h"
-#include "libavutil/opt.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/imgutils.h"
 #include "avcodec.h"
 #include "get_bits.h"

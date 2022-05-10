@@ -31,15 +31,9 @@
 
 DNNModel *ff_dnn_load_model_ov(const char *model_filename, DNNFunctionType func_type, const char *options, AVFilterContext *filter_ctx);
 
-<<<<<<< HEAD
 int ff_dnn_execute_model_ov(const DNNModel *model, DNNExecBaseParams *exec_params);
 DNNAsyncStatusType ff_dnn_get_result_ov(const DNNModel *model, AVFrame **in, AVFrame **out);
 int ff_dnn_flush_ov(const DNNModel *model);
-=======
-DNNReturnType ff_dnn_execute_model_ov(const DNNModel *model, DNNExecBaseParams *exec_params);
-DNNAsyncStatusType ff_dnn_get_result_ov(const DNNModel *model, AVFrame **in, AVFrame **out);
-DNNReturnType ff_dnn_flush_ov(const DNNModel *model);
->>>>>>> refs/remotes/origin/master
 
 void ff_dnn_free_model_ov(DNNModel **model);
 

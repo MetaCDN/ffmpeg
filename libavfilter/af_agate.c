@@ -183,11 +183,7 @@ static void gate(AudioGateContext *s,
                                s->range, s->mode);
 
         factor = ctx->is_disabled ? 1.f : level_in * gain * makeup;
-<<<<<<< HEAD
         for (c = 0; c < inlink->ch_layout.nb_channels; c++)
-=======
-        for (c = 0; c < inlink->channels; c++)
->>>>>>> refs/remotes/origin/master
             dst[c] = src[c] * factor;
     }
 }

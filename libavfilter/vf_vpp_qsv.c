@@ -34,11 +34,6 @@
 #include "internal.h"
 #include "avfilter.h"
 #include "filters.h"
-<<<<<<< HEAD
-=======
-#include "libavcodec/avcodec.h"
-#include "libavformat/avformat.h"
->>>>>>> refs/remotes/origin/master
 
 #include "qsvvpp.h"
 #include "transpose.h"

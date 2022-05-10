@@ -29,10 +29,7 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 #include "libavutil/common.h"
@@ -407,7 +404,6 @@ static av_cold int decode_init(AVCodecContext * avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_kmvc_decoder = {
     .p.name         = "kmvc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Karl Morton's video codec"),
@@ -417,16 +413,5 @@ const FFCodec ff_kmvc_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_kmvc_decoder = {
-    .name           = "kmvc",
-    .long_name      = NULL_IF_CONFIG_SMALL("Karl Morton's video codec"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_KMVC,
-    .priv_data_size = sizeof(KmvcContext),
-    .init           = decode_init,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

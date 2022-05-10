@@ -126,15 +126,12 @@ static int activate(AVFilterContext *ctx)
     }
 
     return FFERROR_NOT_READY;
-<<<<<<< HEAD
 }
 
 static av_cold void uninit(AVFilterContext *ctx)
 {
     ANullContext *s = ctx->priv;
     av_channel_layout_uninit(&s->ch_layout);
-=======
->>>>>>> refs/remotes/origin/master
 }
 
 static const AVFilterPad avfilter_asrc_anullsrc_outputs[] = {
@@ -149,10 +146,7 @@ const AVFilter ff_asrc_anullsrc = {
     .name          = "anullsrc",
     .description   = NULL_IF_CONFIG_SMALL("Null audio source, return empty audio frames."),
     .init          = init,
-<<<<<<< HEAD
     .uninit        = uninit,
-=======
->>>>>>> refs/remotes/origin/master
     .priv_size     = sizeof(ANullContext),
     .inputs        = NULL,
     FILTER_OUTPUTS(avfilter_asrc_anullsrc_outputs),

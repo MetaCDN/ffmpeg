@@ -494,19 +494,11 @@ static const AVClass dvdsubenc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_dvdsub_encoder = {
     .p.name         = "dvdsub",
     .p.long_name    = NULL_IF_CONFIG_SMALL("DVD subtitles"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_DVD_SUBTITLE,
-=======
-const AVCodec ff_dvdsub_encoder = {
-    .name           = "dvdsub",
-    .long_name      = NULL_IF_CONFIG_SMALL("DVD subtitles"),
-    .type           = AVMEDIA_TYPE_SUBTITLE,
-    .id             = AV_CODEC_ID_DVD_SUBTITLE,
->>>>>>> refs/remotes/origin/master
     .init           = dvdsub_init,
     FF_CODEC_ENCODE_SUB_CB(dvdsub_encode),
     .p.priv_class   = &dvdsubenc_class,

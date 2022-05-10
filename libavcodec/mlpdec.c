@@ -34,11 +34,8 @@
 #include "libavutil/channel_layout.h"
 #include "libavutil/mem_internal.h"
 #include "libavutil/thread.h"
-<<<<<<< HEAD
 #include "libavutil/opt.h"
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "get_bits.h"
 #include "internal.h"
 #include "libavutil/crc.h"
@@ -302,7 +299,6 @@ static av_cold int mlp_decode_init(AVCodecContext *avctx)
         m->substream[substr].lossless_check_data = 0xffffffff;
     ff_mlpdsp_init(&m->dsp);
 
-<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
 FF_DISABLE_DEPRECATION_WARNINGS
     if (avctx->request_channel_layout) {
@@ -311,8 +307,6 @@ FF_DISABLE_DEPRECATION_WARNINGS
     }
 FF_ENABLE_DEPRECATION_WARNINGS
 #endif
-=======
->>>>>>> refs/remotes/origin/master
     ff_thread_once(&init_static_once, init_static);
 
     return 0;
@@ -433,11 +427,7 @@ static int read_major_sync(MLPDecodeContext *m, GetBitContext *gb)
         }
         if (mh.channels_thd_stream1 == 2 &&
             mh.channels_thd_stream2 == 2 &&
-<<<<<<< HEAD
             m->avctx->ch_layout.nb_channels == 2)
-=======
-            m->avctx->channels == 2)
->>>>>>> refs/remotes/origin/master
             m->substream[0].mask = AV_CH_LAYOUT_STEREO;
         if ((substr = (mh.num_substreams > 1)))
             m->substream[0].mask = AV_CH_LAYOUT_STEREO;
@@ -446,11 +436,7 @@ static int read_major_sync(MLPDecodeContext *m, GetBitContext *gb)
                 m->substream[2].mask = mh.channel_layout_thd_stream2;
             else
                 m->substream[2].mask = mh.channel_layout_thd_stream1;
-<<<<<<< HEAD
         if (m->avctx->ch_layout.nb_channels > 2)
-=======
-        if (m->avctx->channels > 2)
->>>>>>> refs/remotes/origin/master
             m->substream[mh.num_substreams > 1].mask = mh.channel_layout_thd_stream1;
 
         if (m->avctx->ch_layout.nb_channels <= 2 &&
@@ -1290,11 +1276,7 @@ static int read_access_unit(AVCodecContext *avctx, AVFrame *frame,
 
         if (substr != m->max_decoded_substream &&
             m->substream[m->max_decoded_substream].min_channel == 0 &&
-<<<<<<< HEAD
             m->substream[m->max_decoded_substream].max_channel == avctx->ch_layout.nb_channels - 1)
-=======
-            m->substream[m->max_decoded_substream].max_channel == avctx->channels - 1)
->>>>>>> refs/remotes/origin/master
             goto skip_substr;
 
         init_get_bits(&gb, buf, substream_data_len[substr] * 8);
@@ -1411,7 +1393,6 @@ static void mlp_decode_flush(AVCodecContext *avctx)
     }
 }
 
-<<<<<<< HEAD
 #define OFFSET(x) offsetof(MLPDecodeContext, x)
 #define FLAGS (AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM)
 static const AVOption options[] = {
@@ -1440,55 +1421,27 @@ const FFCodec ff_mlp_decoder = {
     .p.long_name    = NULL_IF_CONFIG_SMALL("MLP (Meridian Lossless Packing)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_MLP,
-=======
-#if CONFIG_MLP_DECODER
-const AVCodec ff_mlp_decoder = {
-    .name           = "mlp",
-    .long_name      = NULL_IF_CONFIG_SMALL("MLP (Meridian Lossless Packing)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_MLP,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MLPDecodeContext),
     .p.priv_class   = &mlp_decoder_class,
     .init           = mlp_decode_init,
-<<<<<<< HEAD
     FF_CODEC_DECODE_CB(read_access_unit),
     .flush          = mlp_decode_flush,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-=======
-    .decode         = read_access_unit,
-    .flush          = mlp_decode_flush,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_TRUEHD_DECODER
-<<<<<<< HEAD
 const FFCodec ff_truehd_decoder = {
     .p.name         = "truehd",
     .p.long_name    = NULL_IF_CONFIG_SMALL("TrueHD"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_TRUEHD,
-=======
-const AVCodec ff_truehd_decoder = {
-    .name           = "truehd",
-    .long_name      = NULL_IF_CONFIG_SMALL("TrueHD"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_TRUEHD,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MLPDecodeContext),
     .p.priv_class   = &truehd_decoder_class,
     .init           = mlp_decode_init,
-<<<<<<< HEAD
     FF_CODEC_DECODE_CB(read_access_unit),
     .flush          = mlp_decode_flush,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-=======
-    .decode         = read_access_unit,
-    .flush          = mlp_decode_flush,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif /* CONFIG_TRUEHD_DECODER */

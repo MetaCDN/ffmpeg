@@ -37,13 +37,8 @@
 #include "eaidct.h"
 #include "idctdsp.h"
 #include "internal.h"
-<<<<<<< HEAD
 #include "mpeg12data.h"
 #include "mpeg12dec.h"
-=======
-#include "mpeg12.h"
-#include "mpeg12data.h"
->>>>>>> refs/remotes/origin/master
 
 typedef struct TqiContext {
     AVCodecContext *avctx;
@@ -186,7 +181,6 @@ static av_cold int tqi_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_eatqi_decoder = {
     .p.name         = "eatqi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Electronic Arts TQI Video"),
@@ -197,17 +191,5 @@ const FFCodec ff_eatqi_decoder = {
     .close          = tqi_decode_end,
     FF_CODEC_DECODE_CB(tqi_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_eatqi_decoder = {
-    .name           = "eatqi",
-    .long_name      = NULL_IF_CONFIG_SMALL("Electronic Arts TQI Video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_TQI,
-    .priv_data_size = sizeof(TqiContext),
-    .init           = tqi_decode_init,
-    .close          = tqi_decode_end,
-    .decode         = tqi_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

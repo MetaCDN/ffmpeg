@@ -82,7 +82,6 @@ typedef struct HeadphoneContext {
         int          ir_len;
         int          eof;
     } hrir_in[64];
-<<<<<<< HEAD
     AVChannelLayout map_channel_layout;
     enum AVChannel mapping[64];
     uint8_t  hrir_map[64];
@@ -95,18 +94,6 @@ static int parse_channel_name(const char *arg, enum AVChannel *rchannel)
     if (channel < 0 || channel >= 64)
         return AVERROR(EINVAL);
     *rchannel = channel;
-=======
-    uint64_t mapping[64];
-} HeadphoneContext;
-
-static int parse_channel_name(const char *arg, uint64_t *rchannel)
-{
-    uint64_t layout = av_get_channel_layout(arg);
-
-    if (av_get_channel_layout_nb_channels(layout) != 1)
-        return AVERROR(EINVAL);
-    *rchannel = layout;
->>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -118,30 +105,18 @@ static void parse_map(AVFilterContext *ctx)
 
     p = s->map;
     while ((arg = av_strtok(p, "|", &tokenizer))) {
-<<<<<<< HEAD
         enum AVChannel out_channel;
-=======
-        uint64_t out_channel;
->>>>>>> refs/remotes/origin/master
 
         p = NULL;
         if (parse_channel_name(arg, &out_channel)) {
             av_log(ctx, AV_LOG_WARNING, "Failed to parse \'%s\' as channel name.\n", arg);
             continue;
         }
-<<<<<<< HEAD
         if (used_channels & (1ULL << out_channel)) {
             av_log(ctx, AV_LOG_WARNING, "Ignoring duplicate channel '%s'.\n", arg);
             continue;
         }
         used_channels        |= (1ULL << out_channel);
-=======
-        if (used_channels & out_channel) {
-            av_log(ctx, AV_LOG_WARNING, "Ignoring duplicate channel '%s'.\n", arg);
-            continue;
-        }
-        used_channels        |= out_channel;
->>>>>>> refs/remotes/origin/master
         s->mapping[s->nb_irs] = out_channel;
         s->nb_irs++;
     }
@@ -388,12 +363,8 @@ static int convert_coeffs(AVFilterContext *ctx, AVFilterLink *inlink)
 {
     struct HeadphoneContext *s = ctx->priv;
     const int ir_len = s->ir_len;
-<<<<<<< HEAD
     int nb_input_channels = ctx->inputs[0]->ch_layout.nb_channels;
     const int nb_hrir_channels = s->nb_hrir_inputs == 1 ? ctx->inputs[1]->ch_layout.nb_channels : s->nb_hrir_inputs * 2;
-=======
-    int nb_input_channels = ctx->inputs[0]->channels;
->>>>>>> refs/remotes/origin/master
     float gain_lin = expf((s->gain - 3 * nb_input_channels) / 20 * M_LN10);
     AVFrame *frame;
     int ret = 0;
@@ -459,25 +430,15 @@ static int convert_coeffs(AVFilterContext *ctx, AVFilterLink *inlink)
         s->temp_src[0] = av_calloc(s->air_len, sizeof(float));
         s->temp_src[1] = av_calloc(s->air_len, sizeof(float));
 
-<<<<<<< HEAD
         s->data_ir[0] = av_calloc(nb_hrir_channels * s->air_len, sizeof(*s->data_ir[0]));
         s->data_ir[1] = av_calloc(nb_hrir_channels * s->air_len, sizeof(*s->data_ir[1]));
-=======
-        s->data_ir[0] = av_calloc(nb_input_channels * s->air_len, sizeof(*s->data_ir[0]));
-        s->data_ir[1] = av_calloc(nb_input_channels * s->air_len, sizeof(*s->data_ir[1]));
->>>>>>> refs/remotes/origin/master
         if (!s->data_ir[0] || !s->data_ir[1] || !s->temp_src[0] || !s->temp_src[1]) {
             ret = AVERROR(ENOMEM);
             goto fail;
         }
     } else {
-<<<<<<< HEAD
         s->data_hrtf[0] = av_calloc(n_fft, sizeof(*s->data_hrtf[0]) * nb_hrir_channels);
         s->data_hrtf[1] = av_calloc(n_fft, sizeof(*s->data_hrtf[1]) * nb_hrir_channels);
-=======
-        s->data_hrtf[0] = av_calloc(n_fft, sizeof(*s->data_hrtf[0]) * nb_input_channels);
-        s->data_hrtf[1] = av_calloc(n_fft, sizeof(*s->data_hrtf[1]) * nb_input_channels);
->>>>>>> refs/remotes/origin/master
         if (!s->data_hrtf[0] || !s->data_hrtf[1]) {
             ret = AVERROR(ENOMEM);
             goto fail;
@@ -494,11 +455,7 @@ static int convert_coeffs(AVFilterContext *ctx, AVFilterLink *inlink)
         ptr = (float *)frame->extended_data[0];
 
         if (s->hrir_fmt == HRIR_STEREO) {
-<<<<<<< HEAD
             int idx = av_channel_layout_index_from_channel(&s->map_channel_layout,
-=======
-            int idx = av_get_channel_layout_channel_index(inlink->channel_layout,
->>>>>>> refs/remotes/origin/master
                                                           s->mapping[i]);
             if (idx < 0)
                 continue;
@@ -530,19 +487,12 @@ static int convert_coeffs(AVFilterContext *ctx, AVFilterLink *inlink)
             int I, N = ctx->inputs[1]->ch_layout.nb_channels;
 
             for (k = 0; k < N / 2; k++) {
-<<<<<<< HEAD
                 int idx = av_channel_layout_index_from_channel(&inlink->ch_layout,
-=======
-                int idx = av_get_channel_layout_channel_index(inlink->channel_layout,
->>>>>>> refs/remotes/origin/master
                                                               s->mapping[k]);
                 if (idx < 0)
                     continue;
 
-<<<<<<< HEAD
                 s->hrir_map[k] = idx;
-=======
->>>>>>> refs/remotes/origin/master
                 I = k * 2;
                 if (s->type == TIME_DOMAIN) {
                     float *data_ir_l = s->data_ir[0] + idx * s->air_len;
@@ -665,9 +615,6 @@ static int query_formats(AVFilterContext *ctx)
     ret = ff_channel_layouts_ref(stereo_layout, &ctx->outputs[0]->incfg.channel_layouts);
     if (ret)
         return ret;
-    ret = ff_channel_layouts_ref(stereo_layout, &ctx->outputs[0]->incfg.channel_layouts);
-    if (ret)
-        return ret;
 
     if (s->hrir_fmt == HRIR_MULTI) {
         hrir_layouts = ff_all_channel_counts();
@@ -697,13 +644,8 @@ static int config_input(AVFilterLink *inlink)
         return AVERROR(EINVAL);
     }
 
-<<<<<<< HEAD
     s->lfe_channel = av_channel_layout_index_from_channel(&inlink->ch_layout,
                                                           AV_CHAN_LOW_FREQUENCY);
-=======
-    s->lfe_channel = av_get_channel_layout_channel_index(inlink->channel_layout,
-                                                         AV_CH_LOW_FREQUENCY);
->>>>>>> refs/remotes/origin/master
     return 0;
 }
 

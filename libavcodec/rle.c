@@ -21,11 +21,7 @@
 
 #include <string.h>
 
-<<<<<<< HEAD
 #include "libavutil/macros.h"
-=======
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 
 #include "rle.h"
 

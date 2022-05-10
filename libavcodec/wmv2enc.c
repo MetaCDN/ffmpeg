@@ -233,7 +233,6 @@ void ff_wmv2_encode_mb(MpegEncContext *s, int16_t block[6][64],
         s->p_tex_bits += get_bits_diff(s);
 }
 
-<<<<<<< HEAD
 const FFCodec ff_wmv2_encoder = {
     .p.name         = "wmv2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Video 8"),
@@ -241,23 +240,10 @@ const FFCodec ff_wmv2_encoder = {
     .p.id           = AV_CODEC_ID_WMV2,
     .p.priv_class   = &ff_mpv_enc_class,
     .priv_data_size = sizeof(WMV2EncContext),
-=======
-const AVCodec ff_wmv2_encoder = {
-    .name           = "wmv2",
-    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 8"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_WMV2,
-    .priv_class     = &ff_mpv_enc_class,
-    .priv_data_size = sizeof(Wmv2Context),
->>>>>>> refs/remotes/origin/master
     .init           = wmv2_encode_init,
     FF_CODEC_ENCODE_CB(ff_mpv_encode_picture),
     .close          = ff_mpv_encode_end,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
-=======
-    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
->>>>>>> refs/remotes/origin/master
                                                      AV_PIX_FMT_NONE },
 };

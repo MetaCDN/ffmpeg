@@ -43,11 +43,6 @@
 #include "formats.h"
 #include "internal.h"
 
-<<<<<<< HEAD
-=======
-#define MAX_CHANNELS 63
-
->>>>>>> refs/remotes/origin/master
 #define ABS_THRES    -70            ///< silence gate: we discard anything below this absolute (LUFS) threshold
 #define ABS_UP_THRES  10            ///< upper loud limit to consider (ABS_THRES being the minimum)
 #define HIST_GRAIN   100            ///< defines histogram precision
@@ -70,11 +65,7 @@ struct integrator {
     double **cache;                 ///< window of filtered samples (N ms)
     int cache_pos;                  ///< focus on the last added bin in the cache array
     int cache_size;
-<<<<<<< HEAD
     double *sum;                    ///< sum of the last N ms filtered samples (cache content)
-=======
-    double sum[MAX_CHANNELS];       ///< sum of the last N ms filtered samples (cache content)
->>>>>>> refs/remotes/origin/master
     int filled;                     ///< 1 if the cache is completely filled, 0 otherwise
     double rel_threshold;           ///< relative threshold
     double sum_kept_powers;         ///< sum of the powers (weighted sums) above absolute threshold
@@ -122,15 +113,9 @@ typedef struct EBUR128Context {
 
     /* Filter caches.
      * The mult by 3 in the following is for X[i], X[i-1] and X[i-2] */
-<<<<<<< HEAD
     double *x;                      ///< 3 input samples cache for each channel
     double *y;                      ///< 3 pre-filter samples cache for each channel
     double *z;                      ///< 3 RLB-filter samples cache for each channel
-=======
-    double x[MAX_CHANNELS * 3];     ///< 3 input samples cache for each channel
-    double y[MAX_CHANNELS * 3];     ///< 3 pre-filter samples cache for each channel
-    double z[MAX_CHANNELS * 3];     ///< 3 RLB-filter samples cache for each channel
->>>>>>> refs/remotes/origin/master
     double pre_b[3];                ///< pre-filter numerator coefficients
     double pre_a[3];                ///< pre-filter denominator coefficients
     double rlb_b[3];                ///< rlb-filter numerator coefficients
@@ -432,12 +417,7 @@ static int config_audio_input(AVFilterLink *inlink)
      * can be more complex to integrate in the one-sample loop of
      * filter_frame()). */
     if (ebur128->metadata || (ebur128->peak_mode & PEAK_MODE_TRUE_PEAKS))
-<<<<<<< HEAD
         ebur128->nb_samples = inlink->sample_rate / 10;
-=======
-        inlink->min_samples =
-        inlink->max_samples = inlink->sample_rate / 10;
->>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -471,9 +451,6 @@ static int config_audio_output(AVFilterLink *outlink)
     if (!ebur128->i400.sum || !ebur128->i3000.sum ||
         !ebur128->i400.cache || !ebur128->i3000.cache)
         return AVERROR(ENOMEM);
-
-#define I400_BINS(x)  ((x) * 4 / 10)
-#define I3000_BINS(x) ((x) * 3)
 
     for (i = 0; i < nb_channels; i++) {
         /* channel weighting */
@@ -1095,11 +1072,8 @@ static av_cold void uninit(AVFilterContext *ctx)
         if (ebur128->i3000.cache)
             av_freep(&ebur128->i3000.cache[i]);
     }
-<<<<<<< HEAD
     av_freep(&ebur128->i400.cache);
     av_freep(&ebur128->i3000.cache);
-=======
->>>>>>> refs/remotes/origin/master
     av_frame_free(&ebur128->outpicref);
 #if CONFIG_SWRESAMPLE
     av_freep(&ebur128->swr_buf);
@@ -1121,10 +1095,7 @@ const AVFilter ff_af_ebur128 = {
     .priv_size     = sizeof(EBUR128Context),
     .init          = init,
     .uninit        = uninit,
-<<<<<<< HEAD
     .activate      = activate,
-=======
->>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(ebur128_inputs),
     .outputs       = NULL,
     FILTER_QUERY_FUNC(query_formats),

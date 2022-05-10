@@ -34,10 +34,7 @@ const uint8_t ff_vorbis_channel_layout_offsets[8][8] = {
     { 0, 2, 1, 7, 5, 6, 3, 4 },
 };
 
-<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
-=======
->>>>>>> refs/remotes/origin/master
 const uint64_t ff_vorbis_channel_layouts[9] = {
     AV_CH_LAYOUT_MONO,
     AV_CH_LAYOUT_STEREO,

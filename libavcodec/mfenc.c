@@ -1151,31 +1151,18 @@ static int mf_close(AVCodecContext *avctx)
         .option     = OPTS,                                                    \
         .version    = LIBAVUTIL_VERSION_INT,                                   \
     };                                                                         \
-<<<<<<< HEAD
     const FFCodec ff_ ## NAME ## _mf_encoder = {                               \
         .p.priv_class   = &ff_ ## NAME ## _mf_encoder_class,                   \
         .p.name         = #NAME "_mf",                                         \
         .p.long_name    = NULL_IF_CONFIG_SMALL(#ID " via MediaFoundation"),    \
         .p.type         = AVMEDIA_TYPE_ ## MEDIATYPE,                          \
         .p.id           = AV_CODEC_ID_ ## ID,                                  \
-=======
-    const AVCodec ff_ ## NAME ## _mf_encoder = {                               \
-        .priv_class     = &ff_ ## NAME ## _mf_encoder_class,                   \
-        .name           = #NAME "_mf",                                         \
-        .long_name      = NULL_IF_CONFIG_SMALL(#ID " via MediaFoundation"),    \
-        .type           = AVMEDIA_TYPE_ ## MEDIATYPE,                          \
-        .id             = AV_CODEC_ID_ ## ID,                                  \
->>>>>>> refs/remotes/origin/master
         .priv_data_size = sizeof(MFContext),                                   \
         .init           = mf_init,                                             \
         .close          = mf_close,                                            \
         FF_CODEC_RECEIVE_PACKET_CB(mf_receive_packet),                         \
         EXTRA                                                                  \
-<<<<<<< HEAD
         .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HYBRID |           \
-=======
-        .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HYBRID |           \
->>>>>>> refs/remotes/origin/master
                           AV_CODEC_CAP_DR1,                                    \
         .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE |                       \
                           FF_CODEC_CAP_INIT_CLEANUP,                           \

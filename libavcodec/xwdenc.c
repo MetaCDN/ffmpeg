@@ -23,13 +23,8 @@
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "xwd.h"
 
 #define WINDOW_NAME         "lavcxwdenc"
@@ -219,7 +214,6 @@ static int xwd_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_xwd_encoder = {
     .p.name         = "xwd",
     .p.long_name    = NULL_IF_CONFIG_SMALL("XWD (X Window Dump) image"),
@@ -228,16 +222,6 @@ const FFCodec ff_xwd_encoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_ENCODE_CB(xwd_encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_BGRA,
-=======
-const AVCodec ff_xwd_encoder = {
-    .name         = "xwd",
-    .long_name    = NULL_IF_CONFIG_SMALL("XWD (X Window Dump) image"),
-    .type         = AVMEDIA_TYPE_VIDEO,
-    .id           = AV_CODEC_ID_XWD,
-    .capabilities = AV_CODEC_CAP_DR1,
-    .encode2      = xwd_encode_frame,
-    .pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_BGRA,
->>>>>>> refs/remotes/origin/master
                                                  AV_PIX_FMT_RGBA,
                                                  AV_PIX_FMT_ARGB,
                                                  AV_PIX_FMT_ABGR,

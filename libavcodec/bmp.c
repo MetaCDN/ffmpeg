@@ -364,7 +364,6 @@ static int bmp_decode_frame(AVCodecContext *avctx, AVFrame *p,
     return buf_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_bmp_decoder = {
     .p.name         = "bmp",
     .p.long_name    = NULL_IF_CONFIG_SMALL("BMP (Windows and OS/2 bitmap)"),
@@ -372,13 +371,4 @@ const FFCodec ff_bmp_decoder = {
     .p.id           = AV_CODEC_ID_BMP,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(bmp_decode_frame),
-=======
-const AVCodec ff_bmp_decoder = {
-    .name           = "bmp",
-    .long_name      = NULL_IF_CONFIG_SMALL("BMP (Windows and OS/2 bitmap)"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_BMP,
-    .decode         = bmp_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
 };

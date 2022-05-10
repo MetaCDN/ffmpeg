@@ -81,16 +81,11 @@ typedef struct DeNoiseChannel {
     double     *abs_var;
     double     *rel_var;
     double     *min_abs_var;
-<<<<<<< HEAD
     float      *fft_in;
-=======
-    AVComplexFloat *fft_in;
->>>>>>> refs/remotes/origin/master
     AVComplexFloat *fft_out;
     AVTXContext *fft, *ifft;
     av_tx_fn   tx_fn, itx_fn;
 
-<<<<<<< HEAD
     double      noise_band_norm[NB_PROFILE_BANDS];
     double      noise_band_avr[NB_PROFILE_BANDS];
     double      noise_band_avi[NB_PROFILE_BANDS];
@@ -105,18 +100,6 @@ typedef struct DeNoiseChannel {
     double      max_gain;
     double      max_var;
     double      gain_scale;
-=======
-    double      noise_band_norm[15];
-    double      noise_band_avr[15];
-    double      noise_band_avi[15];
-    double      noise_band_var[15];
-
-    double      sfm_threshold;
-    double      sfm_alpha;
-    double      sfm_results[3];
-    int         sfm_fail_flags[512];
-    int         sfm_fail_total;
->>>>>>> refs/remotes/origin/master
 } DeNoiseChannel;
 
 typedef struct AudioFFTDeNoiseContext {
@@ -321,14 +304,8 @@ static double limit_gain(double a, double b)
     return 1.0;
 }
 
-<<<<<<< HEAD
 static void spectral_flatness(AudioFFTDeNoiseContext *s, const double *const spectral,
                               double floor, int len, double *rnum, double *rden)
-=======
-static void process_frame(AudioFFTDeNoiseContext *s, DeNoiseChannel *dnch,
-                          AVComplexFloat *fft_data,
-                          double *prior, double *prior_band_excit, int track_noise)
->>>>>>> refs/remotes/origin/master
 {
     double num = 0., den = 0.;
     int size = 0;
@@ -694,11 +671,7 @@ static int config_input(AVFilterLink *inlink)
 
     for (int ch = 0; ch < inlink->ch_layout.nb_channels; ch++) {
         DeNoiseChannel *dnch = &s->dnch[ch];
-<<<<<<< HEAD
         float scale = 1.f;
-=======
-        float scale;
->>>>>>> refs/remotes/origin/master
 
         switch (s->noise_type) {
         case WHITE_NOISE:
@@ -735,21 +708,12 @@ static int config_input(AVFilterLink *inlink)
         dnch->abs_var = av_calloc(s->bin_count, sizeof(*dnch->abs_var));
         dnch->rel_var = av_calloc(s->bin_count, sizeof(*dnch->rel_var));
         dnch->min_abs_var = av_calloc(s->bin_count, sizeof(*dnch->min_abs_var));
-<<<<<<< HEAD
         dnch->fft_in = av_calloc(s->fft_length2, sizeof(*dnch->fft_in));
         dnch->fft_out = av_calloc(s->fft_length2 + 1, sizeof(*dnch->fft_out));
         ret = av_tx_init(&dnch->fft, &dnch->tx_fn, AV_TX_FLOAT_RDFT, 0, s->fft_length2, &scale, 0);
         if (ret < 0)
             return ret;
         ret = av_tx_init(&dnch->ifft, &dnch->itx_fn, AV_TX_FLOAT_RDFT, 1, s->fft_length2, &scale, 0);
-=======
-        dnch->fft_in = av_calloc(s->fft_length2 + 1, sizeof(*dnch->fft_in));
-        dnch->fft_out = av_calloc(s->fft_length2 + 1, sizeof(*dnch->fft_out));
-        ret = av_tx_init(&dnch->fft, &dnch->tx_fn, AV_TX_FLOAT_FFT, 0, s->fft_length2, &scale, 0);
-        if (ret < 0)
-            return ret;
-        ret = av_tx_init(&dnch->ifft, &dnch->itx_fn, AV_TX_FLOAT_FFT, 1, s->fft_length2, &scale, 0);
->>>>>>> refs/remotes/origin/master
         if (ret < 0)
             return ret;
         dnch->spread_function = av_calloc(s->number_of_bands * s->number_of_bands,
@@ -883,73 +847,6 @@ static int config_input(AVFilterLink *inlink)
     return 0;
 }
 
-<<<<<<< HEAD
-=======
-static void preprocess(AVComplexFloat *in, int len)
-{
-    double d1, d2, d3, d4, d5, d6, d7, d8, d9, d10;
-    int n, i, k;
-
-    d5 = 2.0 * M_PI / len;
-    d8 = sin(0.5 * d5);
-    d8 = -2.0 * d8 * d8;
-    d7 = sin(d5);
-    d9 = 1.0 + d8;
-    d6 = d7;
-    n = len / 2;
-
-    for (i = 1; i < len / 4; i++) {
-        k = n - i;
-        d2 = 0.5 * (in[i].re + in[k].re);
-        d1 = 0.5 * (in[i].im - in[k].im);
-        d4 = 0.5 * (in[i].im + in[k].im);
-        d3 = 0.5 * (in[k].re - in[i].re);
-        in[i].re = d2 + d9 * d4 + d6 * d3;
-        in[i].im = d1 + d9 * d3 - d6 * d4;
-        in[k].re = d2 - d9 * d4 - d6 * d3;
-        in[k].im = -d1 + d9 * d3 - d6 * d4;
-        d10 = d9;
-        d9 += d9 * d8 - d6 * d7;
-        d6 += d6 * d8 + d10 * d7;
-    }
-
-    d2 = in[0].re;
-    in[0].re = d2 + in[0].im;
-    in[0].im = d2 - in[0].im;
-}
-
-static void postprocess(AVComplexFloat *in, int len)
-{
-    double d1, d2, d3, d4, d5, d6, d7, d8, d9, d10;
-    int n, i, k;
-
-    d5 = 2.0 * M_PI / len;
-    d8 = sin(0.5 * d5);
-    d8 = -2.0 * d8 * d8;
-    d7 = sin(d5);
-    d9 = 1.0 + d8;
-    d6 = d7;
-    n = len / 2;
-    for (i = 1; i < len / 4; i++) {
-        k = n - i;
-        d2 = 0.5 * (in[i].re + in[k].re);
-        d1 = 0.5 * (in[i].im - in[k].im);
-        d4 = 0.5 * (in[i].re - in[k].re);
-        d3 = 0.5 * (in[i].im + in[k].im);
-        in[i].re = d2 - d9 * d3 - d6 * d4;
-        in[i].im = d1 + d9 * d4 - d6 * d3;
-        in[k].re = d2 + d9 * d3 + d6 * d4;
-        in[k].im = -d1 + d9 * d4 - d6 * d3;
-        d10 = d9;
-        d9 += d9 * d8 - d6 * d7;
-        d6 += d6 * d8 + d10 * d7;
-    }
-    d2 = in[0].re;
-    in[0].re = 0.5 * (d2 + in[0].im);
-    in[0].im = 0.5 * (d2 - in[0].im);
-}
-
->>>>>>> refs/remotes/origin/master
 static void init_sample_noise(DeNoiseChannel *dnch)
 {
     for (int i = 0; i < NB_PROFILE_BANDS; i++) {
@@ -968,7 +865,6 @@ static void sample_noise_block(AudioFFTDeNoiseContext *s,
     double mag2, var = 0.0, avr = 0.0, avi = 0.0;
     int edge, j, k, n, edgemax;
 
-<<<<<<< HEAD
     for (int i = 0; i < s->window_length; i++)
         dnch->fft_in[i] = s->window[i] * src[i] * (1LL << 23);
 
@@ -976,35 +872,12 @@ static void sample_noise_block(AudioFFTDeNoiseContext *s,
         dnch->fft_in[i] = 0.0;
 
     dnch->tx_fn(dnch->fft, dnch->fft_out, dnch->fft_in, sizeof(float));
-=======
-    for (int i = 0; i < s->window_length; i++) {
-        dnch->fft_in[i].re = s->window[i] * src[i] * (1LL << 24);
-        dnch->fft_in[i].im = 0.0;
-    }
-
-    for (int i = s->window_length; i < s->fft_length2; i++) {
-        dnch->fft_in[i].re = 0.0;
-        dnch->fft_in[i].im = 0.0;
-    }
-
-    dnch->tx_fn(dnch->fft, dnch->fft_out, dnch->fft_in, sizeof(float));
-
-    preprocess(dnch->fft_out, s->fft_length);
->>>>>>> refs/remotes/origin/master
 
     edge = s->noise_band_edge[0];
     j = edge;
     k = 0;
     n = j;
-<<<<<<< HEAD
     edgemax = fmin(s->fft_length2, s->noise_band_edge[NB_PROFILE_BANDS]);
-=======
-    edgemax = fmin(s->fft_length2, s->noise_band_edge[15]);
-    dnch->fft_out[s->fft_length2].re = dnch->fft_out[0].im;
-    dnch->fft_out[0].im = 0.0;
-    dnch->fft_out[s->fft_length2].im = 0.0;
-
->>>>>>> refs/remotes/origin/master
     for (int i = j; i <= edgemax; i++) {
         if ((i == j) && (i < edgemax)) {
             if (j > edge) {
@@ -1063,22 +936,13 @@ static void set_noise_profile(AudioFFTDeNoiseContext *s,
                               DeNoiseChannel *dnch,
                               double *sample_noise)
 {
-<<<<<<< HEAD
     double new_band_noise[NB_PROFILE_BANDS];
     double temp[NB_PROFILE_BANDS];
     double sum = 0.0;
-=======
-    int new_band_noise[15];
-    double temp[15];
-    double sum = 0.0, d1;
-    float new_noise_floor;
-    int i = 0, n;
->>>>>>> refs/remotes/origin/master
 
     for (int m = 0; m < NB_PROFILE_BANDS; m++)
         temp[m] = sample_noise[m];
 
-<<<<<<< HEAD
     for (int m = 0, i = 0; m < SOLVE_SIZE; m++) {
         sum = 0.0;
         for (int n = 0; n < NB_PROFILE_BANDS; n++)
@@ -1091,23 +955,6 @@ static void set_noise_profile(AudioFFTDeNoiseContext *s,
         for (int n = 0; n < SOLVE_SIZE; n++)
             sum += s->matrix_c[i++] * s->vector_b[n];
         temp[m] = sum;
-=======
-    if (new_profile) {
-        for (int m = 0; m < 5; m++) {
-            sum = 0.0;
-            for (n = 0; n < 15; n++)
-                sum += s->matrix_b[i++] * temp[n];
-            s->vector_b[m] = sum;
-        }
-        solve(s->matrix_a, s->vector_b, 5);
-        i = 0;
-        for (int m = 0; m < 15; m++) {
-            sum = 0.0;
-            for (n = 0; n < 5; n++)
-                sum += s->matrix_c[i++] * s->vector_b[n];
-            temp[m] = sum;
-        }
->>>>>>> refs/remotes/origin/master
     }
 
     reduce_mean(temp);
@@ -1137,7 +984,6 @@ static int filter_channel(AVFilterContext *ctx, void *arg, int jobnr, int nb_job
         double *dst = dnch->out_samples;
         float *fft_in = dnch->fft_in;
 
-<<<<<<< HEAD
         for (int m = 0; m < window_length; m++)
             fft_in[m] = window[m] * src[m] * (1LL << 23);
 
@@ -1155,41 +1001,6 @@ static int filter_channel(AVFilterContext *ctx, void *arg, int jobnr, int nb_job
 
         for (int m = 0; m < window_length; m++)
             dst[m] += s->window[m] * fft_in[m] / (1LL << 23);
-=======
-        if (s->track_noise) {
-            int i = s->block_count & 0x1FF;
-
-            if (dnch->sfm_fail_flags[i])
-                dnch->sfm_fail_total--;
-            dnch->sfm_fail_flags[i] = 0;
-            dnch->sfm_threshold *= 1.0 - dnch->sfm_alpha;
-            dnch->sfm_threshold += dnch->sfm_alpha * (0.5 + (1.0 / 640) * dnch->sfm_fail_total);
-        }
-
-        for (int m = 0; m < s->window_length; m++) {
-            dnch->fft_in[m].re = s->window[m] * src[m] * (1LL << 24);
-            dnch->fft_in[m].im = 0;
-        }
-
-        for (int m = s->window_length; m < s->fft_length2; m++) {
-            dnch->fft_in[m].re = 0;
-            dnch->fft_in[m].im = 0;
-        }
-
-        dnch->tx_fn(dnch->fft, dnch->fft_out, dnch->fft_in, sizeof(float));
-
-        preprocess(dnch->fft_out, s->fft_length);
-        process_frame(s, dnch, dnch->fft_out,
-                      dnch->prior,
-                      dnch->prior_band_excit,
-                      s->track_noise);
-        postprocess(dnch->fft_out, s->fft_length);
-
-        dnch->itx_fn(dnch->ifft, dnch->fft_in, dnch->fft_out, sizeof(float));
-
-        for (int m = 0; m < s->window_length; m++)
-            dst[m] += s->window[m] * dnch->fft_in[m].re / (1LL << 24);
->>>>>>> refs/remotes/origin/master
     }
 
     return 0;
@@ -1201,14 +1012,8 @@ static int output_frame(AVFilterLink *inlink, AVFrame *in)
     AVFilterLink *outlink = ctx->outputs[0];
     AudioFFTDeNoiseContext *s = ctx->priv;
     const int output_mode = ctx->is_disabled ? IN_MODE : s->output_mode;
-<<<<<<< HEAD
     const int offset = s->window_length - s->sample_advance;
     AVFrame *out;
-=======
-    AVFrame *out = NULL, *in = NULL;
-    ThreadData td;
-    int ret = 0;
->>>>>>> refs/remotes/origin/master
 
     for (int ch = 0; ch < s->channels; ch++) {
         float *src = (float *)s->winframe->extended_data[ch];
@@ -1284,15 +1089,8 @@ static int output_frame(AVFilterLink *inlink, AVFrame *in)
         s->sample_noise_mode = SAMPLE_NONE;
     }
 
-<<<<<<< HEAD
     ff_filter_execute(ctx, filter_channel, s->winframe, NULL,
                       FFMIN(outlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
-=======
-    s->block_count++;
-    td.in = in;
-    ff_filter_execute(ctx, filter_channel, &td, NULL,
-                      FFMIN(outlink->channels, ff_filter_get_nb_threads(ctx)));
->>>>>>> refs/remotes/origin/master
 
     if (av_frame_is_writable(in)) {
         out = in;
@@ -1407,7 +1205,6 @@ static int process_command(AVFilterContext *ctx, const char *cmd, const char *ar
                            char *res, int res_len, int flags)
 {
     AudioFFTDeNoiseContext *s = ctx->priv;
-<<<<<<< HEAD
     int ret = 0;
 
     ret = ff_filter_process_command(ctx, cmd, args, res, res_len, flags);
@@ -1423,10 +1220,6 @@ static int process_command(AVFilterContext *ctx, const char *cmd, const char *ar
         dnch->noise_reduction = s->noise_reduction;
         dnch->noise_floor     = s->noise_floor;
         dnch->residual_floor  = s->residual_floor;
-=======
-    int need_reset = 0;
-    int ret = 0;
->>>>>>> refs/remotes/origin/master
 
         set_parameters(s, dnch, 1, 1);
     }

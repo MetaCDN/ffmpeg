@@ -83,11 +83,7 @@ struct AVFilterFormats {
  *   (e.g. AV_CH_LAYOUT_STEREO and FF_COUNT2LAYOUT(2).
  */
 struct AVFilterChannelLayouts {
-<<<<<<< HEAD
     AVChannelLayout *channel_layouts; ///< list of channel layouts
-=======
-    uint64_t *channel_layouts;  ///< list of channel layouts
->>>>>>> refs/remotes/origin/master
     int    nb_channel_layouts;  ///< number of channel layouts
     char all_layouts;           ///< accept any known channel layout
     char all_counts;            ///< accept any channel layout or count
@@ -112,11 +108,8 @@ struct AVFilterChannelLayouts {
 #define FF_LAYOUT2COUNT(l) (((l)->order == AV_CHANNEL_ORDER_UNSPEC) ? \
                             (l)->nb_channels : 0)
 
-<<<<<<< HEAD
 #define KNOWN(l) (!FF_LAYOUT2COUNT(l)) /* for readability */
 
-=======
->>>>>>> refs/remotes/origin/master
 /**
  * Construct an empty AVFilterChannelLayouts/AVFilterFormats struct --
  * representing any channel layout (with known disposition)/sample rate.
@@ -135,11 +128,7 @@ av_warn_unused_result
 AVFilterChannelLayouts *ff_all_channel_counts(void);
 
 av_warn_unused_result
-<<<<<<< HEAD
 AVFilterChannelLayouts *ff_make_channel_layout_list(const AVChannelLayout *fmts);
-=======
-AVFilterChannelLayouts *ff_make_format64_list(const int64_t *fmts);
->>>>>>> refs/remotes/origin/master
 
 /**
  * Helpers for query_formats() which set all free audio links to the same list
@@ -150,19 +139,11 @@ av_warn_unused_result
 int ff_set_common_channel_layouts(AVFilterContext *ctx,
                                   AVFilterChannelLayouts *layouts);
 /**
-<<<<<<< HEAD
  * Equivalent to ff_set_common_channel_layouts(ctx, ff_make_channel_layout_list(fmts))
  */
 av_warn_unused_result
 int ff_set_common_channel_layouts_from_list(AVFilterContext *ctx,
                                             const AVChannelLayout *fmts);
-=======
- * Equivalent to ff_set_common_channel_layouts(ctx, ff_make_format64_list(fmts))
- */
-av_warn_unused_result
-int ff_set_common_channel_layouts_from_list(AVFilterContext *ctx,
-                                            const int64_t *fmts);
->>>>>>> refs/remotes/origin/master
 /**
  * Equivalent to ff_set_common_channel_layouts(ctx, ff_all_channel_counts())
  */

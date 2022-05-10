@@ -50,15 +50,5 @@ extern const uint8_t ff_h261_cbp_tab[63][2];
 extern RLTable ff_h261_rl_tcoeff;
 
 void ff_h261_loop_filter(MpegEncContext *s);
-<<<<<<< HEAD
-=======
-
-int ff_h261_get_picture_format(int width, int height);
-void ff_h261_reorder_mb_index(MpegEncContext *s);
-void ff_h261_encode_mb(MpegEncContext *s, int16_t block[6][64],
-                       int motion_x, int motion_y);
-void ff_h261_encode_picture_header(MpegEncContext *s, int picture_number);
-void ff_h261_encode_init(MpegEncContext *s);
->>>>>>> refs/remotes/origin/master
 
 #endif /* AVCODEC_H261_H */

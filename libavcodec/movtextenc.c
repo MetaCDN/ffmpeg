@@ -29,11 +29,7 @@
 #include "ass_split.h"
 #include "ass.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 
 #define STYLE_FLAG_BOLD         (1<<0)
 #define STYLE_FLAG_ITALIC       (1<<1)
@@ -703,19 +699,11 @@ static const AVClass mov_text_encoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_movtext_encoder = {
     .p.name         = "mov_text",
     .p.long_name    = NULL_IF_CONFIG_SMALL("3GPP Timed Text subtitle"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_MOV_TEXT,
-=======
-const AVCodec ff_movtext_encoder = {
-    .name           = "mov_text",
-    .long_name      = NULL_IF_CONFIG_SMALL("3GPP Timed Text subtitle"),
-    .type           = AVMEDIA_TYPE_SUBTITLE,
-    .id             = AV_CODEC_ID_MOV_TEXT,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MovTextContext),
     .p.priv_class   = &mov_text_encoder_class,
     .init           = mov_text_encode_init,

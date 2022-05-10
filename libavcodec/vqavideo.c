@@ -820,11 +820,7 @@ static int vqa_decode_frame(AVCodecContext *avctx, AVFrame *rframe,
         return AVERROR_BUG;
     }
 
-<<<<<<< HEAD
     if ((res = av_frame_ref(rframe, s->frame)) < 0)
-=======
-    if ((res = av_frame_ref(data, s->frame)) < 0)
->>>>>>> refs/remotes/origin/master
         return res;
 
     *got_frame      = 1;
@@ -845,28 +841,16 @@ static av_cold int vqa_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 static const FFCodecDefault vqa_defaults[] = {
-=======
-static const AVCodecDefault vqa_defaults[] = {
->>>>>>> refs/remotes/origin/master
     { "max_pixels", "640*480" },
     { NULL },
 };
 
-<<<<<<< HEAD
 const FFCodec ff_vqa_decoder = {
     .p.name         = "vqavideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Westwood Studios VQA (Vector Quantized Animation) video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_WS_VQA,
-=======
-const AVCodec ff_vqa_decoder = {
-    .name           = "vqavideo",
-    .long_name      = NULL_IF_CONFIG_SMALL("Westwood Studios VQA (Vector Quantized Animation) video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_WS_VQA,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VqaContext),
     .init           = vqa_decode_init,
     .close          = vqa_decode_end,

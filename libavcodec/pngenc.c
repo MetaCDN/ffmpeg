@@ -20,13 +20,8 @@
  */
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "bytestream.h"
 #include "lossless_videoencdsp.h"
 #include "png.h"
@@ -622,13 +617,8 @@ static int encode_png(AVCodecContext *avctx, AVPacket *pkt,
             enc_row_size +
             12 * (((int64_t)enc_row_size + IOBUF_SIZE - 1) / IOBUF_SIZE) // IDAT * ceil(enc_row_size / IOBUF_SIZE)
         );
-<<<<<<< HEAD
     if ((ret = add_icc_profile_size(avctx, pict, &max_packet_size)))
         return ret;
-=======
-    if (max_packet_size > INT_MAX)
-        return AVERROR(ENOMEM);
->>>>>>> refs/remotes/origin/master
     ret = ff_alloc_packet(avctx, pkt, max_packet_size);
     if (ret < 0)
         return ret;
@@ -1201,19 +1191,11 @@ static const AVClass pngenc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_png_encoder = {
     .p.name         = "png",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PNG (Portable Network Graphics) image"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_PNG,
-=======
-const AVCodec ff_png_encoder = {
-    .name           = "png",
-    .long_name      = NULL_IF_CONFIG_SMALL("PNG (Portable Network Graphics) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PNG,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(PNGEncContext),
     .init           = png_enc_init,
     .close          = png_enc_close,
@@ -1227,7 +1209,6 @@ const AVCodec ff_png_encoder = {
         AV_PIX_FMT_GRAY16BE, AV_PIX_FMT_YA16BE,
         AV_PIX_FMT_MONOBLACK, AV_PIX_FMT_NONE
     },
-<<<<<<< HEAD
     .p.priv_class   = &pngenc_class,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
@@ -1243,23 +1224,6 @@ const FFCodec ff_apng_encoder = {
     .close          = png_enc_close,
     FF_CODEC_ENCODE_CB(encode_apng),
     .p.pix_fmts     = (const enum AVPixelFormat[]) {
-=======
-    .priv_class     = &pngenc_class,
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
-};
-
-const AVCodec ff_apng_encoder = {
-    .name           = "apng",
-    .long_name      = NULL_IF_CONFIG_SMALL("APNG (Animated Portable Network Graphics) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_APNG,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
-    .priv_data_size = sizeof(PNGEncContext),
-    .init           = png_enc_init,
-    .close          = png_enc_close,
-    .encode2        = encode_apng,
-    .pix_fmts       = (const enum AVPixelFormat[]) {
->>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_RGB24, AV_PIX_FMT_RGBA,
         AV_PIX_FMT_RGB48BE, AV_PIX_FMT_RGBA64BE,
         AV_PIX_FMT_PAL8,
@@ -1267,10 +1231,6 @@ const AVCodec ff_apng_encoder = {
         AV_PIX_FMT_GRAY16BE, AV_PIX_FMT_YA16BE,
         AV_PIX_FMT_NONE
     },
-<<<<<<< HEAD
     .p.priv_class   = &pngenc_class,
-=======
-    .priv_class     = &pngenc_class,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

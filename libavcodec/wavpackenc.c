@@ -24,10 +24,7 @@
 #include "libavutil/intreadwrite.h"
 #include "libavutil/opt.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "put_bits.h"
@@ -2874,13 +2871,8 @@ static int wavpack_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
             return AVERROR(ENOMEM);
     }
 
-<<<<<<< HEAD
     buf_size = s->block_samples * avctx->ch_layout.nb_channels * 8
              + 200 * avctx->ch_layout.nb_channels /* for headers */;
-=======
-    buf_size = s->block_samples * avctx->channels * 8
-             + 200 * avctx->channels /* for headers */;
->>>>>>> refs/remotes/origin/master
     if ((ret = ff_alloc_packet(avctx, avpkt, buf_size)) < 0)
         return ret;
     buf = avpkt->data;
@@ -2969,19 +2961,11 @@ static const AVClass wavpack_encoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_wavpack_encoder = {
     .p.name         = "wavpack",
     .p.long_name    = NULL_IF_CONFIG_SMALL("WavPack"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_WAVPACK,
-=======
-const AVCodec ff_wavpack_encoder = {
-    .name           = "wavpack",
-    .long_name      = NULL_IF_CONFIG_SMALL("WavPack"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_WAVPACK,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WavPackEncodeContext),
     .p.priv_class   = &wavpack_encoder_class,
     .init           = wavpack_encode_init,

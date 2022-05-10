@@ -210,7 +210,6 @@ static int vt_pool_alloc(AVHWFramesContext *ctx)
     return AVERROR_EXTERNAL;
 }
 
-<<<<<<< HEAD
 static void videotoolbox_buffer_release(void *opaque, uint8_t *data)
 {
     CVPixelBufferRelease((CVPixelBufferRef)data);
@@ -241,11 +240,6 @@ static AVBufferRef *vt_pool_alloc_buffer(void *opaque, size_t size)
         return NULL;
     }
     return buf;
-=======
-static AVBufferRef *vt_dummy_pool_alloc(void *opaque, size_t size)
-{
-    return NULL;
->>>>>>> refs/remotes/origin/master
 }
 
 static void vt_frames_uninit(AVHWFramesContext *ctx)
@@ -271,15 +265,9 @@ static int vt_frames_init(AVHWFramesContext *ctx)
         return AVERROR(ENOSYS);
     }
 
-<<<<<<< HEAD
     if (!ctx->pool) {
         ctx->internal->pool_internal = av_buffer_pool_init2(
                 sizeof(CVPixelBufferRef), ctx, vt_pool_alloc_buffer, NULL);
-=======
-    // create a dummy pool so av_hwframe_get_buffer doesn't EINVAL
-    if (!ctx->pool) {
-        ctx->internal->pool_internal = av_buffer_pool_init2(0, ctx, vt_dummy_pool_alloc, NULL);
->>>>>>> refs/remotes/origin/master
         if (!ctx->internal->pool_internal)
             return AVERROR(ENOMEM);
     }
@@ -291,44 +279,11 @@ static int vt_frames_init(AVHWFramesContext *ctx)
     return 0;
 }
 
-<<<<<<< HEAD
-=======
-static void videotoolbox_buffer_release(void *opaque, uint8_t *data)
-{
-    CVPixelBufferRelease((CVPixelBufferRef)data);
-}
-
->>>>>>> refs/remotes/origin/master
 static int vt_get_buffer(AVHWFramesContext *ctx, AVFrame *frame)
 {
-    VTFramesContext *fctx = ctx->internal->priv;
-
-    if (ctx->pool && ctx->pool->size != 0) {
-        frame->buf[0] = av_buffer_pool_get(ctx->pool);
-        if (!frame->buf[0])
-            return AVERROR(ENOMEM);
-    } else {
-        CVPixelBufferRef pixbuf;
-        AVBufferRef *buf = NULL;
-        CVReturn err;
-
-        err = CVPixelBufferPoolCreatePixelBuffer(
-            NULL,
-            fctx->pool,
-            &pixbuf
-        );
-        if (err != kCVReturnSuccess) {
-            av_log(ctx, AV_LOG_ERROR, "Failed to create pixel buffer from pool: %d\n", err);
-            return AVERROR_EXTERNAL;
-        }
-
-        buf = av_buffer_create((uint8_t *)pixbuf, 1, videotoolbox_buffer_release, NULL, 0);
-        if (!buf) {
-            CVPixelBufferRelease(pixbuf);
-            return AVERROR(ENOMEM);
-        }
-        frame->buf[0] = buf;
-    }
+    frame->buf[0] = av_buffer_pool_get(ctx->pool);
+    if (!frame->buf[0])
+        return AVERROR(ENOMEM);
 
     frame->data[3] = frame->buf[0]->data;
     frame->format  = AV_PIX_FMT_VIDEOTOOLBOX;

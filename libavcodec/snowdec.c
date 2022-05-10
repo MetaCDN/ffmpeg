@@ -653,19 +653,11 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_snow_decoder = {
     .p.name         = "snow",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Snow"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_SNOW,
-=======
-const AVCodec ff_snow_decoder = {
-    .name           = "snow",
-    .long_name      = NULL_IF_CONFIG_SMALL("Snow"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_SNOW,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(SnowContext),
     .init           = ff_snow_common_init,
     .close          = decode_end,

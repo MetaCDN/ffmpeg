@@ -32,10 +32,7 @@
 #include "libavutil/internal.h"
 #include "libavutil/film_grain_params.h"
 #include "libavutil/hdr_dynamic_metadata.h"
-<<<<<<< HEAD
 #include "libavutil/hdr_dynamic_vivid_metadata.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "libavutil/spherical.h"
@@ -311,7 +308,6 @@ static void dump_dynamic_hdr_plus(AVFilterContext *ctx, AVFrameSideData *sd)
     }
 }
 
-<<<<<<< HEAD
 static void dump_dynamic_hdr_vivid(AVFilterContext *ctx, AVFrameSideData *sd)
 {
     AVDynamicHDRVivid *hdr_vivid;
@@ -395,8 +391,6 @@ static void dump_dynamic_hdr_vivid(AVFilterContext *ctx, AVFrameSideData *sd)
 }
 
 
-=======
->>>>>>> refs/remotes/origin/master
 static void dump_content_light_metadata(AVFilterContext *ctx, AVFrameSideData *sd)
 {
     const AVContentLightMetadata *metadata = (const AVContentLightMetadata *)sd->data;
@@ -794,12 +788,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
         case AV_FRAME_DATA_DYNAMIC_HDR_PLUS:
             dump_dynamic_hdr_plus(ctx, sd);
             break;
-<<<<<<< HEAD
         case AV_FRAME_DATA_DYNAMIC_HDR_VIVID:
             dump_dynamic_hdr_vivid(ctx, sd);
             break;
-=======
->>>>>>> refs/remotes/origin/master
         case AV_FRAME_DATA_CONTENT_LIGHT_LEVEL:
             dump_content_light_metadata(ctx, sd);
             break;

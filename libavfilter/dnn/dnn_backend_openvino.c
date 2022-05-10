@@ -112,11 +112,7 @@ static int get_datatype_size(DNNDataType dt)
     }
 }
 
-<<<<<<< HEAD
 static int fill_model_input_ov(OVModel *ov_model, OVRequestItem *request)
-=======
-static DNNReturnType fill_model_input_ov(OVModel *ov_model, OVRequestItem *request)
->>>>>>> refs/remotes/origin/master
 {
     dimensions_t dims;
     precision_e precision;
@@ -135,11 +131,7 @@ static DNNReturnType fill_model_input_ov(OVModel *ov_model, OVRequestItem *reque
     status = ie_infer_request_get_blob(request->infer_request, task->input_name, &input_blob);
     if (status != OK) {
         av_log(ctx, AV_LOG_ERROR, "Failed to get input blob with name %s\n", task->input_name);
-<<<<<<< HEAD
         return DNN_GENERIC_ERROR;
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 
     status |= ie_blob_get_dims(input_blob, &dims);
@@ -147,22 +139,14 @@ static DNNReturnType fill_model_input_ov(OVModel *ov_model, OVRequestItem *reque
     if (status != OK) {
         ie_blob_free(&input_blob);
         av_log(ctx, AV_LOG_ERROR, "Failed to get input blob dims/precision\n");
-<<<<<<< HEAD
         return DNN_GENERIC_ERROR;
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 
     status = ie_blob_get_buffer(input_blob, &blob_buffer);
     if (status != OK) {
         ie_blob_free(&input_blob);
         av_log(ctx, AV_LOG_ERROR, "Failed to get input blob buffer\n");
-<<<<<<< HEAD
         return DNN_GENERIC_ERROR;
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 
     input.height = dims.dims[2];
@@ -207,11 +191,7 @@ static DNNReturnType fill_model_input_ov(OVModel *ov_model, OVRequestItem *reque
     }
     ie_blob_free(&input_blob);
 
-<<<<<<< HEAD
     return 0;
-=======
-    return DNN_SUCCESS;
->>>>>>> refs/remotes/origin/master
 }
 
 static void infer_completion_callback(void *args)
@@ -321,14 +301,9 @@ static void infer_completion_callback(void *args)
     }
 }
 
-<<<<<<< HEAD
 static int init_model_ov(OVModel *ov_model, const char *input_name, const char *output_name)
 {
     int ret = 0;
-=======
-static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, const char *output_name)
-{
->>>>>>> refs/remotes/origin/master
     OVContext *ctx = &ov_model->ctx;
     IEStatusCode status;
     ie_available_devices_t a_dev;
@@ -343,28 +318,18 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
     if (ctx->options.batch_size > 1) {
         input_shapes_t input_shapes;
         status = ie_network_get_input_shapes(ov_model->network, &input_shapes);
-<<<<<<< HEAD
         if (status != OK) {
             ret = DNN_GENERIC_ERROR;
             goto err;
         }
-=======
-        if (status != OK)
-            goto err;
->>>>>>> refs/remotes/origin/master
         for (int i = 0; i < input_shapes.shape_num; i++)
             input_shapes.shapes[i].shape.dims[0] = ctx->options.batch_size;
         status = ie_network_reshape(ov_model->network, input_shapes);
         ie_network_input_shapes_free(&input_shapes);
-<<<<<<< HEAD
         if (status != OK) {
             ret = DNN_GENERIC_ERROR;
             goto err;
         }
-=======
-        if (status != OK)
-            goto err;
->>>>>>> refs/remotes/origin/master
     }
 
     // The order of dims in the openvino is fixed and it is always NCHW for 4-D data.
@@ -372,19 +337,13 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
     status = ie_network_set_input_layout(ov_model->network, input_name, NHWC);
     if (status != OK) {
         av_log(ctx, AV_LOG_ERROR, "Failed to set layout as NHWC for input %s\n", input_name);
-<<<<<<< HEAD
         ret = DNN_GENERIC_ERROR;
-=======
->>>>>>> refs/remotes/origin/master
         goto err;
     }
     status = ie_network_set_output_layout(ov_model->network, output_name, NHWC);
     if (status != OK) {
         av_log(ctx, AV_LOG_ERROR, "Failed to set layout as NHWC for output %s\n", output_name);
-<<<<<<< HEAD
         ret = DNN_GENERIC_ERROR;
-=======
->>>>>>> refs/remotes/origin/master
         goto err;
     }
 
@@ -398,10 +357,7 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
         status = ie_network_set_input_precision(ov_model->network, input_name, U8);
         if (status != OK) {
             av_log(ctx, AV_LOG_ERROR, "Failed to set input precision as U8 for %s\n", input_name);
-<<<<<<< HEAD
             ret = DNN_GENERIC_ERROR;
-=======
->>>>>>> refs/remotes/origin/master
             goto err;
         }
     }
@@ -412,10 +368,7 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
         status = ie_core_get_available_devices(ov_model->core, &a_dev);
         if (status != OK) {
             av_log(ctx, AV_LOG_ERROR, "Failed to get available devices\n");
-<<<<<<< HEAD
             ret = DNN_GENERIC_ERROR;
-=======
->>>>>>> refs/remotes/origin/master
             goto err;
         }
         for (int i = 0; i < a_dev.num_devices; i++) {
@@ -423,10 +376,7 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
         }
         av_log(ctx, AV_LOG_ERROR,"device %s may not be supported, all available devices are: \"%s\"\n",
                ctx->options.device_type, all_dev_names);
-<<<<<<< HEAD
         ret = AVERROR(ENODEV);
-=======
->>>>>>> refs/remotes/origin/master
         goto err;
     }
 
@@ -438,20 +388,14 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
 
     ov_model->request_queue = ff_safe_queue_create();
     if (!ov_model->request_queue) {
-<<<<<<< HEAD
         ret = AVERROR(ENOMEM);
-=======
->>>>>>> refs/remotes/origin/master
         goto err;
     }
 
     for (int i = 0; i < ctx->options.nireq; i++) {
         OVRequestItem *item = av_mallocz(sizeof(*item));
         if (!item) {
-<<<<<<< HEAD
             ret = AVERROR(ENOMEM);
-=======
->>>>>>> refs/remotes/origin/master
             goto err;
         }
 
@@ -459,28 +403,19 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
         item->callback.args = item;
         if (ff_safe_queue_push_back(ov_model->request_queue, item) < 0) {
             av_freep(&item);
-<<<<<<< HEAD
             ret = AVERROR(ENOMEM);
-=======
->>>>>>> refs/remotes/origin/master
             goto err;
         }
 
         status = ie_exec_network_create_infer_request(ov_model->exe_network, &item->infer_request);
         if (status != OK) {
-<<<<<<< HEAD
             ret = DNN_GENERIC_ERROR;
-=======
->>>>>>> refs/remotes/origin/master
             goto err;
         }
 
         item->lltasks = av_malloc_array(ctx->options.batch_size, sizeof(*item->lltasks));
         if (!item->lltasks) {
-<<<<<<< HEAD
             ret = AVERROR(ENOMEM);
-=======
->>>>>>> refs/remotes/origin/master
             goto err;
         }
         item->lltask_count = 0;
@@ -488,16 +423,12 @@ static DNNReturnType init_model_ov(OVModel *ov_model, const char *input_name, co
 
     ov_model->task_queue = ff_queue_create();
     if (!ov_model->task_queue) {
-<<<<<<< HEAD
         ret = AVERROR(ENOMEM);
-=======
->>>>>>> refs/remotes/origin/master
         goto err;
     }
 
     ov_model->lltask_queue = ff_queue_create();
     if (!ov_model->lltask_queue) {
-<<<<<<< HEAD
         ret = AVERROR(ENOMEM);
         goto err;
     }
@@ -514,23 +445,6 @@ static int execute_model_ov(OVRequestItem *request, Queue *inferenceq)
     IEStatusCode status;
     LastLevelTaskItem *lltask;
     int ret = 0;
-=======
-        goto err;
-    }
-
-    return DNN_SUCCESS;
-
-err:
-    ff_dnn_free_model_ov(&ov_model->model);
-    return DNN_ERROR;
-}
-
-static DNNReturnType execute_model_ov(OVRequestItem *request, Queue *inferenceq)
-{
-    IEStatusCode status;
-    DNNReturnType ret;
-    LastLevelTaskItem *lltask;
->>>>>>> refs/remotes/origin/master
     TaskItem *task;
     OVContext *ctx;
     OVModel *ov_model;
@@ -538,11 +452,7 @@ static DNNReturnType execute_model_ov(OVRequestItem *request, Queue *inferenceq)
     if (ff_queue_size(inferenceq) == 0) {
         ie_infer_request_free(&request->infer_request);
         av_freep(&request);
-<<<<<<< HEAD
         return 0;
-=======
-        return DNN_SUCCESS;
->>>>>>> refs/remotes/origin/master
     }
 
     lltask = ff_queue_peek_front(inferenceq);
@@ -552,26 +462,18 @@ static DNNReturnType execute_model_ov(OVRequestItem *request, Queue *inferenceq)
 
     if (task->async) {
         ret = fill_model_input_ov(ov_model, request);
-<<<<<<< HEAD
         if (ret != 0) {
-=======
-        if (ret != DNN_SUCCESS) {
->>>>>>> refs/remotes/origin/master
             goto err;
         }
         status = ie_infer_set_completion_callback(request->infer_request, &request->callback);
         if (status != OK) {
             av_log(ctx, AV_LOG_ERROR, "Failed to set completion callback for inference\n");
-<<<<<<< HEAD
             ret = DNN_GENERIC_ERROR;
-=======
->>>>>>> refs/remotes/origin/master
             goto err;
         }
         status = ie_infer_request_infer_async(request->infer_request);
         if (status != OK) {
             av_log(ctx, AV_LOG_ERROR, "Failed to start async inference\n");
-<<<<<<< HEAD
             ret = DNN_GENERIC_ERROR;
             goto err;
         }
@@ -579,48 +481,26 @@ static DNNReturnType execute_model_ov(OVRequestItem *request, Queue *inferenceq)
     } else {
         ret = fill_model_input_ov(ov_model, request);
         if (ret != 0) {
-=======
-            goto err;
-        }
-        return DNN_SUCCESS;
-    } else {
-        ret = fill_model_input_ov(ov_model, request);
-        if (ret != DNN_SUCCESS) {
->>>>>>> refs/remotes/origin/master
             goto err;
         }
         status = ie_infer_request_infer(request->infer_request);
         if (status != OK) {
             av_log(ctx, AV_LOG_ERROR, "Failed to start synchronous model inference\n");
-<<<<<<< HEAD
             ret = DNN_GENERIC_ERROR;
             goto err;
         }
         infer_completion_callback(request);
         return (task->inference_done == task->inference_todo) ? 0 : DNN_GENERIC_ERROR;
-=======
-            goto err;
-        }
-        infer_completion_callback(request);
-        return (task->inference_done == task->inference_todo) ? DNN_SUCCESS : DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 err:
     if (ff_safe_queue_push_back(ov_model->request_queue, request) < 0) {
         ie_infer_request_free(&request->infer_request);
         av_freep(&request);
     }
-<<<<<<< HEAD
     return ret;
 }
 
 static int get_input_ov(void *model, DNNData *input, const char *input_name)
-=======
-    return DNN_ERROR;
-}
-
-static DNNReturnType get_input_ov(void *model, DNNData *input, const char *input_name)
->>>>>>> refs/remotes/origin/master
 {
     OVModel *ov_model = model;
     OVContext *ctx = &ov_model->ctx;
@@ -635,22 +515,14 @@ static DNNReturnType get_input_ov(void *model, DNNData *input, const char *input
     status = ie_network_get_inputs_number(ov_model->network, &model_input_count);
     if (status != OK) {
         av_log(ctx, AV_LOG_ERROR, "Failed to get input count\n");
-<<<<<<< HEAD
         return DNN_GENERIC_ERROR;
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 
     for (size_t i = 0; i < model_input_count; i++) {
         status = ie_network_get_input_name(ov_model->network, i, &model_input_name);
         if (status != OK) {
             av_log(ctx, AV_LOG_ERROR, "Failed to get No.%d input's name\n", (int)i);
-<<<<<<< HEAD
             return DNN_GENERIC_ERROR;
-=======
-            return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
         }
         if (strcmp(model_input_name, input_name) == 0) {
             ie_network_name_free(&model_input_name);
@@ -658,22 +530,14 @@ static DNNReturnType get_input_ov(void *model, DNNData *input, const char *input
             status |= ie_network_get_input_precision(ov_model->network, input_name, &precision);
             if (status != OK) {
                 av_log(ctx, AV_LOG_ERROR, "Failed to get No.%d input's dims or precision\n", (int)i);
-<<<<<<< HEAD
                 return DNN_GENERIC_ERROR;
-=======
-                return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
             }
 
             input->channels = dims.dims[1];
             input->height   = input_resizable ? -1 : dims.dims[2];
             input->width    = input_resizable ? -1 : dims.dims[3];
             input->dt       = precision_to_datatype(precision);
-<<<<<<< HEAD
             return 0;
-=======
-            return DNN_SUCCESS;
->>>>>>> refs/remotes/origin/master
         } else {
             //incorrect input name
             APPEND_STRING(all_input_names, model_input_name)
@@ -683,11 +547,7 @@ static DNNReturnType get_input_ov(void *model, DNNData *input, const char *input
     }
 
     av_log(ctx, AV_LOG_ERROR, "Could not find \"%s\" in model, all input(s) are: \"%s\"\n", input_name, all_input_names);
-<<<<<<< HEAD
     return AVERROR(EINVAL);
-=======
-    return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
 }
 
 static int contain_valid_detection_bbox(AVFrame *frame)
@@ -727,11 +587,7 @@ static int contain_valid_detection_bbox(AVFrame *frame)
     return 1;
 }
 
-<<<<<<< HEAD
 static int extract_lltask_from_task(DNNFunctionType func_type, TaskItem *task, Queue *lltask_queue, DNNExecBaseParams *exec_params)
-=======
-static DNNReturnType extract_lltask_from_task(DNNFunctionType func_type, TaskItem *task, Queue *lltask_queue, DNNExecBaseParams *exec_params)
->>>>>>> refs/remotes/origin/master
 {
     switch (func_type) {
     case DFT_PROCESS_FRAME:
@@ -739,26 +595,16 @@ static DNNReturnType extract_lltask_from_task(DNNFunctionType func_type, TaskIte
     {
         LastLevelTaskItem *lltask = av_malloc(sizeof(*lltask));
         if (!lltask) {
-<<<<<<< HEAD
             return AVERROR(ENOMEM);
-=======
-            return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
         }
         task->inference_todo = 1;
         task->inference_done = 0;
         lltask->task = task;
         if (ff_queue_push_back(lltask_queue, lltask) < 0) {
             av_freep(&lltask);
-<<<<<<< HEAD
             return AVERROR(ENOMEM);
         }
         return 0;
-=======
-            return DNN_ERROR;
-        }
-        return DNN_SUCCESS;
->>>>>>> refs/remotes/origin/master
     }
     case DFT_ANALYTICS_CLASSIFY:
     {
@@ -771,11 +617,7 @@ static DNNReturnType extract_lltask_from_task(DNNFunctionType func_type, TaskIte
         task->inference_done = 0;
 
         if (!contain_valid_detection_bbox(frame)) {
-<<<<<<< HEAD
             return 0;
-=======
-            return DNN_SUCCESS;
->>>>>>> refs/remotes/origin/master
         }
 
         sd = av_frame_get_side_data(frame, AV_FRAME_DATA_DETECTION_BBOXES);
@@ -793,18 +635,13 @@ static DNNReturnType extract_lltask_from_task(DNNFunctionType func_type, TaskIte
 
             lltask = av_malloc(sizeof(*lltask));
             if (!lltask) {
-<<<<<<< HEAD
                 return AVERROR(ENOMEM);
-=======
-                return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
             }
             task->inference_todo++;
             lltask->task = task;
             lltask->bbox_index = i;
             if (ff_queue_push_back(lltask_queue, lltask) < 0) {
                 av_freep(&lltask);
-<<<<<<< HEAD
                 return AVERROR(ENOMEM);
             }
         }
@@ -867,79 +704,13 @@ static int get_output_ov(void *model, const char *input_name, int input_width, i
     ret = extract_lltask_from_task(ov_model->model->func_type, &task, ov_model->lltask_queue, NULL);
     if (ret != 0) {
         av_log(ctx, AV_LOG_ERROR, "unable to extract inference from task.\n");
-=======
-                return DNN_ERROR;
-            }
-        }
-        return DNN_SUCCESS;
-    }
-    default:
-        av_assert0(!"should not reach here");
-        return DNN_ERROR;
-    }
-}
-
-static DNNReturnType get_output_ov(void *model, const char *input_name, int input_width, int input_height,
-                                   const char *output_name, int *output_width, int *output_height)
-{
-    DNNReturnType ret;
-    OVModel *ov_model = model;
-    OVContext *ctx = &ov_model->ctx;
-    TaskItem task;
-    OVRequestItem *request;
-    IEStatusCode status;
-    input_shapes_t input_shapes;
-    DNNExecBaseParams exec_params = {
-        .input_name     = input_name,
-        .output_names   = &output_name,
-        .nb_output      = 1,
-        .in_frame       = NULL,
-        .out_frame      = NULL,
-    };
-
-    if (ov_model->model->func_type != DFT_PROCESS_FRAME) {
-        av_log(ctx, AV_LOG_ERROR, "Get output dim only when processing frame.\n");
-        return DNN_ERROR;
-    }
-
-    if (ctx->options.input_resizable) {
-        status = ie_network_get_input_shapes(ov_model->network, &input_shapes);
-        input_shapes.shapes->shape.dims[2] = input_height;
-        input_shapes.shapes->shape.dims[3] = input_width;
-        status |= ie_network_reshape(ov_model->network, input_shapes);
-        ie_network_input_shapes_free(&input_shapes);
-        if (status != OK) {
-            av_log(ctx, AV_LOG_ERROR, "Failed to reshape input size for %s\n", input_name);
-            return DNN_ERROR;
-        }
-    }
-
-    if (!ov_model->exe_network) {
-        if (init_model_ov(ov_model, input_name, output_name) != DNN_SUCCESS) {
-            av_log(ctx, AV_LOG_ERROR, "Failed init OpenVINO exectuable network or inference request\n");
-            return DNN_ERROR;
-        }
-    }
-
-    if (ff_dnn_fill_gettingoutput_task(&task, &exec_params, ov_model, input_height, input_width, ctx) != DNN_SUCCESS) {
-        return DNN_ERROR;
-    }
-
-    if (extract_lltask_from_task(ov_model->model->func_type, &task, ov_model->lltask_queue, NULL) != DNN_SUCCESS) {
-        av_log(ctx, AV_LOG_ERROR, "unable to extract last level task from task.\n");
-        ret = DNN_ERROR;
->>>>>>> refs/remotes/origin/master
         goto err;
     }
 
     request = ff_safe_queue_pop_front(ov_model->request_queue);
     if (!request) {
         av_log(ctx, AV_LOG_ERROR, "unable to get infer request.\n");
-<<<<<<< HEAD
         ret = AVERROR(EINVAL);
-=======
-        ret = DNN_ERROR;
->>>>>>> refs/remotes/origin/master
         goto err;
     }
 
@@ -1009,17 +780,12 @@ err:
     return NULL;
 }
 
-<<<<<<< HEAD
 int ff_dnn_execute_model_ov(const DNNModel *model, DNNExecBaseParams *exec_params)
-=======
-DNNReturnType ff_dnn_execute_model_ov(const DNNModel *model, DNNExecBaseParams *exec_params)
->>>>>>> refs/remotes/origin/master
 {
     OVModel *ov_model = model->model;
     OVContext *ctx = &ov_model->ctx;
     OVRequestItem *request;
     TaskItem *task;
-<<<<<<< HEAD
     int ret;
 
     ret = ff_check_exec_params(ctx, DNN_OV, model->func_type, exec_params);
@@ -1057,120 +823,6 @@ DNNReturnType ff_dnn_execute_model_ov(const DNNModel *model, DNNExecBaseParams *
     if (ret != 0) {
         av_log(ctx, AV_LOG_ERROR, "unable to extract inference from task.\n");
         return ret;
-=======
-    DNNReturnType ret;
-
-    if (ff_check_exec_params(ctx, DNN_OV, model->func_type, exec_params) != 0) {
-        return DNN_ERROR;
-    }
-
-    if (!ov_model->exe_network) {
-        if (init_model_ov(ov_model, exec_params->input_name, exec_params->output_names[0]) != DNN_SUCCESS) {
-            av_log(ctx, AV_LOG_ERROR, "Failed init OpenVINO exectuable network or inference request\n");
-            return DNN_ERROR;
-        }
-    }
-
-    task = av_malloc(sizeof(*task));
-    if (!task) {
-        av_log(ctx, AV_LOG_ERROR, "unable to alloc memory for task item.\n");
-        return DNN_ERROR;
-    }
-
-    if (ff_dnn_fill_task(task, exec_params, ov_model, ctx->options.async, 1) != DNN_SUCCESS) {
-        av_freep(&task);
-        return DNN_ERROR;
-    }
-
-    if (ff_queue_push_back(ov_model->task_queue, task) < 0) {
-        av_freep(&task);
-        av_log(ctx, AV_LOG_ERROR, "unable to push back task_queue.\n");
-        return DNN_ERROR;
-    }
-
-    if (extract_lltask_from_task(model->func_type, task, ov_model->lltask_queue, exec_params) != DNN_SUCCESS) {
-        av_log(ctx, AV_LOG_ERROR, "unable to extract inference from task.\n");
-        return DNN_ERROR;
-    }
-
-    if (ctx->options.async) {
-        while (ff_queue_size(ov_model->lltask_queue) >= ctx->options.batch_size) {
-            request = ff_safe_queue_pop_front(ov_model->request_queue);
-            if (!request) {
-                av_log(ctx, AV_LOG_ERROR, "unable to get infer request.\n");
-                return DNN_ERROR;
-            }
-
-            ret = execute_model_ov(request, ov_model->lltask_queue);
-            if (ret != DNN_SUCCESS) {
-                return ret;
-            }
-        }
-
-        return DNN_SUCCESS;
-    }
-    else {
-        if (model->func_type == DFT_ANALYTICS_CLASSIFY) {
-            // Classification filter has not been completely
-            // tested with the sync mode. So, do not support now.
-            avpriv_report_missing_feature(ctx, "classify for sync execution");
-            return DNN_ERROR;
-        }
-
-        if (ctx->options.batch_size > 1) {
-            avpriv_report_missing_feature(ctx, "batch mode for sync execution");
-            return DNN_ERROR;
-        }
-
-        request = ff_safe_queue_pop_front(ov_model->request_queue);
-        if (!request) {
-            av_log(ctx, AV_LOG_ERROR, "unable to get infer request.\n");
-            return DNN_ERROR;
-        }
-        return execute_model_ov(request, ov_model->lltask_queue);
-    }
-}
-
-DNNAsyncStatusType ff_dnn_get_result_ov(const DNNModel *model, AVFrame **in, AVFrame **out)
-{
-    OVModel *ov_model = model->model;
-    return ff_dnn_get_result_common(ov_model->task_queue, in, out);
-}
-
-DNNReturnType ff_dnn_flush_ov(const DNNModel *model)
-{
-    OVModel *ov_model = model->model;
-    OVContext *ctx = &ov_model->ctx;
-    OVRequestItem *request;
-    IEStatusCode status;
-    DNNReturnType ret;
-
-    if (ff_queue_size(ov_model->lltask_queue) == 0) {
-        // no pending task need to flush
-        return DNN_SUCCESS;
-    }
-
-    request = ff_safe_queue_pop_front(ov_model->request_queue);
-    if (!request) {
-        av_log(ctx, AV_LOG_ERROR, "unable to get infer request.\n");
-        return DNN_ERROR;
-    }
-
-    ret = fill_model_input_ov(ov_model, request);
-    if (ret != DNN_SUCCESS) {
-        av_log(ctx, AV_LOG_ERROR, "Failed to fill model input.\n");
-        return ret;
-    }
-    status = ie_infer_set_completion_callback(request->infer_request, &request->callback);
-    if (status != OK) {
-        av_log(ctx, AV_LOG_ERROR, "Failed to set completion callback for inference\n");
-        return DNN_ERROR;
-    }
-    status = ie_infer_request_infer_async(request->infer_request);
-    if (status != OK) {
-        av_log(ctx, AV_LOG_ERROR, "Failed to start async inference\n");
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 
     if (ctx->options.async) {
@@ -1266,7 +918,6 @@ void ff_dnn_free_model_ov(DNNModel **model)
             }
             av_freep(&item->lltasks);
             av_freep(&item);
-<<<<<<< HEAD
         }
         ff_safe_queue_destroy(ov_model->request_queue);
 
@@ -1274,15 +925,6 @@ void ff_dnn_free_model_ov(DNNModel **model)
             LastLevelTaskItem *item = ff_queue_pop_front(ov_model->lltask_queue);
             av_freep(&item);
         }
-=======
-        }
-        ff_safe_queue_destroy(ov_model->request_queue);
-
-        while (ff_queue_size(ov_model->lltask_queue) != 0) {
-            LastLevelTaskItem *item = ff_queue_pop_front(ov_model->lltask_queue);
-            av_freep(&item);
-        }
->>>>>>> refs/remotes/origin/master
         ff_queue_destroy(ov_model->lltask_queue);
 
         while (ff_queue_size(ov_model->task_queue) != 0) {

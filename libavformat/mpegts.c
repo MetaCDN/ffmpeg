@@ -1390,7 +1390,6 @@ skip:
                     // pes packet size is < ts size packet and pes data is padded with 0xff
                     // not sure if this is legal in ts but see issue #2392
                     buf_size = max_packet_size;
-<<<<<<< HEAD
                 }
 
                 if (!pes->buffer) {
@@ -1399,16 +1398,6 @@ skip:
                         return AVERROR(ENOMEM);
                 }
 
-=======
-                }
-
-                if (!pes->buffer) {
-                    pes->buffer = buffer_pool_get(ts, max_packet_size);
-                    if (!pes->buffer)
-                        return AVERROR(ENOMEM);
-                }
-
->>>>>>> refs/remotes/origin/master
                 memcpy(pes->buffer->data + pes->data_index, p, buf_size);
                 pes->data_index += buf_size;
                 /* emit complete packets with known packet size

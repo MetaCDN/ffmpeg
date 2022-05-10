@@ -14,7 +14,6 @@ libavutil:     2021-04-27
 
 API changes, most recent first:
 
-<<<<<<< HEAD
 2022-03-16 - xxxxxxxxxx - all libraries - version_major.h
   Add lib<name>/version_major.h as new installed headers, which only
   contain the major version number (and corresponding API deprecation
@@ -77,8 +76,6 @@ API changes, most recent first:
   av_fifo_peek(), av_fifo_peek_to_cb(), av_fifo_drain2(), av_fifo_reset2(),
   av_fifo_freep2(), av_fifo_auto_grow_limit().
 
-=======
->>>>>>> refs/remotes/origin/master
 2022-01-26 - af94ab7c7c0 - lavu 57.19.100 - tx.h
   Add AV_TX_FLOAT_RDFT, AV_TX_DOUBLE_RDFT and AV_TX_INT32_RDFT.
 

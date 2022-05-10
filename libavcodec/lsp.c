@@ -24,11 +24,7 @@
 #include <math.h>
 
 #define FRAC_BITS 14
-<<<<<<< HEAD
 #include "libavutil/macros.h"
-=======
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "mathops.h"
 #include "lsp.h"
 #include "libavcodec/mips/lsp_mips.h"

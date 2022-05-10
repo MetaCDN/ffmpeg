@@ -24,10 +24,6 @@
 #include "config.h"
 #include "libavutil/attributes.h"
 #include "libavutil/cpu.h"
-<<<<<<< HEAD
-=======
-#include "libavutil/internal.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 #include "libavutil/x86/asm.h"
 #include "libavutil/x86/cpu.h"

@@ -578,7 +578,6 @@ static int vaapi_encode_h265_init_sequence_params(AVCodecContext *avctx)
     pps->cu_qp_delta_enabled_flag = (ctx->va_rc_mode != VA_RC_CQP);
     pps->diff_cu_qp_delta_depth   = 0;
 
-<<<<<<< HEAD
 // update pps setting according to queried result
 #if VA_CHECK_VERSION(1, 13, 0)
     if (priv->va_features) {
@@ -596,8 +595,6 @@ static int vaapi_encode_h265_init_sequence_params(AVCodecContext *avctx)
     }
 #endif
 
-=======
->>>>>>> refs/remotes/origin/master
     if (ctx->tile_rows && ctx->tile_cols) {
         int uniform_spacing;
 
@@ -1447,30 +1444,17 @@ static const AVClass vaapi_encode_h265_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_hevc_vaapi_encoder = {
     .p.name         = "hevc_vaapi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("H.265/HEVC (VAAPI)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HEVC,
-=======
-const AVCodec ff_hevc_vaapi_encoder = {
-    .name           = "hevc_vaapi",
-    .long_name      = NULL_IF_CONFIG_SMALL("H.265/HEVC (VAAPI)"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_HEVC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VAAPIEncodeH265Context),
     .init           = &vaapi_encode_h265_init,
     FF_CODEC_RECEIVE_PACKET_CB(&ff_vaapi_encode_receive_packet),
     .close          = &vaapi_encode_h265_close,
-<<<<<<< HEAD
     .p.priv_class   = &vaapi_encode_h265_class,
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
-=======
-    .priv_class     = &vaapi_encode_h265_class,
-    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
->>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
     .defaults       = vaapi_encode_h265_defaults,

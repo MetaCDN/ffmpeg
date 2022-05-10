@@ -194,9 +194,6 @@ const AVFilter ff_af_compensationdelay = {
     FILTER_INPUTS(compensationdelay_inputs),
     FILTER_OUTPUTS(compensationdelay_outputs),
     FILTER_SINGLE_SAMPLEFMT(AV_SAMPLE_FMT_DBLP),
-<<<<<<< HEAD
     .process_command = process_command,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-=======
->>>>>>> refs/remotes/origin/master
 };

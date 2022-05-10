@@ -321,7 +321,6 @@ static av_cold int cinvideo_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_dsicinvideo_decoder = {
     .p.name         = "dsicinvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Delphine Software International CIN video"),
@@ -333,17 +332,4 @@ const FFCodec ff_dsicinvideo_decoder = {
     FF_CODEC_DECODE_CB(cinvideo_decode_frame),
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_dsicinvideo_decoder = {
-    .name           = "dsicinvideo",
-    .long_name      = NULL_IF_CONFIG_SMALL("Delphine Software International CIN video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_DSICINVIDEO,
-    .priv_data_size = sizeof(CinVideoContext),
-    .init           = cinvideo_decode_init,
-    .close          = cinvideo_decode_end,
-    .decode         = cinvideo_decode_frame,
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
 };

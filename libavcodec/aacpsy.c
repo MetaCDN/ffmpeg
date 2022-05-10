@@ -370,11 +370,7 @@ static av_cold int psy_3gpp_init(FFPsyContext *ctx) {
         }
     }
 
-<<<<<<< HEAD
     pctx->ch = av_calloc(ctx->avctx->ch_layout.nb_channels, sizeof(*pctx->ch));
-=======
-    pctx->ch = av_calloc(ctx->avctx->channels, sizeof(*pctx->ch));
->>>>>>> refs/remotes/origin/master
     if (!pctx->ch) {
         av_freep(&ctx->model_priv_data);
         return AVERROR(ENOMEM);

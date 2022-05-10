@@ -70,13 +70,8 @@ static int msf_read_header(AVFormatContext *s)
             st->codecpar->codec_id = AV_CODEC_ID_ADPCM_PSX; break;
     case 4:
     case 5:
-<<<<<<< HEAD
     case 6: st->codecpar->block_align = (codec == 4 ? 96 : codec == 5 ? 152 : 192) * st->codecpar->ch_layout.nb_channels;
             if (st->codecpar->ch_layout.nb_channels > UINT16_MAX / 2048)
-=======
-    case 6: st->codecpar->block_align = (codec == 4 ? 96 : codec == 5 ? 152 : 192) * st->codecpar->channels;
-            if (st->codecpar->channels > UINT16_MAX / 2048)
->>>>>>> refs/remotes/origin/master
                 return AVERROR_INVALIDDATA;
             ret = ff_alloc_extradata(st->codecpar, 14);
             if (ret < 0)

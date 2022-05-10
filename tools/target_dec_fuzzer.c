@@ -47,10 +47,7 @@
 
 #include "config.h"
 #include "libavutil/avassert.h"
-<<<<<<< HEAD
 #include "libavutil/avstring.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/cpu.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/intreadwrite.h"
@@ -65,11 +62,7 @@
 
 int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size);
 
-<<<<<<< HEAD
 extern const FFCodec * codec_list[];
-=======
-extern const AVCodec * codec_list[];
->>>>>>> refs/remotes/origin/master
 
 static void error(const char *err)
 {
@@ -77,13 +70,8 @@ static void error(const char *err)
     exit(1);
 }
 
-<<<<<<< HEAD
 static const FFCodec *c = NULL;
 static const FFCodec *AVCodecInitialize(enum AVCodecID codec_id)
-=======
-static const AVCodec *c = NULL;
-static const AVCodec *AVCodecInitialize(enum AVCodecID codec_id)
->>>>>>> refs/remotes/origin/master
 {
     const AVCodec *res;
 
@@ -155,11 +143,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         av_log_set_level(AV_LOG_PANIC);
     }
 
-<<<<<<< HEAD
     switch (c->p.type) {
-=======
-    switch (c->type) {
->>>>>>> refs/remotes/origin/master
     case AVMEDIA_TYPE_AUDIO   :
     case AVMEDIA_TYPE_VIDEO   : decode_handler = audio_video_handler  ; break;
     case AVMEDIA_TYPE_SUBTITLE: decode_handler = subtitle_handler     ; break;
@@ -169,23 +153,15 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     }
     maxpixels = maxpixels_per_frame * maxiteration;
     maxsamples = maxsamples_per_frame * maxiteration;
-<<<<<<< HEAD
     switch (c->p.id) {
-=======
-    switch (c->id) {
->>>>>>> refs/remotes/origin/master
     case AV_CODEC_ID_AGM:         maxpixels  /= 1024;  break;
     case AV_CODEC_ID_ARBC:        maxpixels  /= 1024;  break;
     case AV_CODEC_ID_BINKVIDEO:   maxpixels  /= 32;    break;
     case AV_CODEC_ID_CFHD:        maxpixels  /= 128;   break;
     case AV_CODEC_ID_COOK:        maxsamples /= 1<<20; break;
-<<<<<<< HEAD
     case AV_CODEC_ID_DFA:         maxpixels  /= 1024;  break;
     case AV_CODEC_ID_DIRAC:       maxpixels  /= 8192;  break;
     case AV_CODEC_ID_DSICINVIDEO: maxpixels  /= 1024;  break;
-=======
-    case AV_CODEC_ID_DIRAC:       maxpixels  /= 8192;  break;
->>>>>>> refs/remotes/origin/master
     case AV_CODEC_ID_DST:         maxsamples /= 1<<20; break;
     case AV_CODEC_ID_DVB_SUBTITLE: av_dict_set_int(&opts, "compute_clut", -2, 0); break;
     case AV_CODEC_ID_DXA:         maxpixels  /= 32;    break;
@@ -228,17 +204,11 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
     case AV_CODEC_ID_SCREENPRESSO:maxpixels  /= 64;    break;
     case AV_CODEC_ID_SMACKVIDEO:  maxpixels  /= 64;    break;
     case AV_CODEC_ID_SNOW:        maxpixels  /= 128;   break;
-<<<<<<< HEAD
     case AV_CODEC_ID_TARGA:       maxpixels  /= 128;   break;
     case AV_CODEC_ID_TAK:         maxsamples /= 1024;  break;
     case AV_CODEC_ID_TGV:         maxpixels  /= 32;    break;
     case AV_CODEC_ID_THEORA:      maxpixels  /= 16384; break;
     case AV_CODEC_ID_TQI:         maxpixels  /= 1024;  break;
-=======
-    case AV_CODEC_ID_TAK:         maxsamples /= 1024;  break;
-    case AV_CODEC_ID_TGV:         maxpixels  /= 32;    break;
-    case AV_CODEC_ID_THEORA:      maxpixels  /= 16384; break;
->>>>>>> refs/remotes/origin/master
     case AV_CODEC_ID_TRUEMOTION2: maxpixels  /= 1024;  break;
     case AV_CODEC_ID_TSCC:        maxpixels  /= 1024;  break;
     case AV_CODEC_ID_VC1:         maxpixels  /= 8192;  break;
@@ -276,10 +246,7 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         GetByteContext gbc;
         int extradata_size;
         int flags;
-<<<<<<< HEAD
         uint64_t request_channel_layout;
-=======
->>>>>>> refs/remotes/origin/master
         int64_t flags64;
 
         size -= 1024;
@@ -338,7 +305,6 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
             }
         }
 
-<<<<<<< HEAD
         // Keep the deprecated request_channel_layout behavior to ensure old fuzzing failures
         // remain reproducible.
         if (request_channel_layout) {
@@ -364,8 +330,6 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
             }
         }
 
-=======
->>>>>>> refs/remotes/origin/master
         flags64 = bytestream2_get_le64(&gbc);
         if (flags64 &1)
             ctx->debug |= FF_DEBUG_SKIP;

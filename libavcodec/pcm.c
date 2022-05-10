@@ -25,7 +25,6 @@
  */
 
 #include "config.h"
-<<<<<<< HEAD
 #include "config_components.h"
 #include "libavutil/attributes.h"
 #include "libavutil/float_dsp.h"
@@ -34,13 +33,6 @@
 #include "avcodec.h"
 #include "bytestream.h"
 #include "codec_internal.h"
-=======
-#include "libavutil/attributes.h"
-#include "libavutil/float_dsp.h"
-#include "libavutil/thread.h"
-#include "avcodec.h"
-#include "bytestream.h"
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "mathops.h"
@@ -551,11 +543,7 @@ static int pcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
         avctx->codec_id == AV_CODEC_ID_PCM_F24LE) {
         s->vector_fmul_scalar((float *)frame->extended_data[0],
                               (const float *)frame->extended_data[0],
-<<<<<<< HEAD
                               s->scale, FFALIGN(frame->nb_samples * avctx->ch_layout.nb_channels, 4));
-=======
-                              s->scale, FFALIGN(frame->nb_samples * avctx->channels, 4));
->>>>>>> refs/remotes/origin/master
         emms_c();
     }
 
@@ -566,7 +554,6 @@ static int pcm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
 
 #define PCM_ENCODER_0(id_, sample_fmt_, name_, long_name_)
 #define PCM_ENCODER_1(id_, sample_fmt_, name_, long_name_)                  \
-<<<<<<< HEAD
 const FFCodec ff_ ## name_ ## _encoder = {                                  \
     .p.name       = #name_,                                                 \
     .p.long_name  = NULL_IF_CONFIG_SMALL(long_name_),                       \
@@ -576,17 +563,6 @@ const FFCodec ff_ ## name_ ## _encoder = {                                  \
     .init         = pcm_encode_init,                                        \
     FF_CODEC_ENCODE_CB(pcm_encode_frame),                                   \
     .p.sample_fmts = (const enum AVSampleFormat[]){ sample_fmt_,             \
-=======
-const AVCodec ff_ ## name_ ## _encoder = {                                  \
-    .name         = #name_,                                                 \
-    .long_name    = NULL_IF_CONFIG_SMALL(long_name_),                       \
-    .type         = AVMEDIA_TYPE_AUDIO,                                     \
-    .id           = AV_CODEC_ID_ ## id_,                                    \
-    .capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_VARIABLE_FRAME_SIZE,    \
-    .init         = pcm_encode_init,                                        \
-    .encode2      = pcm_encode_frame,                                       \
-    .sample_fmts  = (const enum AVSampleFormat[]){ sample_fmt_,             \
->>>>>>> refs/remotes/origin/master
                                                    AV_SAMPLE_FMT_NONE },    \
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,                          \
 }
@@ -600,7 +576,6 @@ const AVCodec ff_ ## name_ ## _encoder = {                                  \
 
 #define PCM_DECODER_0(id, sample_fmt, name, long_name)
 #define PCM_DECODER_1(id_, sample_fmt_, name_, long_name_)                  \
-<<<<<<< HEAD
 const FFCodec ff_ ## name_ ## _decoder = {                                  \
     .p.name         = #name_,                                               \
     .p.long_name    = NULL_IF_CONFIG_SMALL(long_name_),                     \
@@ -611,18 +586,6 @@ const FFCodec ff_ ## name_ ## _decoder = {                                  \
     FF_CODEC_DECODE_CB(pcm_decode_frame),                                    \
     .p.capabilities = AV_CODEC_CAP_DR1,                                     \
     .p.sample_fmts  = (const enum AVSampleFormat[]){ sample_fmt_,           \
-=======
-const AVCodec ff_ ## name_ ## _decoder = {                                  \
-    .name           = #name_,                                               \
-    .long_name      = NULL_IF_CONFIG_SMALL(long_name_),                     \
-    .type           = AVMEDIA_TYPE_AUDIO,                                   \
-    .id             = AV_CODEC_ID_ ## id_,                                  \
-    .priv_data_size = sizeof(PCMDecode),                                    \
-    .init           = pcm_decode_init,                                      \
-    .decode         = pcm_decode_frame,                                     \
-    .capabilities   = AV_CODEC_CAP_DR1,                                     \
-    .sample_fmts    = (const enum AVSampleFormat[]){ sample_fmt_,           \
->>>>>>> refs/remotes/origin/master
                                                      AV_SAMPLE_FMT_NONE },  \
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,                         \
 }

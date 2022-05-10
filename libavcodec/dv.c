@@ -40,13 +40,6 @@
 
 #include "avcodec.h"
 #include "dv.h"
-<<<<<<< HEAD
-=======
-#include "dvdata.h"
-#include "internal.h"
-#include "put_bits.h"
-#include "simple_idct.h"
->>>>>>> refs/remotes/origin/master
 
 static inline void dv_calc_mb_coordinates(const AVDVProfile *d, int chan,
                                           int seq, int slot, uint16_t *tbl)

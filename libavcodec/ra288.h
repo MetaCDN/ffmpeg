@@ -23,11 +23,7 @@
 #define AVCODEC_RA288_H
 
 #include <stdint.h>
-<<<<<<< HEAD
 #include "libavutil/macros.h"
-=======
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 
 static const float amptable[8]={

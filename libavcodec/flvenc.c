@@ -18,12 +18,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "flvenc.h"
-=======
-#include "flv.h"
->>>>>>> refs/remotes/origin/master
 #include "h263data.h"
 #include "mpegvideo.h"
 #include "mpegvideodata.h"
@@ -96,30 +92,17 @@ void ff_flv2_encode_ac_esc(PutBitContext *pb, int slevel, int level,
     }
 }
 
-<<<<<<< HEAD
 const FFCodec ff_flv_encoder = {
     .p.name         = "flv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("FLV / Sorenson Spark / Sorenson H.263 (Flash Video)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FLV1,
     .p.priv_class   = &ff_mpv_enc_class,
-=======
-const AVCodec ff_flv_encoder = {
-    .name           = "flv",
-    .long_name      = NULL_IF_CONFIG_SMALL("FLV / Sorenson Spark / Sorenson H.263 (Flash Video)"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_FLV1,
-    .priv_class     = &ff_mpv_enc_class,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MpegEncContext),
     .init           = ff_mpv_encode_init,
     FF_CODEC_ENCODE_CB(ff_mpv_encode_picture),
     .close          = ff_mpv_encode_end,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
-=======
-    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
->>>>>>> refs/remotes/origin/master
                                                      AV_PIX_FMT_NONE},
 };

@@ -199,11 +199,7 @@ static int config_output(AVFilterLink *outlink)
         return AVERROR(ENOMEM);
 
     s->tc_samples = FFMAX(s->time_constant * outlink->sample_rate + .5, 1);
-<<<<<<< HEAD
     s->nb_channels = outlink->ch_layout.nb_channels;
-=======
-    s->nb_channels = outlink->channels;
->>>>>>> refs/remotes/origin/master
 
     for (int i = 0; i < s->nb_channels; i++) {
         ChannelStats *p = &s->chstats[i];
@@ -642,11 +638,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
     }
 
     ff_filter_execute(ctx, filter_channel, buf, NULL,
-<<<<<<< HEAD
                       FFMIN(inlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
-=======
-                      FFMIN(inlink->channels, ff_filter_get_nb_threads(ctx)));
->>>>>>> refs/remotes/origin/master
 
     if (s->metadata)
         set_metadata(s, metadata);

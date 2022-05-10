@@ -1442,11 +1442,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
     td.in = in; td.out = out;
     ff_filter_execute(ctx, rnnoise_channels, &td, NULL,
-<<<<<<< HEAD
                       FFMIN(outlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
-=======
-                      FFMIN(outlink->channels, ff_filter_get_nb_threads(ctx)));
->>>>>>> refs/remotes/origin/master
 
     av_frame_free(&in);
     return ff_filter_frame(outlink, out);

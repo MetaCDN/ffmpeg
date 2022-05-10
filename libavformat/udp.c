@@ -170,7 +170,6 @@ static int udp_set_multicast_ttl(int sockfd, int mcastTTL,
      * int and fall back to byte to be safe */
     switch (addr->sa_family) {
 #ifdef IP_MULTICAST_TTL
-<<<<<<< HEAD
         case AF_INET:
             protocol = IPPROTO_IP;
             cmd      = IP_MULTICAST_TTL;
@@ -193,19 +192,6 @@ static int udp_set_multicast_ttl(int sockfd, int mcastTTL,
         ff_log_net_error(logctx, AV_LOG_DEBUG, "setsockopt(IPV4/IPV6 MULTICAST TTL)");
         if (setsockopt(sockfd, protocol, cmd, &ttl, sizeof(ttl)) < 0) {
             ff_log_net_error(logctx, AV_LOG_ERROR, "setsockopt(IPV4/IPV6 MULTICAST TTL)");
-=======
-    if (addr->sa_family == AF_INET) {
-        if (setsockopt(sockfd, IPPROTO_IP, IP_MULTICAST_TTL, &mcastTTL, sizeof(mcastTTL)) < 0) {
-            ff_log_net_error(logctx, AV_LOG_ERROR, "setsockopt(IP_MULTICAST_TTL)");
-            return ff_neterrno();
-        }
-    }
-#endif
-#if defined(IPPROTO_IPV6) && defined(IPV6_MULTICAST_HOPS)
-    if (addr->sa_family == AF_INET6) {
-        if (setsockopt(sockfd, IPPROTO_IPV6, IPV6_MULTICAST_HOPS, &mcastTTL, sizeof(mcastTTL)) < 0) {
-            ff_log_net_error(logctx, AV_LOG_ERROR, "setsockopt(IPV6_MULTICAST_HOPS)");
->>>>>>> refs/remotes/origin/master
             return ff_neterrno();
         }
     }
@@ -580,27 +566,16 @@ static void *circular_buffer_task_tx( void *_URLContext)
         uint8_t tmp[4];
         int64_t timestamp;
 
-<<<<<<< HEAD
         len = av_fifo_can_read(s->fifo);
-=======
-        len = av_fifo_size(s->fifo);
->>>>>>> refs/remotes/origin/master
 
         while (len<4) {
             if (s->close_req)
                 goto end;
             pthread_cond_wait(&s->cond, &s->mutex);
-<<<<<<< HEAD
             len = av_fifo_can_read(s->fifo);
         }
 
         av_fifo_read(s->fifo, tmp, 4);
-=======
-            len = av_fifo_size(s->fifo);
-        }
-
-        av_fifo_generic_read(s->fifo, tmp, 4, NULL);
->>>>>>> refs/remotes/origin/master
         len = AV_RL32(tmp);
 
         av_assert0(len >= 0);
@@ -954,11 +929,7 @@ static int udp_open(URLContext *h, const char *uri, int flags)
 
     if ((!is_output && s->circular_buffer_size) || (is_output && s->bitrate && s->circular_buffer_size)) {
         /* start the task going */
-<<<<<<< HEAD
         s->fifo = av_fifo_alloc2(s->circular_buffer_size, 1, 0);
-=======
-        s->fifo = av_fifo_alloc(s->circular_buffer_size);
->>>>>>> refs/remotes/origin/master
         if (!s->fifo) {
             ret = AVERROR(ENOMEM);
             goto fail;
@@ -1026,11 +997,7 @@ static int udp_read(URLContext *h, uint8_t *buf, int size)
             if (avail) { // >=size) {
                 uint8_t tmp[4];
 
-<<<<<<< HEAD
                 av_fifo_read(s->fifo, tmp, 4);
-=======
-                av_fifo_generic_read(s->fifo, tmp, 4, NULL);
->>>>>>> refs/remotes/origin/master
                 avail = AV_RL32(tmp);
                 if(avail > size){
                     av_log(h, AV_LOG_WARNING, "Part of datagram lost due to insufficient buffer size\n");

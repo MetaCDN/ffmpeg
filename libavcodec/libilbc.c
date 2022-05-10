@@ -25,10 +25,7 @@
 #include "libavutil/common.h"
 #include "libavutil/opt.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 
@@ -120,7 +117,6 @@ static int ilbc_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return s->decoder.no_of_bytes;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_libilbc_decoder = {
     .p.name         = "libilbc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("iLBC (Internet Low Bitrate Codec)"),
@@ -131,18 +127,6 @@ const FFCodec ff_libilbc_decoder = {
     FF_CODEC_DECODE_CB(ilbc_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.priv_class   = &ilbc_dec_class,
-=======
-const AVCodec ff_libilbc_decoder = {
-    .name           = "libilbc",
-    .long_name      = NULL_IF_CONFIG_SMALL("iLBC (Internet Low Bitrate Codec)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_ILBC,
-    .priv_data_size = sizeof(ILBCDecContext),
-    .init           = ilbc_decode_init,
-    .decode         = ilbc_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-    .priv_class     = &ilbc_dec_class,
->>>>>>> refs/remotes/origin/master
 };
 
 typedef struct ILBCEncContext {
@@ -215,19 +199,11 @@ static const FFCodecDefault ilbc_encode_defaults[] = {
     { NULL }
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libilbc_encoder = {
     .p.name         = "libilbc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("iLBC (Internet Low Bitrate Codec)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_ILBC,
-=======
-const AVCodec ff_libilbc_encoder = {
-    .name           = "libilbc",
-    .long_name      = NULL_IF_CONFIG_SMALL("iLBC (Internet Low Bitrate Codec)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_ILBC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ILBCEncContext),
     .init           = ilbc_encode_init,
     FF_CODEC_ENCODE_CB(ilbc_encode_frame),

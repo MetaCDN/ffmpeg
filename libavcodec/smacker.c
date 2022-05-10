@@ -50,10 +50,7 @@
 #endif
 #define BITSTREAM_READER_LE
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "get_bits.h"
 #include "internal.h"
 #include "mathops.h"
@@ -725,7 +722,6 @@ error:
     return ret;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_smacker_decoder = {
     .p.name         = "smackvid",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Smacker video"),
@@ -747,28 +743,5 @@ const FFCodec ff_smackaud_decoder = {
     .init           = smka_decode_init,
     FF_CODEC_DECODE_CB(smka_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_smacker_decoder = {
-    .name           = "smackvid",
-    .long_name      = NULL_IF_CONFIG_SMALL("Smacker video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_SMACKVIDEO,
-    .priv_data_size = sizeof(SmackVContext),
-    .init           = decode_init,
-    .close          = decode_end,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_INIT_THREADSAFE,
-};
-
-const AVCodec ff_smackaud_decoder = {
-    .name           = "smackaud",
-    .long_name      = NULL_IF_CONFIG_SMALL("Smacker audio"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_SMACKAUDIO,
-    .init           = smka_decode_init,
-    .decode         = smka_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

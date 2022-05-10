@@ -92,15 +92,9 @@ static const FFCodecDefault qsv_enc_defaults[] = {
     { NULL },
 };
 
-<<<<<<< HEAD
 const FFCodec ff_mpeg2_qsv_encoder = {
     .p.name         = "mpeg2_qsv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MPEG-2 video (Intel Quick Sync Video acceleration)"),
-=======
-const AVCodec ff_mpeg2_qsv_encoder = {
-    .name           = "mpeg2_qsv",
-    .long_name      = NULL_IF_CONFIG_SMALL("MPEG-2 video (Intel Quick Sync Video acceleration)"),
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(QSVMpeg2EncContext),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_MPEG2VIDEO,

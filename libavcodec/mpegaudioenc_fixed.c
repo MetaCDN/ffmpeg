@@ -20,7 +20,6 @@
  */
 
 #include "libavutil/channel_layout.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "mpegaudioenc_template.c"
 
@@ -29,15 +28,6 @@ const FFCodec ff_mp2fixed_encoder = {
     .p.long_name           = NULL_IF_CONFIG_SMALL("MP2 fixed point (MPEG audio layer 2)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_MP2,
-=======
-#include "mpegaudioenc_template.c"
-
-const AVCodec ff_mp2fixed_encoder = {
-    .name                  = "mp2fixed",
-    .long_name             = NULL_IF_CONFIG_SMALL("MP2 fixed point (MPEG audio layer 2)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_MP2,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(MpegAudioContext),
     .init                  = MPA_encode_init,
     FF_CODEC_ENCODE_CB(MPA_encode_frame),

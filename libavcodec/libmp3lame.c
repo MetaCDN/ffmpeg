@@ -34,13 +34,8 @@
 #include "libavutil/opt.h"
 #include "avcodec.h"
 #include "audio_frame_queue.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "mpegaudio.h"
 #include "mpegaudiodecheader.h"
 
@@ -333,31 +328,18 @@ static const int libmp3lame_sample_rates[] = {
     44100, 48000,  32000, 22050, 24000, 16000, 11025, 12000, 8000, 0
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libmp3lame_encoder = {
     .p.name                = "libmp3lame",
     .p.long_name           = NULL_IF_CONFIG_SMALL("libmp3lame MP3 (MPEG audio layer 3)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_MP3,
     .p.capabilities        = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
-=======
-const AVCodec ff_libmp3lame_encoder = {
-    .name                  = "libmp3lame",
-    .long_name             = NULL_IF_CONFIG_SMALL("libmp3lame MP3 (MPEG audio layer 3)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_MP3,
-    .capabilities          = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
->>>>>>> refs/remotes/origin/master
                              AV_CODEC_CAP_SMALL_LAST_FRAME,
     .priv_data_size        = sizeof(LAMEContext),
     .init                  = mp3lame_encode_init,
     FF_CODEC_ENCODE_CB(mp3lame_encode_frame),
     .close                 = mp3lame_encode_close,
-<<<<<<< HEAD
     .p.sample_fmts         = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S32P,
-=======
-    .sample_fmts           = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S32P,
->>>>>>> refs/remotes/origin/master
                                                              AV_SAMPLE_FMT_FLTP,
                                                              AV_SAMPLE_FMT_S16P,
                                                              AV_SAMPLE_FMT_NONE },

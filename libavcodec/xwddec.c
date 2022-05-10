@@ -247,7 +247,6 @@ static int xwd_decode_frame(AVCodecContext *avctx, AVFrame *p,
     return buf_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_xwd_decoder = {
     .p.name         = "xwd",
     .p.long_name    = NULL_IF_CONFIG_SMALL("XWD (X Window Dump) image"),
@@ -255,13 +254,4 @@ const FFCodec ff_xwd_decoder = {
     .p.id           = AV_CODEC_ID_XWD,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(xwd_decode_frame),
-=======
-const AVCodec ff_xwd_decoder = {
-    .name           = "xwd",
-    .long_name      = NULL_IF_CONFIG_SMALL("XWD (X Window Dump) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_XWD,
-    .decode         = xwd_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
 };

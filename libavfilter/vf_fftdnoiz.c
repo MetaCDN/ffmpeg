@@ -29,8 +29,6 @@
 #define MAX_BLOCK 256
 #define MAX_THREADS 32
 
-#define MAX_THREADS 32
-
 enum BufferTypes {
     CURRENT,
     PREV,
@@ -45,14 +43,9 @@ typedef struct PlaneContext {
     int o;
     float n;
 
-<<<<<<< HEAD
     float *buffer[MAX_THREADS][BSIZE];
     AVComplexFloat *hdata[MAX_THREADS], *vdata[MAX_THREADS];
     AVComplexFloat *hdata_out[MAX_THREADS], *vdata_out[MAX_THREADS];
-=======
-    float *buffer[BSIZE];
-    FFTComplex *hdata[MAX_THREADS], *vdata[MAX_THREADS];
->>>>>>> refs/remotes/origin/master
     int data_linesize;
     int buffer_linesize;
 } PlaneContext;
@@ -84,15 +77,8 @@ typedef struct FFTdnoizContext {
     av_tx_fn tx_fn, itx_fn;
     av_tx_fn tx_r_fn, itx_r_fn;
 
-<<<<<<< HEAD
     void (*import_row)(AVComplexFloat *dst, uint8_t *src, int rw, float scale, float *win, int off);
     void (*export_row)(AVComplexFloat *src, uint8_t *dst, int rw, int depth, float *win);
-=======
-    FFTContext *fft[MAX_THREADS], *ifft[MAX_THREADS];
-
-    void (*import_row)(FFTComplex *dst, uint8_t *src, int rw);
-    void (*export_row)(FFTComplex *src, uint8_t *dst, int rw, float scale, int depth);
->>>>>>> refs/remotes/origin/master
 } FFTdnoizContext;
 
 #define OFFSET(x) offsetof(FFTdnoizContext, x)
@@ -100,19 +86,11 @@ typedef struct FFTdnoizContext {
 #define TFLAGS AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_VIDEO_PARAM|AV_OPT_FLAG_RUNTIME_PARAM
 static const AVOption fftdnoiz_options[] = {
     { "sigma",   "set denoise strength",
-<<<<<<< HEAD
         OFFSET(sigma),      AV_OPT_TYPE_FLOAT, {.dbl=1},        0, 100, .flags = TFLAGS },
     { "amount",  "set amount of denoising",
         OFFSET(amount),     AV_OPT_TYPE_FLOAT, {.dbl=1},     0.01,   1, .flags = TFLAGS },
     { "block",   "set block size",
         OFFSET(block_size), AV_OPT_TYPE_INT,   {.i64=32}, 8, MAX_BLOCK, .flags = FLAGS },
-=======
-        OFFSET(sigma),      AV_OPT_TYPE_FLOAT, {.dbl=1},        0,  30, .flags = TFLAGS },
-    { "amount",  "set amount of denoising",
-        OFFSET(amount),     AV_OPT_TYPE_FLOAT, {.dbl=1},     0.01,   1, .flags = TFLAGS },
-    { "block",   "set block log2(size)",
-        OFFSET(block_bits), AV_OPT_TYPE_INT,   {.i64=4},        3,   6, .flags = FLAGS },
->>>>>>> refs/remotes/origin/master
     { "overlap", "set block overlap",
         OFFSET(overlap),    AV_OPT_TYPE_FLOAT, {.dbl=0.5},    0.2, 0.8, .flags = FLAGS },
     { "method",  "set method of denoising",
@@ -127,10 +105,7 @@ static const AVOption fftdnoiz_options[] = {
         OFFSET(nb_next),    AV_OPT_TYPE_INT,   {.i64=0},        0,   1, .flags = FLAGS },
     { "planes",  "set planes to filter",
         OFFSET(planesf),    AV_OPT_TYPE_INT,   {.i64=7},        0,  15, .flags = TFLAGS },
-<<<<<<< HEAD
     WIN_FUNC_OPTION("window", OFFSET(window), FLAGS, WFUNC_HANNING),
-=======
->>>>>>> refs/remotes/origin/master
     { NULL }
 };
 
@@ -179,15 +154,8 @@ static void import_row8(AVComplexFloat *dst, uint8_t *src, int rw,
 
 static void export_row8(AVComplexFloat *src, uint8_t *dst, int rw, int depth, float *win)
 {
-<<<<<<< HEAD
     for (int j = 0; j < rw; j++)
         dst[j] = av_clip_uint8(lrintf(src[j].re / win[j]));
-=======
-    int j;
-
-    for (j = 0; j < rw; j++)
-        dst[j] = av_clip_uint8(lrintf(src[j].re * scale));
->>>>>>> refs/remotes/origin/master
 }
 
 static void import_row16(AVComplexFloat *dst, uint8_t *srcp, int rw,
@@ -239,7 +207,6 @@ static int config_input(AVFilterLink *inlink)
     s->nb_threads = FFMIN(ff_filter_get_nb_threads(ctx), MAX_THREADS);
 
     for (int i = 0; i < s->nb_threads; i++) {
-<<<<<<< HEAD
         float scale = 1.f, iscale = 1.f;
 
         av_tx_init(&s->fft[i],  &s->tx_fn,  AV_TX_FLOAT_FFT, 0, s->block_size, &scale,  0);
@@ -247,11 +214,6 @@ static int config_input(AVFilterLink *inlink)
         av_tx_init(&s->fft_r[i],  &s->tx_r_fn,  AV_TX_FLOAT_FFT, 0, 1 + s->nb_prev + s->nb_next, &scale,  0);
         av_tx_init(&s->ifft_r[i], &s->itx_r_fn, AV_TX_FLOAT_FFT, 1, 1 + s->nb_prev + s->nb_next, &iscale, 0);
         if (!s->fft[i] || !s->ifft[i] || !s->fft_r[i] || !s->ifft_r[i])
-=======
-        s->fft[i]  = av_fft_init(s->block_bits, 0);
-        s->ifft[i] = av_fft_init(s->block_bits, 1);
-        if (!s->fft[i] || !s->ifft[i])
->>>>>>> refs/remotes/origin/master
             return AVERROR(ENOMEM);
     }
 
@@ -292,7 +254,6 @@ static int config_input(AVFilterLink *inlink)
                 !p->hdata_out[j] || !p->vdata_out[j])
                 return AVERROR(ENOMEM);
         }
-<<<<<<< HEAD
     }
 
     generate_window_func(lut, s->block_size + 1, s->window, &overlap);
@@ -300,15 +261,6 @@ static int config_input(AVFilterLink *inlink)
     for (int y = 0; y < s->block_size; y++) {
         for (int x = 0; x < s->block_size; x++)
             s->win[y][x] = lut[y] * lut[x];
-=======
-        p->data_linesize = 2 * p->b * sizeof(float);
-        for (int j = 0; j < s->nb_threads; j++) {
-            p->hdata[j] = av_calloc(p->b, p->data_linesize);
-            p->vdata[j] = av_calloc(p->b, p->data_linesize);
-            if (!p->hdata[j] || !p->vdata[j])
-                return AVERROR(ENOMEM);
-        }
->>>>>>> refs/remotes/origin/master
     }
 
     return 0;
@@ -317,11 +269,7 @@ static int config_input(AVFilterLink *inlink)
 static void import_block(FFTdnoizContext *s,
                          uint8_t *srcp, int src_linesize,
                          float *buffer, int buffer_linesize, int plane,
-<<<<<<< HEAD
                          int jobnr, int y, int x)
-=======
-                         int jobnr, int nb_jobs)
->>>>>>> refs/remotes/origin/master
 {
     PlaneContext *p = &s->planes[plane];
     const int width = p->planewidth;
@@ -331,7 +279,6 @@ static void import_block(FFTdnoizContext *s,
     const int hoverlap = overlap / 2;
     const int size = block - overlap;
     const int bpp = (s->depth + 7) / 8;
-<<<<<<< HEAD
     const int data_linesize = p->data_linesize / sizeof(AVComplexFloat);
     const float scale = 1.f / ((1.f + s->nb_prev + s->nb_next) * s->block_size * s->block_size);
     AVComplexFloat *hdata = p->hdata[jobnr];
@@ -345,32 +292,6 @@ static void import_block(FFTdnoizContext *s,
     float *bdst = buffer;
 
     buffer_linesize /= sizeof(float);
-=======
-    const int data_linesize = p->data_linesize / sizeof(FFTComplex);
-    const int slice_start = (noy * jobnr) / nb_jobs;
-    const int slice_end = (noy * (jobnr+1)) / nb_jobs;
-    FFTComplex *hdata = p->hdata[jobnr];
-    FFTComplex *vdata = p->vdata[jobnr];
-    int x, y, i, j;
-
-    buffer_linesize /= sizeof(float);
-    for (y = slice_start; y < slice_end; y++) {
-        for (x = 0; x < nox; x++) {
-            const int rh = FFMIN(block, height - y * size);
-            const int rw = FFMIN(block, width  - x * size);
-            uint8_t *src = srcp + src_linesize * y * size + x * size * bpp;
-            float *bdst = buffer + buffer_linesize * y * block + x * block * 2;
-            FFTComplex *ssrc, *dst = hdata;
-
-            for (i = 0; i < rh; i++) {
-                s->import_row(dst, src, rw);
-                for (j = rw; j < block; j++) {
-                    dst[j].re = dst[block - j - 1].re;
-                    dst[j].im = 0;
-                }
-                av_fft_permute(s->fft[jobnr], dst);
-                av_fft_calc(s->fft[jobnr], dst);
->>>>>>> refs/remotes/origin/master
 
     for (int i = 0; i < rh; i++) {
         uint8_t *src = srcp + src_linesize * abs(y * size + i + hoff) + x * size * bpp;
@@ -382,7 +303,6 @@ static void import_block(FFTdnoizContext *s,
         }
         s->tx_fn(s->fft[jobnr], dst_out, dst, sizeof(float));
 
-<<<<<<< HEAD
         ddst = dst_out;
         dst += data_linesize;
         dst_out += data_linesize;
@@ -392,20 +312,6 @@ static void import_block(FFTdnoizContext *s,
         for (int j = 0; j < block; j++) {
             dst[j].re = ddst[j].re;
             dst[j].im = ddst[j].im;
-=======
-            ssrc = hdata;
-            dst = vdata;
-            for (i = 0; i < block; i++) {
-                for (j = 0; j < block; j++)
-                    dst[j] = ssrc[j * data_linesize + i];
-                av_fft_permute(s->fft[jobnr], dst);
-                av_fft_calc(s->fft[jobnr], dst);
-                memcpy(bdst, dst, block * sizeof(FFTComplex));
-
-                dst += data_linesize;
-                bdst += buffer_linesize;
-            }
->>>>>>> refs/remotes/origin/master
         }
 
         dst += data_linesize;
@@ -426,11 +332,7 @@ static void import_block(FFTdnoizContext *s,
 static void export_block(FFTdnoizContext *s,
                          uint8_t *dstp, int dst_linesize,
                          float *buffer, int buffer_linesize, int plane,
-<<<<<<< HEAD
                          int jobnr, int y, int x)
-=======
-                         int jobnr, int nb_jobs)
->>>>>>> refs/remotes/origin/master
 {
     PlaneContext *p = &s->planes[plane];
     const int depth = s->depth;
@@ -441,7 +343,6 @@ static void export_block(FFTdnoizContext *s,
     const int overlap = p->o;
     const int hoverlap = overlap / 2;
     const int size = block - overlap;
-<<<<<<< HEAD
     const int data_linesize = p->data_linesize / sizeof(AVComplexFloat);
     AVComplexFloat *hdata = p->hdata[jobnr];
     AVComplexFloat *hdata_out = p->hdata_out[jobnr];
@@ -453,54 +354,15 @@ static void export_block(FFTdnoizContext *s,
 
     hdst = hdata;
     buffer_linesize /= sizeof(float);
-=======
-    const int nox = p->nox;
-    const int noy = p->noy;
-    const int data_linesize = p->data_linesize / sizeof(FFTComplex);
-    const float scale = 1.f / (block * block);
-    const int slice_start = (noy * jobnr) / nb_jobs;
-    const int slice_end = (noy * (jobnr+1)) / nb_jobs;
-    FFTComplex *hdata = p->hdata[jobnr];
-    FFTComplex *vdata = p->vdata[jobnr];
-    int x, y, i, j;
-
-    buffer_linesize /= sizeof(float);
-    for (y = slice_start; y < slice_end; y++) {
-        for (x = 0; x < nox; x++) {
-            const int woff = x == 0 ? 0 : hoverlap;
-            const int hoff = y == 0 ? 0 : hoverlap;
-            const int rw = x == 0 ? block : FFMIN(size, width  - x * size - woff);
-            const int rh = y == 0 ? block : FFMIN(size, height - y * size - hoff);
-            float *bsrc = buffer + buffer_linesize * y * block + x * block * 2;
-            uint8_t *dst = dstp + dst_linesize * (y * size + hoff) + (x * size + woff) * bpp;
-            FFTComplex *hdst, *ddst = vdata;
-
-            hdst = hdata;
-            for (i = 0; i < block; i++) {
-                memcpy(ddst, bsrc, block * sizeof(FFTComplex));
-                av_fft_permute(s->ifft[jobnr], ddst);
-                av_fft_calc(s->ifft[jobnr], ddst);
-                for (j = 0; j < block; j++) {
-                    hdst[j * data_linesize + i] = ddst[j];
-                }
->>>>>>> refs/remotes/origin/master
 
     for (int i = 0; i < block; i++) {
         s->itx_fn(s->ifft[jobnr], vdst, bsrc, sizeof(float));
         for (int j = 0; j < block; j++)
             hdst[j * data_linesize + i] = vdst[j];
 
-<<<<<<< HEAD
         vdst += data_linesize;
         bsrc += buffer_linesize;
     }
-=======
-            hdst = hdata + hoff * data_linesize;
-            for (i = 0; i < rh; i++) {
-                av_fft_permute(s->ifft[jobnr], hdst);
-                av_fft_calc(s->ifft[jobnr], hdst);
-                s->export_row(hdst + woff, dst, rw, scale, depth);
->>>>>>> refs/remotes/origin/master
 
     hdst = hdata + hoverlap * data_linesize;
     for (int i = 0; i < rh && (y * size + i) < height; i++) {
@@ -514,18 +376,12 @@ static void export_block(FFTdnoizContext *s,
     }
 }
 
-<<<<<<< HEAD
 static void filter_block3d2(FFTdnoizContext *s, int plane, float *pbuffer, float *nbuffer,
                             int jobnr)
-=======
-static void filter_plane3d2(FFTdnoizContext *s, int plane, float *pbuffer, float *nbuffer,
-                            int jobnr, int nb_jobs)
->>>>>>> refs/remotes/origin/master
 {
     PlaneContext *p = &s->planes[plane];
     const int block = p->b;
     const int buffer_linesize = p->buffer_linesize / sizeof(float);
-<<<<<<< HEAD
     const float depthx = (1 << (s->depth - 8)) * (1 << (s->depth - 8));
     const float sigma = s->sigma * depthx / (3.f * s->block_size * s->block_size);
     const float limit = 1.f - s->amount;
@@ -564,53 +420,6 @@ static void filter_plane3d2(FFTdnoizContext *s, int plane, float *pbuffer, float
                 case 1:
                     factor = power < sigma ? limit : 1.f;
                     break;
-=======
-    const float sigma = s->sigma * s->sigma * block * block;
-    const int slice_start = (noy * jobnr) / nb_jobs;
-    const int slice_end = (noy * (jobnr+1)) / nb_jobs;
-    const float limit = 1.f - s->amount;
-    float *cbuffer = p->buffer[CURRENT];
-    const float cfactor = sqrtf(3.f) * 0.5f;
-    const float scale = 1.f / 3.f;
-    int y, x, i, j;
-
-    for (y = slice_start; y < slice_end; y++) {
-        for (x = 0; x < nox; x++) {
-            float *cbuff = cbuffer + buffer_linesize * y * block + x * block * 2;
-            float *pbuff = pbuffer + buffer_linesize * y * block + x * block * 2;
-            float *nbuff = nbuffer + buffer_linesize * y * block + x * block * 2;
-
-            for (i = 0; i < block; i++) {
-                for (j = 0; j < block; j++) {
-                    float sumr, sumi, difr, difi, mpr, mpi, mnr, mni;
-                    float factor, power, sumpnr, sumpni;
-
-                    sumpnr = pbuff[2 * j    ] + nbuff[2 * j    ];
-                    sumpni = pbuff[2 * j + 1] + nbuff[2 * j + 1];
-                    sumr = cbuff[2 * j    ] + sumpnr;
-                    sumi = cbuff[2 * j + 1] + sumpni;
-                    difr = cfactor * (nbuff[2 * j    ] - pbuff[2 * j    ]);
-                    difi = cfactor * (pbuff[2 * j + 1] - nbuff[2 * j + 1]);
-                    mpr = cbuff[2 * j    ] - 0.5f * sumpnr + difi;
-                    mnr = mpr - difi - difi;
-                    mpi = cbuff[2 * j + 1] - 0.5f * sumpni + difr;
-                    mni = mpi - difr - difr;
-                    power = sumr * sumr + sumi * sumi + 1e-15f;
-                    factor = FFMAX((power - sigma) / power, limit);
-                    sumr *= factor;
-                    sumi *= factor;
-                    power = mpr * mpr + mpi * mpi + 1e-15f;
-                    factor = FFMAX((power - sigma) / power, limit);
-                    mpr *= factor;
-                    mpi *= factor;
-                    power = mnr * mnr + mni * mni + 1e-15f;
-                    factor = FFMAX((power - sigma) / power, limit);
-                    mnr *= factor;
-                    mni *= factor;
-                    cbuff[2 * j    ] = (sumr + mpr + mnr) * scale;
-                    cbuff[2 * j + 1] = (sumi + mpi + mni) * scale;
-
->>>>>>> refs/remotes/origin/master
                 }
 
                 outbuffer[z].re *= factor;
@@ -629,18 +438,12 @@ static void filter_plane3d2(FFTdnoizContext *s, int plane, float *pbuffer, float
     }
 }
 
-<<<<<<< HEAD
 static void filter_block3d1(FFTdnoizContext *s, int plane, float *pbuffer,
                             int jobnr)
-=======
-static void filter_plane3d1(FFTdnoizContext *s, int plane, float *pbuffer,
-                            int jobnr, int nb_jobs)
->>>>>>> refs/remotes/origin/master
 {
     PlaneContext *p = &s->planes[plane];
     const int block = p->b;
     const int buffer_linesize = p->buffer_linesize / sizeof(float);
-<<<<<<< HEAD
     const float depthx = (1 << (s->depth - 8)) * (1 << (s->depth - 8));
     const float sigma = s->sigma * depthx / (2.f * s->block_size * s->block_size);
     const float limit = 1.f - s->amount;
@@ -675,46 +478,6 @@ static void filter_plane3d1(FFTdnoizContext *s, int plane, float *pbuffer,
                 case 1:
                     factor = power < sigma ? limit : 1.f;
                     break;
-=======
-    const float sigma = s->sigma * s->sigma * block * block;
-    const int slice_start = (noy * jobnr) / nb_jobs;
-    const int slice_end = (noy * (jobnr+1)) / nb_jobs;
-    const float limit = 1.f - s->amount;
-    float *cbuffer = p->buffer[CURRENT];
-    int y, x, i, j;
-
-    for (y = slice_start; y < slice_end; y++) {
-        for (x = 0; x < nox; x++) {
-            float *cbuff = cbuffer + buffer_linesize * y * block + x * block * 2;
-            float *pbuff = pbuffer + buffer_linesize * y * block + x * block * 2;
-
-            for (i = 0; i < block; i++) {
-                for (j = 0; j < block; j++) {
-                    float factor, power, re, im, pre, pim;
-                    float sumr, sumi, difr, difi;
-
-                    re = cbuff[j * 2    ];
-                    pre = pbuff[j * 2    ];
-                    im = cbuff[j * 2 + 1];
-                    pim = pbuff[j * 2 + 1];
-
-                    sumr = re + pre;
-                    sumi = im + pim;
-                    difr = re - pre;
-                    difi = im - pim;
-
-                    power = sumr * sumr + sumi * sumi + 1e-15f;
-                    factor = FFMAX(limit, (power - sigma) / power);
-                    sumr *= factor;
-                    sumi *= factor;
-                    power = difr * difr + difi * difi + 1e-15f;
-                    factor = FFMAX(limit, (power - sigma) / power);
-                    difr *= factor;
-                    difi *= factor;
-
-                    cbuff[j * 2    ] = (sumr + difr) * 0.5f;
-                    cbuff[j * 2 + 1] = (sumi + difi) * 0.5f;
->>>>>>> refs/remotes/origin/master
                 }
 
                 outbuffer[z].re *= factor;
@@ -732,13 +495,8 @@ static void filter_plane3d1(FFTdnoizContext *s, int plane, float *pbuffer,
     }
 }
 
-<<<<<<< HEAD
 static void filter_block2d(FFTdnoizContext *s, int plane,
                            int jobnr)
-=======
-static void filter_plane2d(FFTdnoizContext *s, int plane,
-                           int jobnr, int nb_jobs)
->>>>>>> refs/remotes/origin/master
 {
     PlaneContext *p = &s->planes[plane];
     const int block = p->b;
@@ -747,7 +505,6 @@ static void filter_plane2d(FFTdnoizContext *s, int plane,
     const float depthx = (1 << (s->depth - 8)) * (1 << (s->depth - 8));
     const float sigma = s->sigma * depthx / (s->block_size * s->block_size);
     const float limit = 1.f - s->amount;
-<<<<<<< HEAD
     float *buff = p->buffer[jobnr][CURRENT];
 
     for (int i = 0; i < block; i++) {
@@ -796,26 +553,6 @@ static int denoise(AVFilterContext *ctx, void *arg,
                     import_block(s, s->next->data[plane], s->next->linesize[plane],
                                  p->buffer[jobnr][NEXT], p->buffer_linesize, plane,
                                  jobnr, y, x);
-=======
-    const int slice_start = (noy * jobnr) / nb_jobs;
-    const int slice_end = (noy * (jobnr+1)) / nb_jobs;
-    float *buffer = p->buffer[CURRENT];
-
-    for (int y = slice_start; y < slice_end; y++) {
-        for (int x = 0; x < nox; x++) {
-            float *buff = buffer + buffer_linesize * y * block + x * block * 2;
-
-            for (int i = 0; i < block; i++) {
-                for (int j = 0; j < block; j++) {
-                    float factor, power, re, im;
-
-                    re = buff[j * 2    ];
-                    im = buff[j * 2 + 1];
-                    power = re * re + im * im + 1e-15f;
-                    factor = FFMAX(limit, (power - sigma) / power);
-                    buff[j * 2    ] *= factor;
-                    buff[j * 2 + 1] *= factor;
->>>>>>> refs/remotes/origin/master
                 }
 
                 if (s->prev) {
@@ -843,82 +580,6 @@ static int denoise(AVFilterContext *ctx, void *arg,
                              jobnr, y, x);
             }
         }
-    }
-
-    return 0;
-}
-
-static int import_pass(AVFilterContext *ctx, void *arg,
-                       int jobnr, int nb_jobs)
-{
-    FFTdnoizContext *s = ctx->priv;
-
-    for (int plane = 0; plane < s->nb_planes; plane++) {
-        PlaneContext *p = &s->planes[plane];
-
-        if (!((1 << plane) & s->planesf) || ctx->is_disabled)
-            continue;
-
-        if (s->next) {
-            import_plane(s, s->next->data[plane], s->next->linesize[plane],
-                         p->buffer[NEXT], p->buffer_linesize, plane,
-                         jobnr, nb_jobs);
-        }
-
-        if (s->prev) {
-            import_plane(s, s->prev->data[plane], s->prev->linesize[plane],
-                         p->buffer[PREV], p->buffer_linesize, plane,
-                         jobnr, nb_jobs);
-        }
-
-        import_plane(s, s->cur->data[plane], s->cur->linesize[plane],
-                     p->buffer[CURRENT], p->buffer_linesize, plane,
-                     jobnr, nb_jobs);
-    }
-
-    return 0;
-}
-
-static int filter_pass(AVFilterContext *ctx, void *arg,
-                       int jobnr, int nb_jobs)
-{
-    FFTdnoizContext *s = ctx->priv;
-
-    for (int plane = 0; plane < s->nb_planes; plane++) {
-        PlaneContext *p = &s->planes[plane];
-
-        if (!((1 << plane) & s->planesf) || ctx->is_disabled)
-            continue;
-
-        if (s->next && s->prev) {
-            filter_plane3d2(s, plane, p->buffer[PREV], p->buffer[NEXT], jobnr, nb_jobs);
-        } else if (s->next) {
-            filter_plane3d1(s, plane, p->buffer[NEXT], jobnr, nb_jobs);
-        } else  if (s->prev) {
-            filter_plane3d1(s, plane, p->buffer[PREV], jobnr, nb_jobs);
-        } else {
-            filter_plane2d(s, plane, jobnr, nb_jobs);
-        }
-    }
-
-    return 0;
-}
-
-static int export_pass(AVFilterContext *ctx, void *arg,
-                       int jobnr, int nb_jobs)
-{
-    FFTdnoizContext *s = ctx->priv;
-    AVFrame *out = arg;
-
-    for (int plane = 0; plane < s->nb_planes; plane++) {
-        PlaneContext *p = &s->planes[plane];
-
-        if (!((1 << plane) & s->planesf) || ctx->is_disabled)
-            continue;
-
-        export_plane(s, out->data[plane], out->linesize[plane],
-                     p->buffer[CURRENT], p->buffer_linesize, plane,
-                     jobnr, nb_jobs);
     }
 
     return 0;
@@ -976,17 +637,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
         av_frame_copy_props(out, s->cur);
     }
 
-<<<<<<< HEAD
     ff_filter_execute(ctx, denoise, out, NULL,
-=======
-    ff_filter_execute(ctx, import_pass, NULL, NULL,
-                      FFMIN(s->planes[0].noy, s->nb_threads));
-
-    ff_filter_execute(ctx, filter_pass, NULL, NULL,
-                      FFMIN(s->planes[0].noy, s->nb_threads));
-
-    ff_filter_execute(ctx, export_pass, out, NULL,
->>>>>>> refs/remotes/origin/master
                       FFMIN(s->planes[0].noy, s->nb_threads));
 
     for (plane = 0; plane < s->nb_planes; plane++) {
@@ -1051,7 +702,6 @@ static av_cold void uninit(AVFilterContext *ctx)
         for (int j = 0; j < s->nb_threads; j++) {
             av_freep(&p->hdata[j]);
             av_freep(&p->vdata[j]);
-<<<<<<< HEAD
             av_freep(&p->hdata_out[j]);
             av_freep(&p->vdata_out[j]);
             av_freep(&p->buffer[j][PREV]);
@@ -1065,18 +715,6 @@ static av_cold void uninit(AVFilterContext *ctx)
         av_tx_uninit(&s->ifft[i]);
         av_tx_uninit(&s->fft_r[i]);
         av_tx_uninit(&s->ifft_r[i]);
-=======
-        }
-
-        av_freep(&p->buffer[PREV]);
-        av_freep(&p->buffer[CURRENT]);
-        av_freep(&p->buffer[NEXT]);
-    }
-
-    for (i = 0; i < s->nb_threads; i++) {
-        av_fft_end(s->fft[i]);
-        av_fft_end(s->ifft[i]);
->>>>>>> refs/remotes/origin/master
     }
 
     av_frame_free(&s->prev);

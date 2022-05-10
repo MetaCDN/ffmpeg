@@ -35,21 +35,6 @@ void ff_msmpeg4_common_init(MpegEncContext *s);
 int ff_msmpeg4_coded_block_pred(MpegEncContext * s, int n,
                                 uint8_t **coded_block_ptr);
 
-<<<<<<< HEAD
-=======
-void ff_msmpeg4_encode_init(MpegEncContext *s);
-void ff_msmpeg4_encode_picture_header(MpegEncContext *s, int picture_number);
-void ff_msmpeg4_encode_ext_header(MpegEncContext *s);
-void ff_msmpeg4_encode_mb(MpegEncContext *s, int16_t block[6][64],
-                          int motion_x, int motion_y);
-
-int ff_msmpeg4_decode_init(AVCodecContext *avctx);
-int ff_msmpeg4_decode_picture_header(MpegEncContext *s);
-int ff_msmpeg4_decode_ext_header(MpegEncContext *s, int buf_size);
-void ff_msmpeg4_decode_motion(MpegEncContext * s, int *mx_ptr, int *my_ptr);
-int ff_msmpeg4_decode_block(MpegEncContext * s, int16_t * block,
-                            int n, int coded, const uint8_t *scan_table);
->>>>>>> refs/remotes/origin/master
 int ff_msmpeg4_pred_dc(MpegEncContext *s, int n,
                        int16_t **dc_val_ptr, int *dir_ptr);
 

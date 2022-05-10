@@ -653,19 +653,11 @@ static int scale_field(ScaleContext *scale, AVFrame *dst, AVFrame *src,
     }
     src->height /= 2;
     dst->height /= 2;
-<<<<<<< HEAD
 
     ret = sws_scale_frame(scale->isws[field], dst, src);
     if (ret < 0)
         return ret;
 
-=======
-
-    ret = sws_scale_frame(scale->isws[field], dst, src);
-    if (ret < 0)
-        return ret;
-
->>>>>>> refs/remotes/origin/master
     // undo the changes we made above
     for (int i = 0; i < 4; i++) {
         src->linesize[i] /= 2;

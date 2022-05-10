@@ -1026,7 +1026,6 @@ static av_cold int decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_fourxm_decoder = {
     .p.name         = "4xm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("4X Movie"),
@@ -1038,17 +1037,4 @@ const FFCodec ff_fourxm_decoder = {
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-=======
-const AVCodec ff_fourxm_decoder = {
-    .name           = "4xm",
-    .long_name      = NULL_IF_CONFIG_SMALL("4X Movie"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_4XM,
-    .priv_data_size = sizeof(FourXContext),
-    .init           = decode_init,
-    .close          = decode_end,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
->>>>>>> refs/remotes/origin/master
 };

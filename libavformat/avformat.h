@@ -884,7 +884,6 @@ typedef struct AVIndexEntry {
  * to chapter markers. Only ever used with AV_DISPOSITION_ATTACHED_PIC.
  */
 #define AV_DISPOSITION_TIMED_THUMBNAILS     (1 << 11)
-<<<<<<< HEAD
 
 /**
  * The stream is intended to be mixed with a spatial audio track. For example,
@@ -932,48 +931,6 @@ int av_disposition_from_string(const char *disp);
  *         disposition. NULL when the lowest set bit does not correspond
  *         to a known disposition or when disposition is 0.
  */
-=======
-
-/**
- * The subtitle stream contains captions, providing a transcription and possibly
- * a translation of audio. Typically intended for hearing-impaired audiences.
- */
-#define AV_DISPOSITION_CAPTIONS             (1 << 16)
-/**
- * The subtitle stream contains a textual description of the video content.
- * Typically intended for visually-impaired audiences or for the cases where the
- * video cannot be seen.
- */
-#define AV_DISPOSITION_DESCRIPTIONS         (1 << 17)
-/**
- * The subtitle stream contains time-aligned metadata that is not intended to be
- * directly presented to the user.
- */
-#define AV_DISPOSITION_METADATA             (1 << 18)
-/**
- * The audio stream is intended to be mixed with another stream before
- * presentation.
- * Corresponds to mix_type=0 in mpegts.
- */
-#define AV_DISPOSITION_DEPENDENT            (1 << 19)
-/**
- * The video stream contains still images.
- */
-#define AV_DISPOSITION_STILL_IMAGE          (1 << 20)
-
-/**
- * @return The AV_DISPOSITION_* flag corresponding to disp or a negative error
- *         code if disp does not correspond to a known stream disposition.
- */
-int av_disposition_from_string(const char *disp);
-
-/**
- * @param disposition a combination of AV_DISPOSITION_* values
- * @return The string description corresponding to the lowest set bit in
- *         disposition. NULL when the lowest set bit does not correspond
- *         to a known disposition or when disposition is 0.
- */
->>>>>>> refs/remotes/origin/master
 const char *av_disposition_to_string(int disposition);
 
 /**

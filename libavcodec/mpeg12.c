@@ -29,10 +29,6 @@
 
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
-<<<<<<< HEAD
-=======
-#include "libavutil/timecode.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/thread.h"
 
 #include "avcodec.h"
@@ -41,12 +37,7 @@
 #include "mpeg12data.h"
 #include "mpeg12dec.h"
 #include "mpegvideodata.h"
-<<<<<<< HEAD
 #include "startcode.h"
-=======
-#include "bytestream.h"
-#include "thread.h"
->>>>>>> refs/remotes/origin/master
 
 static const uint8_t table_mb_ptype[7][2] = {
     { 3, 5 }, // 0x01 MB_INTRA

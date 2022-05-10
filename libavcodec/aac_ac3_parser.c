@@ -92,7 +92,6 @@ get_next:
         if (avctx->codec_id != AV_CODEC_ID_AAC) {
             avctx->sample_rate = s->sample_rate;
             if (!CONFIG_EAC3_DECODER || avctx->codec_id != AV_CODEC_ID_EAC3) {
-<<<<<<< HEAD
                 av_channel_layout_uninit(&avctx->ch_layout);
                 if (s->channel_layout) {
                     av_channel_layout_from_mask(&avctx->ch_layout, s->channel_layout);
@@ -103,9 +102,6 @@ get_next:
 #if FF_API_OLD_CHANNEL_LAYOUT
 FF_DISABLE_DEPRECATION_WARNINGS
                 avctx->channels = avctx->ch_layout.nb_channels;
-=======
-                avctx->channels = s->channels;
->>>>>>> refs/remotes/origin/master
                 avctx->channel_layout = s->channel_layout;
 FF_ENABLE_DEPRECATION_WARNINGS
 #endif

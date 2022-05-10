@@ -1658,19 +1658,11 @@ static const AVClass ape_decoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_ape_decoder = {
     .p.name         = "ape",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Monkey's Audio"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_APE,
-=======
-const AVCodec ff_ape_decoder = {
-    .name           = "ape",
-    .long_name      = NULL_IF_CONFIG_SMALL("Monkey's Audio"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_APE,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(APEContext),
     .init           = ape_decode_init,
     .close          = ape_decode_close,

@@ -62,10 +62,7 @@
 
 static const char *const opt_name_codec_names[]               = {"c", "codec", "acodec", "vcodec", "scodec", "dcodec", NULL};
 static const char *const opt_name_audio_channels[]            = {"ac", NULL};
-<<<<<<< HEAD
 static const char *const opt_name_audio_ch_layouts[]          = {"channel_layout", "ch_layout", NULL};
-=======
->>>>>>> refs/remotes/origin/master
 static const char *const opt_name_audio_sample_rate[]         = {"ar", NULL};
 static const char *const opt_name_frame_rates[]               = {"r", NULL};
 static const char *const opt_name_max_frame_rates[]           = {"fpsmax", NULL};
@@ -805,15 +802,6 @@ static void add_input_streams(OptionsContext *o, AVFormatContext *ic)
         const AVClass *cc = avcodec_get_class();
         const AVOption *discard_opt = av_opt_find(&cc, "skip_frame", NULL,
                                                   0, AV_OPT_SEARCH_FAKE_OBJ);
-<<<<<<< HEAD
-=======
-
-        if (!ist)
-            exit_program(1);
-
-        GROW_ARRAY(input_streams, nb_input_streams);
-        input_streams[nb_input_streams - 1] = ist;
->>>>>>> refs/remotes/origin/master
 
         ist = ALLOC_ARRAY_ELEM(input_streams, nb_input_streams);
         ist->st = st;
@@ -1135,7 +1123,6 @@ static int open_input_file(OptionsContext *o, const char *filename)
     }
     if (o->nb_audio_channels) {
         const AVClass *priv_class;
-<<<<<<< HEAD
         if (file_iformat && (priv_class = file_iformat->priv_class) &&
             av_opt_find(&priv_class, "ch_layout", NULL, 0,
                         AV_OPT_SEARCH_FAKE_OBJ)) {
@@ -1148,13 +1135,6 @@ static int open_input_file(OptionsContext *o, const char *filename)
         const AVClass *priv_class;
         if (file_iformat && (priv_class = file_iformat->priv_class) &&
             av_opt_find(&priv_class, "ch_layout", NULL, 0,
-=======
-        /* because we set audio_channels based on both the "ac" and
-         * "channel_layout" options, we need to check that the specified
-         * demuxer actually has the "channels" option before setting it */
-        if (file_iformat && (priv_class = file_iformat->priv_class) &&
-            av_opt_find(&priv_class, "channels", NULL, 0,
->>>>>>> refs/remotes/origin/master
                         AV_OPT_SEARCH_FAKE_OBJ)) {
             av_dict_set(&o->g->format_opts, "ch_layout", o->audio_ch_layouts[o->nb_audio_ch_layouts - 1].u.str, 0);
         }
@@ -1616,11 +1596,6 @@ static OutputStream *new_output_stream(OptionsContext *o, AVFormatContext *oc, e
 
     ost->max_muxing_queue_size = 128;
     MATCH_PER_STREAM_OPT(max_muxing_queue_size, i, ost->max_muxing_queue_size, oc, st);
-<<<<<<< HEAD
-=======
-    ost->max_muxing_queue_size = FFMIN(ost->max_muxing_queue_size, INT_MAX / sizeof(ost->pkt));
-    ost->max_muxing_queue_size *= sizeof(ost->pkt);
->>>>>>> refs/remotes/origin/master
 
     ost->muxing_queue_data_size = 0;
 
@@ -1960,11 +1935,6 @@ static OutputStream *new_video_stream(OptionsContext *o, AVFormatContext *oc, in
         ost->last_frame = av_frame_alloc();
         if (!ost->last_frame)
             exit_program(1);
-<<<<<<< HEAD
-=======
-    } else {
-        MATCH_PER_STREAM_OPT(copy_initial_nonkeyframes, i, ost->copy_initial_nonkeyframes, oc ,st);
->>>>>>> refs/remotes/origin/master
     }
 
     if (ost->stream_copy)
@@ -2198,22 +2168,14 @@ static int copy_chapters(InputFile *ifile, OutputFile *ofile, AVFormatContext *o
     return 0;
 }
 
-<<<<<<< HEAD
 static int set_dispositions(OutputFile *of, AVFormatContext *ctx)
-=======
-static int set_dispositions(OutputFile *of)
->>>>>>> refs/remotes/origin/master
 {
     int nb_streams[AVMEDIA_TYPE_NB]   = { 0 };
     int have_default[AVMEDIA_TYPE_NB] = { 0 };
     int have_manual = 0;
 
     // first, copy the input dispositions
-<<<<<<< HEAD
     for (int i = 0; i < ctx->nb_streams; i++) {
-=======
-    for (int i = 0; i< of->ctx->nb_streams; i++) {
->>>>>>> refs/remotes/origin/master
         OutputStream *ost = output_streams[of->ost_index + i];
 
         nb_streams[ost->st->codecpar->codec_type]++;
@@ -2230,11 +2192,7 @@ static int set_dispositions(OutputFile *of)
 
     if (have_manual) {
         // process manually set dispositions - they override the above copy
-<<<<<<< HEAD
         for (int i = 0; i < ctx->nb_streams; i++) {
-=======
-        for (int i = 0; i< of->ctx->nb_streams; i++) {
->>>>>>> refs/remotes/origin/master
             OutputStream *ost = output_streams[of->ost_index + i];
             int ret;
 
@@ -2260,11 +2218,7 @@ static int set_dispositions(OutputFile *of)
         // For each media type with more than one stream, find a suitable stream to
         // mark as default, unless one is already marked default.
         // "Suitable" means the first of that type, skipping attached pictures.
-<<<<<<< HEAD
         for (int i = 0; i < ctx->nb_streams; i++) {
-=======
-        for (int i = 0; i< of->ctx->nb_streams; i++) {
->>>>>>> refs/remotes/origin/master
             OutputStream *ost = output_streams[of->ost_index + i];
             enum AVMediaType type = ost->st->codecpar->codec_type;
 
@@ -2457,11 +2411,7 @@ static int open_output_file(OptionsContext *o, const char *filename)
                 for (i = 0; i < ifile->nb_streams; i++) {
                     int score;
                     ist = input_streams[ifile->ist_index + i];
-<<<<<<< HEAD
                     score = ist->st->codecpar->ch_layout.nb_channels
-=======
-                    score = ist->st->codecpar->channels
->>>>>>> refs/remotes/origin/master
                             + 100000000 * !!(ist->st->event_flags & AVSTREAM_EVENT_FLAG_NEW_PACKETS)
                             + 5000000*!!(ist->st->disposition & AV_DISPOSITION_DEFAULT);
                     if (ist->user_set_discard == AVDISCARD_ALL)
@@ -2738,17 +2688,10 @@ loop_end:
                 } else {
                     f->sample_rates = ost->enc->supported_samplerates;
                 }
-<<<<<<< HEAD
                 if (ost->enc_ctx->ch_layout.nb_channels) {
                     av_channel_layout_default(&f->ch_layout, ost->enc_ctx->ch_layout.nb_channels);
                 } else if (ost->enc->ch_layouts) {
                     f->ch_layouts = ost->enc->ch_layouts;
-=======
-                if (ost->enc_ctx->channels) {
-                    f->channel_layout = av_get_default_channel_layout(ost->enc_ctx->channels);
-                } else {
-                    f->channel_layouts = ost->enc->channel_layouts;
->>>>>>> refs/remotes/origin/master
                 }
                 break;
             }
@@ -2972,11 +2915,7 @@ loop_end:
         }
     }
 
-<<<<<<< HEAD
     err = set_dispositions(of, oc);
-=======
-    err = set_dispositions(of);
->>>>>>> refs/remotes/origin/master
     if (err < 0) {
         av_log(NULL, AV_LOG_FATAL, "Error setting output stream dispositions\n");
         exit_program(1);
@@ -3343,14 +3282,8 @@ static int opt_audio_qscale(void *optctx, const char *opt, const char *arg)
 
 static int opt_filter_complex(void *optctx, const char *opt, const char *arg)
 {
-<<<<<<< HEAD
     FilterGraph *fg = ALLOC_ARRAY_ELEM(filtergraphs, nb_filtergraphs);
 
-=======
-    FilterGraph *fg;
-    ALLOC_ARRAY_ELEM(filtergraphs, nb_filtergraphs);
-    fg = filtergraphs[nb_filtergraphs - 1];
->>>>>>> refs/remotes/origin/master
     fg->index      = nb_filtergraphs - 1;
     fg->graph_desc = av_strdup(arg);
     if (!fg->graph_desc)

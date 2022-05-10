@@ -149,11 +149,7 @@ static av_cold void uninit(AVFilterContext *ctx)
     av_freep(&s->zyklus);
 }
 
-<<<<<<< HEAD
 static int config_props(AVFilterLink *outlink)
-=======
-static int config_props(AVFilterLink *inlink)
->>>>>>> refs/remotes/origin/master
 {
     AVFilterContext *ctx = outlink->src;
     MBContext *s = ctx->priv;

@@ -20,6 +20,7 @@
 #include "libavutil/opt.h"
 
 #include "bsf.h"
+#include "bsf_internal.h"
 #include "cbs.h"
 #include "cbs_bsf.h"
 #include "cbs_av1.h"
@@ -227,8 +228,4 @@ const FFBitStreamFilter ff_av1_metadata_bsf = {
     .init           = &av1_metadata_init,
     .close          = &ff_cbs_bsf_generic_close,
     .filter         = &ff_cbs_bsf_generic_filter,
-<<<<<<< HEAD
-=======
-    .codec_ids      = av1_metadata_codec_ids,
->>>>>>> refs/remotes/origin/master
 };

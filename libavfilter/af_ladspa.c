@@ -794,11 +794,8 @@ static av_cold void uninit(AVFilterContext *ctx)
     av_freep(&s->octlv);
     av_freep(&s->handles);
     av_freep(&s->ctl_needs_value);
-<<<<<<< HEAD
 
     av_fifo_freep2(&s->fifo);
-=======
->>>>>>> refs/remotes/origin/master
 }
 
 static int process_command(AVFilterContext *ctx, const char *cmd, const char *args,

@@ -93,24 +93,15 @@ typedef struct DrawBoxContext {
     char *box_source_string; ///< string for box data source
     int have_alpha;
     int replace;
-<<<<<<< HEAD
     int step;
     enum AVFrameSideDataType box_source;
 
     void (*draw_region)(AVFrame *frame, struct DrawBoxContext *ctx, int left, int top, int right, int down,
                         PixelBelongsToRegion pixel_belongs_to_region);
-=======
-    enum AVFrameSideDataType box_source;
->>>>>>> refs/remotes/origin/master
 } DrawBoxContext;
 
 static const int NUM_EXPR_EVALS = 5;
 
-<<<<<<< HEAD
-=======
-typedef int (*PixelBelongsToRegion)(DrawBoxContext *s, int x, int y);
-
->>>>>>> refs/remotes/origin/master
 #define ASSIGN_THREE_CHANNELS                                        \
     row[0] = frame->data[0] +  y               * frame->linesize[0]; \
     row[1] = frame->data[1] + (y >> ctx->vsub) * frame->linesize[1]; \
@@ -165,7 +156,6 @@ static void draw_region(AVFrame *frame, DrawBoxContext *ctx, int left, int top, 
     }
 }
 
-<<<<<<< HEAD
 #define ASSIGN_THREE_CHANNELS_PACKED                  \
     row[0] = frame->data[0] + y * frame->linesize[0] + ctx->rgba_map[0]; \
     row[1] = frame->data[0] + y * frame->linesize[0] + ctx->rgba_map[1]; \
@@ -227,8 +217,6 @@ static void draw_region_rgb_packed(AVFrame *frame, DrawBoxContext *ctx, int left
     }
 }
 
-=======
->>>>>>> refs/remotes/origin/master
 static enum AVFrameSideDataType box_source_string_parse(const char *box_source_string)
 {
     av_assert0(box_source_string);
@@ -243,14 +231,6 @@ static enum AVFrameSideDataType box_source_string_parse(const char *box_source_s
 static av_cold int init(AVFilterContext *ctx)
 {
     DrawBoxContext *s = ctx->priv;
-
-    if (s->box_source_string) {
-        s->box_source = box_source_string_parse(s->box_source_string);
-        if ((int)s->box_source < 0) {
-            av_log(ctx, AV_LOG_ERROR, "Error box source: %s\n",s->box_source_string);
-            return AVERROR(EINVAL);
-        }
-    }
 
     if (s->box_source_string) {
         s->box_source = box_source_string_parse(s->box_source_string);
@@ -281,14 +261,11 @@ static const enum AVPixelFormat pix_fmts[] = {
     AV_PIX_FMT_YUVJ444P, AV_PIX_FMT_YUVJ422P, AV_PIX_FMT_YUVJ420P,
     AV_PIX_FMT_YUV440P,  AV_PIX_FMT_YUVJ440P,
     AV_PIX_FMT_YUVA420P, AV_PIX_FMT_YUVA422P, AV_PIX_FMT_YUVA444P,
-<<<<<<< HEAD
     AV_PIX_FMT_RGB24,  AV_PIX_FMT_BGR24,
     AV_PIX_FMT_RGBA,   AV_PIX_FMT_BGRA,
     AV_PIX_FMT_ARGB,   AV_PIX_FMT_ABGR,
     AV_PIX_FMT_0RGB,   AV_PIX_FMT_0BGR,
     AV_PIX_FMT_RGB0,   AV_PIX_FMT_BGR0,
-=======
->>>>>>> refs/remotes/origin/master
     AV_PIX_FMT_NONE
 };
 
@@ -421,13 +398,8 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
             s->w = bbox->w;
         }
 
-<<<<<<< HEAD
         s->draw_region(frame, s, FFMAX(s->x, 0), FFMAX(s->y, 0), FFMIN(s->x + s->w, frame->width),
                        FFMIN(s->y + s->h, frame->height), pixel_belongs_to_box);
-=======
-        draw_region(frame, s, FFMAX(s->x, 0), FFMAX(s->y, 0), FFMIN(s->x + s->w, frame->width),
-                    FFMIN(s->y + s->h, frame->height), pixel_belongs_to_box);
->>>>>>> refs/remotes/origin/master
     }
 
     return ff_filter_frame(inlink->dst->outputs[0], frame);
@@ -549,11 +521,7 @@ static int drawgrid_filter_frame(AVFilterLink *inlink, AVFrame *frame)
 {
     DrawBoxContext *drawgrid = inlink->dst->priv;
 
-<<<<<<< HEAD
     drawgrid->draw_region(frame, drawgrid, 0, 0, frame->width, frame->height, pixel_belongs_to_grid);
-=======
-    draw_region(frame, drawgrid, 0, 0, frame->width, frame->height, pixel_belongs_to_grid);
->>>>>>> refs/remotes/origin/master
 
     return ff_filter_frame(inlink->dst->outputs[0], frame);
 }

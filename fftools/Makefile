@@ -9,15 +9,11 @@ AVBASENAMES  = ffmpeg ffplay ffprobe
 ALLAVPROGS   = $(AVBASENAMES:%=%$(PROGSSUF)$(EXESUF))
 ALLAVPROGS_G = $(AVBASENAMES:%=%$(PROGSSUF)_g$(EXESUF))
 
-<<<<<<< HEAD
 OBJS-ffmpeg +=                  \
     fftools/ffmpeg_filter.o     \
     fftools/ffmpeg_hw.o         \
     fftools/ffmpeg_mux.o        \
     fftools/ffmpeg_opt.o        \
-=======
-OBJS-ffmpeg                        += fftools/ffmpeg_opt.o fftools/ffmpeg_filter.o fftools/ffmpeg_hw.o
->>>>>>> refs/remotes/origin/master
 
 define DOFFTOOL
 OBJS-$(1) += fftools/cmdutils.o fftools/opt_common.o fftools/$(1).o $(OBJS-$(1)-yes)

@@ -42,13 +42,8 @@
 
 #include "libavutil/avassert.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "lcl.h"
 #include "zlib_wrapper.h"
 #include "libavutil/internal.h"
@@ -109,11 +104,7 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
         return -1;
     }
 
-<<<<<<< HEAD
     pkt->size   = zstream->total_out;
-=======
-    pkt->size   = c->zstream.total_out;
->>>>>>> refs/remotes/origin/master
     *got_packet = 1;
 
     return 0;
@@ -155,28 +146,16 @@ static av_cold int encode_end(AVCodecContext *avctx)
 {
     LclEncContext *c = avctx->priv_data;
 
-<<<<<<< HEAD
     ff_deflate_end(&c->zstream);
-=======
-    deflateEnd(&c->zstream);
->>>>>>> refs/remotes/origin/master
 
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_zlib_encoder = {
     .p.name         = "zlib",
     .p.long_name    = NULL_IF_CONFIG_SMALL("LCL (LossLess Codec Library) ZLIB"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_ZLIB,
-=======
-const AVCodec ff_zlib_encoder = {
-    .name           = "zlib",
-    .long_name      = NULL_IF_CONFIG_SMALL("LCL (LossLess Codec Library) ZLIB"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_ZLIB,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LclEncContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),

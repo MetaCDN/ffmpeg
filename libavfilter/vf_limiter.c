@@ -87,20 +87,6 @@ static const enum AVPixelFormat pix_fmts[] = {
     AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY9, AV_PIX_FMT_GRAY10, AV_PIX_FMT_GRAY12, AV_PIX_FMT_GRAY14, AV_PIX_FMT_GRAY16,
     AV_PIX_FMT_NONE
 };
-<<<<<<< HEAD
-=======
-
-static void limiter8(const uint8_t *src, uint8_t *dst,
-                     ptrdiff_t slinesize, ptrdiff_t dlinesize,
-                     int w, int h, int min, int max)
-{
-    int x, y;
-
-    for (y = 0; y < h; y++) {
-        for (x = 0; x < w; x++) {
-            dst[x] = av_clip(src[x], min, max);
-        }
->>>>>>> refs/remotes/origin/master
 
 #define LIMITER(n, type)                                        \
 static void limiter##n(const uint8_t *ssrc, uint8_t *ddst,      \
@@ -126,14 +112,6 @@ static void limiter##n(const uint8_t *ssrc, uint8_t *ddst,      \
 LIMITER(8,  uint8_t)
 LIMITER(16, uint16_t)
 
-<<<<<<< HEAD
-=======
-        dst += dlinesize;
-        src += slinesize;
-    }
-}
-
->>>>>>> refs/remotes/origin/master
 static int config_input(AVFilterLink *inlink)
 {
     AVFilterContext *ctx = inlink->dst;

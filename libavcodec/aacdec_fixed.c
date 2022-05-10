@@ -450,19 +450,11 @@ static void apply_independent_coupling_fixed(AACContext *ac,
 
 #include "aacdec_template.c"
 
-<<<<<<< HEAD
 const FFCodec ff_aac_fixed_decoder = {
     .p.name          = "aac_fixed",
     .p.long_name     = NULL_IF_CONFIG_SMALL("AAC (Advanced Audio Coding)"),
     .p.type          = AVMEDIA_TYPE_AUDIO,
     .p.id            = AV_CODEC_ID_AAC,
-=======
-const AVCodec ff_aac_fixed_decoder = {
-    .name            = "aac_fixed",
-    .long_name       = NULL_IF_CONFIG_SMALL("AAC (Advanced Audio Coding)"),
-    .type            = AVMEDIA_TYPE_AUDIO,
-    .id              = AV_CODEC_ID_AAC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size  = sizeof(AACContext),
     .init            = aac_decode_init,
     .close           = aac_decode_close,

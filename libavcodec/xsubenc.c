@@ -22,11 +22,7 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "put_bits.h"
 
 /**
@@ -215,7 +211,6 @@ static av_cold int xsub_encoder_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_xsub_encoder = {
     .p.name     = "xsub",
     .p.long_name = NULL_IF_CONFIG_SMALL("DivX subtitles (XSUB)"),
@@ -223,14 +218,5 @@ const FFCodec ff_xsub_encoder = {
     .p.id       = AV_CODEC_ID_XSUB,
     .init       = xsub_encoder_init,
     FF_CODEC_ENCODE_SUB_CB(xsub_encode),
-=======
-const AVCodec ff_xsub_encoder = {
-    .name       = "xsub",
-    .long_name  = NULL_IF_CONFIG_SMALL("DivX subtitles (XSUB)"),
-    .type       = AVMEDIA_TYPE_SUBTITLE,
-    .id         = AV_CODEC_ID_XSUB,
-    .init       = xsub_encoder_init,
-    .encode_sub = xsub_encode,
->>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

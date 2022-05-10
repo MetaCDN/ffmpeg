@@ -690,7 +690,6 @@ static const AVClass pgsdec_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_pgssub_decoder = {
     .p.name         = "pgssub",
     .p.long_name    = NULL_IF_CONFIG_SMALL("HDMV Presentation Graphic Stream subtitles"),
@@ -701,17 +700,5 @@ const FFCodec ff_pgssub_decoder = {
     .close          = close_decoder,
     FF_CODEC_DECODE_SUB_CB(decode),
     .p.priv_class   = &pgsdec_class,
-=======
-const AVCodec ff_pgssub_decoder = {
-    .name           = "pgssub",
-    .long_name      = NULL_IF_CONFIG_SMALL("HDMV Presentation Graphic Stream subtitles"),
-    .type           = AVMEDIA_TYPE_SUBTITLE,
-    .id             = AV_CODEC_ID_HDMV_PGS_SUBTITLE,
-    .priv_data_size = sizeof(PGSSubContext),
-    .init           = init_decoder,
-    .close          = close_decoder,
-    .decode         = decode,
-    .priv_class     = &pgsdec_class,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

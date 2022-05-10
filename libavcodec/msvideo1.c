@@ -33,10 +33,7 @@
 #include "libavutil/internal.h"
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 
@@ -344,7 +341,6 @@ static av_cold int msvideo1_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_msvideo1_decoder = {
     .p.name         = "msvideo1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Microsoft Video 1"),
@@ -355,17 +351,5 @@ const FFCodec ff_msvideo1_decoder = {
     .close          = msvideo1_decode_end,
     FF_CODEC_DECODE_CB(msvideo1_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_msvideo1_decoder = {
-    .name           = "msvideo1",
-    .long_name      = NULL_IF_CONFIG_SMALL("Microsoft Video 1"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_MSVIDEO1,
-    .priv_data_size = sizeof(Msvideo1Context),
-    .init           = msvideo1_decode_init,
-    .close          = msvideo1_decode_end,
-    .decode         = msvideo1_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

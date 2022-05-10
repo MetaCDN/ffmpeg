@@ -24,10 +24,7 @@
  * WebP encoder using libwebp (WebPEncode API)
  */
 
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "libwebpenc_common.h"
 
@@ -90,7 +87,6 @@ static int libwebp_encode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_libwebp_encoder = {
     .p.name         = "libwebp",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libwebp WebP image"),
@@ -100,23 +96,9 @@ const FFCodec ff_libwebp_encoder = {
     .p.pix_fmts     = ff_libwebpenc_pix_fmts,
     .p.priv_class   = &ff_libwebpenc_class,
     .p.wrapper_name = "libwebp",
-=======
-const AVCodec ff_libwebp_encoder = {
-    .name           = "libwebp",
-    .long_name      = NULL_IF_CONFIG_SMALL("libwebp WebP image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_WEBP,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .pix_fmts       = ff_libwebpenc_pix_fmts,
-    .priv_class     = &ff_libwebpenc_class,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibWebPContext),
     .defaults       = ff_libwebp_defaults,
     .init           = libwebp_encode_init,
     FF_CODEC_ENCODE_CB(libwebp_encode_frame),
     .close          = libwebp_encode_close,
-<<<<<<< HEAD
-=======
-    .wrapper_name   = "libwebp",
->>>>>>> refs/remotes/origin/master
 };

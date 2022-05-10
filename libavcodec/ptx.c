@@ -86,7 +86,6 @@ static int ptx_decode_frame(AVCodecContext *avctx, AVFrame *p,
     return offset + w*h*bytes_per_pixel;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_ptx_decoder = {
     .p.name         = "ptx",
     .p.long_name    = NULL_IF_CONFIG_SMALL("V.Flash PTX image"),
@@ -94,13 +93,4 @@ const FFCodec ff_ptx_decoder = {
     .p.id           = AV_CODEC_ID_PTX,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(ptx_decode_frame),
-=======
-const AVCodec ff_ptx_decoder = {
-    .name           = "ptx",
-    .long_name      = NULL_IF_CONFIG_SMALL("V.Flash PTX image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PTX,
-    .decode         = ptx_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
 };

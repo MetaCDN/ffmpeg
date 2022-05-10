@@ -297,7 +297,6 @@ static av_cold int vp5_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 static av_cold int vp56_free(AVCodecContext *avctx)
 {
     VP56Context *const s = avctx->priv_data;
@@ -309,13 +308,6 @@ const FFCodec ff_vp5_decoder = {
     .p.long_name    = NULL_IF_CONFIG_SMALL("On2 VP5"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_VP5,
-=======
-const AVCodec ff_vp5_decoder = {
-    .name           = "vp5",
-    .long_name      = NULL_IF_CONFIG_SMALL("On2 VP5"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_VP5,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VP56Context),
     .init           = vp5_decode_init,
     .close          = vp56_free,

@@ -30,14 +30,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "config.h"
 #include "libavutil/attributes.h"
 #include "libavutil/macros.h"
-=======
-#include "libavutil/attributes.h"
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 #include "libavutil/x86/asm.h"
 #include "fdct.h"

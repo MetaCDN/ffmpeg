@@ -25,13 +25,8 @@
 #include "libavutil/imgutils.h"
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 
 /** Maximum RLE code for bulk copy */
 #define MAX_RLE_BULK   127
@@ -404,19 +399,11 @@ static int qtrle_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_qtrle_encoder = {
     .p.name         = "qtrle",
     .p.long_name    = NULL_IF_CONFIG_SMALL("QuickTime Animation (RLE) video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_QTRLE,
-=======
-const AVCodec ff_qtrle_encoder = {
-    .name           = "qtrle",
-    .long_name      = NULL_IF_CONFIG_SMALL("QuickTime Animation (RLE) video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_QTRLE,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(QtrleEncContext),
     .init           = qtrle_encode_init,
     FF_CODEC_ENCODE_CB(qtrle_encode_frame),

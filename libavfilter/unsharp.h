@@ -51,10 +51,7 @@ typedef struct UnsharpContext {
     UnsharpFilterParam chroma; ///< chroma parameters (width, height, amount)
     UnsharpFilterParam alpha;  ///< alpha parameters (width, height, amount)
     int hsub, vsub;
-<<<<<<< HEAD
     int nb_planes;
-=======
->>>>>>> refs/remotes/origin/master
     int bitdepth;
     int bps;
     int nb_threads;

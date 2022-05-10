@@ -1050,19 +1050,11 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_utvideo_decoder = {
     .p.name         = "utvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Ut Video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_UTVIDEO,
-=======
-const AVCodec ff_utvideo_decoder = {
-    .name           = "utvideo",
-    .long_name      = NULL_IF_CONFIG_SMALL("Ut Video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_UTVIDEO,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(UtvideoContext),
     .init           = decode_init,
     .close          = decode_end,

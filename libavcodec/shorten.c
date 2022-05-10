@@ -803,7 +803,6 @@ static av_cold int shorten_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_shorten_decoder = {
     .p.name         = "shorten",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Shorten"),
@@ -818,22 +817,6 @@ const FFCodec ff_shorten_decoder = {
                       AV_CODEC_CAP_DR1 |
                       AV_CODEC_CAP_SUBFRAMES ,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
-=======
-const AVCodec ff_shorten_decoder = {
-    .name           = "shorten",
-    .long_name      = NULL_IF_CONFIG_SMALL("Shorten"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_SHORTEN,
-    .priv_data_size = sizeof(ShortenContext),
-    .init           = shorten_decode_init,
-    .close          = shorten_decode_close,
-    .decode         = shorten_decode_frame,
-    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
-                      AV_CODEC_CAP_DELAY |
-                      AV_CODEC_CAP_DR1 |
-                      AV_CODEC_CAP_SUBFRAMES ,
-    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
->>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_U8P,
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,

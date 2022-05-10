@@ -20,10 +20,7 @@
  */
 
 #include "config.h"
-<<<<<<< HEAD
 #include "config_components.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "metasound_data.h"
 
 #if CONFIG_METASOUND_DECODER

@@ -68,20 +68,12 @@ int ff_dnn_execute_layer_math_unary(DnnOperand *operands, const int32_t *input_o
     output->length = ff_calculate_operand_data_length(output);
     if (output->length <= 0) {
         av_log(ctx, AV_LOG_ERROR, "The output data length overflow\n");
-<<<<<<< HEAD
         return AVERROR(EINVAL);
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
     output->data = av_realloc(output->data, output->length);
     if (!output->data) {
         av_log(ctx, AV_LOG_ERROR, "Failed to reallocate memory for output\n");
-<<<<<<< HEAD
         return AVERROR(ENOMEM);
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 
     dims_count = ff_calculate_operand_dims_count(output);
@@ -159,10 +151,6 @@ int ff_dnn_execute_layer_math_unary(DnnOperand *operands, const int32_t *input_o
         return 0;
     default:
         av_log(ctx, AV_LOG_ERROR, "Unmatch math unary operator\n");
-<<<<<<< HEAD
         return AVERROR(EINVAL);
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
 }

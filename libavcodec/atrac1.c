@@ -336,10 +336,7 @@ static av_cold int atrac1_decode_init(AVCodecContext *avctx)
 {
     AT1Ctx *q = avctx->priv_data;
     AVFloatDSPContext *fdsp;
-<<<<<<< HEAD
     int channels = avctx->ch_layout.nb_channels;
-=======
->>>>>>> refs/remotes/origin/master
     int ret;
 
     avctx->sample_fmt = AV_SAMPLE_FMT_FLTP;
@@ -387,19 +384,11 @@ static av_cold int atrac1_decode_init(AVCodecContext *avctx)
 }
 
 
-<<<<<<< HEAD
 const FFCodec ff_atrac1_decoder = {
     .p.name         = "atrac1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ATRAC1 (Adaptive TRansform Acoustic Coding)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_ATRAC1,
-=======
-const AVCodec ff_atrac1_decoder = {
-    .name           = "atrac1",
-    .long_name      = NULL_IF_CONFIG_SMALL("ATRAC1 (Adaptive TRansform Acoustic Coding)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_ATRAC1,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AT1Ctx),
     .init           = atrac1_decode_init,
     .close          = atrac1_decode_end,

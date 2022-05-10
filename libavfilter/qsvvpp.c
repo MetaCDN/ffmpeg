@@ -40,14 +40,11 @@
 
 static const AVRational default_tb = { 1, 90000 };
 
-<<<<<<< HEAD
 typedef struct QSVAsyncFrame {
     mfxSyncPoint  sync;
     QSVFrame     *frame;
 } QSVAsyncFrame;
 
-=======
->>>>>>> refs/remotes/origin/master
 static const struct {
     int mfx_iopattern;
     const char *desc;
@@ -650,16 +647,6 @@ static int init_vpp_session(AVFilterContext *avctx, QSVVPPContext *s)
     return 0;
 }
 
-static unsigned int qsv_fifo_item_size(void)
-{
-    return sizeof(mfxSyncPoint) + sizeof(QSVFrame*);
-}
-
-static unsigned int qsv_fifo_size(const AVFifoBuffer* fifo)
-{
-    return  av_fifo_size(fifo)/qsv_fifo_item_size();
-}
-
 int ff_qsvvpp_create(AVFilterContext *avctx, QSVVPPContext **vpp, QSVVPPParam *param)
 {
     int i;
@@ -735,11 +722,7 @@ int ff_qsvvpp_create(AVFilterContext *avctx, QSVVPPContext **vpp, QSVVPPParam *p
     s->got_frame = 0;
 
     /** keep fifo size at least 1. Even when async_depth is 0, fifo is used. */
-<<<<<<< HEAD
     s->async_fifo  = av_fifo_alloc2(param->async_depth + 1, sizeof(QSVAsyncFrame), 0);
-=======
-    s->async_fifo  = av_fifo_alloc((param->async_depth + 1) * qsv_fifo_item_size());
->>>>>>> refs/remotes/origin/master
     s->async_depth = param->async_depth;
     if (!s->async_fifo) {
         ret = AVERROR(ENOMEM);
@@ -801,11 +784,7 @@ int ff_qsvvpp_free(QSVVPPContext **vpp)
     av_freep(&s->surface_ptrs_out);
     av_freep(&s->ext_buffers);
     av_freep(&s->frame_infos);
-<<<<<<< HEAD
     av_fifo_freep2(&s->async_fifo);
-=======
-    av_fifo_free(s->async_fifo);
->>>>>>> refs/remotes/origin/master
     av_freep(vpp);
 
     return 0;
@@ -817,10 +796,9 @@ int ff_qsvvpp_filter_frame(QSVVPPContext *s, AVFilterLink *inlink, AVFrame *picr
     AVFilterLink     *outlink = ctx->outputs[0];
     QSVAsyncFrame     aframe;
     mfxSyncPoint      sync;
-    QSVFrame         *in_frame, *out_frame, *tmp;
+    QSVFrame         *in_frame, *out_frame;
     int               ret, filter_ret;
 
-<<<<<<< HEAD
     while (s->eof && av_fifo_read(s->async_fifo, &aframe, 1) >= 0) {
         if (MFXVideoCORE_SyncOperation(s->session, aframe.sync, 1000) < 0)
             av_log(ctx, AV_LOG_WARNING, "Sync failed.\n");
@@ -833,22 +811,6 @@ int ff_qsvvpp_filter_frame(QSVVPPContext *s, AVFilterLink *inlink, AVFrame *picr
         aframe.frame->queued--;
         s->got_frame = 1;
         aframe.frame->frame = NULL;
-=======
-    while (s->eof && qsv_fifo_size(s->async_fifo)) {
-        av_fifo_generic_read(s->async_fifo, &tmp, sizeof(tmp), NULL);
-        av_fifo_generic_read(s->async_fifo, &sync, sizeof(sync), NULL);
-        if (MFXVideoCORE_SyncOperation(s->session, sync, 1000) < 0)
-            av_log(ctx, AV_LOG_WARNING, "Sync failed.\n");
-
-        filter_ret = s->filter_frame(outlink, tmp->frame);
-        if (filter_ret < 0) {
-            av_frame_free(&tmp->frame);
-            return filter_ret;
-        }
-        tmp->queued--;
-        s->got_frame = 1;
-        tmp->frame = NULL;
->>>>>>> refs/remotes/origin/master
     };
 
     if (!picref)
@@ -885,7 +847,6 @@ int ff_qsvvpp_filter_frame(QSVVPPContext *s, AVFilterLink *inlink, AVFrame *picr
                                              default_tb, outlink->time_base);
 
         out_frame->queued++;
-<<<<<<< HEAD
         aframe = (QSVAsyncFrame){ sync, out_frame };
         av_fifo_write(s->async_fifo, &aframe, 1);
 
@@ -905,29 +866,6 @@ int ff_qsvvpp_filter_frame(QSVVPPContext *s, AVFilterLink *inlink, AVFrame *picr
             aframe.frame->queued--;
             s->got_frame = 1;
             aframe.frame->frame = NULL;
-=======
-        av_fifo_generic_write(s->async_fifo, &out_frame, sizeof(out_frame), NULL);
-        av_fifo_generic_write(s->async_fifo, &sync, sizeof(sync), NULL);
-
-
-        if (qsv_fifo_size(s->async_fifo) > s->async_depth) {
-            av_fifo_generic_read(s->async_fifo, &tmp, sizeof(tmp), NULL);
-            av_fifo_generic_read(s->async_fifo, &sync, sizeof(sync), NULL);
-
-            do {
-                ret = MFXVideoCORE_SyncOperation(s->session, sync, 1000);
-            } while (ret == MFX_WRN_IN_EXECUTION);
-
-            filter_ret = s->filter_frame(outlink, tmp->frame);
-            if (filter_ret < 0) {
-                av_frame_free(&tmp->frame);
-                return filter_ret;
-            }
-
-            tmp->queued--;
-            s->got_frame = 1;
-            tmp->frame = NULL;
->>>>>>> refs/remotes/origin/master
         }
     } while(ret == MFX_ERR_MORE_SURFACE);
 

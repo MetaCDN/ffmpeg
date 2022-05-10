@@ -39,10 +39,7 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "hap.h"
 #include "texturedsp.h"
@@ -349,19 +346,11 @@ static const AVClass hapenc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_hap_encoder = {
     .p.name         = "hap",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Vidvox Hap"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HAP,
-=======
-const AVCodec ff_hap_encoder = {
-    .name           = "hap",
-    .long_name      = NULL_IF_CONFIG_SMALL("Vidvox Hap"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_HAP,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(HapContext),
     .p.priv_class   = &hapenc_class,
     .p.capabilities = AV_CODEC_CAP_SLICE_THREADS,

@@ -341,10 +341,7 @@ endfunc
 .macro  def_fft n, n2, n4
 function fft\n\()_neon, align=6
         AARCH64_VALID_JUMP_TARGET
-<<<<<<< HEAD
         AARCH64_SIGN_LINK_REGISTER
-=======
->>>>>>> refs/remotes/origin/master
         sub             sp,  sp,  #16
         stp             x28, x30, [sp]
         add             x28, x0,  #\n4*2*8

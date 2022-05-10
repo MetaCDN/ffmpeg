@@ -375,13 +375,8 @@ static int movie_query_formats(AVFilterContext *ctx)
             list[0] = c->sample_rate;
             if ((ret = ff_formats_ref(ff_make_format_list(list), &outlink->incfg.samplerates)) < 0)
                 return ret;
-<<<<<<< HEAD
             list64[0] = c->ch_layout;
             if ((ret = ff_channel_layouts_ref(ff_make_channel_layout_list(list64),
-=======
-            list64[0] = c->channel_layout;
-            if ((ret = ff_channel_layouts_ref(ff_make_format64_list(list64),
->>>>>>> refs/remotes/origin/master
                                    &outlink->incfg.channel_layouts)) < 0)
                 return ret;
             break;

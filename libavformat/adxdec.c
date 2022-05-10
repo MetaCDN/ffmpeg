@@ -56,13 +56,8 @@ static int adx_read_packet(AVFormatContext *s, AVPacket *pkt)
     if (avio_feof(s->pb))
         return AVERROR_EOF;
 
-<<<<<<< HEAD
     if (par->ch_layout.nb_channels <= 0) {
         av_log(s, AV_LOG_ERROR, "invalid number of channels %d\n", par->ch_layout.nb_channels);
-=======
-    if (par->channels <= 0) {
-        av_log(s, AV_LOG_ERROR, "invalid number of channels %d\n", par->channels);
->>>>>>> refs/remotes/origin/master
         return AVERROR_INVALIDDATA;
     }
 
@@ -84,13 +79,8 @@ static int adx_read_packet(AVFormatContext *s, AVPacket *pkt)
         size = ret;
     }
 
-<<<<<<< HEAD
     pkt->duration = size / (BLOCK_SIZE * par->ch_layout.nb_channels);
     pkt->pts      = (pkt->pos - c->header_size) / (BLOCK_SIZE * par->ch_layout.nb_channels);
-=======
-    pkt->duration = size / (BLOCK_SIZE * par->channels);
-    pkt->pts      = (pkt->pos - c->header_size) / (BLOCK_SIZE * par->channels);
->>>>>>> refs/remotes/origin/master
 
     return 0;
 }

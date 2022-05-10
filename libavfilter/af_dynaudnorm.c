@@ -471,11 +471,7 @@ static void update_gain_history(DynamicAudioNormalizerContext *s, int channel,
 {
     if (cqueue_empty(s->gain_history_original[channel])) {
         const int pre_fill_size = s->filter_size / 2;
-<<<<<<< HEAD
         const double initial_value = s->alt_boundary_mode ? gain.max_gain : fmin(1.0, gain.max_gain);
-=======
-        const double initial_value = s->alt_boundary_mode ? gain.max_gain : FFMIN(1.0, gain.max_gain);
->>>>>>> refs/remotes/origin/master
 
         s->prev_amplification_factor[channel] = initial_value;
 
@@ -730,14 +726,8 @@ static int analyze_frame(DynamicAudioNormalizerContext *s, AVFilterLink *outlink
 static void amplify_frame(DynamicAudioNormalizerContext *s, AVFrame *in,
                           AVFrame *frame, int enabled)
 {
-<<<<<<< HEAD
     for (int c = 0; c < s->channels; c++) {
         const int bypass = bypass_channel(s, frame, c);
-=======
-    int c, i;
-
-    for (c = 0; c < s->channels; c++) {
->>>>>>> refs/remotes/origin/master
         const double *src_ptr = (const double *)in->extended_data[c];
         double *dst_ptr = (double *)frame->extended_data[c];
         double current_amplification_factor;
@@ -793,13 +783,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
             return ret;
     }
 
-<<<<<<< HEAD
     ret = analyze_frame(s, outlink, &in);
     if (ret < 0)
         return ret;
-=======
-    analyze_frame(s, in);
->>>>>>> refs/remotes/origin/master
     if (!s->eof) {
         ff_bufqueue_add(ctx, &s->queue, in);
         cqueue_enqueue(s->is_enabled, !ctx->is_disabled);
@@ -880,11 +866,7 @@ static int activate(AVFilterContext *ctx)
                 return ret;
         }
 
-<<<<<<< HEAD
         if (ff_inlink_check_available_samples(inlink, s->sample_advance) > 0) {
-=======
-        if (ff_inlink_check_available_samples(inlink, s->frame_len) > 0) {
->>>>>>> refs/remotes/origin/master
             ff_filter_set_ready(ctx, 10);
             return 0;
         }

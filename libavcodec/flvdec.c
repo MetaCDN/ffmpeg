@@ -113,19 +113,11 @@ int ff_flv_decode_picture_header(MpegEncContext *s)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_flv_decoder = {
     .p.name         = "flv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("FLV / Sorenson Spark / Sorenson H.263 (Flash Video)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FLV1,
-=======
-const AVCodec ff_flv_decoder = {
-    .name           = "flv",
-    .long_name      = NULL_IF_CONFIG_SMALL("FLV / Sorenson Spark / Sorenson H.263 (Flash Video)"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_FLV1,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MpegEncContext),
     .init           = ff_h263_decode_init,
     .close          = ff_h263_decode_end,

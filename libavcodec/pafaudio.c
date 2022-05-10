@@ -73,7 +73,6 @@ static int paf_audio_decode(AVCodecContext *avctx, AVFrame *frame,
     return pkt->size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_paf_audio_decoder = {
     .p.name       = "paf_audio",
     .p.long_name  = NULL_IF_CONFIG_SMALL("Amazing Studio Packed Animation File Audio"),
@@ -82,15 +81,5 @@ const FFCodec ff_paf_audio_decoder = {
     .init         = paf_audio_init,
     FF_CODEC_DECODE_CB(paf_audio_decode),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_paf_audio_decoder = {
-    .name         = "paf_audio",
-    .long_name    = NULL_IF_CONFIG_SMALL("Amazing Studio Packed Animation File Audio"),
-    .type         = AVMEDIA_TYPE_AUDIO,
-    .id           = AV_CODEC_ID_PAF_AUDIO,
-    .init         = paf_audio_init,
-    .decode       = paf_audio_decode,
-    .capabilities = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

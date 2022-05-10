@@ -26,11 +26,7 @@
 #include "libavutil/bprint.h"
 #include "ass_split.h"
 #include "ass.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 
 #define WEBVTT_STACK_SIZE 64
 typedef struct {
@@ -215,19 +211,11 @@ static av_cold int webvtt_encode_init(AVCodecContext *avctx)
     return s->ass_ctx ? 0 : AVERROR_INVALIDDATA;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_webvtt_encoder = {
     .p.name         = "webvtt",
     .p.long_name    = NULL_IF_CONFIG_SMALL("WebVTT subtitle"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_WEBVTT,
-=======
-const AVCodec ff_webvtt_encoder = {
-    .name           = "webvtt",
-    .long_name      = NULL_IF_CONFIG_SMALL("WebVTT subtitle"),
-    .type           = AVMEDIA_TYPE_SUBTITLE,
-    .id             = AV_CODEC_ID_WEBVTT,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WebVTTContext),
     .init           = webvtt_encode_init,
     FF_CODEC_ENCODE_SUB_CB(webvtt_encode_frame),

@@ -277,8 +277,6 @@ static av_cold int imc_decode_init(AVCodecContext *avctx)
 
     ff_thread_once(&init_static_once, imc_init_static);
 
-    ff_thread_once(&init_static_once, imc_init_static);
-
     return 0;
 }
 
@@ -1058,11 +1056,7 @@ static int imc_decode_frame(AVCodecContext *avctx, AVFrame *frame,
             return ret;
     }
 
-<<<<<<< HEAD
     if (avctx->ch_layout.nb_channels == 2) {
-=======
-    if (avctx->channels == 2) {
->>>>>>> refs/remotes/origin/master
         q->butterflies_float((float *)frame->extended_data[0],
                              (float *)frame->extended_data[1], COEFFS);
     }
@@ -1090,49 +1084,28 @@ static av_cold void flush(AVCodecContext *avctx)
 }
 
 #if CONFIG_IMC_DECODER
-<<<<<<< HEAD
 const FFCodec ff_imc_decoder = {
     .p.name         = "imc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("IMC (Intel Music Coder)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_IMC,
-=======
-const AVCodec ff_imc_decoder = {
-    .name           = "imc",
-    .long_name      = NULL_IF_CONFIG_SMALL("IMC (Intel Music Coder)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_IMC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(IMCContext),
     .init           = imc_decode_init,
     .close          = imc_decode_close,
     FF_CODEC_DECODE_CB(imc_decode_frame),
     .flush          = flush,
-<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
-=======
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
->>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_IAC_DECODER
-<<<<<<< HEAD
 const FFCodec ff_iac_decoder = {
     .p.name         = "iac",
     .p.long_name    = NULL_IF_CONFIG_SMALL("IAC (Indeo Audio Coder)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_IAC,
-=======
-const AVCodec ff_iac_decoder = {
-    .name           = "iac",
-    .long_name      = NULL_IF_CONFIG_SMALL("IAC (Indeo Audio Coder)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_IAC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(IMCContext),
     .init           = imc_decode_init,
     .close          = imc_decode_close,

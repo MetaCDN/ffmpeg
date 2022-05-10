@@ -91,12 +91,8 @@ typedef struct QSVFramesContext {
 
     mfxExtOpaqueSurfaceAlloc opaque_alloc;
     mfxExtBuffer *ext_buffers[1];
-<<<<<<< HEAD
     AVFrame realigned_upload_frame;
     AVFrame realigned_download_frame;
-=======
-    AVFrame realigned_tmp_frame;
->>>>>>> refs/remotes/origin/master
 } QSVFramesContext;
 
 static const struct {
@@ -308,12 +304,8 @@ static void qsv_frames_uninit(AVHWFramesContext *ctx)
     av_freep(&s->surface_ptrs);
     av_freep(&s->surfaces_internal);
     av_freep(&s->handle_pairs_internal);
-<<<<<<< HEAD
     av_frame_unref(&s->realigned_upload_frame);
     av_frame_unref(&s->realigned_download_frame);
-=======
-    av_frame_unref(&s->realigned_tmp_frame);
->>>>>>> refs/remotes/origin/master
     av_buffer_unref(&s->child_frames_ref);
 }
 
@@ -1153,11 +1145,7 @@ static int qsv_transfer_data_to(AVHWFramesContext *ctx, AVFrame *dst,
     mfxStatus err;
     int ret = 0;
     /* make a copy if the input is not padded as libmfx requires */
-<<<<<<< HEAD
     AVFrame *tmp_frame = &s->realigned_upload_frame;
-=======
-    AVFrame *tmp_frame = &s->realigned_tmp_frame;
->>>>>>> refs/remotes/origin/master
     const AVFrame *src_frame;
     int realigned = 0;
 

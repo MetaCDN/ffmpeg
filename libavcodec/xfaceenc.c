@@ -26,13 +26,8 @@
 
 #include "xface.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/avassert.h"
 
 typedef struct XFaceContext {
@@ -216,7 +211,6 @@ static int xface_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_xface_encoder = {
     .p.name         = "xface",
     .p.long_name    = NULL_IF_CONFIG_SMALL("X-face image"),
@@ -224,14 +218,6 @@ const FFCodec ff_xface_encoder = {
     .p.id           = AV_CODEC_ID_XFACE,
     .p.capabilities = AV_CODEC_CAP_DR1,
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_MONOWHITE, AV_PIX_FMT_NONE },
-=======
-const AVCodec ff_xface_encoder = {
-    .name           = "xface",
-    .long_name      = NULL_IF_CONFIG_SMALL("X-face image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_XFACE,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(XFaceContext),
     FF_CODEC_ENCODE_CB(xface_encode_frame),
 };

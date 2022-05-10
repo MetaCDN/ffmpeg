@@ -189,11 +189,8 @@ static av_cold int ac3_decode_init(AVCodecContext *avctx)
 {
     static AVOnce init_static_once = AV_ONCE_INIT;
     AC3DecodeContext *s = avctx->priv_data;
-<<<<<<< HEAD
     const AVChannelLayout mono   = (AVChannelLayout)AV_CHANNEL_LAYOUT_MONO;
     const AVChannelLayout stereo = (AVChannelLayout)AV_CHANNEL_LAYOUT_STEREO;
-=======
->>>>>>> refs/remotes/origin/master
     int i, ret;
 
     s->avctx = avctx;
@@ -1634,13 +1631,8 @@ dependent_frame:
         av_log(avctx, AV_LOG_ERROR, "unable to determine channel mode\n");
         return AVERROR_INVALIDDATA;
     }
-<<<<<<< HEAD
 
     mask = ff_ac3_channel_layout_tab[s->output_mode & ~AC3_OUTPUT_LFEON];
-=======
-    avctx->channels = s->out_channels;
-    avctx->channel_layout = ff_ac3_channel_layout_tab[s->output_mode & ~AC3_OUTPUT_LFEON];
->>>>>>> refs/remotes/origin/master
     if (s->output_mode & AC3_OUTPUT_LFEON)
         mask |= AV_CH_LOW_FREQUENCY;
 

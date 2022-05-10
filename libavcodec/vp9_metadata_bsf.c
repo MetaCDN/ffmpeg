@@ -20,6 +20,7 @@
 #include "libavutil/opt.h"
 
 #include "bsf.h"
+#include "bsf_internal.h"
 #include "cbs.h"
 #include "cbs_bsf.h"
 #include "cbs_vp9.h"
@@ -142,8 +143,4 @@ const FFBitStreamFilter ff_vp9_metadata_bsf = {
     .init           = &vp9_metadata_init,
     .close          = &ff_cbs_bsf_generic_close,
     .filter         = &ff_cbs_bsf_generic_filter,
-<<<<<<< HEAD
-=======
-    .codec_ids      = vp9_metadata_codec_ids,
->>>>>>> refs/remotes/origin/master
 };

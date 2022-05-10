@@ -50,10 +50,7 @@ typedef struct BufferSinkContext {
     /* only used for audio */
     enum AVSampleFormat *sample_fmts;   ///< list of accepted sample formats
     int sample_fmts_size;
-<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
-=======
->>>>>>> refs/remotes/origin/master
     int64_t *channel_layouts;           ///< list of accepted channel layouts
     int channel_layouts_size;
     int *channel_counts;                ///< list of accepted channel counts
@@ -69,10 +66,7 @@ typedef struct BufferSinkContext {
 
 #define NB_ITEMS(list) (list ## _size / sizeof(*list))
 
-<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
-=======
->>>>>>> refs/remotes/origin/master
 static void cleanup_redundant_layouts(AVFilterContext *ctx)
 {
     BufferSinkContext *buf = ctx->priv;
@@ -85,11 +79,7 @@ static void cleanup_redundant_layouts(AVFilterContext *ctx)
         if (buf->channel_counts[i] < 64)
             counts |= (uint64_t)1 << buf->channel_counts[i];
     for (i = lc = 0; i < nb_layouts; i++) {
-<<<<<<< HEAD
         n = av_popcount64(buf->channel_layouts[i]);
-=======
-        n = av_get_channel_layout_nb_channels(buf->channel_layouts[i]);
->>>>>>> refs/remotes/origin/master
         if (n < 64 && (counts & ((uint64_t)1 << n)))
             av_log(ctx, AV_LOG_WARNING,
                    "Removing channel layout 0x%"PRIx64", redundant with %d channels\n",
@@ -99,10 +89,7 @@ static void cleanup_redundant_layouts(AVFilterContext *ctx)
     }
     buf->channel_layouts_size = lc * sizeof(*buf->channel_layouts);
 }
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> refs/remotes/origin/master
 
 int attribute_align_arg av_buffersink_get_frame(AVFilterContext *ctx, AVFrame *frame)
 {
@@ -317,17 +304,12 @@ static int asink_query_formats(AVFilterContext *ctx)
             return ret;
     }
 
-<<<<<<< HEAD
     if (
 #if FF_API_OLD_CHANNEL_LAYOUT
         buf->channel_layouts_size || buf->channel_counts_size ||
 #endif
         buf->channel_layouts_str || buf->all_channel_counts) {
 #if FF_API_OLD_CHANNEL_LAYOUT
-=======
-    if (buf->channel_layouts_size || buf->channel_counts_size ||
-        buf->all_channel_counts) {
->>>>>>> refs/remotes/origin/master
         cleanup_redundant_layouts(ctx);
         for (i = 0; i < NB_ITEMS(buf->channel_layouts); i++)
             if ((ret = av_channel_layout_from_mask(&layout, buf->channel_layouts[i])) < 0 ||

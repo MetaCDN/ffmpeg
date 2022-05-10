@@ -139,7 +139,6 @@ static int g722_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_adpcm_g722_decoder = {
     .p.name         = "g722",
     .p.long_name    = NULL_IF_CONFIG_SMALL("G.722 ADPCM"),
@@ -150,17 +149,5 @@ const FFCodec ff_adpcm_g722_decoder = {
     FF_CODEC_DECODE_CB(g722_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.priv_class   = &g722_decoder_class,
-=======
-const AVCodec ff_adpcm_g722_decoder = {
-    .name           = "g722",
-    .long_name      = NULL_IF_CONFIG_SMALL("G.722 ADPCM"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_ADPCM_G722,
-    .priv_data_size = sizeof(G722Context),
-    .init           = g722_decode_init,
-    .decode         = g722_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-    .priv_class     = &g722_decoder_class,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

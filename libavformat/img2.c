@@ -87,11 +87,8 @@ const IdStrMap ff_img_tags[] = {
     { AV_CODEC_ID_GEM,        "img"      },
     { AV_CODEC_ID_GEM,        "ximg"     },
     { AV_CODEC_ID_GEM,        "timg"     },
-<<<<<<< HEAD
     { AV_CODEC_ID_VBN,        "vbn"      },
     { AV_CODEC_ID_JPEGXL,     "jxl"      },
-=======
->>>>>>> refs/remotes/origin/master
     { AV_CODEC_ID_NONE,       NULL       }
 };
 

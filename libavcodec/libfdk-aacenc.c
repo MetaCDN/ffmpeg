@@ -24,13 +24,8 @@
 #include "libavutil/opt.h"
 #include "avcodec.h"
 #include "audio_frame_queue.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "profiles.h"
 
 #ifdef AACENCODER_LIB_VL0
@@ -397,11 +392,7 @@ static int aac_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     in_buf.bufElSizes        = &in_buffer_element_size;
 
     /* The maximum packet size is 6144 bits aka 768 bytes per channel. */
-<<<<<<< HEAD
     ret = ff_alloc_packet(avctx, avpkt, FFMAX(8192, 768 * avctx->ch_layout.nb_channels));
-=======
-    ret = ff_alloc_packet(avctx, avpkt, FFMAX(8192, 768 * avctx->channels));
->>>>>>> refs/remotes/origin/master
     if (ret < 0)
         return ret;
 
@@ -484,19 +475,11 @@ static const int aac_sample_rates[] = {
     24000, 22050, 16000, 12000, 11025, 8000, 0
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libfdk_aac_encoder = {
     .p.name                = "libfdk_aac",
     .p.long_name           = NULL_IF_CONFIG_SMALL("Fraunhofer FDK AAC"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_AAC,
-=======
-const AVCodec ff_libfdk_aac_encoder = {
-    .name                  = "libfdk_aac",
-    .long_name             = NULL_IF_CONFIG_SMALL("Fraunhofer FDK AAC"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_AAC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(AACContext),
     .init                  = aac_encode_init,
     FF_CODEC_ENCODE_CB(aac_encode_frame),

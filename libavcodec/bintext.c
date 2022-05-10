@@ -217,7 +217,6 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
 }
 
 #if CONFIG_BINTEXT_DECODER
-<<<<<<< HEAD
 const FFCodec ff_bintext_decoder = {
     .p.name         = "bintext",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Binary text"),
@@ -227,22 +226,10 @@ const FFCodec ff_bintext_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_bintext_decoder = {
-    .name           = "bintext",
-    .long_name      = NULL_IF_CONFIG_SMALL("Binary text"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_BINTEXT,
-    .priv_data_size = sizeof(XbinContext),
-    .init           = decode_init,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_XBIN_DECODER
-<<<<<<< HEAD
 const FFCodec ff_xbin_decoder = {
     .p.name         = "xbin",
     .p.long_name    = NULL_IF_CONFIG_SMALL("eXtended BINary text"),
@@ -252,22 +239,10 @@ const FFCodec ff_xbin_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_xbin_decoder = {
-    .name           = "xbin",
-    .long_name      = NULL_IF_CONFIG_SMALL("eXtended BINary text"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_XBIN,
-    .priv_data_size = sizeof(XbinContext),
-    .init           = decode_init,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_IDF_DECODER
-<<<<<<< HEAD
 const FFCodec ff_idf_decoder = {
     .p.name         = "idf",
     .p.long_name    = NULL_IF_CONFIG_SMALL("iCEDraw text"),
@@ -277,17 +252,6 @@ const FFCodec ff_idf_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_idf_decoder = {
-    .name           = "idf",
-    .long_name      = NULL_IF_CONFIG_SMALL("iCEDraw text"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_IDF,
-    .priv_data_size = sizeof(XbinContext),
-    .init           = decode_init,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif

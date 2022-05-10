@@ -111,16 +111,10 @@ static int query_formats(AVFilterContext *ctx)
     if ((ret = ff_formats_ref(out_formats, &outlink->incfg.formats)) < 0)
         return ret;
 
-<<<<<<< HEAD
     av_opt_get_chlayout(aresample->swr, "ochl", 0, &out_layout);
     if (av_channel_layout_check(&out_layout)) {
         const AVChannelLayout layout_list[] = { out_layout, { 0 } };
         out_layouts = ff_make_channel_layout_list(layout_list);
-=======
-    if(out_layout) {
-        int64_t layout_list[] = { out_layout, -1 };
-        out_layouts = ff_make_format64_list(layout_list);
->>>>>>> refs/remotes/origin/master
     } else
         out_layouts = ff_all_channel_counts();
     av_channel_layout_uninit(&out_layout);

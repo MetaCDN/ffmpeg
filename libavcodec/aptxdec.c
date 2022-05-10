@@ -20,11 +20,8 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/channel_layout.h"
 #include "aptx.h"
 #include "codec_internal.h"
@@ -177,19 +174,11 @@ static int aptx_decode_frame(AVCodecContext *avctx, AVFrame *frame,
 }
 
 #if CONFIG_APTX_DECODER
-<<<<<<< HEAD
 const FFCodec ff_aptx_decoder = {
     .p.name                = "aptx",
     .p.long_name           = NULL_IF_CONFIG_SMALL("aptX (Audio Processing Technology for Bluetooth)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_APTX,
-=======
-const AVCodec ff_aptx_decoder = {
-    .name                  = "aptx",
-    .long_name             = NULL_IF_CONFIG_SMALL("aptX (Audio Processing Technology for Bluetooth)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_APTX,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(AptXContext),
     .init                  = ff_aptx_init,
     FF_CODEC_DECODE_CB(aptx_decode_frame),
@@ -205,19 +194,11 @@ const AVCodec ff_aptx_decoder = {
 #endif
 
 #if CONFIG_APTX_HD_DECODER
-<<<<<<< HEAD
 const FFCodec ff_aptx_hd_decoder = {
     .p.name                = "aptx_hd",
     .p.long_name           = NULL_IF_CONFIG_SMALL("aptX HD (Audio Processing Technology for Bluetooth)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_APTX_HD,
-=======
-const AVCodec ff_aptx_hd_decoder = {
-    .name                  = "aptx_hd",
-    .long_name             = NULL_IF_CONFIG_SMALL("aptX HD (Audio Processing Technology for Bluetooth)"),
-    .type                  = AVMEDIA_TYPE_AUDIO,
-    .id                    = AV_CODEC_ID_APTX_HD,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(AptXContext),
     .init                  = ff_aptx_init,
     FF_CODEC_DECODE_CB(aptx_decode_frame),

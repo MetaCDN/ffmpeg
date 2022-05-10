@@ -10,15 +10,8 @@ fate-mss2-pal: CMD = framecrc -i $(TARGET_SAMPLES)/mss2/rlepal.wmv
 FATE_MSS2 += fate-mss2-pals
 fate-mss2-pals: CMD = framecrc -i $(TARGET_SAMPLES)/mss2/rlepals.wmv
 
-<<<<<<< HEAD
 FATE_MSS2-$(call FRAMECRC, ASF, MSS2, SCALE_FILTER) += fate-mss2-rgb555 fate-mss2-rgb555s
 fate-mss2-rgb555:  CMD = framecrc -i $(TARGET_SAMPLES)/mss2/rle555.wmv  -pix_fmt rgb555le -vf scale
-=======
-FATE_MSS2 += fate-mss2-rgb555
-fate-mss2-rgb555: CMD = framecrc -i $(TARGET_SAMPLES)/mss2/rle555.wmv -pix_fmt rgb555le -vf scale
-
-FATE_MSS2 += fate-mss2-rgb555s
->>>>>>> refs/remotes/origin/master
 fate-mss2-rgb555s: CMD = framecrc -i $(TARGET_SAMPLES)/mss2/rle555s.wmv -pix_fmt rgb555le -vf scale
 
 FATE_MSS2 += fate-mss2-wmv
@@ -32,18 +25,11 @@ fate-mss2: $(FATE_MSS2-yes)
 FATE_MTS2-$(call FRAMECRC, ASF, MTS2) += fate-mts2-xesc
 fate-mts2-xesc: CMD = framecrc -i $(TARGET_SAMPLES)/mts2/sample.xesc -pix_fmt yuv444p
 
-<<<<<<< HEAD
 FATE_MICROSOFT += $(FATE_MTS2-yes)
 fate-mts2: $(FATE_MTS2-yes)
 
 FATE_MSVIDEO1-$(call FRAMECRC, AVI, MSVIDEO1, SCALE_FILTER) += fate-msvideo1-8bit fate-msvideo1-16bit
 fate-msvideo1-8bit:  CMD = framecrc -i $(TARGET_SAMPLES)/cram/skating.avi -t 1 -pix_fmt rgb24 -vf scale
-=======
-FATE_MSVIDEO1 += fate-msvideo1-8bit
-fate-msvideo1-8bit: CMD = framecrc -i $(TARGET_SAMPLES)/cram/skating.avi -t 1 -pix_fmt rgb24 -vf scale
-
-FATE_MSVIDEO1 += fate-msvideo1-16bit
->>>>>>> refs/remotes/origin/master
 fate-msvideo1-16bit: CMD = framecrc -i $(TARGET_SAMPLES)/cram/clock-cram16.avi -pix_fmt rgb24 -vf scale
 
 FATE_MICROSOFT += $(FATE_MSVIDEO1-yes)

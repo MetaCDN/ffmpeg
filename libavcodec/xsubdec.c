@@ -24,11 +24,7 @@
 #include "avcodec.h"
 #include "get_bits.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 
 static av_cold int decode_init(AVCodecContext *avctx) {
     avctx->pix_fmt = AV_PIX_FMT_PAL8;
@@ -56,10 +52,6 @@ static int decode_frame(AVCodecContext *avctx, AVSubtitle *sub,
 {
     const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size;
-<<<<<<< HEAD
-=======
-    AVSubtitle *sub = data;
->>>>>>> refs/remotes/origin/master
     AVSubtitleRect *rect;
     const uint8_t *buf_end = buf + buf_size;
     uint8_t *bitmap;
@@ -162,7 +154,6 @@ static int decode_frame(AVCodecContext *avctx, AVSubtitle *sub,
     return buf_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_xsub_decoder = {
     .p.name    = "xsub",
     .p.long_name = NULL_IF_CONFIG_SMALL("XSUB"),
@@ -170,14 +161,5 @@ const FFCodec ff_xsub_decoder = {
     .p.id      = AV_CODEC_ID_XSUB,
     .init      = decode_init,
     FF_CODEC_DECODE_SUB_CB(decode_frame),
-=======
-const AVCodec ff_xsub_decoder = {
-    .name      = "xsub",
-    .long_name = NULL_IF_CONFIG_SMALL("XSUB"),
-    .type      = AVMEDIA_TYPE_SUBTITLE,
-    .id        = AV_CODEC_ID_XSUB,
-    .init      = decode_init,
-    .decode    = decode_frame,
->>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

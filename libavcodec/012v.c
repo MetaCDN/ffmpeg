@@ -144,7 +144,6 @@ static int zero12v_decode_frame(AVCodecContext *avctx, AVFrame *pic,
     return avpkt->size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_zero12v_decoder = {
     .p.name         = "012v",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
@@ -153,15 +152,5 @@ const FFCodec ff_zero12v_decoder = {
     .init           = zero12v_decode_init,
     FF_CODEC_DECODE_CB(zero12v_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_zero12v_decoder = {
-    .name           = "012v",
-    .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_012V,
-    .init           = zero12v_decode_init,
-    .decode         = zero12v_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

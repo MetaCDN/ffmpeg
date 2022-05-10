@@ -141,17 +141,10 @@ static int config_input(AVFilterLink *inlink)
 
         if (!(s->fft_hdata_out[i] = av_calloc(s->fft_len[i], s->fft_len[i] * sizeof(AVComplexFloat))))
             return AVERROR(ENOMEM);
-<<<<<<< HEAD
 
         if (!(s->fft_vdata_in[i] = av_calloc(s->fft_len[i], s->fft_len[i] * sizeof(AVComplexFloat))))
             return AVERROR(ENOMEM);
 
-=======
-
-        if (!(s->fft_vdata_in[i] = av_calloc(s->fft_len[i], s->fft_len[i] * sizeof(AVComplexFloat))))
-            return AVERROR(ENOMEM);
-
->>>>>>> refs/remotes/origin/master
         if (!(s->fft_vdata_out[i] = av_calloc(s->fft_len[i], s->fft_len[i] * sizeof(AVComplexFloat))))
             return AVERROR(ENOMEM);
 

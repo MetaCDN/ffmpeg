@@ -23,13 +23,8 @@
 
 #include "libavutil/common.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "lpc.h"
 
 typedef struct CNGContext {
@@ -101,30 +96,18 @@ static int cng_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_comfortnoise_encoder = {
     .p.name         = "comfortnoise",
     .p.long_name    = NULL_IF_CONFIG_SMALL("RFC 3389 comfort noise generator"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_COMFORT_NOISE,
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_comfortnoise_encoder = {
-    .name           = "comfortnoise",
-    .long_name      = NULL_IF_CONFIG_SMALL("RFC 3389 comfort noise generator"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_COMFORT_NOISE,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(CNGContext),
     .init           = cng_encode_init,
     FF_CODEC_ENCODE_CB(cng_encode_frame),
     .close          = cng_encode_close,
     .p.sample_fmts  = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16,
                                                      AV_SAMPLE_FMT_NONE },
-<<<<<<< HEAD
     .p.ch_layouts   = (const AVChannelLayout[]){ AV_CHANNEL_LAYOUT_MONO, { 0 } },
-=======
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

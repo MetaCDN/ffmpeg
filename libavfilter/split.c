@@ -63,7 +63,6 @@ static av_cold int split_init(AVFilterContext *ctx)
     return 0;
 }
 
-<<<<<<< HEAD
 static int activate(AVFilterContext *ctx)
 {
     AVFilterLink *inlink = ctx->inputs[0];
@@ -94,12 +93,6 @@ static int activate(AVFilterContext *ctx)
             if (ret < 0)
                 break;
         }
-=======
-static int filter_frame(AVFilterLink *inlink, AVFrame *frame)
-{
-    AVFilterContext *ctx = inlink->dst;
-    int i, ret = AVERROR_EOF;
->>>>>>> refs/remotes/origin/master
 
         av_frame_free(&in);
         if (ret < 0)
@@ -150,10 +143,7 @@ const AVFilter ff_vf_split = {
     .priv_size   = sizeof(SplitContext),
     .priv_class  = &split_class,
     .init        = split_init,
-<<<<<<< HEAD
     .activate    = activate,
-=======
->>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(avfilter_vf_split_inputs),
     .outputs     = NULL,
     .flags       = AVFILTER_FLAG_DYNAMIC_OUTPUTS | AVFILTER_FLAG_METADATA_ONLY,
@@ -172,10 +162,7 @@ const AVFilter ff_af_asplit = {
     .priv_class  = &split_class,
     .priv_size   = sizeof(SplitContext),
     .init        = split_init,
-<<<<<<< HEAD
     .activate    = activate,
-=======
->>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(avfilter_af_asplit_inputs),
     .outputs     = NULL,
     .flags       = AVFILTER_FLAG_DYNAMIC_OUTPUTS | AVFILTER_FLAG_METADATA_ONLY,

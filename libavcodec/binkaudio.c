@@ -44,10 +44,7 @@
 #include "rdft.h"
 #include "wma_freqs.h"
 
-<<<<<<< HEAD
 #define MAX_DCT_CHANNELS 6
-=======
->>>>>>> refs/remotes/origin/master
 #define MAX_CHANNELS 2
 #define BINK_BLOCK_MAX_SIZE (MAX_CHANNELS << 11)
 
@@ -63,11 +60,7 @@ typedef struct BinkAudioContext {
     int num_bands;
     float root;
     unsigned int bands[26];
-<<<<<<< HEAD
     float previous[MAX_DCT_CHANNELS][BINK_BLOCK_MAX_SIZE / 16];  ///< coeffs from previous audio block
-=======
-    float previous[MAX_CHANNELS][BINK_BLOCK_MAX_SIZE / 16];  ///< coeffs from previous audio block
->>>>>>> refs/remotes/origin/master
     float quant_table[96];
     AVPacket *pkt;
     union {
@@ -367,7 +360,6 @@ static void decode_flush(AVCodecContext *avctx)
     /* s->pkt coincides with avctx->internal->in_pkt
      * and is unreferenced generically when flushing. */
     s->first = 1;
-<<<<<<< HEAD
     s->ch_offset = 0;
 }
 
@@ -376,20 +368,10 @@ const FFCodec ff_binkaudio_rdft_decoder = {
     .p.long_name    = NULL_IF_CONFIG_SMALL("Bink Audio (RDFT)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_BINKAUDIO_RDFT,
-=======
-}
-
-const AVCodec ff_binkaudio_rdft_decoder = {
-    .name           = "binkaudio_rdft",
-    .long_name      = NULL_IF_CONFIG_SMALL("Bink Audio (RDFT)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_BINKAUDIO_RDFT,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(BinkAudioContext),
     .init           = decode_init,
     .flush          = decode_flush,
     .close          = decode_end,
-<<<<<<< HEAD
     FF_CODEC_RECEIVE_FRAME_CB(binkaudio_receive_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
@@ -400,28 +382,11 @@ const FFCodec ff_binkaudio_dct_decoder = {
     .p.long_name    = NULL_IF_CONFIG_SMALL("Bink Audio (DCT)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_BINKAUDIO_DCT,
-=======
-    .receive_frame  = binkaudio_receive_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
-};
-
-const AVCodec ff_binkaudio_dct_decoder = {
-    .name           = "binkaudio_dct",
-    .long_name      = NULL_IF_CONFIG_SMALL("Bink Audio (DCT)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_BINKAUDIO_DCT,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(BinkAudioContext),
     .init           = decode_init,
     .flush          = decode_flush,
     .close          = decode_end,
-<<<<<<< HEAD
     FF_CODEC_RECEIVE_FRAME_CB(binkaudio_receive_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-    .receive_frame  = binkaudio_receive_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

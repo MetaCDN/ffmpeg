@@ -24,11 +24,7 @@
 
 #include "libavutil/cpu.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "davs2.h"
 
 typedef struct DAVS2Context {
@@ -216,33 +212,19 @@ static int davs2_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return ret == 0 ? buf_size : ret;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_libdavs2_decoder = {
     .p.name         = "libdavs2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libdavs2 AVS2-P2/IEEE1857.4"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_AVS2,
-=======
-const AVCodec ff_libdavs2_decoder = {
-    .name           = "libdavs2",
-    .long_name      = NULL_IF_CONFIG_SMALL("libdavs2 AVS2-P2/IEEE1857.4"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_AVS2,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(DAVS2Context),
     .init           = davs2_init,
     .close          = davs2_end,
     FF_CODEC_DECODE_CB(davs2_decode_frame),
     .flush          = davs2_flush,
-<<<<<<< HEAD
     .p.capabilities =  AV_CODEC_CAP_DELAY | AV_CODEC_CAP_OTHER_THREADS,
     .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
-=======
-    .capabilities   =  AV_CODEC_CAP_DELAY | AV_CODEC_CAP_OTHER_THREADS,
-    .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
-    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
->>>>>>> refs/remotes/origin/master
                                                      AV_PIX_FMT_NONE },
     .p.wrapper_name = "libdavs2",
 };

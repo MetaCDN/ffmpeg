@@ -28,7 +28,6 @@
 
 #include <stdint.h>
 
-<<<<<<< HEAD
 #include "libavutil/channel_layout.h"
 #include "libavcodec/codec_id.h"
 #include "libavcodec/codec_par.h"
@@ -139,12 +138,6 @@ enum MovChannelLayoutTag {
 };
 
 /**
-=======
-#include "libavcodec/codec_id.h"
-#include "avformat.h"
-
-/**
->>>>>>> refs/remotes/origin/master
  * Get the channel layout tag for the specified codec id and channel layout.
  * If the layout tag was not found, use a channel bitmap if possible.
  *

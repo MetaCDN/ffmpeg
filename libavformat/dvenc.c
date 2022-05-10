@@ -202,11 +202,7 @@ static void dv_inject_audio(DVMuxContext *c, int channel, uint8_t* frame_ptr)
                     continue;
 
                 // FIXME: maybe we have to admit that DV is a big-endian PCM
-<<<<<<< HEAD
                 av_fifo_peek(c->audio_data[channel], frame_ptr + d, 2, of * 2);
-=======
-                av_fifo_generic_peek_at(c->audio_data[channel], frame_ptr + d, of * 2, 2, NULL);
->>>>>>> refs/remotes/origin/master
                 FFSWAP(uint8_t, frame_ptr[d], frame_ptr[d + 1]);
             }
             frame_ptr += 16 * 80; /* 15 Video DIFs + 1 Audio DIF */
@@ -337,11 +333,7 @@ static DVMuxContext* dv_init_mux(AVFormatContext* s)
             if (c->n_ast > 1) return NULL;
             /* Some checks -- DV format is very picky about its incoming streams */
             if(st->codecpar->codec_id    != AV_CODEC_ID_PCM_S16LE ||
-<<<<<<< HEAD
                st->codecpar->ch_layout.nb_channels    != 2)
-=======
-               st->codecpar->channels    != 2)
->>>>>>> refs/remotes/origin/master
                 goto bail_out;
             if (st->codecpar->sample_rate != 48000 &&
                 st->codecpar->sample_rate != 44100 &&

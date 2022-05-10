@@ -459,7 +459,6 @@ static av_cold int wavesynth_close(AVCodecContext *avc)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_ffwavesynth_decoder = {
     .p.name         = "wavesynth",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Wave synthesis pseudo-codec"),
@@ -470,17 +469,5 @@ const FFCodec ff_ffwavesynth_decoder = {
     .close          = wavesynth_close,
     FF_CODEC_DECODE_CB(wavesynth_decode),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_ffwavesynth_decoder = {
-    .name           = "wavesynth",
-    .long_name      = NULL_IF_CONFIG_SMALL("Wave synthesis pseudo-codec"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_FFWAVESYNTH,
-    .priv_data_size = sizeof(struct wavesynth_context),
-    .init           = wavesynth_init,
-    .close          = wavesynth_close,
-    .decode         = wavesynth_decode,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

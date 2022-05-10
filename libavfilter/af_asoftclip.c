@@ -440,11 +440,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     }
 
     nb_samples = in->nb_samples;
-<<<<<<< HEAD
     channels = in->ch_layout.nb_channels;
-=======
-    channels = in->channels;
->>>>>>> refs/remotes/origin/master
 
     td.in = in;
     td.out = out;

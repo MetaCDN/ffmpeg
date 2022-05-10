@@ -545,16 +545,12 @@ int ff_mov_read_chan(AVFormatContext *s, AVIOContext *pb, AVStream *st,
         if (label_mask)
             mask = label_mask;
     } else
-<<<<<<< HEAD
         mask = mov_get_channel_layout(layout_tag, bitmap);
 
     if (mask) {
         av_channel_layout_uninit(&st->codecpar->ch_layout);
         av_channel_layout_from_mask(&st->codecpar->ch_layout, mask);
     }
-=======
-        st->codecpar->channel_layout = mov_get_channel_layout(layout_tag, bitmap);
->>>>>>> refs/remotes/origin/master
     avio_skip(pb, size - 12);
 
     return 0;

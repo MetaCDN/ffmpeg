@@ -68,13 +68,8 @@ enum OutModes {
 #define AFT AV_OPT_FLAG_AUDIO_PARAM|AV_OPT_FLAG_FILTERING_PARAM|AV_OPT_FLAG_RUNTIME_PARAM
 
 static const AVOption anlmdn_options[] = {
-<<<<<<< HEAD
     { "strength", "set denoising strength", OFFSET(a),  AV_OPT_TYPE_FLOAT,    {.dbl=0.00001},0.00001, 10000, AFT },
     { "s", "set denoising strength", OFFSET(a),  AV_OPT_TYPE_FLOAT,    {.dbl=0.00001},0.00001, 10000, AFT },
-=======
-    { "strength", "set denoising strength", OFFSET(a),  AV_OPT_TYPE_FLOAT,    {.dbl=0.00001},0.00001, 10, AFT },
-    { "s", "set denoising strength", OFFSET(a),  AV_OPT_TYPE_FLOAT,    {.dbl=0.00001},0.00001, 10, AFT },
->>>>>>> refs/remotes/origin/master
     { "patch", "set patch duration", OFFSET(pd), AV_OPT_TYPE_DURATION, {.i64=2000}, 1000, 100000, AFT },
     { "p", "set patch duration",     OFFSET(pd), AV_OPT_TYPE_DURATION, {.i64=2000}, 1000, 100000, AFT },
     { "research", "set research duration",  OFFSET(rd), AV_OPT_TYPE_DURATION, {.i64=6000}, 2000, 300000, AFT },
@@ -84,19 +79,13 @@ static const AVOption anlmdn_options[] = {
     {  "i", "input",                 0,          AV_OPT_TYPE_CONST,    {.i64=IN_MODE},   0,  0, AFT, "mode" },
     {  "o", "output",                0,          AV_OPT_TYPE_CONST,    {.i64=OUT_MODE},  0,  0, AFT, "mode" },
     {  "n", "noise",                 0,          AV_OPT_TYPE_CONST,    {.i64=NOISE_MODE},0,  0, AFT, "mode" },
-<<<<<<< HEAD
     { "smooth", "set smooth factor", OFFSET(m),  AV_OPT_TYPE_FLOAT,    {.dbl=11.},       1, 1000, AFT },
     { "m", "set smooth factor",      OFFSET(m),  AV_OPT_TYPE_FLOAT,    {.dbl=11.},       1, 1000, AFT },
-=======
-    { "smooth", "set smooth factor", OFFSET(m),  AV_OPT_TYPE_FLOAT,    {.dbl=11.},       1, 15, AFT },
-    { "m", "set smooth factor",      OFFSET(m),  AV_OPT_TYPE_FLOAT,    {.dbl=11.},       1, 15, AFT },
->>>>>>> refs/remotes/origin/master
     { NULL }
 };
 
 AVFILTER_DEFINE_CLASS(anlmdn);
 
-<<<<<<< HEAD
 static inline float sqrdiff(float x, float y)
 {
     const float diff = x - y;
@@ -104,8 +93,6 @@ static inline float sqrdiff(float x, float y)
     return diff * diff;
 }
 
-=======
->>>>>>> refs/remotes/origin/master
 static float compute_distance_ssd_c(const float *f1, const float *f2, ptrdiff_t K)
 {
     float distance = 0.;
@@ -140,7 +127,6 @@ static int config_filter(AVFilterContext *ctx)
     AudioNLMeansContext *s = ctx->priv;
     AVFilterLink *outlink = ctx->outputs[0];
     int newK, newS, newH, newN;
-<<<<<<< HEAD
 
     newK = av_rescale(s->pd, outlink->sample_rate, AV_TIME_BASE);
     newS = av_rescale(s->rd, outlink->sample_rate, AV_TIME_BASE);
@@ -158,47 +144,10 @@ static int config_filter(AVFilterContext *ctx)
                                 s->cache->nb_samples, new_cache->ch_layout.nb_channels, new_cache->format);
             av_frame_free(&s->cache);
             s->cache = new_cache;
-=======
-    AVFrame *new_in, *new_cache;
-
-    newK = av_rescale(s->pd, outlink->sample_rate, AV_TIME_BASE);
-    newS = av_rescale(s->rd, outlink->sample_rate, AV_TIME_BASE);
-
-    newH = newK * 2 + 1;
-    newN = newH + (newK + newS) * 2;
-
-    av_log(ctx, AV_LOG_DEBUG, "K:%d S:%d H:%d N:%d\n", newK, newS, newH, newN);
-
-    if (!s->cache || s->cache->nb_samples < newS * 2) {
-        new_cache = ff_get_audio_buffer(outlink, newS * 2);
-        if (new_cache) {
-            av_frame_free(&s->cache);
-            s->cache = new_cache;
         } else {
             return AVERROR(ENOMEM);
         }
     }
-    if (!s->cache)
-        return AVERROR(ENOMEM);
-
-    s->pdiff_lut_scale = 1.f / s->m * WEIGHT_LUT_SIZE;
-    for (int i = 0; i < WEIGHT_LUT_SIZE; i++) {
-        float w = -i / s->pdiff_lut_scale;
-
-        s->weight_lut[i] = expf(w);
-    }
-
-    if (!s->in || s->in->nb_samples < newN) {
-        new_in = ff_get_audio_buffer(outlink, newN);
-        if (new_in) {
-            av_frame_free(&s->in);
-            s->in = new_in;
->>>>>>> refs/remotes/origin/master
-        } else {
-            return AVERROR(ENOMEM);
-        }
-    }
-<<<<<<< HEAD
     if (!s->cache)
         return AVERROR(ENOMEM);
 
@@ -239,37 +188,6 @@ static int config_output(AVFilterLink *outlink)
     int ret;
 
     ret = config_filter(ctx);
-=======
-    if (!s->in)
-        return AVERROR(ENOMEM);
-
-    s->K = newK;
-    s->S = newS;
-    s->H = newH;
-    s->N = newN;
-
-    return 0;
-}
-
-static int config_output(AVFilterLink *outlink)
-{
-    AVFilterContext *ctx = outlink->src;
-    AudioNLMeansContext *s = ctx->priv;
-    int ret;
-
-    s->eof_left = -1;
-    s->pts = AV_NOPTS_VALUE;
-
-    ret = config_filter(ctx);
-    if (ret < 0)
-        return ret;
-
-    s->fifo = av_audio_fifo_alloc(outlink->format, outlink->channels, s->N);
-    if (!s->fifo)
-        return AVERROR(ENOMEM);
-
-    ret = av_audio_fifo_write(s->fifo, (void **)s->in->extended_data, s->K + s->S);
->>>>>>> refs/remotes/origin/master
     if (ret < 0)
         return ret;
 
@@ -374,7 +292,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     return ff_filter_frame(outlink, out);
 }
 
-<<<<<<< HEAD
 static int activate(AVFilterContext *ctx)
 {
     AVFilterLink *inlink = ctx->inputs[0];
@@ -383,9 +300,6 @@ static int activate(AVFilterContext *ctx)
     AVFrame *in = NULL;
     int ret = 0, status;
     int64_t pts;
-=======
-        ff_filter_execute(ctx, filter_channel, out, NULL, inlink->channels);
->>>>>>> refs/remotes/origin/master
 
     FF_FILTER_FORWARD_STATUS_BACK(outlink, inlink);
 
@@ -418,22 +332,6 @@ static int process_command(AVFilterContext *ctx, const char *cmd, const char *ar
         return ret;
 
     return config_filter(ctx);
-}
-
-static int process_command(AVFilterContext *ctx, const char *cmd, const char *args,
-                           char *res, int res_len, int flags)
-{
-    int ret;
-
-    ret = ff_filter_process_command(ctx, cmd, args, res, res_len, flags);
-    if (ret < 0)
-        return ret;
-
-    ret = config_filter(ctx);
-    if (ret < 0)
-        return ret;
-
-    return 0;
 }
 
 static av_cold void uninit(AVFilterContext *ctx)

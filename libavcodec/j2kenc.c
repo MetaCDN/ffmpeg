@@ -66,13 +66,8 @@
 
 #include <float.h>
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "bytestream.h"
 #include "jpeg2000.h"
 #include "version.h"
@@ -1837,19 +1832,11 @@ static const AVClass j2k_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_jpeg2000_encoder = {
     .p.name         = "jpeg2000",
     .p.long_name    = NULL_IF_CONFIG_SMALL("JPEG 2000"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_JPEG2000,
-=======
-const AVCodec ff_jpeg2000_encoder = {
-    .name           = "jpeg2000",
-    .long_name      = NULL_IF_CONFIG_SMALL("JPEG 2000"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_JPEG2000,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(Jpeg2000EncoderContext),
     .init           = j2kenc_init,
     FF_CODEC_ENCODE_CB(encode_frame),
@@ -1862,10 +1849,6 @@ const AVCodec ff_jpeg2000_encoder = {
         AV_PIX_FMT_RGB48, AV_PIX_FMT_GRAY16,
         AV_PIX_FMT_NONE
     },
-<<<<<<< HEAD
     .p.priv_class   = &j2k_class,
-=======
-    .priv_class     = &j2k_class,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

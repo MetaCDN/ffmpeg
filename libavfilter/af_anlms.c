@@ -211,11 +211,7 @@ static int activate(AVFilterContext *ctx)
         }
 
         ff_filter_execute(ctx, process_channels, out, NULL,
-<<<<<<< HEAD
                           FFMIN(ctx->outputs[0]->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
-=======
-                          FFMIN(ctx->outputs[0]->channels, ff_filter_get_nb_threads(ctx)));
->>>>>>> refs/remotes/origin/master
 
         out->pts = s->frame[0]->pts;
 
@@ -321,12 +317,8 @@ const AVFilter ff_af_anlms = {
     FILTER_INPUTS(inputs),
     FILTER_OUTPUTS(outputs),
     FILTER_QUERY_FUNC(query_formats),
-<<<<<<< HEAD
     .flags          = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL |
                       AVFILTER_FLAG_SLICE_THREADS,
-=======
-    .flags          = AVFILTER_FLAG_SLICE_THREADS,
->>>>>>> refs/remotes/origin/master
     .process_command = ff_filter_process_command,
 };
 
@@ -341,11 +333,7 @@ const AVFilter ff_af_anlmf = {
     FILTER_INPUTS(inputs),
     FILTER_OUTPUTS(outputs),
     FILTER_QUERY_FUNC(query_formats),
-<<<<<<< HEAD
     .flags          = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL |
                       AVFILTER_FLAG_SLICE_THREADS,
-=======
-    .flags          = AVFILTER_FLAG_SLICE_THREADS,
->>>>>>> refs/remotes/origin/master
     .process_command = ff_filter_process_command,
 };

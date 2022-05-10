@@ -44,10 +44,6 @@
 #include "h263data.h"
 #include "mathops.h"
 #include "mpegutils.h"
-<<<<<<< HEAD
-=======
-#include "flv.h"
->>>>>>> refs/remotes/origin/master
 #include "internal.h"
 
 /**

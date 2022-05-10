@@ -46,45 +46,26 @@
  * - av_buffersink_get_h(),
  * - av_buffersink_get_sample_aspect_ratio(),
  * - av_buffersink_get_channels(),
-<<<<<<< HEAD
  * - av_buffersink_get_ch_layout(),
  * - av_buffersink_get_sample_rate().
  *
  * The layout returned by av_buffersink_get_ch_layout() must de uninitialized
  * by the caller.
  *
-=======
- * - av_buffersink_get_channel_layout(),
- * - av_buffersink_get_sample_rate().
- *
->>>>>>> refs/remotes/origin/master
  * The format can be constrained by setting options, using av_opt_set() and
  * related functions with the AV_OPT_SEARCH_CHILDREN flag.
  *  - pix_fmts (int list),
  *  - sample_fmts (int list),
  *  - sample_rates (int list),
-<<<<<<< HEAD
  *  - ch_layouts (string),
-=======
- *  - channel_layouts (int64_t),
->>>>>>> refs/remotes/origin/master
  *  - channel_counts (int list),
  *  - all_channel_counts (bool).
  * Most of these options are of type binary, and should be set using
  * av_opt_set_int_list() or av_opt_set_bin(). If they are not set, all
  * corresponding formats are accepted.
  *
-<<<<<<< HEAD
  * As a special case, if ch_layouts is not set, all valid channel layouts are
  * accepted except for UNSPEC layouts, unless all_channel_counts is set.
-=======
- * As a special case, if neither channel_layouts nor channel_counts is set,
- * all valid channel layouts are accepted, but channel counts without a
- * layout are not, unless all_channel_counts is set.
- * Also, channel_layouts must not contain a channel layout already accepted
- * by a value in channel_counts; for example, if channel_counts contains 2,
- * then channel_layouts must not contain stereo.
->>>>>>> refs/remotes/origin/master
  */
 
 /**

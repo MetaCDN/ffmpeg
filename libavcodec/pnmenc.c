@@ -19,22 +19,14 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/intreadwrite.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 
 static int pnm_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
                             const AVFrame *p, int *got_packet)
@@ -159,7 +151,6 @@ static int pnm_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
 }
 
 #if CONFIG_PGM_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_pgm_encoder = {
     .p.name         = "pgm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PGM (Portable GrayMap) image"),
@@ -168,16 +159,6 @@ const FFCodec ff_pgm_encoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_ENCODE_CB(pnm_encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]){
-=======
-const AVCodec ff_pgm_encoder = {
-    .name           = "pgm",
-    .long_name      = NULL_IF_CONFIG_SMALL("PGM (Portable GrayMap) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PGM,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .encode2        = pnm_encode_frame,
-    .pix_fmts       = (const enum AVPixelFormat[]){
->>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY16BE, AV_PIX_FMT_NONE
     },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
@@ -185,7 +166,6 @@ const AVCodec ff_pgm_encoder = {
 #endif
 
 #if CONFIG_PGMYUV_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_pgmyuv_encoder = {
     .p.name         = "pgmyuv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PGMYUV (Portable GrayMap YUV) image"),
@@ -194,16 +174,6 @@ const FFCodec ff_pgmyuv_encoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_ENCODE_CB(pnm_encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]){
-=======
-const AVCodec ff_pgmyuv_encoder = {
-    .name           = "pgmyuv",
-    .long_name      = NULL_IF_CONFIG_SMALL("PGMYUV (Portable GrayMap YUV) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PGMYUV,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .encode2        = pnm_encode_frame,
-    .pix_fmts       = (const enum AVPixelFormat[]){
->>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_YUV420P, AV_PIX_FMT_YUV420P16BE, AV_PIX_FMT_NONE
     },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
@@ -211,7 +181,6 @@ const AVCodec ff_pgmyuv_encoder = {
 #endif
 
 #if CONFIG_PPM_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_ppm_encoder = {
     .p.name         = "ppm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PPM (Portable PixelMap) image"),
@@ -220,16 +189,6 @@ const FFCodec ff_ppm_encoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_ENCODE_CB(pnm_encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]){
-=======
-const AVCodec ff_ppm_encoder = {
-    .name           = "ppm",
-    .long_name      = NULL_IF_CONFIG_SMALL("PPM (Portable PixelMap) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PPM,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .encode2        = pnm_encode_frame,
-    .pix_fmts       = (const enum AVPixelFormat[]){
->>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_RGB24, AV_PIX_FMT_RGB48BE, AV_PIX_FMT_NONE
     },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
@@ -237,7 +196,6 @@ const AVCodec ff_ppm_encoder = {
 #endif
 
 #if CONFIG_PBM_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_pbm_encoder = {
     .p.name         = "pbm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PBM (Portable BitMap) image"),
@@ -246,23 +204,12 @@ const FFCodec ff_pbm_encoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_ENCODE_CB(pnm_encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_MONOWHITE,
-=======
-const AVCodec ff_pbm_encoder = {
-    .name           = "pbm",
-    .long_name      = NULL_IF_CONFIG_SMALL("PBM (Portable BitMap) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PBM,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .encode2        = pnm_encode_frame,
-    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_MONOWHITE,
->>>>>>> refs/remotes/origin/master
                                                   AV_PIX_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 
 #if CONFIG_PFM_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_pfm_encoder = {
     .p.name         = "pfm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PFM (Portable FloatMap) image"),
@@ -271,16 +218,6 @@ const FFCodec ff_pfm_encoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_ENCODE_CB(pnm_encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_GBRPF32,
-=======
-const AVCodec ff_pfm_encoder = {
-    .name           = "pfm",
-    .long_name      = NULL_IF_CONFIG_SMALL("PFM (Portable FloatMap) image"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PFM,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .encode2        = pnm_encode_frame,
-    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_GBRPF32,
->>>>>>> refs/remotes/origin/master
                                                     AV_PIX_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

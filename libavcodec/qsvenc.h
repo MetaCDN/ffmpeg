@@ -104,10 +104,7 @@
 { "forced_idr",     "Forcing I frames as IDR frames",         OFFSET(qsv.forced_idr),     AV_OPT_TYPE_BOOL,{ .i64 = 0  },  0,          1, VE },                         \
 { "low_power", "enable low power mode(experimental: many limitations by mfx version, BRC modes, etc.)", OFFSET(qsv.low_power), AV_OPT_TYPE_BOOL, { .i64 = -1}, -1, 1, VE},\
 { "dblk_idc", "This option disable deblocking. It has value in range 0~2.",   OFFSET(qsv.dblk_idc),   AV_OPT_TYPE_INT,    { .i64 = 0 },   0,  2,  VE},    \
-<<<<<<< HEAD
 { "low_delay_brc",   "Allow to strictly obey avg frame size", OFFSET(qsv.low_delay_brc),  AV_OPT_TYPE_BOOL,{ .i64 = -1 }, -1,          1, VE },                         \
-=======
->>>>>>> refs/remotes/origin/master
 
 extern const AVCodecHWConfigInternal *const ff_qsv_enc_hw_configs[];
 

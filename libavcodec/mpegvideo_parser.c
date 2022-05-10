@@ -24,11 +24,7 @@
 #include "parser.h"
 #include "mpeg12.h"
 #include "mpeg12data.h"
-<<<<<<< HEAD
 #include "startcode.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 
 struct MpvParseContext {
     ParseContext pc;

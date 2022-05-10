@@ -285,19 +285,11 @@ static int mace_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return buf_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_mace3_decoder = {
     .p.name         = "mace3",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MACE (Macintosh Audio Compression/Expansion) 3:1"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_MACE3,
-=======
-const AVCodec ff_mace3_decoder = {
-    .name           = "mace3",
-    .long_name      = NULL_IF_CONFIG_SMALL("MACE (Macintosh Audio Compression/Expansion) 3:1"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_MACE3,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MACEContext),
     .init           = mace_decode_init,
     FF_CODEC_DECODE_CB(mace_decode_frame),
@@ -307,19 +299,11 @@ const AVCodec ff_mace3_decoder = {
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_mace6_decoder = {
     .p.name         = "mace6",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MACE (Macintosh Audio Compression/Expansion) 6:1"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_MACE6,
-=======
-const AVCodec ff_mace6_decoder = {
-    .name           = "mace6",
-    .long_name      = NULL_IF_CONFIG_SMALL("MACE (Macintosh Audio Compression/Expansion) 6:1"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_MACE6,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MACEContext),
     .init           = mace_decode_init,
     FF_CODEC_DECODE_CB(mace_decode_frame),

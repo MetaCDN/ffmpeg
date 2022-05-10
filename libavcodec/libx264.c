@@ -30,10 +30,7 @@
 #include "libavutil/time.h"
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "packet_internal.h"
@@ -1087,22 +1084,14 @@ static const enum AVPixelFormat pix_fmts_8bit_rgb[] = {
 #endif
 
 #if X264_BUILD < 153
-<<<<<<< HEAD
 static av_cold void X264_init_static(FFCodec *codec)
-=======
-static av_cold void X264_init_static(AVCodec *codec)
->>>>>>> refs/remotes/origin/master
 {
     if (x264_bit_depth == 8)
         codec->p.pix_fmts = pix_fmts_8bit;
     else if (x264_bit_depth == 9)
         codec->p.pix_fmts = pix_fmts_9bit;
     else if (x264_bit_depth == 10)
-<<<<<<< HEAD
         codec->p.pix_fmts = pix_fmts_10bit;
-=======
-        codec->pix_fmts = pix_fmts_10bit;
->>>>>>> refs/remotes/origin/master
 }
 #endif
 
@@ -1227,7 +1216,6 @@ static const AVClass x264_class = {
 #if X264_BUILD >= 153
 const
 #endif
-<<<<<<< HEAD
 FFCodec ff_libx264_encoder = {
     .p.name           = "libx264",
     .p.long_name      = NULL_IF_CONFIG_SMALL("libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
@@ -1238,43 +1226,21 @@ FFCodec ff_libx264_encoder = {
                         AV_CODEC_CAP_ENCODER_REORDERED_OPAQUE,
     .p.priv_class     = &x264_class,
     .p.wrapper_name   = "libx264",
-=======
-AVCodec ff_libx264_encoder = {
-    .name             = "libx264",
-    .long_name        = NULL_IF_CONFIG_SMALL("libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_H264,
-    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
-                        AV_CODEC_CAP_OTHER_THREADS |
-                        AV_CODEC_CAP_ENCODER_REORDERED_OPAQUE,
->>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(X264Context),
     .init             = X264_init,
     FF_CODEC_ENCODE_CB(X264_frame),
     .close            = X264_close,
-<<<<<<< HEAD
-=======
-    .priv_class       = &x264_class,
->>>>>>> refs/remotes/origin/master
     .defaults         = x264_defaults,
 #if X264_BUILD < 153
     .init_static_data = X264_init_static,
 #else
-<<<<<<< HEAD
     .p.pix_fmts       = pix_fmts_all,
-=======
-    .pix_fmts         = pix_fmts_all,
->>>>>>> refs/remotes/origin/master
 #endif
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_AUTO_THREADS
 #if X264_BUILD >= 158
                       | FF_CODEC_CAP_INIT_THREADSAFE
 #endif
                       ,
-<<<<<<< HEAD
-=======
-    .wrapper_name     = "libx264",
->>>>>>> refs/remotes/origin/master
 };
 #endif
 
@@ -1286,7 +1252,6 @@ static const AVClass rgbclass = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libx264rgb_encoder = {
     .p.name         = "libx264rgb",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 RGB"),
@@ -1298,36 +1263,16 @@ const FFCodec ff_libx264rgb_encoder = {
     .p.pix_fmts     = pix_fmts_8bit_rgb,
     .p.priv_class   = &rgbclass,
     .p.wrapper_name = "libx264",
-=======
-const AVCodec ff_libx264rgb_encoder = {
-    .name           = "libx264rgb",
-    .long_name      = NULL_IF_CONFIG_SMALL("libx264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10 RGB"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_H264,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
-                      AV_CODEC_CAP_OTHER_THREADS |
-                      AV_CODEC_CAP_ENCODER_REORDERED_OPAQUE,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(X264Context),
     .init           = X264_init,
     FF_CODEC_ENCODE_CB(X264_frame),
     .close          = X264_close,
-<<<<<<< HEAD
     .defaults       = x264_defaults,
-=======
-    .priv_class     = &rgbclass,
-    .defaults       = x264_defaults,
-    .pix_fmts       = pix_fmts_8bit_rgb,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_AUTO_THREADS
 #if X264_BUILD >= 158
                       | FF_CODEC_CAP_INIT_THREADSAFE
 #endif
                       ,
-<<<<<<< HEAD
-=======
-    .wrapper_name   = "libx264",
->>>>>>> refs/remotes/origin/master
 };
 #endif
 
@@ -1339,7 +1284,6 @@ static const AVClass X262_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libx262_encoder = {
     .p.name           = "libx262",
     .p.long_name      = NULL_IF_CONFIG_SMALL("libx262 MPEG2VIDEO"),
@@ -1351,29 +1295,11 @@ const FFCodec ff_libx262_encoder = {
     .p.pix_fmts       = pix_fmts_8bit,
     .p.priv_class     = &X262_class,
     .p.wrapper_name   = "libx264",
-=======
-const AVCodec ff_libx262_encoder = {
-    .name             = "libx262",
-    .long_name        = NULL_IF_CONFIG_SMALL("libx262 MPEG2VIDEO"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_MPEG2VIDEO,
-    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
-                        AV_CODEC_CAP_OTHER_THREADS |
-                        AV_CODEC_CAP_ENCODER_REORDERED_OPAQUE,
->>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(X264Context),
     .init             = X264_init,
     FF_CODEC_ENCODE_CB(X264_frame),
     .close            = X264_close,
-<<<<<<< HEAD
     .defaults         = x264_defaults,
     .caps_internal    = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_AUTO_THREADS,
-=======
-    .priv_class       = &X262_class,
-    .defaults         = x264_defaults,
-    .pix_fmts         = pix_fmts_8bit,
-    .caps_internal    = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_AUTO_THREADS,
-    .wrapper_name     = "libx264",
->>>>>>> refs/remotes/origin/master
 };
 #endif

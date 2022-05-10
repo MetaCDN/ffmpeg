@@ -109,10 +109,6 @@ typedef struct H264Picture {
     ThreadFrame tf;
 
     AVFrame *f_grain;
-<<<<<<< HEAD
-=======
-    ThreadFrame tf_grain;
->>>>>>> refs/remotes/origin/master
 
     AVBufferRef *qscale_table_buf;
     int8_t *qscale_table;

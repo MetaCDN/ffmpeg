@@ -190,11 +190,7 @@ int ff_dnn_execute_layer_conv2d(DnnOperand *operands, const int32_t *input_opera
 #if HAVE_PTHREAD_CANCEL
     int thread_num = (ctx->options.conv2d_threads <= 0 || ctx->options.conv2d_threads > av_cpu_count())
         ? (av_cpu_count() + 1) : (ctx->options.conv2d_threads);
-<<<<<<< HEAD
     int ret = 0, thread_stride;
-=======
-    int ret = DNN_SUCCESS, thread_stride;
->>>>>>> refs/remotes/origin/master
     ThreadParam *thread_param;
 #else
     ThreadParam thread_param = { 0 };
@@ -215,20 +211,12 @@ int ff_dnn_execute_layer_conv2d(DnnOperand *operands, const int32_t *input_opera
     output_operand->length = ff_calculate_operand_data_length(output_operand);
     if (output_operand->length <= 0) {
         av_log(ctx, AV_LOG_ERROR, "The output data length overflow\n");
-<<<<<<< HEAD
         return AVERROR(EINVAL);
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
     tmp = av_realloc(output_operand->data, output_operand->length);
     if (!tmp) {
         av_log(ctx, AV_LOG_ERROR, "Failed to reallocate memory for output\n");
-<<<<<<< HEAD
         return AVERROR(ENOMEM);
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
     output_operand->data = tmp;
     thread_common_param.output_data = output_operand->data;
@@ -241,7 +229,6 @@ int ff_dnn_execute_layer_conv2d(DnnOperand *operands, const int32_t *input_opera
 #if HAVE_PTHREAD_CANCEL
     thread_param = av_malloc_array(thread_num, sizeof(*thread_param));
     if (!thread_param)
-<<<<<<< HEAD
         return AVERROR(ENOMEM);
     thread_stride = (height - pad_size * 2) / thread_num;
     //create threads
@@ -255,19 +242,6 @@ int ff_dnn_execute_layer_conv2d(DnnOperand *operands, const int32_t *input_opera
         if (thread_ret) {
             thread_num = i;
             ret = AVERROR(thread_ret);
-=======
-        return DNN_ERROR;
-    thread_stride = (height - pad_size * 2) / thread_num;
-    //create threads
-    for (int i = 0; i < thread_num; i++){
-        thread_param[i].thread_common_param = &thread_common_param;
-        thread_param[i].thread_start = thread_stride * i + pad_size;
-        thread_param[i].thread_end = (i == thread_num - 1) ? (height - pad_size) : (thread_param[i].thread_start + thread_stride);
-        if (pthread_create(&thread_param[i].thread, NULL,
-                           dnn_execute_layer_conv2d_thread, &thread_param[i])) {
-            thread_num = i;
-            ret = DNN_ERROR;
->>>>>>> refs/remotes/origin/master
             break;
         }
     }
@@ -286,10 +260,6 @@ int ff_dnn_execute_layer_conv2d(DnnOperand *operands, const int32_t *input_opera
     thread_param.thread_end = height - pad_size;
     dnn_execute_layer_conv2d_thread(&thread_param);
 
-<<<<<<< HEAD
     return 0;
-=======
-    return DNN_SUCCESS;
->>>>>>> refs/remotes/origin/master
 #endif
 }

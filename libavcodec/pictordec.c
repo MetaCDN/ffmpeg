@@ -279,20 +279,12 @@ finish:
     return avpkt->size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_pictor_decoder = {
     .p.name         = "pictor",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Pictor/PC Paint"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_PICTOR,
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_pictor_decoder = {
-    .name           = "pictor",
-    .long_name      = NULL_IF_CONFIG_SMALL("Pictor/PC Paint"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_PICTOR,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(PicContext),
     FF_CODEC_DECODE_CB(decode_frame),
 };

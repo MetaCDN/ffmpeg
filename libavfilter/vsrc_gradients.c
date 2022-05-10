@@ -76,7 +76,6 @@ static const AVOption gradients_options[] = {
     {"nb_colors", "set the number of colors", OFFSET(nb_colors), AV_OPT_TYPE_INT,  {.i64=2},          2, 8, FLAGS },
     {"n",         "set the number of colors", OFFSET(nb_colors), AV_OPT_TYPE_INT,  {.i64=2},          2, 8, FLAGS },
     {"seed",      "set the seed",   OFFSET(seed),          AV_OPT_TYPE_INT64,      {.i64=-1},        -1, UINT32_MAX, FLAGS },
-<<<<<<< HEAD
     {"duration",  "set video duration", OFFSET(duration),  AV_OPT_TYPE_DURATION,   {.i64=-1},        -1, INT64_MAX, FLAGS },
     {"d",         "set video duration", OFFSET(duration),  AV_OPT_TYPE_DURATION,   {.i64=-1},        -1, INT64_MAX, FLAGS },
     {"speed",     "set gradients rotation speed", OFFSET(speed), AV_OPT_TYPE_FLOAT,{.dbl=0.01}, 0.00001, 1, FLAGS },
@@ -86,17 +85,11 @@ static const AVOption gradients_options[] = {
     {"radial",    "set gradient type",            0,       AV_OPT_TYPE_CONST,      {.i64=1},          0, 0, FLAGS, "type" },
     {"circular",  "set gradient type",            0,       AV_OPT_TYPE_CONST,      {.i64=2},          0, 0, FLAGS, "type" },
     {"spiral",    "set gradient type",            0,       AV_OPT_TYPE_CONST,      {.i64=3},          0, 0, FLAGS, "type" },
-=======
-    {"duration",  "set video duration", OFFSET(duration),  AV_OPT_TYPE_DURATION,   {.i64=-1},        -1, INT64_MAX, FLAGS },\
-    {"d",         "set video duration", OFFSET(duration),  AV_OPT_TYPE_DURATION,   {.i64=-1},        -1, INT64_MAX, FLAGS },\
-    {"speed",     "set gradients rotation speed", OFFSET(speed), AV_OPT_TYPE_FLOAT,{.dbl=0.01}, 0.00001, 1, FLAGS },\
->>>>>>> refs/remotes/origin/master
     {NULL},
 };
 
 AVFILTER_DEFINE_CLASS(gradients);
 
-<<<<<<< HEAD
 static float lerpf(float a, float b, float x)
 {
     const float y = 1.f - x;
@@ -104,8 +97,6 @@ static float lerpf(float a, float b, float x)
     return a * y + b * x;
 }
 
-=======
->>>>>>> refs/remotes/origin/master
 static uint32_t lerp_color(uint8_t c0[4], uint8_t c1[4], float x)
 {
     const float y = 1.f - x;
@@ -265,13 +256,8 @@ static int draw_gradients_slice(AVFilterContext *ctx, void *arg, int job, int nb
 
     for (int y = start; y < end; y++) {
         for (int x = 0; x < width; x++) {
-<<<<<<< HEAD
             float factor = project(s->fx0, s->fy0, s->fx1, s->fy1, x, y, s->type);
             dst[x] = lerp_colors(s->color_rgba, s->nb_colors, s->nb_colors + (s->type >= 2), factor);
-=======
-            float factor = project(s->fx0, s->fy0, s->fx1, s->fy1, x, y);
-            dst[x] = lerp_colors(s->color_rgba, s->nb_colors, factor);
->>>>>>> refs/remotes/origin/master
         }
 
         dst += linesize;
@@ -293,13 +279,8 @@ static int draw_gradients_slice16(AVFilterContext *ctx, void *arg, int job, int 
 
     for (int y = start; y < end; y++) {
         for (int x = 0; x < width; x++) {
-<<<<<<< HEAD
             float factor = project(s->fx0, s->fy0, s->fx1, s->fy1, x, y, s->type);
             dst[x] = lerp_colors16(s->color_rgba, s->nb_colors, s->nb_colors + s->type >= 2, factor);
-=======
-            float factor = project(s->fx0, s->fy0, s->fx1, s->fy1, x, y);
-            dst[x] = lerp_colors16(s->color_rgba, s->nb_colors, factor);
->>>>>>> refs/remotes/origin/master
         }
 
         dst += linesize;
@@ -400,7 +381,6 @@ static int activate(AVFilterContext *ctx)
         ff_outlink_set_status(outlink, AVERROR_EOF, s->pts);
         return 0;
     }
-<<<<<<< HEAD
 
     if (ff_outlink_frame_wanted(outlink)) {
         AVFrame *frame = ff_get_video_buffer(outlink, s->w, s->h);
@@ -423,30 +403,6 @@ static int activate(AVFilterContext *ctx)
         frame->sample_aspect_ratio = (AVRational) {1, 1};
         frame->pts = s->pts++;
 
-=======
-
-    if (ff_outlink_frame_wanted(outlink)) {
-        AVFrame *frame = ff_get_video_buffer(outlink, s->w, s->h);
-        float angle = fmodf(s->pts * s->speed, 2.f * M_PI);
-        const float w2 = s->w / 2.f;
-        const float h2 = s->h / 2.f;
-
-        s->fx0 = (s->x0 - w2) * cosf(angle) - (s->y0 - h2) * sinf(angle) + w2;
-        s->fy0 = (s->x0 - w2) * sinf(angle) + (s->y0 - h2) * cosf(angle) + h2;
-
-        s->fx1 = (s->x1 - w2) * cosf(angle) - (s->y1 - h2) * sinf(angle) + w2;
-        s->fy1 = (s->x1 - w2) * sinf(angle) + (s->y1 - h2) * cosf(angle) + h2;
-
-        if (!frame)
-            return AVERROR(ENOMEM);
-
-        frame->key_frame           = 1;
-        frame->interlaced_frame    = 0;
-        frame->pict_type           = AV_PICTURE_TYPE_I;
-        frame->sample_aspect_ratio = (AVRational) {1, 1};
-        frame->pts = s->pts++;
-
->>>>>>> refs/remotes/origin/master
         ff_filter_execute(ctx, s->draw_slice, frame, NULL,
                           FFMIN(outlink->h, ff_filter_get_nb_threads(ctx)));
 
@@ -471,11 +427,7 @@ const AVFilter ff_vsrc_gradients = {
     .priv_class    = &gradients_class,
     .inputs        = NULL,
     FILTER_OUTPUTS(gradients_outputs),
-<<<<<<< HEAD
     FILTER_PIXFMTS(AV_PIX_FMT_RGBA, AV_PIX_FMT_RGBA64, AV_PIX_FMT_GBRAPF32),
-=======
-    FILTER_PIXFMTS(AV_PIX_FMT_RGBA, AV_PIX_FMT_RGBA64),
->>>>>>> refs/remotes/origin/master
     .activate      = activate,
     .flags         = AVFILTER_FLAG_SLICE_THREADS,
 };

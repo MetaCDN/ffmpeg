@@ -73,13 +73,8 @@ int main(void)
     int i, j, n, *p;
 
     /* fill data */
-<<<<<<< HEAD
     for (i = 0; av_fifo_can_write(fifo); i++)
         av_fifo_write(fifo, &i, 1);
-=======
-    for (i = 0; av_fifo_space(fifo) >= sizeof(int); i++)
-        av_fifo_generic_write(fifo, &i, sizeof(int), NULL);
->>>>>>> refs/remotes/origin/master
 
     /* peek_at at FIFO */
     n = av_fifo_can_read(fifo);

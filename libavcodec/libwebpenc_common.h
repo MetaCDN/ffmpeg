@@ -34,12 +34,7 @@
 #include "libavutil/log.h"
 #include "libavutil/pixfmt.h"
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "codec.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 
 typedef struct LibWebPContextCommon {
     AVClass *class;         // class for AVOptions
@@ -64,10 +59,6 @@ int ff_libwebp_get_frame(AVCodecContext *avctx, LibWebPContextCommon *s,
 
 extern const enum AVPixelFormat ff_libwebpenc_pix_fmts[];
 extern const AVClass ff_libwebpenc_class;
-<<<<<<< HEAD
 extern const FFCodecDefault ff_libwebp_defaults[];
-=======
-extern const AVCodecDefault ff_libwebp_defaults[];
->>>>>>> refs/remotes/origin/master
 
 #endif /* AVCODEC_LIBWEBPENC_COMMON_H */

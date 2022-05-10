@@ -7,17 +7,10 @@ fate-cdxl-ham6: CMD = framecrc -i $(TARGET_SAMPLES)/cdxl/cat.cdxl -an -frames:v 
 FATE_CDXL += fate-cdxl-ham8
 fate-cdxl-ham8: CMD = framecrc -i $(TARGET_SAMPLES)/cdxl/mirage.cdxl -an -frames:v 1
 
-<<<<<<< HEAD
 FATE_CDXL-$(call FRAMECRC, CDXL, CDXL, SCALE_FILTER) += fate-cdxl-pal8
 fate-cdxl-pal8: CMD = framecrc -i $(TARGET_SAMPLES)/cdxl/maku.cdxl -pix_fmt rgb24 -frames:v 11 -vf scale
 
 FATE_CDXL-$(call FRAMECRC, CDXL, CDXL, SCALE_FILTER) += fate-cdxl-pal8-small
-=======
-FATE_CDXL += fate-cdxl-pal8
-fate-cdxl-pal8: CMD = framecrc -i $(TARGET_SAMPLES)/cdxl/maku.cdxl -pix_fmt rgb24 -frames:v 11 -vf scale
-
-FATE_CDXL += fate-cdxl-pal8-small
->>>>>>> refs/remotes/origin/master
 fate-cdxl-pal8-small: CMD = framecrc -i $(TARGET_SAMPLES)/cdxl/fruit.cdxl -an -pix_fmt rgb24 -frames:v 46 -vf scale
 
 FATE_CDXL-$(call FRAMECRC, CDXL, CDXL) += $(FATE_CDXL)

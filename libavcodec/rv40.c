@@ -570,7 +570,6 @@ static av_cold int rv40_decode_init(AVCodecContext *avctx)
     r->luma_dc_quant_i = rv40_luma_dc_quant[0];
     r->luma_dc_quant_p = rv40_luma_dc_quant[1];
     ff_rv40dsp_init(&r->rdsp);
-<<<<<<< HEAD
     ff_thread_once(&init_static_once, rv40_init_tables);
     return 0;
 }
@@ -580,16 +579,6 @@ const FFCodec ff_rv40_decoder = {
     .p.long_name           = NULL_IF_CONFIG_SMALL("RealVideo 4.0"),
     .p.type                = AVMEDIA_TYPE_VIDEO,
     .p.id                  = AV_CODEC_ID_RV40,
-=======
-    return 0;
-}
-
-const AVCodec ff_rv40_decoder = {
-    .name                  = "rv40",
-    .long_name             = NULL_IF_CONFIG_SMALL("RealVideo 4.0"),
-    .type                  = AVMEDIA_TYPE_VIDEO,
-    .id                    = AV_CODEC_ID_RV40,
->>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(RV34DecContext),
     .init                  = rv40_decode_init,
     .close                 = ff_rv34_decode_end,

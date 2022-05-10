@@ -552,13 +552,8 @@ dshow_cycle_devices(AVFormatContext *avctx, ICreateDevEnum *devenum,
                 if (!device)
                     goto fail;
 
-<<<<<<< HEAD
                 device->device_name = av_strdup(unique_name);
                 device->device_description = av_strdup(friendly_name);
-=======
-                device->device_name = av_strdup(friendly_name);
-                device->device_description = av_strdup(unique_name);
->>>>>>> refs/remotes/origin/master
                 if (!device->device_name || !device->device_description)
                     goto fail;
 
@@ -1007,32 +1002,12 @@ dshow_cycle_formats(AVFormatContext *avctx, enum dshowDeviceType devtype,
                 );
                 continue;
             }
-<<<<<<< HEAD
             if (
                 (ctx->sample_rate && ctx->sample_rate != fx->nSamplesPerSec) ||
                 (ctx->sample_size && ctx->sample_size != fx->wBitsPerSample) ||
                 (ctx->channels    && ctx->channels    != fx->nChannels     )
             ) {
                 goto next;
-=======
-            if (requested_sample_rate) {
-                if (requested_sample_rate > acaps->MaximumSampleFrequency ||
-                    requested_sample_rate < acaps->MinimumSampleFrequency)
-                    goto next;
-                fx->nSamplesPerSec = requested_sample_rate;
-            }
-            if (requested_sample_size) {
-                if (requested_sample_size > acaps->MaximumBitsPerSample ||
-                    requested_sample_size < acaps->MinimumBitsPerSample)
-                    goto next;
-                fx->wBitsPerSample = requested_sample_size;
-            }
-            if (requested_channels) {
-                if (requested_channels > acaps->MaximumChannels ||
-                    requested_channels < acaps->MinimumChannels)
-                    goto next;
-                fx->nChannels = requested_channels;
->>>>>>> refs/remotes/origin/master
             }
         }
 
@@ -1057,7 +1032,6 @@ next:
             CoTaskMemFree(type->pbFormat);
         CoTaskMemFree(type);
         type = NULL;
-<<<<<<< HEAD
     }
 
     // set the pin's format, if wanted
@@ -1086,36 +1060,6 @@ next:
         }
     }
 
-=======
-    }
-
-    // set the pin's format, if wanted
-    if (pformat_set && !format_set) {
-        if (previous_match_type) {
-            // previously found a matching VIDEOINFOHEADER format and stored
-            // it for safe keeping. Searching further for a matching
-            // VIDEOINFOHEADER2 format yielded nothing. So set the pin's
-            // format based on the VIDEOINFOHEADER format.
-            // NB: this never applies to an audio format because
-            // previous_match_type always NULL in that case
-            if (IAMStreamConfig_SetFormat(config, previous_match_type) == S_OK)
-                format_set = 1;
-        }
-        else if (use_default) {
-            // default format returned by device apparently was not contained
-            // in the capabilities of any of the formats returned by the device
-            // (sic?). Fall back to directly setting the default format
-            dshow_get_default_format(pin, config, devtype, &type);
-            if (IAMStreamConfig_SetFormat(config, type) == S_OK)
-                format_set = 1;
-            if (type && type->pbFormat)
-                CoTaskMemFree(type->pbFormat);
-            CoTaskMemFree(type);
-            type = NULL;
-        }
-    }
-
->>>>>>> refs/remotes/origin/master
 end:
     if (previous_match_type && previous_match_type->pbFormat)
         CoTaskMemFree(previous_match_type->pbFormat);
@@ -1677,11 +1621,7 @@ dshow_add_device(AVFormatContext *avctx,
         par->format      = sample_fmt_bits_per_sample(fmt_info->sample_size);
         par->codec_id    = waveform_codec_id(par->format);
         par->sample_rate = fmt_info->sample_rate;
-<<<<<<< HEAD
         par->ch_layout.nb_channels = fmt_info->channels;
-=======
-        par->channels    = fmt_info->channels;
->>>>>>> refs/remotes/origin/master
     }
 
     avpriv_set_pts_info(st, 64, 1, 10000000);

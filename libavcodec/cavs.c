@@ -25,8 +25,6 @@
  * @author Stefan Gehrer <stefan.gehrer@gmx.de>
  */
 
-#include "libavutil/mem_internal.h"
-
 #include "avcodec.h"
 #include "golomb.h"
 #include "h264chroma.h"

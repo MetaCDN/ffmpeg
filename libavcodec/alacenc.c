@@ -22,10 +22,7 @@
 #include "libavutil/opt.h"
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "put_bits.h"
 #include "lpc.h"
@@ -651,20 +648,12 @@ static const AVClass alacenc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 FF_DISABLE_DEPRECATION_WARNINGS
 const FFCodec ff_alac_encoder = {
     .p.name         = "alac",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ALAC (Apple Lossless Audio Codec)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_ALAC,
-=======
-const AVCodec ff_alac_encoder = {
-    .name           = "alac",
-    .long_name      = NULL_IF_CONFIG_SMALL("ALAC (Apple Lossless Audio Codec)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_ALAC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AlacEncodeContext),
     .p.priv_class   = &alacenc_class,
     .init           = alac_encode_init,

@@ -38,10 +38,7 @@
 #include "av1.h"
 #include "avcodec.h"
 #include "bsf.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "packet_internal.h"
@@ -1232,28 +1229,16 @@ static const enum AVPixelFormat av1_pix_fmts_highbd_with_gray[] = {
     AV_PIX_FMT_NONE
 };
 
-<<<<<<< HEAD
 static av_cold void av1_init_static(FFCodec *codec)
-=======
-static av_cold void av1_init_static(AVCodec *codec)
->>>>>>> refs/remotes/origin/master
 {
     int supports_monochrome = aom_codec_version() >= 20001;
     aom_codec_caps_t codec_caps = aom_codec_get_caps(aom_codec_av1_cx());
     if (codec_caps & AOM_CODEC_CAP_HIGHBITDEPTH)
-<<<<<<< HEAD
         codec->p.pix_fmts = supports_monochrome ? av1_pix_fmts_highbd_with_gray :
                                                   av1_pix_fmts_highbd;
     else
         codec->p.pix_fmts = supports_monochrome ? av1_pix_fmts_with_gray :
                                                   av1_pix_fmts;
-=======
-        codec->pix_fmts = supports_monochrome ? av1_pix_fmts_highbd_with_gray :
-                                                av1_pix_fmts_highbd;
-    else
-        codec->pix_fmts = supports_monochrome ? av1_pix_fmts_with_gray :
-                                                av1_pix_fmts;
->>>>>>> refs/remotes/origin/master
 
     if (aom_codec_version_major() < 2)
         codec->p.capabilities |= AV_CODEC_CAP_EXPERIMENTAL;
@@ -1356,7 +1341,6 @@ static const AVClass class_aom = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 FFCodec ff_libaom_av1_encoder = {
     .p.name         = "libaom-av1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libaom AV1"),
@@ -1367,25 +1351,11 @@ FFCodec ff_libaom_av1_encoder = {
     .p.profiles     = NULL_IF_CONFIG_SMALL(ff_av1_profiles),
     .p.priv_class   = &class_aom,
     .p.wrapper_name = "libaom",
-=======
-AVCodec ff_libaom_av1_encoder = {
-    .name           = "libaom-av1",
-    .long_name      = NULL_IF_CONFIG_SMALL("libaom AV1"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_AV1,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
-                      AV_CODEC_CAP_OTHER_THREADS,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AOMContext),
     .init           = av1_init,
     FF_CODEC_ENCODE_CB(aom_encode),
     .close          = aom_free,
     .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
-<<<<<<< HEAD
-=======
-    .profiles       = NULL_IF_CONFIG_SMALL(ff_av1_profiles),
-    .priv_class     = &class_aom,
->>>>>>> refs/remotes/origin/master
     .defaults       = defaults,
     .init_static_data = av1_init_static,
 };

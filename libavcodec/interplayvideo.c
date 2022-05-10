@@ -43,10 +43,7 @@
 #define BITSTREAM_READER_LE
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "get_bits.h"
 #include "hpeldsp.h"
@@ -1359,7 +1356,6 @@ static av_cold int ipvideo_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_interplay_video_decoder = {
     .p.name         = "interplayvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Interplay MVE video"),
@@ -1370,17 +1366,5 @@ const FFCodec ff_interplay_video_decoder = {
     .close          = ipvideo_decode_end,
     FF_CODEC_DECODE_CB(ipvideo_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_PARAM_CHANGE,
-=======
-const AVCodec ff_interplay_video_decoder = {
-    .name           = "interplayvideo",
-    .long_name      = NULL_IF_CONFIG_SMALL("Interplay MVE video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_INTERPLAY_VIDEO,
-    .priv_data_size = sizeof(IpvideoContext),
-    .init           = ipvideo_decode_init,
-    .close          = ipvideo_decode_end,
-    .decode         = ipvideo_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_PARAM_CHANGE,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

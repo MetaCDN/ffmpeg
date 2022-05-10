@@ -109,12 +109,7 @@ static int config_input(AVFilterLink *inlink)
     const char *last_expr = "1";
     int buf_size;
 
-<<<<<<< HEAD
     s->channels = inlink->ch_layout.nb_channels;
-=======
-    s->channels = inlink->channels;
-    s->pts  = AV_NOPTS_VALUE;
->>>>>>> refs/remotes/origin/master
     ret = av_tx_init(&s->fft, &s->tx_fn, AV_TX_FLOAT_FFT, 0, s->fft_size, &scale, 0);
     if (ret < 0)
         return ret;
@@ -122,7 +117,6 @@ static int config_input(AVFilterLink *inlink)
     ret = av_tx_init(&s->ifft, &s->itx_fn, AV_TX_FLOAT_FFT, 1, s->fft_size, &scale, 0);
     if (ret < 0)
         return ret;
-<<<<<<< HEAD
 
     s->window_size = s->fft_size;
     buf_size = FFALIGN(s->window_size, av_cpu_max_align());
@@ -132,17 +126,6 @@ static int config_input(AVFilterLink *inlink)
         return AVERROR(ENOMEM);
 
     s->fft_out = av_calloc(inlink->ch_layout.nb_channels, sizeof(*s->fft_out));
-=======
-
-    s->window_size = s->fft_size;
-    buf_size = FFALIGN(s->window_size, av_cpu_max_align());
-
-    s->fft_in = av_calloc(inlink->channels, sizeof(*s->fft_in));
-    if (!s->fft_in)
-        return AVERROR(ENOMEM);
-
-    s->fft_out = av_calloc(inlink->channels, sizeof(*s->fft_out));
->>>>>>> refs/remotes/origin/master
     if (!s->fft_out)
         return AVERROR(ENOMEM);
 
@@ -150,11 +133,7 @@ static int config_input(AVFilterLink *inlink)
     if (!s->fft_temp)
         return AVERROR(ENOMEM);
 
-<<<<<<< HEAD
     for (ch = 0; ch < inlink->ch_layout.nb_channels; ch++) {
-=======
-    for (ch = 0; ch < inlink->channels; ch++) {
->>>>>>> refs/remotes/origin/master
         s->fft_in[ch] = av_calloc(buf_size, sizeof(**s->fft_in));
         if (!s->fft_in[ch])
             return AVERROR(ENOMEM);
@@ -253,7 +232,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     int ch, n, ret, i;
     AVFrame *out;
 
-<<<<<<< HEAD
     for (ch = 0; ch < inlink->ch_layout.nb_channels; ch++) {
         const int offset = s->window_size - s->hop_size;
         float *src = (float *)s->window->extended_data[ch];
@@ -265,29 +243,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
         for (n = 0; n < window_size; n++) {
             fft_in[n].re = src[n] * window_lut[n];
-=======
-    if (!in) {
-        in = ff_get_audio_buffer(outlink, window_size);
-        if (!in)
-            return AVERROR(ENOMEM);
-    }
-
-    ret = av_audio_fifo_peek(s->fifo, (void **)in->extended_data, window_size);
-    if (ret < 0)
-        goto fail;
-
-    for (ch = 0; ch < inlink->channels; ch++) {
-        const float *src = (float *)in->extended_data[ch];
-        AVComplexFloat *fft_in = s->fft_in[ch];
-
-        for (n = 0; n < in->nb_samples; n++) {
-            fft_in[n].re = src[n] * s->window_func_lut[n];
-            fft_in[n].im = 0;
-        }
-
-        for (; n < window_size; n++) {
-            fft_in[n].re = 0;
->>>>>>> refs/remotes/origin/master
             fft_in[n].im = 0;
         }
     }
@@ -297,22 +252,14 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     values[VAR_NBBINS]      = window_size / 2;
     values[VAR_CHANNELS]    = inlink->ch_layout.nb_channels;
 
-<<<<<<< HEAD
     for (ch = 0; ch < inlink->ch_layout.nb_channels; ch++) {
-=======
-    for (ch = 0; ch < inlink->channels; ch++) {
->>>>>>> refs/remotes/origin/master
         AVComplexFloat *fft_in = s->fft_in[ch];
         AVComplexFloat *fft_out = s->fft_out[ch];
 
         s->tx_fn(s->fft, fft_out, fft_in, sizeof(float));
     }
 
-<<<<<<< HEAD
     for (ch = 0; ch < inlink->ch_layout.nb_channels; ch++) {
-=======
-    for (ch = 0; ch < inlink->channels; ch++) {
->>>>>>> refs/remotes/origin/master
         AVComplexFloat *fft_out = s->fft_out[ch];
         AVComplexFloat *fft_temp = s->fft_temp[ch];
         float *buf = (float *)s->buffer->extended_data[ch];
@@ -320,11 +267,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
         values[VAR_CHANNEL] = ch;
 
         if (ctx->is_disabled) {
-<<<<<<< HEAD
             for (n = 0; n < window_size; n++) {
-=======
-            for (n = 0; n <= window_size / 2; n++) {
->>>>>>> refs/remotes/origin/master
                 fft_temp[n].re = fft_out[n].re;
                 fft_temp[n].im = fft_out[n].im;
             }
@@ -342,10 +285,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                 fft_temp[n].re = fr;
                 fft_temp[n].im = fi;
             }
-<<<<<<< HEAD
-=======
-        }
->>>>>>> refs/remotes/origin/master
 
             for (n = window_size / 2 + 1, x = window_size / 2 - 1; n < window_size; n++, x--) {
                 fft_temp[n].re =  fft_temp[x].re;
@@ -357,11 +296,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
         memmove(buf, buf + s->hop_size, window_size * sizeof(float));
         for (i = 0; i < window_size; i++) {
-<<<<<<< HEAD
             buf[i] += fft_out[i].re * window_lut[i] * f;
-=======
-            buf[i] += s->fft_out[ch][i].re * f;
->>>>>>> refs/remotes/origin/master
         }
     }
 

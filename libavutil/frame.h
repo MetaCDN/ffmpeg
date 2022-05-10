@@ -202,7 +202,6 @@ enum AVFrameSideDataType {
      * libavutil/dovi_meta.h.
      */
     AV_FRAME_DATA_DOVI_METADATA,
-<<<<<<< HEAD
 
     /**
      * HDR Vivid dynamic metadata associated with a video frame. The payload is
@@ -210,8 +209,6 @@ enum AVFrameSideDataType {
      * volume transform - CUVA 005.1-2021.
      */
     AV_FRAME_DATA_DYNAMIC_HDR_VIVID,
-=======
->>>>>>> refs/remotes/origin/master
 };
 
 enum AVActiveFormatDescription {

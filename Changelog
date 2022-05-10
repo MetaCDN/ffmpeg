@@ -1,7 +1,6 @@
 Entries are sorted chronologically from oldest to youngest within each release,
 releases are sorted from youngest to oldest.
 
-<<<<<<< HEAD
 version 5.1:
 - dialogue enhance audio filter
 - dropped obsolete XvMC hwaccel
@@ -16,9 +15,6 @@ version 5.1:
 - colorchart video source filter
 - blurdetect filter
 - multiply video filter
-=======
-version <next>:
->>>>>>> refs/remotes/origin/master
 
 
 version 5.0:

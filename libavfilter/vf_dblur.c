@@ -131,7 +131,6 @@ static const enum AVPixelFormat pix_fmts[] = {
     AV_PIX_FMT_GBRP12, AV_PIX_FMT_GBRP14, AV_PIX_FMT_GBRP16,
     AV_PIX_FMT_GBRAP, AV_PIX_FMT_GBRAP10, AV_PIX_FMT_GBRAP12, AV_PIX_FMT_GBRAP16,
     AV_PIX_FMT_GRAY8, AV_PIX_FMT_GRAY9, AV_PIX_FMT_GRAY10, AV_PIX_FMT_GRAY12, AV_PIX_FMT_GRAY14, AV_PIX_FMT_GRAY16,
-<<<<<<< HEAD
     AV_PIX_FMT_GRAYF32, AV_PIX_FMT_GBRPF32, AV_PIX_FMT_GBRAPF32,
     AV_PIX_FMT_NONE
 };
@@ -142,10 +141,6 @@ static av_cold void uninit(AVFilterContext *ctx)
 
     av_freep(&s->buffer);
 }
-=======
-    AV_PIX_FMT_NONE
-};
->>>>>>> refs/remotes/origin/master
 
 static int config_input(AVFilterLink *inlink)
 {

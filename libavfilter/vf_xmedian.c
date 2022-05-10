@@ -226,11 +226,7 @@ static int process_frame(FFFrameSync *fs)
         td.in = in;
         td.out = out;
         ff_filter_execute(ctx, s->median_frames, &td, NULL,
-<<<<<<< HEAD
                           FFMIN(s->height[1], s->nb_threads));
-=======
-                          FFMIN(s->height[1], ff_filter_get_nb_threads(ctx)));
->>>>>>> refs/remotes/origin/master
     }
 
     return ff_filter_frame(outlink, out);
@@ -276,7 +272,6 @@ static int config_output(AVFilterLink *outlink)
     s->height[1] = s->height[2] = AV_CEIL_RSHIFT(inlink->h, s->desc->log2_chroma_h);
     s->height[0] = s->height[3] = inlink->h;
 
-<<<<<<< HEAD
     s->data = av_calloc(s->nb_threads * s->nb_inputs, sizeof(*s->data));
     if (!s->data)
         return AVERROR(ENOMEM);
@@ -285,8 +280,6 @@ static int config_output(AVFilterLink *outlink)
     if (!s->linesize)
         return AVERROR(ENOMEM);
 
-=======
->>>>>>> refs/remotes/origin/master
     if (!s->xmedian)
         return 0;
 
@@ -336,27 +329,6 @@ static int activate(AVFilterContext *ctx)
     return ff_framesync_activate(&s->fs);
 }
 
-<<<<<<< HEAD
-=======
-static int process_command(AVFilterContext *ctx, const char *cmd, const char *args,
-                           char *res, int res_len, int flags)
-{
-    XMedianContext *s = ctx->priv;
-    int ret;
-
-    ret = ff_filter_process_command(ctx, cmd, args, res, res_len, flags);
-    if (ret < 0)
-        return ret;
-
-    if (s->nb_inputs & 1)
-        s->index = s->radius * 2.f * s->percentile;
-    else
-        s->index = av_clip(s->radius * 2.f * s->percentile, 1, s->nb_inputs - 1);
-
-    return 0;
-}
-
->>>>>>> refs/remotes/origin/master
 #if CONFIG_XMEDIAN_FILTER
 static av_cold int xmedian_init(AVFilterContext *ctx)
 {
@@ -416,11 +388,7 @@ const AVFilter ff_vf_xmedian = {
     .activate      = activate,
     .flags         = AVFILTER_FLAG_DYNAMIC_INPUTS | AVFILTER_FLAG_SLICE_THREADS |
                      AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
-<<<<<<< HEAD
     .process_command = ff_filter_process_command,
-=======
-    .process_command = process_command,
->>>>>>> refs/remotes/origin/master
 };
 
 #endif /* CONFIG_XMEDIAN_FILTER */
@@ -462,11 +430,7 @@ static int tmedian_filter_frame(AVFilterLink *inlink, AVFrame *in)
     td.out = out;
     td.in = s->frames;
     ff_filter_execute(ctx, s->median_frames, &td, NULL,
-<<<<<<< HEAD
                       FFMIN(s->height[1], s->nb_threads));
-=======
-                      FFMIN(s->height[0], ff_filter_get_nb_threads(ctx)));
->>>>>>> refs/remotes/origin/master
 
     return ff_filter_frame(outlink, out);
 }
@@ -507,11 +471,7 @@ const AVFilter ff_vf_tmedian = {
     .init          = init,
     .uninit        = uninit,
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL | AVFILTER_FLAG_SLICE_THREADS,
-<<<<<<< HEAD
     .process_command = ff_filter_process_command,
-=======
-    .process_command = process_command,
->>>>>>> refs/remotes/origin/master
 };
 
 #endif /* CONFIG_TMEDIAN_FILTER */

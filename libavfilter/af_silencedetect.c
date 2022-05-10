@@ -136,20 +136,12 @@ static void silencedetect_##name(SilenceDetectContext *s, AVFrame *insamples,   
                                  int nb_samples, int64_t nb_samples_notify,      \
                                  AVRational time_base)                           \
 {                                                                                \
-<<<<<<< HEAD
     const int channels = insamples->ch_layout.nb_channels;                       \
-=======
-    const int channels = insamples->channels;                                    \
->>>>>>> refs/remotes/origin/master
     const type noise = s->noise;                                                 \
                                                                                  \
     nb_samples /= channels;                                                      \
     for (int i = 0; i < nb_samples; i++) {                                       \
-<<<<<<< HEAD
         for (int ch = 0; ch < insamples->ch_layout.nb_channels; ch++) {          \
-=======
-        for (int ch = 0; ch < insamples->channels; ch++) {                       \
->>>>>>> refs/remotes/origin/master
             const type *p = (const type *)insamples->extended_data[ch];          \
             update(s, insamples, p[i] < noise && p[i] > -noise,                  \
                    channels * i + ch,                                            \

@@ -31,10 +31,7 @@
 #include "libavutil/opt.h"
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "mpegaudio.h"
@@ -212,19 +209,11 @@ static const int twolame_samplerates[] = {
     16000, 22050, 24000, 32000, 44100, 48000, 0
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libtwolame_encoder = {
     .p.name         = "libtwolame",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libtwolame MP2 (MPEG audio layer 2)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_MP2,
-=======
-const AVCodec ff_libtwolame_encoder = {
-    .name           = "libtwolame",
-    .long_name      = NULL_IF_CONFIG_SMALL("libtwolame MP2 (MPEG audio layer 2)"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_MP2,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(TWOLAMEContext),
     .init           = twolame_encode_init,
     FF_CODEC_ENCODE_CB(twolame_encode_frame),

@@ -139,15 +139,9 @@ static av_cold int init(AVFilterContext *ctx)
                   ff_add_format, av_get_sample_fmt, AV_SAMPLE_FMT_NONE, "sample format");
     PARSE_FORMATS(s->sample_rates_str, int, s->sample_rates, ff_add_format,
                   get_sample_rate, 0, "sample rate");
-<<<<<<< HEAD
     ret = parse_channel_layouts(ctx);
     if (ret < 0)
         return ret;
-=======
-    PARSE_FORMATS(s->channel_layouts_str, uint64_t, s->channel_layouts,
-                  ff_add_channel_layout, av_get_channel_layout, 0,
-                  "channel layout");
->>>>>>> refs/remotes/origin/master
 
     return 0;
 }

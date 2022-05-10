@@ -604,10 +604,7 @@ const AVFilter ff_af_lv2 = {
     .priv_class    = &lv2_class,
     .init          = init,
     .uninit        = uninit,
-<<<<<<< HEAD
     .process_command = process_command,
-=======
->>>>>>> refs/remotes/origin/master
     .inputs        = 0,
     FILTER_OUTPUTS(lv2_outputs),
     FILTER_QUERY_FUNC(query_formats),

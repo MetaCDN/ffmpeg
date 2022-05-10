@@ -1738,7 +1738,6 @@ static const AVClass dvbsubdec_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_dvbsub_decoder = {
     .p.name         = "dvbsub",
     .p.long_name    = NULL_IF_CONFIG_SMALL("DVB subtitles"),
@@ -1749,17 +1748,5 @@ const FFCodec ff_dvbsub_decoder = {
     .close          = dvbsub_close_decoder,
     FF_CODEC_DECODE_SUB_CB(dvbsub_decode),
     .p.priv_class   = &dvbsubdec_class,
-=======
-const AVCodec ff_dvbsub_decoder = {
-    .name           = "dvbsub",
-    .long_name      = NULL_IF_CONFIG_SMALL("DVB subtitles"),
-    .type           = AVMEDIA_TYPE_SUBTITLE,
-    .id             = AV_CODEC_ID_DVB_SUBTITLE,
-    .priv_data_size = sizeof(DVBSubContext),
-    .init           = dvbsub_init_decoder,
-    .close          = dvbsub_close_decoder,
-    .decode         = dvbsub_decode,
-    .priv_class     = &dvbsubdec_class,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

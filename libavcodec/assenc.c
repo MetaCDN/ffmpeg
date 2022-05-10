@@ -25,11 +25,7 @@
 
 #include "avcodec.h"
 #include "ass.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "libavutil/avstring.h"
 #include "libavutil/internal.h"
 #include "libavutil/mem.h"
@@ -73,7 +69,6 @@ static int ass_encode_frame(AVCodecContext *avctx,
 }
 
 #if CONFIG_SSA_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_ssa_encoder = {
     .p.name       = "ssa",
     .p.long_name  = NULL_IF_CONFIG_SMALL("ASS (Advanced SubStation Alpha) subtitle"),
@@ -81,21 +76,11 @@ const FFCodec ff_ssa_encoder = {
     .p.id         = AV_CODEC_ID_ASS,
     .init         = ass_encode_init,
     FF_CODEC_ENCODE_SUB_CB(ass_encode_frame),
-=======
-const AVCodec ff_ssa_encoder = {
-    .name         = "ssa",
-    .long_name    = NULL_IF_CONFIG_SMALL("ASS (Advanced SubStation Alpha) subtitle"),
-    .type         = AVMEDIA_TYPE_SUBTITLE,
-    .id           = AV_CODEC_ID_ASS,
-    .init         = ass_encode_init,
-    .encode_sub   = ass_encode_frame,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 
 #if CONFIG_ASS_ENCODER
-<<<<<<< HEAD
 const FFCodec ff_ass_encoder = {
     .p.name       = "ass",
     .p.long_name  = NULL_IF_CONFIG_SMALL("ASS (Advanced SubStation Alpha) subtitle"),
@@ -103,15 +88,6 @@ const FFCodec ff_ass_encoder = {
     .p.id         = AV_CODEC_ID_ASS,
     .init         = ass_encode_init,
     FF_CODEC_ENCODE_SUB_CB(ass_encode_frame),
-=======
-const AVCodec ff_ass_encoder = {
-    .name         = "ass",
-    .long_name    = NULL_IF_CONFIG_SMALL("ASS (Advanced SubStation Alpha) subtitle"),
-    .type         = AVMEDIA_TYPE_SUBTITLE,
-    .id           = AV_CODEC_ID_ASS,
-    .init         = ass_encode_init,
-    .encode_sub   = ass_encode_frame,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif

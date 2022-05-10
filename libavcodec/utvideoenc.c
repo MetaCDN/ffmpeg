@@ -29,13 +29,8 @@
 #include "libavutil/opt.h"
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "bswapdsp.h"
 #include "bytestream.h"
 #include "put_bits.h"
@@ -648,19 +643,11 @@ static const AVClass utvideo_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_utvideo_encoder = {
     .p.name         = "utvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Ut Video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_UTVIDEO,
-=======
-const AVCodec ff_utvideo_encoder = {
-    .name           = "utvideo",
-    .long_name      = NULL_IF_CONFIG_SMALL("Ut Video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_UTVIDEO,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(UtvideoContext),
     .p.priv_class   = &utvideo_class,
     .init           = utvideo_encode_init,

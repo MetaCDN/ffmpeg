@@ -26,13 +26,8 @@
 #include "libavutil/opt.h"
 #include "avcodec.h"
 #include "bytestream.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
-=======
-#include "encode.h"
-#include "internal.h"
->>>>>>> refs/remotes/origin/master
 #include "libopus.h"
 #include "vorbis.h"
 #include "audio_frame_queue.h"
@@ -415,11 +410,7 @@ static av_cold int libopus_encode_init(AVCodecContext *avctx)
     }
     avctx->extradata_size = header_size;
 
-<<<<<<< HEAD
     opus->samples = av_calloc(frame_size, channels *
-=======
-    opus->samples = av_calloc(frame_size, avctx->channels *
->>>>>>> refs/remotes/origin/master
                                av_get_bytes_per_sample(avctx->sample_fmt));
     if (!opus->samples) {
         av_log(avctx, AV_LOG_ERROR, "Failed to allocate samples buffer.\n");
@@ -592,19 +583,11 @@ static const int libopus_sample_rates[] = {
     48000, 24000, 16000, 12000, 8000, 0,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_libopus_encoder = {
     .p.name          = "libopus",
     .p.long_name     = NULL_IF_CONFIG_SMALL("libopus Opus"),
     .p.type          = AVMEDIA_TYPE_AUDIO,
     .p.id            = AV_CODEC_ID_OPUS,
-=======
-const AVCodec ff_libopus_encoder = {
-    .name            = "libopus",
-    .long_name       = NULL_IF_CONFIG_SMALL("libopus Opus"),
-    .type            = AVMEDIA_TYPE_AUDIO,
-    .id              = AV_CODEC_ID_OPUS,
->>>>>>> refs/remotes/origin/master
     .priv_data_size  = sizeof(LibopusEncContext),
     .init            = libopus_encode_init,
     FF_CODEC_ENCODE_CB(libopus_encode),

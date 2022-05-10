@@ -121,7 +121,6 @@ static int cinaudio_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_dsicinaudio_decoder = {
     .p.name         = "dsicinaudio",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Delphine Software International CIN audio"),
@@ -131,16 +130,5 @@ const FFCodec ff_dsicinaudio_decoder = {
     .init           = cinaudio_decode_init,
     FF_CODEC_DECODE_CB(cinaudio_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
-=======
-const AVCodec ff_dsicinaudio_decoder = {
-    .name           = "dsicinaudio",
-    .long_name      = NULL_IF_CONFIG_SMALL("Delphine Software International CIN audio"),
-    .type           = AVMEDIA_TYPE_AUDIO,
-    .id             = AV_CODEC_ID_DSICINAUDIO,
-    .priv_data_size = sizeof(CinAudioContext),
-    .init           = cinaudio_decode_init,
-    .decode         = cinaudio_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

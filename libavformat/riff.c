@@ -19,15 +19,10 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
-<<<<<<< HEAD
 #include <stddef.h>
 #include "config.h"
 #include "config_components.h"
 #include "libavutil/macros.h"
-=======
-#include "config.h"
-#include "libavutil/common.h"
->>>>>>> refs/remotes/origin/master
 #include "avformat.h"
 #include "internal.h"
 #include "metadata.h"

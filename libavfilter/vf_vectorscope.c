@@ -1596,8 +1596,5 @@ const AVFilter ff_vf_vectorscope = {
     FILTER_INPUTS(inputs),
     FILTER_OUTPUTS(outputs),
     FILTER_QUERY_FUNC(query_formats),
-<<<<<<< HEAD
     .process_command = ff_filter_process_command,
-=======
->>>>>>> refs/remotes/origin/master
 };

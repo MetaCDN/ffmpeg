@@ -155,7 +155,6 @@ enum AVChannelOrder {
  *
  * @{
  */
-<<<<<<< HEAD
 #define AV_CH_FRONT_LEFT             (1ULL << AV_CHAN_FRONT_LEFT           )
 #define AV_CH_FRONT_RIGHT            (1ULL << AV_CHAN_FRONT_RIGHT          )
 #define AV_CH_FRONT_CENTER           (1ULL << AV_CHAN_FRONT_CENTER         )
@@ -186,38 +185,6 @@ enum AVChannelOrder {
 #define AV_CH_BOTTOM_FRONT_CENTER    (1ULL << AV_CHAN_BOTTOM_FRONT_CENTER  )
 #define AV_CH_BOTTOM_FRONT_LEFT      (1ULL << AV_CHAN_BOTTOM_FRONT_LEFT    )
 #define AV_CH_BOTTOM_FRONT_RIGHT     (1ULL << AV_CHAN_BOTTOM_FRONT_RIGHT   )
-=======
-#define AV_CH_FRONT_LEFT             0x00000001
-#define AV_CH_FRONT_RIGHT            0x00000002
-#define AV_CH_FRONT_CENTER           0x00000004
-#define AV_CH_LOW_FREQUENCY          0x00000008
-#define AV_CH_BACK_LEFT              0x00000010
-#define AV_CH_BACK_RIGHT             0x00000020
-#define AV_CH_FRONT_LEFT_OF_CENTER   0x00000040
-#define AV_CH_FRONT_RIGHT_OF_CENTER  0x00000080
-#define AV_CH_BACK_CENTER            0x00000100
-#define AV_CH_SIDE_LEFT              0x00000200
-#define AV_CH_SIDE_RIGHT             0x00000400
-#define AV_CH_TOP_CENTER             0x00000800
-#define AV_CH_TOP_FRONT_LEFT         0x00001000
-#define AV_CH_TOP_FRONT_CENTER       0x00002000
-#define AV_CH_TOP_FRONT_RIGHT        0x00004000
-#define AV_CH_TOP_BACK_LEFT          0x00008000
-#define AV_CH_TOP_BACK_CENTER        0x00010000
-#define AV_CH_TOP_BACK_RIGHT         0x00020000
-#define AV_CH_STEREO_LEFT            0x20000000  ///< Stereo downmix.
-#define AV_CH_STEREO_RIGHT           0x40000000  ///< See AV_CH_STEREO_LEFT.
-#define AV_CH_WIDE_LEFT              0x0000000080000000ULL
-#define AV_CH_WIDE_RIGHT             0x0000000100000000ULL
-#define AV_CH_SURROUND_DIRECT_LEFT   0x0000000200000000ULL
-#define AV_CH_SURROUND_DIRECT_RIGHT  0x0000000400000000ULL
-#define AV_CH_LOW_FREQUENCY_2        0x0000000800000000ULL
-#define AV_CH_TOP_SIDE_LEFT          0x0000001000000000ULL
-#define AV_CH_TOP_SIDE_RIGHT         0x0000002000000000ULL
-#define AV_CH_BOTTOM_FRONT_CENTER    0x0000004000000000ULL
-#define AV_CH_BOTTOM_FRONT_LEFT      0x0000008000000000ULL
-#define AV_CH_BOTTOM_FRONT_RIGHT     0x0000010000000000ULL
->>>>>>> refs/remotes/origin/master
 
 #if FF_API_OLD_CHANNEL_LAYOUT
 /** Channel mask value used for AVCodecContext.request_channel_layout

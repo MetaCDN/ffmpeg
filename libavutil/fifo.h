@@ -302,12 +302,9 @@ int av_fifo_space(const AVFifoBuffer *f);
  * @param dest data destination
  *
  * @return a non-negative number on success, a negative error code on failure
-<<<<<<< HEAD
  *
  * @deprecated use the new AVFifo-API with av_fifo_peek() when func == NULL,
  *             av_fifo_peek_to_cb() otherwise
-=======
->>>>>>> refs/remotes/origin/master
  */
 attribute_deprecated
 int av_fifo_generic_peek_at(AVFifoBuffer *f, void *dest, int offset, int buf_size, void (*func)(void*, void*, int));
@@ -321,12 +318,9 @@ int av_fifo_generic_peek_at(AVFifoBuffer *f, void *dest, int offset, int buf_siz
  * @param dest data destination
  *
  * @return a non-negative number on success, a negative error code on failure
-<<<<<<< HEAD
  *
  * @deprecated use the new AVFifo-API with av_fifo_peek() when func == NULL,
  *             av_fifo_peek_to_cb() otherwise
-=======
->>>>>>> refs/remotes/origin/master
  */
 attribute_deprecated
 int av_fifo_generic_peek(AVFifoBuffer *f, void *dest, int buf_size, void (*func)(void*, void*, int));
@@ -339,12 +333,9 @@ int av_fifo_generic_peek(AVFifoBuffer *f, void *dest, int buf_size, void (*func)
  * @param dest data destination
  *
  * @return a non-negative number on success, a negative error code on failure
-<<<<<<< HEAD
  *
  * @deprecated use the new AVFifo-API with av_fifo_read() when func == NULL,
  *             av_fifo_read_to_cb() otherwise
-=======
->>>>>>> refs/remotes/origin/master
  */
 attribute_deprecated
 int av_fifo_generic_read(AVFifoBuffer *f, void *dest, int buf_size, void (*func)(void*, void*, int));
@@ -361,12 +352,9 @@ int av_fifo_generic_read(AVFifoBuffer *f, void *dest, int buf_size, void (*func)
  * indicate no more data available to write.
  * If func is NULL, src is interpreted as a simple byte array for source data.
  * @return the number of bytes written to the FIFO or a negative error code on failure
-<<<<<<< HEAD
  *
  * @deprecated use the new AVFifo-API with av_fifo_write() when func == NULL,
  *             av_fifo_write_from_cb() otherwise
-=======
->>>>>>> refs/remotes/origin/master
  */
 attribute_deprecated
 int av_fifo_generic_write(AVFifoBuffer *f, void *src, int size, int (*func)(void*, void*, int));
@@ -420,11 +408,7 @@ void av_fifo_drain(AVFifoBuffer *f, int size);
  *             than the used buffer size or the returned pointer will
  *             point outside to the buffer data.
  *             The used buffer size can be checked with av_fifo_size().
-<<<<<<< HEAD
  * @deprecated use the new AVFifo-API with av_fifo_peek() or av_fifo_peek_to_cb()
-=======
- * @deprecated use av_fifo_generic_peek_at()
->>>>>>> refs/remotes/origin/master
  */
 attribute_deprecated
 static inline uint8_t *av_fifo_peek2(const AVFifoBuffer *f, int offs)
@@ -437,9 +421,6 @@ static inline uint8_t *av_fifo_peek2(const AVFifoBuffer *f, int offs)
     return ptr;
 }
 #endif
-<<<<<<< HEAD
 #endif
-=======
->>>>>>> refs/remotes/origin/master
 
 #endif /* AVUTIL_FIFO_H */

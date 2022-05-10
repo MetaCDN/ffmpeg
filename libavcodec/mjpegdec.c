@@ -30,11 +30,8 @@
  * MJPEG decoder.
  */
 
-<<<<<<< HEAD
 #include "config_components.h"
 
-=======
->>>>>>> refs/remotes/origin/master
 #include "libavutil/display.h"
 #include "libavutil/imgutils.h"
 #include "libavutil/avassert.h"
@@ -2413,15 +2410,9 @@ int ff_mjpeg_receive_frame(AVCodecContext *avctx, AVFrame *frame)
     int ret = 0;
     int is16bit;
     AVDictionaryEntry *e = NULL;
-<<<<<<< HEAD
 
     s->force_pal8 = 0;
 
-=======
-
-    s->force_pal8 = 0;
-
->>>>>>> refs/remotes/origin/master
     if (avctx->codec_id == AV_CODEC_ID_SMVJPEG && s->smv_next_frame > 0)
         return smv_process_frame(avctx, frame);
 
@@ -3021,7 +3012,6 @@ static const AVClass mjpegdec_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
-<<<<<<< HEAD
 const FFCodec ff_mjpeg_decoder = {
     .p.name         = "mjpeg",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MJPEG (Motion JPEG)"),
@@ -3036,22 +3026,6 @@ const FFCodec ff_mjpeg_decoder = {
     .p.max_lowres   = 3,
     .p.priv_class   = &mjpegdec_class,
     .p.profiles     = NULL_IF_CONFIG_SMALL(ff_mjpeg_profiles),
-=======
-const AVCodec ff_mjpeg_decoder = {
-    .name           = "mjpeg",
-    .long_name      = NULL_IF_CONFIG_SMALL("MJPEG (Motion JPEG)"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_MJPEG,
-    .priv_data_size = sizeof(MJpegDecodeContext),
-    .init           = ff_mjpeg_decode_init,
-    .close          = ff_mjpeg_decode_end,
-    .receive_frame  = ff_mjpeg_receive_frame,
-    .flush          = decode_flush,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .max_lowres     = 3,
-    .priv_class     = &mjpegdec_class,
-    .profiles       = NULL_IF_CONFIG_SMALL(ff_mjpeg_profiles),
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP |
                       FF_CODEC_CAP_SKIP_FRAME_FILL_PARAM | FF_CODEC_CAP_SETS_PKT_DTS,
     .hw_configs     = (const AVCodecHWConfigInternal *const []) {
@@ -3066,7 +3040,6 @@ const AVCodec ff_mjpeg_decoder = {
 };
 #endif
 #if CONFIG_THP_DECODER
-<<<<<<< HEAD
 const FFCodec ff_thp_decoder = {
     .p.name         = "thp",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Nintendo Gamecube THP video"),
@@ -3096,37 +3069,6 @@ const FFCodec ff_smvjpeg_decoder = {
     FF_CODEC_RECEIVE_FRAME_CB(ff_mjpeg_receive_frame),
     .flush          = decode_flush,
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_thp_decoder = {
-    .name           = "thp",
-    .long_name      = NULL_IF_CONFIG_SMALL("Nintendo Gamecube THP video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_THP,
-    .priv_data_size = sizeof(MJpegDecodeContext),
-    .init           = ff_mjpeg_decode_init,
-    .close          = ff_mjpeg_decode_end,
-    .receive_frame  = ff_mjpeg_receive_frame,
-    .flush          = decode_flush,
-    .capabilities   = AV_CODEC_CAP_DR1,
-    .max_lowres     = 3,
-    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP |
-                      FF_CODEC_CAP_SETS_PKT_DTS,
-};
-#endif
-
-#if CONFIG_SMVJPEG_DECODER
-const AVCodec ff_smvjpeg_decoder = {
-    .name           = "smvjpeg",
-    .long_name      = NULL_IF_CONFIG_SMALL("SMV JPEG"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_SMVJPEG,
-    .priv_data_size = sizeof(MJpegDecodeContext),
-    .init           = ff_mjpeg_decode_init,
-    .close          = ff_mjpeg_decode_end,
-    .receive_frame  = ff_mjpeg_receive_frame,
-    .flush          = decode_flush,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_EXPORTS_CROPPING |
                       FF_CODEC_CAP_SETS_PKT_DTS | FF_CODEC_CAP_INIT_CLEANUP,
 };

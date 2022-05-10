@@ -58,7 +58,6 @@ enum ZmbvFormat {
 typedef struct ZmbvContext {
     AVCodecContext *avctx;
 
-    int zlib_init_ok;
     int bpp;
     int alloc_bpp;
     unsigned int decomp_size;
@@ -630,21 +629,7 @@ static av_cold int decode_init(AVCodecContext *avctx)
         return AVERROR(ENOMEM);
     }
 
-<<<<<<< HEAD
     return ff_inflate_init(&c->zstream, avctx);
-=======
-    c->zstream.zalloc = Z_NULL;
-    c->zstream.zfree = Z_NULL;
-    c->zstream.opaque = Z_NULL;
-    zret = inflateInit(&c->zstream);
-    if (zret != Z_OK) {
-        av_log(avctx, AV_LOG_ERROR, "Inflate init error: %d\n", zret);
-        return AVERROR_UNKNOWN;
-    }
-    c->zlib_init_ok = 1;
-
-    return 0;
->>>>>>> refs/remotes/origin/master
 }
 
 static av_cold int decode_end(AVCodecContext *avctx)
@@ -655,17 +640,11 @@ static av_cold int decode_end(AVCodecContext *avctx)
 
     av_freep(&c->cur);
     av_freep(&c->prev);
-<<<<<<< HEAD
     ff_inflate_end(&c->zstream);
-=======
-    if (c->zlib_init_ok)
-        inflateEnd(&c->zstream);
->>>>>>> refs/remotes/origin/master
 
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_zmbv_decoder = {
     .p.name         = "zmbv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Zip Motion Blocks Video"),
@@ -676,17 +655,5 @@ const FFCodec ff_zmbv_decoder = {
     .close          = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_zmbv_decoder = {
-    .name           = "zmbv",
-    .long_name      = NULL_IF_CONFIG_SMALL("Zip Motion Blocks Video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_ZMBV,
-    .priv_data_size = sizeof(ZmbvContext),
-    .init           = decode_init,
-    .close          = decode_end,
-    .decode         = decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

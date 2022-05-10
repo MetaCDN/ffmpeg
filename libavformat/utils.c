@@ -46,10 +46,7 @@
 #if CONFIG_NETWORK
 #include "network.h"
 #endif
-<<<<<<< HEAD
 #include "version.h"
-=======
->>>>>>> refs/remotes/origin/master
 
 #include "libavutil/ffversion.h"
 const char av_format_ffversion[] = "FFmpeg version " FFMPEG_VERSION;
@@ -899,18 +896,11 @@ AVChapter *avpriv_new_chapter(AVFormatContext *s, int64_t id, AVRational time_ba
     if (!s->nb_chapters) {
         si->chapter_ids_monotonic = 1;
     } else if (!si->chapter_ids_monotonic || s->chapters[s->nb_chapters-1]->id >= id) {
-<<<<<<< HEAD
         for (unsigned i = 0; i < s->nb_chapters; i++)
             if (s->chapters[i]->id == id)
                 chapter = s->chapters[i];
         if (!chapter)
             si->chapter_ids_monotonic = 0;
-=======
-        si->chapter_ids_monotonic = 0;
-        for (unsigned i = 0; i < s->nb_chapters; i++)
-            if (s->chapters[i]->id == id)
-                chapter = s->chapters[i];
->>>>>>> refs/remotes/origin/master
     }
 
     if (!chapter) {
@@ -1534,11 +1524,7 @@ static int match_stream_specifier(const AVFormatContext *s, const AVStream *st,
             int val;
             switch (par->codec_type) {
             case AVMEDIA_TYPE_AUDIO:
-<<<<<<< HEAD
                 val = par->sample_rate && par->ch_layout.nb_channels;
-=======
-                val = par->sample_rate && par->channels;
->>>>>>> refs/remotes/origin/master
                 if (par->format == AV_SAMPLE_FMT_NONE)
                     return 0;
                 break;

@@ -380,11 +380,6 @@ static int init_duplicate_context(MpegEncContext *s)
     }
 
     if (s->out_format == FMT_H263) {
-        if (!(s->block32         = av_mallocz(sizeof(*s->block32))) ||
-            !(s->dpcm_macroblock = av_mallocz(sizeof(*s->dpcm_macroblock))))
-            return AVERROR(ENOMEM);
-        s->dpcm_direction = 0;
-
         /* ac values */
         if (!FF_ALLOCZ_TYPED_ARRAY(s->ac_val_base,  yc_size))
             return AVERROR(ENOMEM);
@@ -796,11 +791,7 @@ av_cold int ff_mpv_common_init(MpegEncContext *s)
     if (!(s->next_picture.f    = av_frame_alloc()) ||
         !(s->last_picture.f    = av_frame_alloc()) ||
         !(s->current_picture.f = av_frame_alloc()) ||
-<<<<<<< HEAD
         !(s->new_picture       = av_frame_alloc()))
-=======
-        !(s->new_picture.f     = av_frame_alloc()))
->>>>>>> refs/remotes/origin/master
         goto fail_nomem;
 
     if ((ret = ff_mpv_init_context_frame(s)))
@@ -908,25 +899,10 @@ void ff_mpv_common_end(MpegEncContext *s)
             ff_mpv_picture_free(s->avctx, &s->picture[i]);
     }
     av_freep(&s->picture);
-<<<<<<< HEAD
     ff_mpv_picture_free(s->avctx, &s->last_picture);
     ff_mpv_picture_free(s->avctx, &s->current_picture);
     ff_mpv_picture_free(s->avctx, &s->next_picture);
     av_frame_free(&s->new_picture);
-=======
-    ff_free_picture_tables(&s->last_picture);
-    ff_mpeg_unref_picture(s->avctx, &s->last_picture);
-    av_frame_free(&s->last_picture.f);
-    ff_free_picture_tables(&s->current_picture);
-    ff_mpeg_unref_picture(s->avctx, &s->current_picture);
-    av_frame_free(&s->current_picture.f);
-    ff_free_picture_tables(&s->next_picture);
-    ff_mpeg_unref_picture(s->avctx, &s->next_picture);
-    av_frame_free(&s->next_picture.f);
-    ff_free_picture_tables(&s->new_picture);
-    ff_mpeg_unref_picture(s->avctx, &s->new_picture);
-    av_frame_free(&s->new_picture.f);
->>>>>>> refs/remotes/origin/master
 
     s->context_initialized      = 0;
     s->context_reinit           = 0;
@@ -1603,66 +1579,10 @@ void mpv_reconstruct_mb_internal(MpegEncContext *s, int16_t block[12][64],
         } else {
             /* Only MPEG-4 Simple Studio Profile is supported in > 8-bit mode.
                TODO: Integrate 10-bit properly into mpegvideo.c so that ER works properly */
-<<<<<<< HEAD
             if (!is_mpeg12 && CONFIG_MPEG4_DECODER && /* s->codec_id == AV_CODEC_ID_MPEG4 && */
                 s->avctx->bits_per_raw_sample > 8) {
                 ff_mpeg4_decode_studio(s, dest_y, dest_cb, dest_cr, block_size,
                                        uvlinesize, dct_linesize, dct_offset);
-=======
-            if (!is_mpeg12 && s->avctx->bits_per_raw_sample > 8) {
-                const int act_block_size = block_size * 2;
-
-                if(s->dpcm_direction == 0) {
-                    s->idsp.idct_put(dest_y,                           dct_linesize, (int16_t*)(*s->block32)[0]);
-                    s->idsp.idct_put(dest_y              + act_block_size, dct_linesize, (int16_t*)(*s->block32)[1]);
-                    s->idsp.idct_put(dest_y + dct_offset,              dct_linesize, (int16_t*)(*s->block32)[2]);
-                    s->idsp.idct_put(dest_y + dct_offset + act_block_size, dct_linesize, (int16_t*)(*s->block32)[3]);
-
-                    dct_linesize = uvlinesize << s->interlaced_dct;
-                    dct_offset   = s->interlaced_dct ? uvlinesize : uvlinesize*block_size;
-
-                    s->idsp.idct_put(dest_cb,              dct_linesize, (int16_t*)(*s->block32)[4]);
-                    s->idsp.idct_put(dest_cr,              dct_linesize, (int16_t*)(*s->block32)[5]);
-                    s->idsp.idct_put(dest_cb + dct_offset, dct_linesize, (int16_t*)(*s->block32)[6]);
-                    s->idsp.idct_put(dest_cr + dct_offset, dct_linesize, (int16_t*)(*s->block32)[7]);
-                    if(!s->chroma_x_shift){//Chroma444
-                        s->idsp.idct_put(dest_cb + act_block_size,              dct_linesize, (int16_t*)(*s->block32)[8]);
-                        s->idsp.idct_put(dest_cr + act_block_size,              dct_linesize, (int16_t*)(*s->block32)[9]);
-                        s->idsp.idct_put(dest_cb + act_block_size + dct_offset, dct_linesize, (int16_t*)(*s->block32)[10]);
-                        s->idsp.idct_put(dest_cr + act_block_size + dct_offset, dct_linesize, (int16_t*)(*s->block32)[11]);
-                    }
-                } else if(s->dpcm_direction == 1) {
-                    int i, w, h;
-                    uint16_t *dest_pcm[3] = {(uint16_t*)dest_y, (uint16_t*)dest_cb, (uint16_t*)dest_cr};
-                    int linesize[3] = {dct_linesize, uvlinesize, uvlinesize};
-                    for(i = 0; i < 3; i++) {
-                        int idx = 0;
-                        int vsub = i ? s->chroma_y_shift : 0;
-                        int hsub = i ? s->chroma_x_shift : 0;
-                        for(h = 0; h < (16 >> vsub); h++){
-                            for(w = 0; w < (16 >> hsub); w++)
-                                dest_pcm[i][w] = (*s->dpcm_macroblock)[i][idx++];
-                            dest_pcm[i] += linesize[i] / 2;
-                        }
-                    }
-                } else {
-                    int i, w, h;
-                    uint16_t *dest_pcm[3] = {(uint16_t*)dest_y, (uint16_t*)dest_cb, (uint16_t*)dest_cr};
-                    int linesize[3] = {dct_linesize, uvlinesize, uvlinesize};
-                    av_assert2(s->dpcm_direction == -1);
-                    for(i = 0; i < 3; i++) {
-                        int idx = 0;
-                        int vsub = i ? s->chroma_y_shift : 0;
-                        int hsub = i ? s->chroma_x_shift : 0;
-                        dest_pcm[i] += (linesize[i] / 2) * ((16 >> vsub) - 1);
-                        for(h = (16 >> vsub)-1; h >= 1; h--){
-                            for(w = (16 >> hsub)-1; w >= 1; w--)
-                                dest_pcm[i][w] = (*s->dpcm_macroblock)[i][idx++];
-                            dest_pcm[i] -= linesize[i] / 2;
-                        }
-                    }
-                }
->>>>>>> refs/remotes/origin/master
             }
             /* dct only in intra block */
             else if (IS_ENCODER(s) || !IS_MPEG12(s)) {
@@ -1726,15 +1646,6 @@ skip_idct:
 
 void ff_mpv_reconstruct_mb(MpegEncContext *s, int16_t block[12][64])
 {
-<<<<<<< HEAD
-=======
-    if (CONFIG_XVMC &&
-        s->avctx->hwaccel && s->avctx->hwaccel->decode_mb) {
-        s->avctx->hwaccel->decode_mb(s); //xvmc uses pblocks
-        return;
-    }
-
->>>>>>> refs/remotes/origin/master
     if (s->avctx->debug & FF_DEBUG_DCT_COEFF) {
        /* print DCT coefficients */
        av_log(s->avctx, AV_LOG_DEBUG, "DCT coeffs of MB at %dx%d:\n", s->mb_x, s->mb_y);

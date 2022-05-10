@@ -475,28 +475,16 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 static const FFCodecDefault ansi_defaults[] = {
-=======
-static const AVCodecDefault ansi_defaults[] = {
->>>>>>> refs/remotes/origin/master
     { "max_pixels", "640*480" },
     { NULL },
 };
 
-<<<<<<< HEAD
 const FFCodec ff_ansi_decoder = {
     .p.name         = "ansi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ASCII/ANSI art"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_ANSI,
-=======
-const AVCodec ff_ansi_decoder = {
-    .name           = "ansi",
-    .long_name      = NULL_IF_CONFIG_SMALL("ASCII/ANSI art"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_ANSI,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AnsiContext),
     .init           = decode_init,
     .close          = decode_close,

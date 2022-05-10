@@ -39,7 +39,6 @@
 #include "get_bits.h"
 #include "huffyuv.h"
 #include "huffyuvdsp.h"
-#include "internal.h"
 #include "lossless_videodsp.h"
 #include "thread.h"
 #include "libavutil/imgutils.h"
@@ -1263,19 +1262,11 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *p,
     return (get_bits_count(&s->gb) + 31) / 32 * 4 + table_size;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_huffyuv_decoder = {
     .p.name           = "huffyuv",
     .p.long_name      = NULL_IF_CONFIG_SMALL("Huffyuv / HuffYUV"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_HUFFYUV,
-=======
-const AVCodec ff_huffyuv_decoder = {
-    .name             = "huffyuv",
-    .long_name        = NULL_IF_CONFIG_SMALL("Huffyuv / HuffYUV"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_HUFFYUV,
->>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(HYuvContext),
     .init             = decode_init,
     .close            = decode_end,
@@ -1286,19 +1277,11 @@ const AVCodec ff_huffyuv_decoder = {
 };
 
 #if CONFIG_FFVHUFF_DECODER
-<<<<<<< HEAD
 const FFCodec ff_ffvhuff_decoder = {
     .p.name           = "ffvhuff",
     .p.long_name      = NULL_IF_CONFIG_SMALL("Huffyuv FFmpeg variant"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_FFVHUFF,
-=======
-const AVCodec ff_ffvhuff_decoder = {
-    .name             = "ffvhuff",
-    .long_name        = NULL_IF_CONFIG_SMALL("Huffyuv FFmpeg variant"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_FFVHUFF,
->>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(HYuvContext),
     .init             = decode_init,
     .close            = decode_end,
@@ -1310,19 +1293,11 @@ const AVCodec ff_ffvhuff_decoder = {
 #endif /* CONFIG_FFVHUFF_DECODER */
 
 #if CONFIG_HYMT_DECODER
-<<<<<<< HEAD
 const FFCodec ff_hymt_decoder = {
     .p.name           = "hymt",
     .p.long_name      = NULL_IF_CONFIG_SMALL("HuffYUV MT"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_HYMT,
-=======
-const AVCodec ff_hymt_decoder = {
-    .name             = "hymt",
-    .long_name        = NULL_IF_CONFIG_SMALL("HuffYUV MT"),
-    .type             = AVMEDIA_TYPE_VIDEO,
-    .id               = AV_CODEC_ID_HYMT,
->>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(HYuvContext),
     .init             = decode_init,
     .close            = decode_end,

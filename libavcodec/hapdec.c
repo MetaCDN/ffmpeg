@@ -412,19 +412,11 @@ static av_cold int hap_close(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_hap_decoder = {
     .p.name         = "hap",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Vidvox Hap"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HAP,
-=======
-const AVCodec ff_hap_decoder = {
-    .name           = "hap",
-    .long_name      = NULL_IF_CONFIG_SMALL("Vidvox Hap"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_HAP,
->>>>>>> refs/remotes/origin/master
     .init           = hap_init,
     FF_CODEC_DECODE_CB(hap_decode),
     .close          = hap_close,

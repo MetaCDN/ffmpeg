@@ -113,20 +113,12 @@ int ff_dnn_execute_layer_pad(DnnOperand *operands, const int32_t *input_operand_
     output_operand->length = ff_calculate_operand_data_length(output_operand);
     if (output_operand->length <= 0) {
         av_log(ctx, AV_LOG_ERROR, "The output data length overflow\n");
-<<<<<<< HEAD
         return AVERROR(EINVAL);
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
     output_operand->data = av_realloc(output_operand->data, output_operand->length);
     if (!output_operand->data) {
         av_log(ctx, AV_LOG_ERROR, "Failed to reallocate memory for output\n");
-<<<<<<< HEAD
         return AVERROR(ENOMEM);
-=======
-        return DNN_ERROR;
->>>>>>> refs/remotes/origin/master
     }
     output = output_operand->data;
 

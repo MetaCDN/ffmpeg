@@ -25,10 +25,7 @@
  */
 
 #include "avcodec.h"
-<<<<<<< HEAD
 #include "codec_internal.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "raw.h"
 #include "internal.h"
@@ -84,7 +81,6 @@ static int raw_encode(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_rawvideo_encoder = {
     .p.name         = "rawvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("raw video"),
@@ -93,15 +89,5 @@ const FFCodec ff_rawvideo_encoder = {
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
     .init           = raw_encode_init,
     FF_CODEC_ENCODE_CB(raw_encode),
-=======
-const AVCodec ff_rawvideo_encoder = {
-    .name           = "rawvideo",
-    .long_name      = NULL_IF_CONFIG_SMALL("raw video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_RAWVIDEO,
-    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
-    .init           = raw_encode_init,
-    .encode2        = raw_encode,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

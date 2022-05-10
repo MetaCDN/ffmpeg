@@ -449,19 +449,11 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_ylc_decoder = {
     .p.name         = "ylc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("YUY2 Lossless Codec"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_YLC,
-=======
-const AVCodec ff_ylc_decoder = {
-    .name           = "ylc",
-    .long_name      = NULL_IF_CONFIG_SMALL("YUY2 Lossless Codec"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_YLC,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(YLCContext),
     .init           = decode_init,
     .close          = decode_end,

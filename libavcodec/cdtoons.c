@@ -443,19 +443,11 @@ static av_cold int cdtoons_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_cdtoons_decoder = {
     .p.name         = "cdtoons",
     .p.long_name    = NULL_IF_CONFIG_SMALL("CDToons video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_CDTOONS,
-=======
-const AVCodec ff_cdtoons_decoder = {
-    .name           = "cdtoons",
-    .long_name      = NULL_IF_CONFIG_SMALL("CDToons video"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_CDTOONS,
->>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(CDToonsContext),
     .init           = cdtoons_decode_init,
     .close          = cdtoons_decode_end,

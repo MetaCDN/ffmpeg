@@ -24,10 +24,7 @@
 #include "libavutil/avassert.h"
 #include "libavutil/mem_internal.h"
 
-<<<<<<< HEAD
 #include "threadframe.h"
-=======
->>>>>>> refs/remotes/origin/master
 #include "videodsp.h"
 #include "vp9data.h"
 #include "vp9dec.h"

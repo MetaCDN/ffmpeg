@@ -605,7 +605,6 @@ static av_cold int mss4_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
-<<<<<<< HEAD
 const FFCodec ff_mts2_decoder = {
     .p.name         = "mts2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MS Expression Encoder Screen"),
@@ -616,17 +615,5 @@ const FFCodec ff_mts2_decoder = {
     .close          = mss4_decode_end,
     FF_CODEC_DECODE_CB(mss4_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-=======
-const AVCodec ff_mts2_decoder = {
-    .name           = "mts2",
-    .long_name      = NULL_IF_CONFIG_SMALL("MS Expression Encoder Screen"),
-    .type           = AVMEDIA_TYPE_VIDEO,
-    .id             = AV_CODEC_ID_MTS2,
-    .priv_data_size = sizeof(MSS4Context),
-    .init           = mss4_decode_init,
-    .close          = mss4_decode_end,
-    .decode         = mss4_decode_frame,
-    .capabilities   = AV_CODEC_CAP_DR1,
->>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_INIT_THREADSAFE,
 };

@@ -39,12 +39,9 @@ typedef struct CrossfeedContext {
     double b0, b1, b2;
 
     double w1, w2;
-<<<<<<< HEAD
 
     double *mid;
     double *side[3];
-=======
->>>>>>> refs/remotes/origin/master
 } CrossfeedContext;
 
 static int query_formats(AVFilterContext *ctx)
@@ -157,7 +154,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     }
     dst = (double *)out->data[0];
 
-<<<<<<< HEAD
     if (s->block_samples == 0) {
         double w1 = s->w1;
         double w2 = s->w2;
@@ -225,22 +221,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                 dst[0] = (msrc[n] + ssrc[n]) * level_out;
                 dst[1] = (msrc[n] - ssrc[n]) * level_out;
             }
-=======
-    for (n = 0; n < out->nb_samples; n++, src += 2, dst += 2) {
-        double mid = (src[0] + src[1]) * level_in * .5;
-        double side = (src[0] - src[1]) * level_in * .5;
-        double oside = side * b0 + s->w1;
-
-        s->w1 = b1 * side + s->w2 + a1 * oside;
-        s->w2 = b2 * side + a2 * oside;
-
-        if (ctx->is_disabled) {
-            dst[0] = src[0];
-            dst[1] = src[1];
-        } else {
-            dst[0] = (mid + oside) * level_out;
-            dst[1] = (mid - oside) * level_out;
->>>>>>> refs/remotes/origin/master
         }
 
         memmove(s->mid, s->mid + s->block_samples,
@@ -342,11 +322,8 @@ const AVFilter ff_af_crossfeed = {
     .description    = NULL_IF_CONFIG_SMALL("Apply headphone crossfeed filter."),
     .priv_size      = sizeof(CrossfeedContext),
     .priv_class     = &crossfeed_class,
-<<<<<<< HEAD
     .activate       = activate,
     .uninit         = uninit,
-=======
->>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(inputs),
     FILTER_OUTPUTS(outputs),
     FILTER_QUERY_FUNC(query_formats),

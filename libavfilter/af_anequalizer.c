@@ -698,13 +698,8 @@ static int filter_channels(AVFilterContext *ctx, void *arg,
 {
     AudioNEqualizerContext *s = ctx->priv;
     AVFrame *buf = arg;
-<<<<<<< HEAD
     const int start = (buf->ch_layout.nb_channels * jobnr) / nb_jobs;
     const int end = (buf->ch_layout.nb_channels * (jobnr+1)) / nb_jobs;
-=======
-    const int start = (buf->channels * jobnr) / nb_jobs;
-    const int end = (buf->channels * (jobnr+1)) / nb_jobs;
->>>>>>> refs/remotes/origin/master
 
     for (int i = 0; i < s->nb_filters; i++) {
         EqualizatorFilter *f = &s->filters[i];
@@ -736,11 +731,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
 
     if (!ctx->is_disabled)
         ff_filter_execute(ctx, filter_channels, buf, NULL,
-<<<<<<< HEAD
                           FFMIN(inlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
-=======
-                          FFMIN(inlink->channels, ff_filter_get_nb_threads(ctx)));
->>>>>>> refs/remotes/origin/master
 
     if (s->draw_curves) {
         AVFrame *clone;
