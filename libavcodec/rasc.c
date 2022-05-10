@@ -797,11 +797,19 @@ static const AVClass rasc_decoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_rasc_decoder = {
     .p.name           = "rasc",
     .p.long_name      = NULL_IF_CONFIG_SMALL("RemotelyAnywhere Screen Capture"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_RASC,
+=======
+const AVCodec ff_rasc_decoder = {
+    .name             = "rasc",
+    .long_name        = NULL_IF_CONFIG_SMALL("RemotelyAnywhere Screen Capture"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_RASC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(RASCContext),
     .init             = decode_init,
     .close            = decode_close,

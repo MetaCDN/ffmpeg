@@ -182,13 +182,24 @@ AVFilterContext *avfilter_graph_alloc_filter(AVFilterGraph *graph,
 
     filters = av_realloc_array(graph->filters, graph->nb_filters + 1, sizeof(*filters));
     if (!filters)
+<<<<<<< HEAD
+=======
         return NULL;
     graph->filters = filters;
 
     s = ff_filter_alloc(filter, name);
     if (!s)
+>>>>>>> refs/remotes/origin/master
+        return NULL;
+    graph->filters = filters;
+
+<<<<<<< HEAD
+    s = ff_filter_alloc(filter, name);
+    if (!s)
         return NULL;
 
+=======
+>>>>>>> refs/remotes/origin/master
     graph->filters[graph->nb_filters++] = s;
 
     s->graph = graph;
@@ -329,12 +340,21 @@ static int filter_check_formats(AVFilterContext *ctx)
         ret = filter_link_check_formats(ctx, ctx->inputs[i], &ctx->inputs[i]->outcfg);
         if (ret < 0)
             return ret;
+<<<<<<< HEAD
     }
     for (i = 0; i < ctx->nb_outputs; i++) {
         ret = filter_link_check_formats(ctx, ctx->outputs[i], &ctx->outputs[i]->incfg);
         if (ret < 0)
             return ret;
     }
+=======
+    }
+    for (i = 0; i < ctx->nb_outputs; i++) {
+        ret = filter_link_check_formats(ctx, ctx->outputs[i], &ctx->outputs[i]->incfg);
+        if (ret < 0)
+            return ret;
+    }
+>>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -637,8 +657,11 @@ static int pick_format(AVFilterLink *link, AVFilterLink *ref)
     link->format = link->incfg.formats->formats[0];
 
     if (link->type == AVMEDIA_TYPE_AUDIO) {
+<<<<<<< HEAD
         int ret;
 
+=======
+>>>>>>> refs/remotes/origin/master
         if (!link->incfg.samplerates->nb_formats) {
             av_log(link->src, AV_LOG_ERROR, "Cannot select sample rate for"
                    " the link between filters %s and %s.\n", link->src->name,
@@ -659,6 +682,7 @@ static int pick_format(AVFilterLink *link, AVFilterLink *ref)
             return AVERROR(EINVAL);
         }
         link->incfg.channel_layouts->nb_channel_layouts = 1;
+<<<<<<< HEAD
         ret = av_channel_layout_copy(&link->ch_layout, &link->incfg.channel_layouts->channel_layouts[0]);
         if (ret < 0)
             return ret;
@@ -668,6 +692,13 @@ FF_DISABLE_DEPRECATION_WARNINGS
                                link->ch_layout.u.mask : 0;
 FF_ENABLE_DEPRECATION_WARNINGS
 #endif
+=======
+        link->channel_layout = link->incfg.channel_layouts->channel_layouts[0];
+        if ((link->channels = FF_LAYOUT2COUNT(link->channel_layout)))
+            link->channel_layout = 0;
+        else
+            link->channels = av_get_channel_layout_nb_channels(link->channel_layout);
+>>>>>>> refs/remotes/origin/master
     }
 
     ff_formats_unref(&link->incfg.formats);
@@ -734,7 +765,11 @@ static int reduce_formats_on_filter(AVFilterContext *filter)
         if (!inlink->outcfg.channel_layouts ||
             inlink->outcfg.channel_layouts->nb_channel_layouts != 1)
             continue;
+<<<<<<< HEAD
         av_channel_layout_copy(&fmt, &inlink->outcfg.channel_layouts->channel_layouts[0]);
+=======
+        fmt = inlink->outcfg.channel_layouts->channel_layouts[0];
+>>>>>>> refs/remotes/origin/master
 
         for (j = 0; j < filter->nb_outputs; j++) {
             AVFilterLink *outlink = filter->outputs[j];
@@ -748,14 +783,23 @@ static int reduce_formats_on_filter(AVFilterContext *filter)
                 (KNOWN(&fmt) || fmts->all_counts)) {
                 /* Turn the infinite list into a singleton */
                 fmts->all_layouts = fmts->all_counts  = 0;
+<<<<<<< HEAD
                 if (ff_add_channel_layout(&outlink->incfg.channel_layouts, &fmt) < 0)
+=======
+                if (ff_add_channel_layout(&outlink->incfg.channel_layouts, fmt) < 0)
+>>>>>>> refs/remotes/origin/master
                     ret = 1;
                 break;
             }
 
             for (k = 0; k < outlink->incfg.channel_layouts->nb_channel_layouts; k++) {
+<<<<<<< HEAD
                 if (!av_channel_layout_compare(&fmts->channel_layouts[k], &fmt)) {
                     av_channel_layout_copy(&fmts->channel_layouts[0], &fmt);
+=======
+                if (fmts->channel_layouts[k] == fmt) {
+                    fmts->channel_layouts[0]  = fmt;
+>>>>>>> refs/remotes/origin/master
                     fmts->nb_channel_layouts = 1;
                     ret = 1;
                     break;
@@ -892,10 +936,18 @@ static void swap_channel_layouts_on_filter(AVFilterContext *filter)
             continue;
 
         for (j = 0; j < outlink->incfg.channel_layouts->nb_channel_layouts; j++) {
+<<<<<<< HEAD
             AVChannelLayout in_chlayout = { 0 }, out_chlayout = { 0 };
             int  in_channels;
             int out_channels;
             int count_diff;
+=======
+            uint64_t  in_chlayout = link->outcfg.channel_layouts->channel_layouts[0];
+            uint64_t out_chlayout = outlink->incfg.channel_layouts->channel_layouts[j];
+            int  in_channels      = av_get_channel_layout_nb_channels(in_chlayout);
+            int out_channels      = av_get_channel_layout_nb_channels(out_chlayout);
+            int count_diff        = out_channels - in_channels;
+>>>>>>> refs/remotes/origin/master
             int matched_channels, extra_channels;
             int score = 100000;
 
@@ -956,7 +1008,11 @@ static void swap_channel_layouts_on_filter(AVFilterContext *filter)
             }
         }
         av_assert0(best_idx >= 0);
+<<<<<<< HEAD
         FFSWAP(AVChannelLayout, outlink->incfg.channel_layouts->channel_layouts[0],
+=======
+        FFSWAP(uint64_t, outlink->incfg.channel_layouts->channel_layouts[0],
+>>>>>>> refs/remotes/origin/master
                outlink->incfg.channel_layouts->channel_layouts[best_idx]);
     }
 

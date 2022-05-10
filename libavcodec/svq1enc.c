@@ -27,7 +27,10 @@
  */
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "hpeldsp.h"
 #include "me_cmp.h"
@@ -676,17 +679,29 @@ static const AVClass svq1enc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_svq1_encoder = {
     .p.name         = "svq1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_SVQ1,
+=======
+const AVCodec ff_svq1_encoder = {
+    .name           = "svq1",
+    .long_name      = NULL_IF_CONFIG_SMALL("Sorenson Vector Quantizer 1 / Sorenson Video 1 / SVQ1"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_SVQ1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(SVQ1EncContext),
     .p.priv_class   = &svq1enc_class,
     .init           = svq1_encode_init,
     FF_CODEC_ENCODE_CB(svq1_encode_frame),
     .close          = svq1_encode_end,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV410P,
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV410P,
+>>>>>>> refs/remotes/origin/master
                                                      AV_PIX_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

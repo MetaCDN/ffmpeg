@@ -157,6 +157,11 @@ int ff_tx_gen_ptwo_inplace_revtab_idx(AVTXContext *s)
 
         if (!found)
             s->map[out_map_idx++] = src;
+<<<<<<< HEAD
+    }
+
+    s->map[out_map_idx++] = 0;
+=======
     }
 
     s->map[out_map_idx++] = 0;
@@ -224,10 +229,78 @@ int ff_tx_gen_split_radix_parity_revtab(AVTXContext *s, int invert_lookup,
     av_assert0(dual_stride <= basis);
     parity_revtab_generator(s->map, len, inv, 0, 0, 0, len,
                             basis, dual_stride, invert_lookup);
+>>>>>>> refs/remotes/origin/master
 
     return 0;
 }
 
+<<<<<<< HEAD
+static void parity_revtab_generator(int *revtab, int n, int inv, int offset,
+                                    int is_dual, int dual_high, int len,
+                                    int basis, int dual_stride, int inv_lookup)
+{
+    len >>= 1;
+
+    if (len <= basis) {
+        int k1, k2, stride, even_idx, odd_idx;
+
+        is_dual = is_dual && dual_stride;
+        dual_high = is_dual & dual_high;
+        stride = is_dual ? FFMIN(dual_stride, len) : 0;
+
+        even_idx = offset + dual_high*(stride - 2*len);
+        odd_idx  = even_idx + len + (is_dual && !dual_high)*len + dual_high*len;
+
+        for (int i = 0; i < len; i++) {
+            k1 = -split_radix_permutation(offset + i*2 + 0, n, inv) & (n - 1);
+            k2 = -split_radix_permutation(offset + i*2 + 1, n, inv) & (n - 1);
+            if (inv_lookup) {
+                revtab[even_idx++] = k1;
+                revtab[odd_idx++]  = k2;
+            } else {
+                revtab[k1] = even_idx++;
+                revtab[k2] = odd_idx++;
+            }
+            if (stride && !((i + 1) % stride)) {
+                even_idx += stride;
+                odd_idx  += stride;
+            }
+        }
+
+        return;
+    }
+
+    parity_revtab_generator(revtab, n, inv, offset,
+                            0, 0, len >> 0, basis, dual_stride, inv_lookup);
+    parity_revtab_generator(revtab, n, inv, offset + (len >> 0),
+                            1, 0, len >> 1, basis, dual_stride, inv_lookup);
+    parity_revtab_generator(revtab, n, inv, offset + (len >> 0) + (len >> 1),
+                            1, 1, len >> 1, basis, dual_stride, inv_lookup);
+}
+
+int ff_tx_gen_split_radix_parity_revtab(AVTXContext *s, int invert_lookup,
+                                        int basis, int dual_stride)
+{
+    int len = s->len;
+    int inv = s->inv;
+
+    if (!(s->map = av_mallocz(len*sizeof(*s->map))))
+        return AVERROR(ENOMEM);
+
+    basis >>= 1;
+    if (len < basis)
+        return AVERROR(EINVAL);
+
+    av_assert0(!dual_stride || !(dual_stride & (dual_stride - 1)));
+    av_assert0(dual_stride <= basis);
+    parity_revtab_generator(s->map, len, inv, 0, 0, 0, len,
+                            basis, dual_stride, invert_lookup);
+
+    return 0;
+}
+
+=======
+>>>>>>> refs/remotes/origin/master
 static void reset_ctx(AVTXContext *s)
 {
     if (!s)
@@ -274,7 +347,11 @@ static void ff_tx_null(AVTXContext *s, void *_out, void *_in, ptrdiff_t stride)
 }
 
 static const FFTXCodelet ff_tx_null_def = {
+<<<<<<< HEAD
     .name       = NULL_IF_CONFIG_SMALL("null"),
+=======
+    .name       = "null",
+>>>>>>> refs/remotes/origin/master
     .function   = ff_tx_null,
     .type       = TX_TYPE_ANY,
     .flags      = AV_TX_UNALIGNED | FF_TX_ALIGNED |
@@ -292,7 +369,10 @@ static const FFTXCodelet * const ff_tx_null_list[] = {
     NULL,
 };
 
+<<<<<<< HEAD
 #if !CONFIG_SMALL
+=======
+>>>>>>> refs/remotes/origin/master
 static void print_flags(AVBPrint *bp, uint64_t f)
 {
     int prev = 0;
@@ -372,6 +452,7 @@ static void print_cd_info(const FFTXCodelet *cd, int prio, int print_prio)
     av_log(NULL, AV_LOG_VERBOSE, "%s\n", bp.str);
 }
 
+<<<<<<< HEAD
 static void print_tx_structure(AVTXContext *s, int depth)
 {
     const FFTXCodelet *cd = s->cd_self;
@@ -386,6 +467,8 @@ static void print_tx_structure(AVTXContext *s, int depth)
 }
 #endif /* CONFIG_SMALL */
 
+=======
+>>>>>>> refs/remotes/origin/master
 typedef struct TXCodeletMatch {
     const FFTXCodelet *cd;
     int prio;
@@ -446,9 +529,13 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
     TXCodeletMatch *cd_tmp, *cd_matches = NULL;
     unsigned int cd_matches_size = 0;
     int nb_cd_matches = 0;
+<<<<<<< HEAD
 #if !CONFIG_SMALL
     AVBPrint bp = { 0 };
 #endif
+=======
+    AVBPrint bp = { 0 };
+>>>>>>> refs/remotes/origin/master
 
     /* Array of all compiled codelet lists. Order is irrelevant. */
     const FFTXCodelet * const * const codelet_list[] = {
@@ -456,7 +543,11 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
         ff_tx_codelet_list_double_c,
         ff_tx_codelet_list_int32_c,
         ff_tx_null_list,
+<<<<<<< HEAD
 #if HAVE_X86ASM
+=======
+#if ARCH_X86
+>>>>>>> refs/remotes/origin/master
         ff_tx_codelet_list_float_x86,
 #endif
     };
@@ -513,8 +604,12 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
                 continue;
 
             /* Check if the CPU supports the required ISA */
+<<<<<<< HEAD
             if (cd->cpu_flags != FF_TX_CPU_FLAGS_ALL &&
                 !(cpu_flags & (cd->cpu_flags & ~slow_mask)))
+=======
+            if (!(!cd->cpu_flags || (cpu_flags & (cd->cpu_flags & ~slow_mask))))
+>>>>>>> refs/remotes/origin/master
                 continue;
 
             /* Check for factors */
@@ -560,6 +655,7 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
         }
     }
 
+<<<<<<< HEAD
 #if !CONFIG_SMALL
     /* Print debugging info */
     av_bprint_init(&bp, 0, AV_BPRINT_SIZE_AUTOMATIC);
@@ -572,6 +668,8 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
                nb_cd_matches ? ":" : ".");
 #endif
 
+=======
+>>>>>>> refs/remotes/origin/master
     /* No matches found */
     if (!nb_cd_matches)
         return AVERROR(ENOSYS);
@@ -579,13 +677,25 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
     /* Sort the list */
     AV_QSORT(cd_matches, nb_cd_matches, TXCodeletMatch, cmp_matches);
 
+<<<<<<< HEAD
 #if !CONFIG_SMALL
+=======
+    /* Print debugging info */
+    av_bprint_init(&bp, 0, AV_BPRINT_SIZE_AUTOMATIC);
+    av_bprintf(&bp, "For transform of length %i, %s, ", len,
+               inv ? "inverse" : "forward");
+    print_type(&bp, type);
+    av_bprintf(&bp, ", ");
+    print_flags(&bp, flags);
+    av_bprintf(&bp, ", found %i matches:", nb_cd_matches);
+>>>>>>> refs/remotes/origin/master
     av_log(NULL, AV_LOG_VERBOSE, "%s\n", bp.str);
 
     for (int i = 0; i < nb_cd_matches; i++) {
         av_log(NULL, AV_LOG_VERBOSE, "    %i: ", i + 1);
         print_cd_info(cd_matches[i].cd, cd_matches[i].prio, 1);
     }
+<<<<<<< HEAD
 #endif
 
     if (!s->sub) {
@@ -595,6 +705,11 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
             goto end;
         }
     }
+=======
+
+    if (!s->sub)
+        s->sub = sub = av_mallocz(TX_MAX_SUB*sizeof(*sub));
+>>>>>>> refs/remotes/origin/master
 
     /* Attempt to initialize each */
     for (int i = 0; i < nb_cd_matches; i++) {
@@ -627,14 +742,37 @@ av_cold int ff_tx_init_subtx(AVTXContext *s, enum AVTXType type,
             break;
     }
 
+<<<<<<< HEAD
     if (!s->nb_sub)
         av_freep(&s->sub);
+=======
+    av_free(sub);
+
+    if (ret >= 0)
+        ret = AVERROR(ENOSYS);
+>>>>>>> refs/remotes/origin/master
 
 end:
     av_free(cd_matches);
     return ret;
 }
 
+<<<<<<< HEAD
+=======
+static void print_tx_structure(AVTXContext *s, int depth)
+{
+    const FFTXCodelet *cd = s->cd_self;
+
+    for (int i = 0; i <= depth; i++)
+        av_log(NULL, AV_LOG_VERBOSE, "    ");
+
+    print_cd_info(cd, cd->prio, 0);
+
+    for (int i = 0; i < s->nb_sub; i++)
+        print_tx_structure(&s->sub[i], depth + 1);
+}
+
+>>>>>>> refs/remotes/origin/master
 av_cold int av_tx_init(AVTXContext **ctx, av_tx_fn *tx, enum AVTXType type,
                        int inv, int len, const void *scale, uint64_t flags)
 {
@@ -663,10 +801,15 @@ av_cold int av_tx_init(AVTXContext **ctx, av_tx_fn *tx, enum AVTXType type,
     *ctx = &tmp.sub[0];
     *tx  = tmp.fn[0];
 
+<<<<<<< HEAD
 #if !CONFIG_SMALL
     av_log(NULL, AV_LOG_VERBOSE, "Transform tree:\n");
     print_tx_structure(*ctx, 0);
 #endif
+=======
+    av_log(NULL, AV_LOG_VERBOSE, "Transform tree:\n");
+    print_tx_structure(*ctx, 0);
+>>>>>>> refs/remotes/origin/master
 
     return ret;
 }

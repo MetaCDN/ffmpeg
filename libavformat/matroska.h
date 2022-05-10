@@ -23,7 +23,10 @@
 #define AVFORMAT_MATROSKA_H
 
 #include "libavcodec/codec_id.h"
+<<<<<<< HEAD
 #include "avformat.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "metadata.h"
 
 /* EBML version supported */

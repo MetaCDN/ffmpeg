@@ -725,11 +725,19 @@ static const FFCodecDefault opusenc_defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_opus_encoder = {
     .p.name         = "opus",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Opus"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_OPUS,
+=======
+const AVCodec ff_opus_encoder = {
+    .name           = "opus",
+    .long_name      = NULL_IF_CONFIG_SMALL("Opus"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_OPUS,
+>>>>>>> refs/remotes/origin/master
     .defaults       = opusenc_defaults,
     .p.priv_class   = &opusenc_class,
     .priv_data_size = sizeof(OpusEncContext),

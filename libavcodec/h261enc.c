@@ -384,10 +384,14 @@ static av_cold void h261_encode_init_static(void)
 
 av_cold void ff_h261_encode_init(MpegEncContext *s)
 {
+<<<<<<< HEAD
     H261EncContext *const h = (H261EncContext*)s;
     static AVOnce init_static_once = AV_ONCE_INIT;
 
     s->private_ctx = &h->common;
+=======
+    static AVOnce init_static_once = AV_ONCE_INIT;
+>>>>>>> refs/remotes/origin/master
 
     s->min_qcoeff       = -127;
     s->max_qcoeff       = 127;
@@ -400,6 +404,7 @@ av_cold void ff_h261_encode_init(MpegEncContext *s)
     ff_thread_once(&init_static_once, h261_encode_init_static);
 }
 
+<<<<<<< HEAD
 const FFCodec ff_h261_encoder = {
     .p.name         = "h261",
     .p.long_name    = NULL_IF_CONFIG_SMALL("H.261"),
@@ -407,10 +412,23 @@ const FFCodec ff_h261_encoder = {
     .p.id           = AV_CODEC_ID_H261,
     .p.priv_class   = &ff_mpv_enc_class,
     .priv_data_size = sizeof(H261EncContext),
+=======
+const AVCodec ff_h261_encoder = {
+    .name           = "h261",
+    .long_name      = NULL_IF_CONFIG_SMALL("H.261"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_H261,
+    .priv_class     = &ff_mpv_enc_class,
+    .priv_data_size = sizeof(H261Context),
+>>>>>>> refs/remotes/origin/master
     .init           = ff_mpv_encode_init,
     FF_CODEC_ENCODE_CB(ff_mpv_encode_picture),
     .close          = ff_mpv_encode_end,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
+>>>>>>> refs/remotes/origin/master
                                                      AV_PIX_FMT_NONE },
 };

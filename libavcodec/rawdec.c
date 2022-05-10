@@ -26,7 +26,10 @@
 
 #include "avcodec.h"
 #include "bswapdsp.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "get_bits.h"
 #include "internal.h"
@@ -480,6 +483,7 @@ static av_cold int raw_close_decoder(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_rawvideo_decoder = {
     .p.name         = "rawvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("raw video"),
@@ -491,5 +495,18 @@ const FFCodec ff_rawvideo_decoder = {
     FF_CODEC_DECODE_CB(raw_decode),
     .p.priv_class   = &rawdec_class,
     .p.capabilities = AV_CODEC_CAP_PARAM_CHANGE,
+=======
+const AVCodec ff_rawvideo_decoder = {
+    .name           = "rawvideo",
+    .long_name      = NULL_IF_CONFIG_SMALL("raw video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_RAWVIDEO,
+    .priv_data_size = sizeof(RawVideoContext),
+    .init           = raw_init_decoder,
+    .close          = raw_close_decoder,
+    .decode         = raw_decode,
+    .priv_class     = &rawdec_class,
+    .capabilities   = AV_CODEC_CAP_PARAM_CHANGE,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

@@ -26,7 +26,11 @@
 
 #include <time.h>
 #include "ass.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "jacosub.h"
 #include "libavutil/avstring.h"
 #include "libavutil/bprint.h"
@@ -193,11 +197,19 @@ end:
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_jacosub_decoder = {
     .p.name         = "jacosub",
     .p.long_name    = NULL_IF_CONFIG_SMALL("JACOsub subtitle"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_JACOSUB,
+=======
+const AVCodec ff_jacosub_decoder = {
+    .name           = "jacosub",
+    .long_name      = NULL_IF_CONFIG_SMALL("JACOsub subtitle"),
+    .type           = AVMEDIA_TYPE_SUBTITLE,
+    .id             = AV_CODEC_ID_JACOSUB,
+>>>>>>> refs/remotes/origin/master
     .init           = ff_ass_subtitle_header_default,
     FF_CODEC_DECODE_SUB_CB(jacosub_decode_frame),
     .flush          = ff_ass_decoder_flush,

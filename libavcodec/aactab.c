@@ -28,7 +28,10 @@
  */
 
 #include "config.h"
+<<<<<<< HEAD
 #include "config_components.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 #include "libavutil/thread.h"
 #include "aac.h"

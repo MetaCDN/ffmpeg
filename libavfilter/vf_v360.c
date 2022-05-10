@@ -3122,6 +3122,7 @@ static int xyz_to_cylindrical(const V360Context *s,
 {
     const float phi   = atan2f(vec[0], vec[2]) / s->iflat_range[0];
     const float theta = asinf(vec[1]);
+<<<<<<< HEAD
 
     const float uf = scale(phi, width);
     const float vf = scale(tanf(theta) / s->iflat_range[1], height);
@@ -3232,6 +3233,118 @@ static int xyz_to_cylindricalea(const V360Context *s,
     const float theta = asinf(vec[1]);
 
     const float uf = scale(phi, width);
+=======
+
+    const float uf = scale(phi, width);
+    const float vf = scale(tanf(theta) / s->iflat_range[1], height);
+
+    const int ui = floorf(uf);
+    const int vi = floorf(vf);
+
+    const int visible = vi >= 0 && vi < height && ui >= 0 && ui < width &&
+                        theta <=  M_PI * s->iv_fov / 180.f &&
+                        theta >= -M_PI * s->iv_fov / 180.f;
+
+    *du = uf - ui;
+    *dv = vf - vi;
+
+    for (int i = 0; i < 4; i++) {
+        for (int j = 0; j < 4; j++) {
+            us[i][j] = visible ? av_clip(ui + j - 1, 0, width  - 1) : 0;
+            vs[i][j] = visible ? av_clip(vi + i - 1, 0, height - 1) : 0;
+        }
+    }
+
+    return visible;
+}
+
+/**
+ * Prepare data for processing cylindrical equal area output format.
+ *
+ * @param ctx filter context
+ *
+ * @return error code
+ */
+static int prepare_cylindricalea_out(AVFilterContext *ctx)
+{
+    V360Context *s = ctx->priv;
+
+    s->flat_range[0] = s->h_fov * M_PI / 360.f;
+    s->flat_range[1] = s->v_fov / 180.f;
+
+    return 0;
+}
+
+/**
+ * Prepare data for processing cylindrical equal area input format.
+ *
+ * @param ctx filter context
+ *
+ * @return error code
+ */
+static int prepare_cylindricalea_in(AVFilterContext *ctx)
+{
+    V360Context *s = ctx->priv;
+
+    s->iflat_range[0] = M_PI * s->ih_fov / 360.f;
+    s->iflat_range[1] = s->iv_fov / 180.f;
+
+    return 0;
+}
+
+/**
+ * Calculate 3D coordinates on sphere for corresponding frame position in cylindrical equal area format.
+ *
+ * @param s filter private context
+ * @param i horizontal position on frame [0, width)
+ * @param j vertical position on frame [0, height)
+ * @param width frame width
+ * @param height frame height
+ * @param vec coordinates on sphere
+ */
+static int cylindricalea_to_xyz(const V360Context *s,
+                                int i, int j, int width, int height,
+                                float *vec)
+{
+    const float uf = s->flat_range[0] * rescale(i, width);
+    const float vf = s->flat_range[1] * rescale(j, height);
+
+    const float phi   = uf;
+    const float theta = asinf(vf);
+
+    const float sin_phi   = sinf(phi);
+    const float cos_phi   = cosf(phi);
+    const float sin_theta = sinf(theta);
+    const float cos_theta = cosf(theta);
+
+    vec[0] = cos_theta * sin_phi;
+    vec[1] = sin_theta;
+    vec[2] = cos_theta * cos_phi;
+
+    return 1;
+}
+
+/**
+ * Calculate frame position in cylindrical equal area format for corresponding 3D coordinates on sphere.
+ *
+ * @param s filter private context
+ * @param vec coordinates on sphere
+ * @param width frame width
+ * @param height frame height
+ * @param us horizontal coordinates for interpolation window
+ * @param vs vertical coordinates for interpolation window
+ * @param du horizontal relative coordinate
+ * @param dv vertical relative coordinate
+ */
+static int xyz_to_cylindricalea(const V360Context *s,
+                                const float *vec, int width, int height,
+                                int16_t us[4][4], int16_t vs[4][4], float *du, float *dv)
+{
+    const float phi   = atan2f(vec[0], vec[2]) / s->iflat_range[0];
+    const float theta = asinf(vec[1]);
+
+    const float uf = scale(phi, width);
+>>>>>>> refs/remotes/origin/master
     const float vf = scale(sinf(theta) / s->iflat_range[1], height);
 
     const int ui = floorf(uf);

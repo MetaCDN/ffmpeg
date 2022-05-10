@@ -31,6 +31,10 @@
 #include "codec_internal.h"
 #include "elbg.h"
 #include "encode.h"
+<<<<<<< HEAD
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/avassert.h"
 #include "libavutil/common.h"
 #include "libavutil/intreadwrite.h"
@@ -393,32 +397,58 @@ static int a64multi_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
 }
 
 #if CONFIG_A64MULTI_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_a64multi_encoder = {
     .p.name         = "a64multi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Multicolor charset for Commodore 64"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_A64_MULTI,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+=======
+const AVCodec ff_a64multi_encoder = {
+    .name           = "a64multi",
+    .long_name      = NULL_IF_CONFIG_SMALL("Multicolor charset for Commodore 64"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_A64_MULTI,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(A64Context),
     .init           = a64multi_encode_init,
     FF_CODEC_ENCODE_CB(a64multi_encode_frame),
     .close          = a64multi_close_encoder,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) {AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE},
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]) {AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE},
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_A64MULTI5_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_a64multi5_encoder = {
     .p.name         = "a64multi5",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Multicolor charset for Commodore 64, extended with 5th color (colram)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_A64_MULTI5,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+=======
+const AVCodec ff_a64multi5_encoder = {
+    .name           = "a64multi5",
+    .long_name      = NULL_IF_CONFIG_SMALL("Multicolor charset for Commodore 64, extended with 5th color (colram)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_A64_MULTI5,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(A64Context),
     .init           = a64multi_encode_init,
     FF_CODEC_ENCODE_CB(a64multi_encode_frame),
     .close          = a64multi_close_encoder,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) {AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE},
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]) {AV_PIX_FMT_GRAY8, AV_PIX_FMT_NONE},
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif

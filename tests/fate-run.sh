@@ -86,6 +86,7 @@ runecho(){
 }
 
 probefmt(){
+<<<<<<< HEAD
     run ffprobe${PROGSUF}${EXECSUF} -bitexact -show_entries format=format_name -print_format default=nw=1:nk=1 "$@"
 }
 
@@ -95,6 +96,17 @@ probeaudiostream(){
 
 probetags(){
     run ffprobe${PROGSUF}${EXECSUF} -bitexact -show_entries format_tags "$@"
+=======
+    run ffprobe${PROGSUF}${EXECSUF} -show_entries format=format_name -print_format default=nw=1:nk=1 "$@"
+}
+
+probeaudiostream(){
+    run ffprobe${PROGSUF}${EXECSUF} -show_entries stream=codec_name,codec_time_base,sample_fmt,channels,channel_layout:side_data "$@"
+}
+
+probetags(){
+    run ffprobe${PROGSUF}${EXECSUF} -show_entries format_tags "$@"
+>>>>>>> refs/remotes/origin/master
 }
 
 runlocal(){
@@ -103,11 +115,19 @@ runlocal(){
 }
 
 probeframes(){
+<<<<<<< HEAD
     run ffprobe${PROGSUF}${EXECSUF} -bitexact -show_frames "$@"
 }
 
 probechapters(){
     run ffprobe${PROGSUF}${EXECSUF} -bitexact -show_chapters "$@"
+=======
+    run ffprobe${PROGSUF}${EXECSUF} -show_frames "$@"
+}
+
+probechapters(){
+    run ffprobe${PROGSUF}${EXECSUF} -show_chapters "$@"
+>>>>>>> refs/remotes/origin/master
 }
 
 probegaplessinfo(){
@@ -217,12 +237,20 @@ enc_dec(){
         -f $enc_fmt -y $tencfile || return
     do_md5sum $encfile
     echo $(wc -c $encfile)
+<<<<<<< HEAD
     ffmpeg -auto_conversion_filters $7 $DEC_OPTS -i $tencfile $ENC_OPTS $dec_opt $FLAGS \
+=======
+    ffmpeg -auto_conversion_filters $8 $DEC_OPTS -i $tencfile $ENC_OPTS $dec_opt $FLAGS \
+>>>>>>> refs/remotes/origin/master
         -f $dec_fmt -y $tdecfile || return
     do_md5sum $decfile
     tests/tiny_psnr${HOSTEXECSUF} $srcfile $decfile $cmp_unit $cmp_shift
     test -z $ffprobe_opts || \
+<<<<<<< HEAD
         run ffprobe${PROGSUF}${EXECSUF} -bitexact $ffprobe_opts $tencfile || return
+=======
+        run ffprobe${PROGSUF}${EXECSUF} $ffprobe_opts $tencfile || return
+>>>>>>> refs/remotes/origin/master
 }
 
 transcode(){
@@ -230,10 +258,16 @@ transcode(){
     srcfile=$2
     enc_fmt=$3
     enc_opt=$4
+<<<<<<< HEAD
     final_encode=$5
     ffprobe_opts=$6
     additional_input=$7
     final_decode=$8
+=======
+    final_decode=$5
+    ffprobe_opts=$7
+    additional_input=$8
+>>>>>>> refs/remotes/origin/master
     test -z "$additional_input" || additional_input="$DEC_OPTS $additional_input"
     encfile="${outdir}/${test}.${enc_fmt}"
     test $keep -ge 1 || cleanfiles="$cleanfiles $encfile"
@@ -246,7 +280,11 @@ transcode(){
     ffmpeg $DEC_OPTS $final_decode -i $tencfile $ENC_OPTS $FLAGS $final_encode \
         -f framecrc - || return
     test -z $ffprobe_opts || \
+<<<<<<< HEAD
         run ffprobe${PROGSUF}${EXECSUF} -bitexact $ffprobe_opts $tencfile || return
+=======
+        run ffprobe${PROGSUF}${EXECSUF} $ffprobe_opts $tencfile || return
+>>>>>>> refs/remotes/origin/master
 }
 
 stream_remux(){
@@ -265,7 +303,11 @@ stream_remux(){
     ffmpeg $DEC_OPTS -i $tencfile $ENC_OPTS $FLAGS $final_decode \
         -f framecrc - || return
     test -z $ffprobe_opts || \
+<<<<<<< HEAD
         run ffprobe${PROGSUF}${EXECSUF} -bitexact $ffprobe_opts $tencfile || return
+=======
+        run ffprobe${PROGSUF}${EXECSUF} $ffprobe_opts $tencfile || return
+>>>>>>> refs/remotes/origin/master
 }
 
 # FIXME: There is a certain duplication between the avconv-related helper
@@ -310,17 +352,25 @@ lavf_audio(){
     t="${test#lavf-}"
     outdir="tests/data/lavf"
     file=${outdir}/lavf.$t
+<<<<<<< HEAD
     test "$keep" -ge 1 || cleanfiles="$cleanfiles $file"
     do_avconv $file -auto_conversion_filters $DEC_OPTS $1 -ar 44100 -f s16le -i $pcm_src "$ENC_OPTS -metadata title=lavftest" -t 1 -qscale 10 $2
     test "$4" = "disable_crc" ||
         do_avconv_crc $file -auto_conversion_filters $DEC_OPTS $3 -i $target_path/$file
+=======
+    do_avconv $file -auto_conversion_filters $DEC_OPTS $1 -ar 44100 -f s16le -i $pcm_src "$ENC_OPTS -metadata title=lavftest" -t 1 -qscale 10 $2
+    do_avconv_crc $file -auto_conversion_filters $DEC_OPTS $3 -i $target_path/$file
+>>>>>>> refs/remotes/origin/master
 }
 
 lavf_container(){
     t="${test#lavf-}"
     outdir="tests/data/lavf"
     file=${outdir}/lavf.$t
+<<<<<<< HEAD
     test "$keep" -ge 1 || cleanfiles="$cleanfiles $file"
+=======
+>>>>>>> refs/remotes/origin/master
     do_avconv $file -auto_conversion_filters $DEC_OPTS -f image2 -c:v pgmyuv -i $raw_src $DEC_OPTS -ar 44100 -f s16le $1 -i $pcm_src "$ENC_OPTS -metadata title=lavftest" -b:a 64k -t 1 -qscale:v 10 $2
     test "$3" = "disable_crc" ||
         do_avconv_crc $file -auto_conversion_filters $DEC_OPTS -i $target_path/$file $3
@@ -354,6 +404,7 @@ lavf_image(){
     outdir="tests/data/images/$t"
     mkdir -p "$outdir"
     file=${outdir}/%02d.$t
+<<<<<<< HEAD
     if [ "$keep" -lt 1 ]; then
         for i in `seq $nb_frames`; do
             filename=`printf "$file" $i`
@@ -361,6 +412,9 @@ lavf_image(){
         done
     fi
     run_avconv $DEC_OPTS -f image2 -c:v pgmyuv -i $raw_src $1 "$ENC_OPTS -metadata title=lavftest" -vf scale -frames $nb_frames -y -qscale 10 $target_path/$file
+=======
+    run_avconv $DEC_OPTS -f image2 -c:v pgmyuv -i $raw_src $1 "$ENC_OPTS -metadata title=lavftest" -vf scale -frames 13 -y -qscale 10 $target_path/$file
+>>>>>>> refs/remotes/origin/master
     do_md5sum ${outdir}/02.$t
     do_avconv_crc $file -auto_conversion_filters $DEC_OPTS $2 -i $target_path/$file $2
     echo $(wc -c ${outdir}/02.$t)
@@ -379,7 +433,10 @@ lavf_video(){
     t="${test#lavf-}"
     outdir="tests/data/lavf"
     file=${outdir}/lavf.$t
+<<<<<<< HEAD
     test "$keep" -ge 1 || cleanfiles="$cleanfiles $file"
+=======
+>>>>>>> refs/remotes/origin/master
     do_avconv $file -auto_conversion_filters $DEC_OPTS -f image2 -c:v pgmyuv -i $raw_src "$ENC_OPTS -metadata title=lavftest" -t 1 -qscale 10 $1 $2
     do_avconv_crc $file -auto_conversion_filters $DEC_OPTS -i $target_path/$file $1
 }

@@ -167,6 +167,7 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_cscd_decoder = {
     .p.name         = "camstudio",
     .p.long_name    = NULL_IF_CONFIG_SMALL("CamStudio"),
@@ -177,5 +178,17 @@ const FFCodec ff_cscd_decoder = {
     .close          = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_cscd_decoder = {
+    .name           = "camstudio",
+    .long_name      = NULL_IF_CONFIG_SMALL("CamStudio"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_CSCD,
+    .priv_data_size = sizeof(CamStudioContext),
+    .init           = decode_init,
+    .close          = decode_end,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

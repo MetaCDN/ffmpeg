@@ -132,6 +132,7 @@ static int dsf_read_header(AVFormatContext *s)
 
     dsf->audio_size = avio_rl64(pb) / 8 * st->codecpar->ch_layout.nb_channels;
     st->codecpar->block_align = avio_rl32(pb);
+<<<<<<< HEAD
     if (st->codecpar->block_align > INT_MAX / st->codecpar->ch_layout.nb_channels ||
         st->codecpar->block_align <= 0) {
         avpriv_request_sample(s, "block_align invalid");
@@ -139,6 +140,14 @@ static int dsf_read_header(AVFormatContext *s)
     }
     st->codecpar->block_align *= st->codecpar->ch_layout.nb_channels;
     st->codecpar->bit_rate = st->codecpar->ch_layout.nb_channels * 8LL * st->codecpar->sample_rate;
+=======
+    if (st->codecpar->block_align > INT_MAX / st->codecpar->channels || st->codecpar->block_align <= 0) {
+        avpriv_request_sample(s, "block_align invalid");
+        return AVERROR_INVALIDDATA;
+    }
+    st->codecpar->block_align *= st->codecpar->channels;
+    st->codecpar->bit_rate = st->codecpar->channels * 8LL * st->codecpar->sample_rate;
+>>>>>>> refs/remotes/origin/master
     avpriv_set_pts_info(st, 64, 1, st->codecpar->sample_rate);
     avio_skip(pb, 4);
 
@@ -193,8 +202,13 @@ static int dsf_read_packet(AVFormatContext *s, AVPacket *pkt)
 
             pkt->pos = pos;
             pkt->stream_index = 0;
+<<<<<<< HEAD
             pkt->pts = (pos - si->data_offset) / channels;
             pkt->duration = packet_size / channels;
+=======
+            pkt->pts = (pos - si->data_offset) / st->codecpar->channels;
+            pkt->duration = packet_size / st->codecpar->channels;
+>>>>>>> refs/remotes/origin/master
             return 0;
         }
     }
@@ -203,8 +217,13 @@ static int dsf_read_packet(AVFormatContext *s, AVPacket *pkt)
         return ret;
 
     pkt->stream_index = 0;
+<<<<<<< HEAD
     pkt->pts = (pos - si->data_offset) / channels;
     pkt->duration = st->codecpar->block_align / channels;
+=======
+    pkt->pts = (pos - si->data_offset) / st->codecpar->channels;
+    pkt->duration = st->codecpar->block_align / st->codecpar->channels;
+>>>>>>> refs/remotes/origin/master
 
     return 0;
 }

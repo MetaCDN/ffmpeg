@@ -484,16 +484,29 @@ static const AVClass fic_decoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_fic_decoder = {
     .p.name         = "fic",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Mirillis FIC"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FIC,
+=======
+const AVCodec ff_fic_decoder = {
+    .name           = "fic",
+    .long_name      = NULL_IF_CONFIG_SMALL("Mirillis FIC"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_FIC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(FICContext),
     .init           = fic_decode_init,
     FF_CODEC_DECODE_CB(fic_decode_frame),
     .close          = fic_decode_close,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SLICE_THREADS,
     .p.priv_class   = &fic_decoder_class,
+=======
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SLICE_THREADS,
+    .priv_class     = &fic_decoder_class,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

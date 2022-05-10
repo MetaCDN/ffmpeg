@@ -50,7 +50,11 @@ static int generate_raw_frame(uint16_t *frame_data, int i, int sample_rate,
 }
 
 static int init_encoder(const AVCodec *enc, AVCodecContext **enc_ctx,
+<<<<<<< HEAD
                         const AVChannelLayout *ch_layout, int sample_rate)
+=======
+                        int64_t ch_layout, int sample_rate)
+>>>>>>> refs/remotes/origin/master
 {
     AVCodecContext *ctx;
     int result;
@@ -80,7 +84,11 @@ static int init_encoder(const AVCodec *enc, AVCodecContext **enc_ctx,
 }
 
 static int init_decoder(const AVCodec *dec, AVCodecContext **dec_ctx,
+<<<<<<< HEAD
                         const AVChannelLayout *ch_layout)
+=======
+                        int64_t ch_layout)
+>>>>>>> refs/remotes/origin/master
 {
     AVCodecContext *ctx;
     int result;
@@ -209,7 +217,11 @@ static int run_test(const AVCodec *enc, const AVCodec *dec,
                 return AVERROR_UNKNOWN;
             }
 
+<<<<<<< HEAD
             if (av_channel_layout_compare(&in_frame->ch_layout, &out_frame->ch_layout)) {
+=======
+            if (in_frame->channel_layout != out_frame->channel_layout) {
+>>>>>>> refs/remotes/origin/master
                 av_log(NULL, AV_LOG_ERROR, "Error frames before and after decoding has different channel layout\n");
                 return AVERROR_UNKNOWN;
             }
@@ -218,7 +230,11 @@ static int run_test(const AVCodec *enc, const AVCodec *dec,
                 av_log(NULL, AV_LOG_ERROR, "Error frames before and after decoding has different sample format\n");
                 return AVERROR_UNKNOWN;
             }
+<<<<<<< HEAD
             out_frame_bytes = out_frame->nb_samples * out_frame->ch_layout.nb_channels * sizeof(uint16_t);
+=======
+            out_frame_bytes = out_frame->nb_samples * out_frame->channels * sizeof(uint16_t);
+>>>>>>> refs/remotes/origin/master
             if (out_frame_bytes > out_frame->linesize[0]) {
                 av_log(NULL, AV_LOG_ERROR, "Incorrect value of output frame linesize\n");
                 return 1;

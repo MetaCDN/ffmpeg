@@ -62,7 +62,10 @@
 #include "mov_chan.h"
 #include "movenc_ttml.h"
 #include "ttmlenc.h"
+<<<<<<< HEAD
 #include "version.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "vpcc.h"
 
 static const AVOption options[] = {
@@ -1309,7 +1312,11 @@ static int mov_write_audio_tag(AVFormatContext *s, AVIOContext *pb, MOVMuxContex
         return ret;
     }
 
+<<<<<<< HEAD
     if (mov->write_btrt &&
+=======
+    if (track->mode == MODE_MP4 &&
+>>>>>>> refs/remotes/origin/master
             ((ret = mov_write_btrt_tag(pb, track)) < 0))
         return ret;
 
@@ -1812,7 +1819,10 @@ static int mov_write_fiel_tag(AVIOContext *pb, MOVTrack *track, int field_order)
 
 static int mov_write_subtitle_tag(AVFormatContext *s, AVIOContext *pb, MOVTrack *track)
 {
+<<<<<<< HEAD
     MOVMuxContext *mov = s->priv_data;
+=======
+>>>>>>> refs/remotes/origin/master
     int ret = AVERROR_BUG;
     int64_t pos = avio_tell(pb);
     avio_wb32(pb, 0);    /* size */
@@ -1848,7 +1858,11 @@ static int mov_write_subtitle_tag(AVFormatContext *s, AVIOContext *pb, MOVTrack 
     } else if (track->par->extradata_size)
         avio_write(pb, track->par->extradata, track->par->extradata_size);
 
+<<<<<<< HEAD
     if (mov->write_btrt &&
+=======
+    if (track->mode == MODE_MP4 &&
+>>>>>>> refs/remotes/origin/master
             ((ret = mov_write_btrt_tag(pb, track)) < 0))
         return ret;
 
@@ -2315,7 +2329,11 @@ static int mov_write_video_tag(AVFormatContext *s, AVIOContext *pb, MOVMuxContex
         ff_mov_cenc_write_sinf_tag(track, pb, mov->encryption_kid);
     }
 
+<<<<<<< HEAD
     if (mov->write_btrt &&
+=======
+    if (track->mode == MODE_MP4 &&
+>>>>>>> refs/remotes/origin/master
             ((ret = mov_write_btrt_tag(pb, track)) < 0))
         return ret;
 
@@ -4783,8 +4801,12 @@ static int mov_write_sidx_tag(AVIOContext *pb,
 
     if (track->entry) {
         entries = 1;
+<<<<<<< HEAD
         presentation_time = track->cluster[0].dts + track->cluster[0].cts -
                             track->start_dts - track->start_cts;
+=======
+        presentation_time = track->cluster[0].dts + track->cluster[0].cts;
+>>>>>>> refs/remotes/origin/master
         duration = track->end_pts -
                    (track->cluster[0].dts + track->cluster[0].cts);
         starts_with_SAP = track->cluster[0].flags & MOV_SYNC_SAMPLE;
@@ -6316,6 +6338,9 @@ static int mov_create_chapter_track(AVFormatContext *s, int tracknum)
     pkt->stream_index = tracknum;
     pkt->flags = AV_PKT_FLAG_KEY;
 
+    pkt->stream_index = tracknum;
+    pkt->flags = AV_PKT_FLAG_KEY;
+
     for (i = 0; i < s->nb_chapters; i++) {
         AVChapter *c = s->chapters[i];
         AVDictionaryEntry *t;
@@ -6392,7 +6417,10 @@ static int mov_create_timecode_track(AVFormatContext *s, int index, int src_inde
     pkt->data = data;
     pkt->stream_index = index;
     pkt->flags = AV_PKT_FLAG_KEY;
+<<<<<<< HEAD
     pkt->pts = pkt->dts = av_rescale_q(tc.start, av_inv_q(rate), (AVRational){1,mov->movie_timescale});
+=======
+>>>>>>> refs/remotes/origin/master
     pkt->size = 4;
     AV_WB32(pkt->data, tc.start);
     ret = ff_mov_write_packet(s, pkt);

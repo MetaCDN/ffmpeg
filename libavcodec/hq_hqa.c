@@ -381,11 +381,19 @@ static av_cold int hq_hqa_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_hq_hqa_decoder = {
     .p.name         = "hq_hqa",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Canopus HQ/HQA"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HQ_HQA,
+=======
+const AVCodec ff_hq_hqa_decoder = {
+    .name           = "hq_hqa",
+    .long_name      = NULL_IF_CONFIG_SMALL("Canopus HQ/HQA"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_HQ_HQA,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(HQContext),
     .init           = hq_hqa_decode_init,
     FF_CODEC_DECODE_CB(hq_hqa_decode_frame),

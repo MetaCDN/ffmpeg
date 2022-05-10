@@ -1,7 +1,11 @@
 FATE_LAGARITH += fate-lagarith-rgb24
 fate-lagarith-rgb24: CMD = framecrc -i $(TARGET_SAMPLES)/lagarith/lag-rgb24.avi
 
+<<<<<<< HEAD
 FATE_LAGARITH-$(call FRAMECRC, AVI, LAGARITH, SCALE_FILTER) += fate-lagarith-rgb32
+=======
+FATE_LAGARITH += fate-lagarith-rgb32
+>>>>>>> refs/remotes/origin/master
 fate-lagarith-rgb32: CMD = framecrc -i $(TARGET_SAMPLES)/lagarith/lag-rgb32.avi -pix_fmt bgra -vf scale
 
 FATE_LAGARITH += fate-lagarith-yuy2
@@ -31,7 +35,11 @@ fate-loco-yuy2: CMD = framecrc -i $(TARGET_SAMPLES)/loco/pig-loco-0.avi
 FATE_LOSSLESS_VIDEO += $(FATE_LOCO-yes)
 fate-loco: $(FATE_LOCO-yes)
 
+<<<<<<< HEAD
 FATE_LOSSLESS_VIDEO-$(call FRAMECRC, AVI, MSRLE, SCALE_FILTER) += fate-msrle-8bit
+=======
+FATE_LOSSLESS_VIDEO-$(call DEMDEC, AVI, MSRLE) += fate-msrle-8bit
+>>>>>>> refs/remotes/origin/master
 fate-msrle-8bit: CMD = framecrc -i $(TARGET_SAMPLES)/msrle/Search-RLE.avi -pix_fmt rgb24 -vf scale
 
 FATE_LOSSLESS_VIDEO-$(call FRAMECRC, AVI, MSZH) += fate-mszh

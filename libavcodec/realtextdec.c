@@ -26,7 +26,11 @@
 
 #include "avcodec.h"
 #include "ass.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/avstring.h"
 #include "libavutil/bprint.h"
 
@@ -74,12 +78,21 @@ static int realtext_decode_frame(AVCodecContext *avctx, AVSubtitle *sub,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_realtext_decoder = {
     .p.name         = "realtext",
     .p.long_name    = NULL_IF_CONFIG_SMALL("RealText subtitle"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_REALTEXT,
     FF_CODEC_DECODE_SUB_CB(realtext_decode_frame),
+=======
+const AVCodec ff_realtext_decoder = {
+    .name           = "realtext",
+    .long_name      = NULL_IF_CONFIG_SMALL("RealText subtitle"),
+    .type           = AVMEDIA_TYPE_SUBTITLE,
+    .id             = AV_CODEC_ID_REALTEXT,
+    .decode         = realtext_decode_frame,
+>>>>>>> refs/remotes/origin/master
     .init           = ff_ass_subtitle_header_default,
     .flush          = ff_ass_decoder_flush,
     .priv_data_size = sizeof(FFASSDecoderContext),

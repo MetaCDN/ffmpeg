@@ -21,8 +21,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+<<<<<<< HEAD
 #include "config_components.h"
 
+=======
+>>>>>>> refs/remotes/origin/master
 #include <stdint.h>
 #include <string.h>
 #include <sys/types.h>
@@ -60,6 +63,7 @@ static const AVRational mfx_tb = { 1, 90000 };
     AV_NOPTS_VALUE : pts_tb.num ? \
     av_rescale_q(mfx_pts, mfx_tb, pts_tb) : mfx_pts)
 
+<<<<<<< HEAD
 typedef struct QSVAsyncFrame {
     mfxSyncPoint *sync;
     QSVFrame     *frame;
@@ -69,6 +73,11 @@ typedef struct QSVContext {
     // the session used for decoding
     mfxSession session;
     mfxVersion ver;
+=======
+typedef struct QSVContext {
+    // the session used for decoding
+    mfxSession session;
+>>>>>>> refs/remotes/origin/master
 
     // the session we allocated internally, in case the caller did not provide
     // one
@@ -81,15 +90,25 @@ typedef struct QSVContext {
      */
     QSVFrame *work_frames;
 
+<<<<<<< HEAD
     AVFifo *async_fifo;
     int zero_consume_run;
+=======
+    AVFifoBuffer *async_fifo;
+    int zero_consume_run;
+    int buffered_count;
+>>>>>>> refs/remotes/origin/master
     int reinit_flag;
 
     enum AVPixelFormat orig_pix_fmt;
     uint32_t fourcc;
     mfxFrameInfo frame_info;
     AVBufferPool *pool;
+<<<<<<< HEAD
     int suggest_pool_size;
+=======
+
+>>>>>>> refs/remotes/origin/master
     int initialized;
 
     // options set by the caller
@@ -283,7 +302,11 @@ static int qsv_decode_preinit(AVCodecContext *avctx, QSVContext *q, enum AVPixel
         hwframes_ctx->height            = FFALIGN(avctx->coded_height, 32);
         hwframes_ctx->format            = AV_PIX_FMT_QSV;
         hwframes_ctx->sw_format         = avctx->sw_pix_fmt;
+<<<<<<< HEAD
         hwframes_ctx->initial_pool_size = q->suggest_pool_size + 16 + avctx->extra_hw_frames;
+=======
+        hwframes_ctx->initial_pool_size = 64 + avctx->extra_hw_frames;
+>>>>>>> refs/remotes/origin/master
         frames_hwctx->frame_type        = MFX_MEMTYPE_VIDEO_MEMORY_DECODER_TARGET;
 
         ret = av_hwframe_ctx_init(avctx->hw_frames_ctx);
@@ -409,11 +432,14 @@ static int qsv_decode_header(AVCodecContext *avctx, QSVContext *q,
     param->ExtParam    = q->ext_buffers;
     param->NumExtParam = q->nb_ext_buffers;
 
+<<<<<<< HEAD
 #if QSV_VERSION_ATLEAST(1, 34)
     if (QSV_RUNTIME_VERSION_ATLEAST(q->ver, 1, 34) && avctx->codec_id == AV_CODEC_ID_AV1)
         param->mfx.FilmGrain = (avctx->export_side_data & AV_CODEC_EXPORT_DATA_FILM_GRAIN) ? 0 : param->mfx.FilmGrain;
 #endif
 
+=======
+>>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -678,9 +704,14 @@ static int qsv_decode(AVCodecContext *avctx, QSVContext *q,
         }
 
         out_frame->queued += 1;
+<<<<<<< HEAD
 
         aframe = (QSVAsyncFrame){ sync, out_frame };
         av_fifo_write(q->async_fifo, &aframe, 1);
+=======
+        av_fifo_generic_write(q->async_fifo, &out_frame, sizeof(out_frame), NULL);
+        av_fifo_generic_write(q->async_fifo, &sync,      sizeof(sync),      NULL);
+>>>>>>> refs/remotes/origin/master
     } else {
         av_freep(&sync);
     }
@@ -690,8 +721,14 @@ static int qsv_decode(AVCodecContext *avctx, QSVContext *q,
         QSVAsyncFrame aframe;
         AVFrame *src_frame;
 
+<<<<<<< HEAD
         av_fifo_read(q->async_fifo, &aframe, 1);
         aframe.frame->queued -= 1;
+=======
+        av_fifo_generic_read(q->async_fifo, &out_frame, sizeof(out_frame), NULL);
+        av_fifo_generic_read(q->async_fifo, &sync,      sizeof(sync),      NULL);
+        out_frame->queued -= 1;
+>>>>>>> refs/remotes/origin/master
 
         if (avctx->pix_fmt != AV_PIX_FMT_QSV) {
             do {
@@ -716,10 +753,14 @@ static int qsv_decode(AVCodecContext *avctx, QSVContext *q,
             avctx->codec_id == AV_CODEC_ID_AV1) {
             ret = qsv_export_film_grain(avctx, &aframe.frame->av1_film_grain_param, frame);
 
+<<<<<<< HEAD
             if (ret < 0)
                 return ret;
         }
 #endif
+=======
+        frame->pts = MFX_PTS_TO_PTS(outsurf->Data.TimeStamp, avctx->pkt_timebase);
+>>>>>>> refs/remotes/origin/master
 
         frame->repeat_pict =
             outsurf->Info.PicStruct & MFX_PICSTRUCT_FRAME_TRIPLING ? 4 :
@@ -860,7 +901,11 @@ typedef struct QSVDecContext {
 
     int load_plugin;
 
+<<<<<<< HEAD
     AVFifo *packet_fifo;
+=======
+    AVFifoBuffer *packet_fifo;
+>>>>>>> refs/remotes/origin/master
 
     AVPacket buffer_pkt;
 } QSVDecContext;
@@ -868,8 +913,15 @@ typedef struct QSVDecContext {
 static void qsv_clear_buffers(QSVDecContext *s)
 {
     AVPacket pkt;
+<<<<<<< HEAD
     while (av_fifo_read(s->packet_fifo, &pkt, 1) >= 0)
         av_packet_unref(&pkt);
+=======
+    while (av_fifo_size(s->packet_fifo) >= sizeof(pkt)) {
+        av_fifo_generic_read(s->packet_fifo, &pkt, sizeof(pkt), NULL);
+        av_packet_unref(&pkt);
+    }
+>>>>>>> refs/remotes/origin/master
 
     av_packet_unref(&s->buffer_pkt);
 }
@@ -882,7 +934,11 @@ static av_cold int qsv_decode_close(AVCodecContext *avctx)
 
     qsv_clear_buffers(s);
 
+<<<<<<< HEAD
     av_fifo_freep2(&s->packet_fifo);
+=======
+    av_fifo_free(s->packet_fifo);
+>>>>>>> refs/remotes/origin/master
 
     return 0;
 }
@@ -921,8 +977,12 @@ static av_cold int qsv_decode_init(AVCodecContext *avctx)
     }
 
     s->qsv.orig_pix_fmt = AV_PIX_FMT_NV12;
+<<<<<<< HEAD
     s->packet_fifo = av_fifo_alloc2(1, sizeof(AVPacket),
                                     AV_FIFO_FLAG_AUTO_GROW);
+=======
+    s->packet_fifo = av_fifo_alloc(sizeof(AVPacket));
+>>>>>>> refs/remotes/origin/master
     if (!s->packet_fifo) {
         ret = AVERROR(ENOMEM);
         goto fail;
@@ -937,6 +997,7 @@ fail:
     return ret;
 }
 
+<<<<<<< HEAD
 static int qsv_decode_frame(AVCodecContext *avctx, AVFrame *frame,
                             int *got_frame, AVPacket *avpkt)
 {
@@ -987,6 +1048,66 @@ static int qsv_decode_frame(AVCodecContext *avctx, AVFrame *frame,
 static void qsv_decode_flush(AVCodecContext *avctx)
 {
     QSVDecContext *s = avctx->priv_data;
+=======
+static int qsv_decode_frame(AVCodecContext *avctx, void *data,
+                            int *got_frame, AVPacket *avpkt)
+{
+    QSVDecContext *s = avctx->priv_data;
+    AVFrame *frame    = data;
+    int ret;
+
+    /* buffer the input packet */
+    if (avpkt->size) {
+        AVPacket input_ref;
+
+        if (av_fifo_space(s->packet_fifo) < sizeof(input_ref)) {
+            ret = av_fifo_realloc2(s->packet_fifo,
+                                   av_fifo_size(s->packet_fifo) + sizeof(input_ref));
+            if (ret < 0)
+                return ret;
+        }
+
+        ret = av_packet_ref(&input_ref, avpkt);
+        if (ret < 0)
+            return ret;
+        av_fifo_generic_write(s->packet_fifo, &input_ref, sizeof(input_ref), NULL);
+    }
+
+    /* process buffered data */
+    while (!*got_frame) {
+        /* prepare the input data */
+        if (s->buffer_pkt.size <= 0) {
+            /* no more data */
+            if (av_fifo_size(s->packet_fifo) < sizeof(AVPacket))
+                return avpkt->size ? avpkt->size : qsv_process_data(avctx, &s->qsv, frame, got_frame, avpkt);
+            /* in progress of reinit, no read from fifo and keep the buffer_pkt */
+            if (!s->qsv.reinit_flag) {
+                av_packet_unref(&s->buffer_pkt);
+                av_fifo_generic_read(s->packet_fifo, &s->buffer_pkt, sizeof(s->buffer_pkt), NULL);
+            }
+        }
+
+        ret = qsv_process_data(avctx, &s->qsv, frame, got_frame, &s->buffer_pkt);
+        if (ret < 0){
+            /* Drop buffer_pkt when failed to decode the packet. Otherwise,
+               the decoder will keep decoding the failure packet. */
+            av_packet_unref(&s->buffer_pkt);
+            return ret;
+        }
+        if (s->qsv.reinit_flag)
+            continue;
+
+        s->buffer_pkt.size -= ret;
+        s->buffer_pkt.data += ret;
+    }
+
+    return avpkt->size;
+}
+
+static void qsv_decode_flush(AVCodecContext *avctx)
+{
+    QSVDecContext *s = avctx->priv_data;
+>>>>>>> refs/remotes/origin/master
 
     qsv_clear_buffers(s);
 
@@ -1004,6 +1125,7 @@ static const AVClass x##_qsv_class = { \
     .option     = opt, \
     .version    = LIBAVUTIL_VERSION_INT, \
 }; \
+<<<<<<< HEAD
 const FFCodec ff_##x##_qsv_decoder = { \
     .p.name         = #x "_qsv", \
     .p.long_name    = NULL_IF_CONFIG_SMALL(#X " video (Intel Quick Sync Video acceleration)"), \
@@ -1025,6 +1147,27 @@ const FFCodec ff_##x##_qsv_decoder = { \
                                                     AV_PIX_FMT_NONE }, \
     .hw_configs     = qsv_hw_configs, \
     .p.wrapper_name = "qsv", \
+=======
+const AVCodec ff_##x##_qsv_decoder = { \
+    .name           = #x "_qsv", \
+    .long_name      = NULL_IF_CONFIG_SMALL(#X " video (Intel Quick Sync Video acceleration)"), \
+    .priv_data_size = sizeof(QSVDecContext), \
+    .type           = AVMEDIA_TYPE_VIDEO, \
+    .id             = AV_CODEC_ID_##X, \
+    .init           = qsv_decode_init, \
+    .decode         = qsv_decode_frame, \
+    .flush          = qsv_decode_flush, \
+    .close          = qsv_decode_close, \
+    .bsfs           = bsf_name, \
+    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_AVOID_PROBING | AV_CODEC_CAP_HYBRID, \
+    .priv_class     = &x##_qsv_class, \
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_NV12, \
+                                                    AV_PIX_FMT_P010, \
+                                                    AV_PIX_FMT_QSV, \
+                                                    AV_PIX_FMT_NONE }, \
+    .hw_configs     = qsv_hw_configs, \
+    .wrapper_name   = "qsv", \
+>>>>>>> refs/remotes/origin/master
 }; \
 
 #define DEFINE_QSV_DECODER(x, X, bsf_name) DEFINE_QSV_DECODER_WITH_OPTION(x, X, bsf_name, options)

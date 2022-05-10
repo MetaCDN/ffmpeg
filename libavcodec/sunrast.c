@@ -205,6 +205,7 @@ static int sunrast_decode_frame(AVCodecContext *avctx, AVFrame *p,
     return buf - bufstart;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_sunrast_decoder = {
     .p.name         = "sunrast",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Sun Rasterfile image"),
@@ -212,4 +213,13 @@ const FFCodec ff_sunrast_decoder = {
     .p.id           = AV_CODEC_ID_SUNRAST,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(sunrast_decode_frame),
+=======
+const AVCodec ff_sunrast_decoder = {
+    .name           = "sunrast",
+    .long_name      = NULL_IF_CONFIG_SMALL("Sun Rasterfile image"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_SUNRAST,
+    .decode         = sunrast_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
 };

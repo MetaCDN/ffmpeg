@@ -445,11 +445,19 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_hca_decoder = {
     .p.name         = "hca",
     .p.long_name    = NULL_IF_CONFIG_SMALL("CRI HCA"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_HCA,
+=======
+const AVCodec ff_hca_decoder = {
+    .name           = "hca",
+    .long_name      = NULL_IF_CONFIG_SMALL("CRI HCA"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_HCA,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(HCAContext),
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),

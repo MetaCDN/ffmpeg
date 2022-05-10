@@ -25,8 +25,13 @@
  */
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "bytestream.h"
 #include "libavutil/lfg.h"
 #include "elbg.h"
@@ -302,15 +307,27 @@ static av_cold int encode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_msvideo1_encoder = {
     .p.name         = "msvideo1",
     .p.long_name = NULL_IF_CONFIG_SMALL("Microsoft Video-1"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_MSVIDEO1,
+=======
+const AVCodec ff_msvideo1_encoder = {
+    .name           = "msvideo1",
+    .long_name = NULL_IF_CONFIG_SMALL("Microsoft Video-1"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MSVIDEO1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(Msvideo1EncContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
     .close          = encode_end,
+<<<<<<< HEAD
     .p.pix_fmts = (const enum AVPixelFormat[]){AV_PIX_FMT_RGB555, AV_PIX_FMT_NONE},
+=======
+    .pix_fmts = (const enum AVPixelFormat[]){AV_PIX_FMT_RGB555, AV_PIX_FMT_NONE},
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

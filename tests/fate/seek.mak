@@ -202,7 +202,11 @@ FATE_SEEK_EXTRA += $(FATE_SEEK_EXTRA-yes)
 $(FATE_SEEK) $(FATE_SAMPLES_SEEK) $(FATE_SEEK_EXTRA): libavformat/tests/seek$(EXESUF)
 $(FATE_SEEK) $(FATE_SAMPLES_SEEK): CMD = run libavformat/tests/seek$(EXESUF) $(TARGET_PATH)/tests/data/$(SRC)
 $(FATE_SEEK) $(FATE_SAMPLES_SEEK): fate-seek-%: fate-%
+<<<<<<< HEAD
 $(subst fate-seek-,fate-,$(FATE_SAMPLES_SEEK) $(FATE_SEEK)): KEEP_FILES ?= 1
+=======
+$(subst fate-seek-,fate-,$(FATE_SAMPLES_SEEK) $(FATE_SEEK)): KEEP_OVERRIDE = -keep
+>>>>>>> refs/remotes/origin/master
 fate-seek-%: REF = $(SRC_PATH)/tests/ref/seek/$(@:fate-seek-%=%)
 
 FATE_AVCONV += $(FATE_SEEK)

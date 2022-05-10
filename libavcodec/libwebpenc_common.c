@@ -27,7 +27,11 @@
 #include "libavutil/opt.h"
 #include "libwebpenc_common.h"
 
+<<<<<<< HEAD
 const FFCodecDefault ff_libwebp_defaults[] = {
+=======
+const AVCodecDefault ff_libwebp_defaults[] = {
+>>>>>>> refs/remotes/origin/master
     { "compression_level",  "4"  },
     { "global_quality",     "-1" },
     { NULL },

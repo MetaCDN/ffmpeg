@@ -410,7 +410,10 @@ const AVFilter ff_vf_extractplanes = {
     .priv_size     = sizeof(ExtractPlanesContext),
     .priv_class    = &extractplanes_class,
     .init          = init,
+<<<<<<< HEAD
     .activate      = activate,
+=======
+>>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(extractplanes_inputs),
     .outputs       = NULL,
     FILTER_QUERY_FUNC(query_formats),
@@ -443,7 +446,10 @@ const AVFilter ff_vf_alphaextract = {
                       "grayscale image component."),
     .priv_size      = sizeof(ExtractPlanesContext),
     .init           = init_alphaextract,
+<<<<<<< HEAD
     .activate       = activate,
+=======
+>>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(extractplanes_inputs),
     FILTER_OUTPUTS(alphaextract_outputs),
     FILTER_QUERY_FUNC(query_formats),

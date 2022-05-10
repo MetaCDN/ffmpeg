@@ -175,11 +175,19 @@ static av_cold int bfi_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_bfi_decoder = {
     .p.name         = "bfi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Brute Force & Ignorance"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_BFI,
+=======
+const AVCodec ff_bfi_decoder = {
+    .name           = "bfi",
+    .long_name      = NULL_IF_CONFIG_SMALL("Brute Force & Ignorance"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_BFI,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(BFIContext),
     .init           = bfi_decode_init,
     .close          = bfi_decode_close,

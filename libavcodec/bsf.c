@@ -18,7 +18,11 @@
 
 #include <string.h>
 
+<<<<<<< HEAD
 #include "config_components.h"
+=======
+#include "config.h"
+>>>>>>> refs/remotes/origin/master
 
 #include "libavutil/avassert.h"
 #include "libavutil/log.h"
@@ -34,11 +38,14 @@
 
 #define IS_EMPTY(pkt) (!(pkt)->data && !(pkt)->side_data_elems)
 
+<<<<<<< HEAD
 static av_always_inline const FFBitStreamFilter *ff_bsf(const AVBitStreamFilter *bsf)
 {
     return (const FFBitStreamFilter*)bsf;
 }
 
+=======
+>>>>>>> refs/remotes/origin/master
 typedef struct FFBSFContext {
     AVBSFContext pub;
     AVPacket *buffer_pkt;
@@ -61,8 +68,13 @@ void av_bsf_free(AVBSFContext **pctx)
     bsfi = ffbsfcontext(ctx);
 
     if (ctx->priv_data) {
+<<<<<<< HEAD
         if (ff_bsf(ctx->filter)->close)
             ff_bsf(ctx->filter)->close(ctx);
+=======
+        if (ctx->filter->close)
+            ctx->filter->close(ctx);
+>>>>>>> refs/remotes/origin/master
         if (ctx->filter->priv_class)
             av_opt_free(ctx->priv_data);
         av_freep(&ctx->priv_data);
@@ -403,9 +415,14 @@ static const AVClass bsf_list_class = {
         .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 static const FFBitStreamFilter list_bsf = {
         .p.name         = "bsf_list",
         .p.priv_class   = &bsf_list_class,
+=======
+static const AVBitStreamFilter list_bsf = {
+        .name           = "bsf_list",
+>>>>>>> refs/remotes/origin/master
         .priv_data_size = sizeof(BSFListContext),
         .init           = bsf_list_init,
         .filter         = bsf_list_filter,
@@ -499,7 +516,11 @@ int av_bsf_list_finalize(AVBSFList **lst, AVBSFContext **bsf)
         goto end;
     }
 
+<<<<<<< HEAD
     ret = av_bsf_alloc(&list_bsf.p, bsf);
+=======
+    ret = av_bsf_alloc(&list_bsf, bsf);
+>>>>>>> refs/remotes/origin/master
     if (ret < 0)
         return ret;
 
@@ -554,9 +575,16 @@ end:
 int av_bsf_get_null_filter(AVBSFContext **bsf)
 {
 #if CONFIG_NULL_BSF
+<<<<<<< HEAD
     extern const FFBitStreamFilter ff_null_bsf;
     return av_bsf_alloc(&ff_null_bsf.p, bsf);
 #else
     return av_bsf_alloc(&list_bsf.p, bsf);
+=======
+    extern const AVBitStreamFilter ff_null_bsf;
+    return av_bsf_alloc(&ff_null_bsf, bsf);
+#else
+    return av_bsf_alloc(&list_bsf, bsf);
+>>>>>>> refs/remotes/origin/master
 #endif
 }

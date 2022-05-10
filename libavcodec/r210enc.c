@@ -23,7 +23,10 @@
 #include "config_components.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "bytestream.h"
@@ -91,6 +94,7 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
 static const enum AVPixelFormat pix_fmt[] = { AV_PIX_FMT_GBRP10, AV_PIX_FMT_NONE };
 
 #if CONFIG_R210_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_r210_encoder = {
     .p.name         = "r210",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Uncompressed RGB 10-bit"),
@@ -100,10 +104,22 @@ const FFCodec ff_r210_encoder = {
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
     .p.pix_fmts     = pix_fmt,
+=======
+const AVCodec ff_r210_encoder = {
+    .name           = "r210",
+    .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed RGB 10-bit"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_R210,
+    .capabilities   = AV_CODEC_CAP_DR1,
+    .init           = encode_init,
+    .encode2        = encode_frame,
+    .pix_fmts       = pix_fmt,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_R10K_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_r10k_encoder = {
     .p.name         = "r10k",
     .p.long_name    = NULL_IF_CONFIG_SMALL("AJA Kona 10-bit RGB Codec"),
@@ -113,10 +129,22 @@ const FFCodec ff_r10k_encoder = {
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
     .p.pix_fmts     = pix_fmt,
+=======
+const AVCodec ff_r10k_encoder = {
+    .name           = "r10k",
+    .long_name      = NULL_IF_CONFIG_SMALL("AJA Kona 10-bit RGB Codec"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_R10K,
+    .capabilities   = AV_CODEC_CAP_DR1,
+    .init           = encode_init,
+    .encode2        = encode_frame,
+    .pix_fmts       = pix_fmt,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif
 #if CONFIG_AVRP_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_avrp_encoder = {
     .p.name         = "avrp",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Avid 1:1 10-bit RGB Packer"),
@@ -126,6 +154,17 @@ const FFCodec ff_avrp_encoder = {
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
     .p.pix_fmts     = pix_fmt,
+=======
+const AVCodec ff_avrp_encoder = {
+    .name           = "avrp",
+    .long_name      = NULL_IF_CONFIG_SMALL("Avid 1:1 10-bit RGB Packer"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AVRP,
+    .capabilities   = AV_CODEC_CAP_DR1,
+    .init           = encode_init,
+    .encode2        = encode_frame,
+    .pix_fmts       = pix_fmt,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
 #endif

@@ -103,20 +103,34 @@ static av_cold int amrwb_decode_init(AVCodecContext *avctx)
     AMRWBChannelsContext *s = avctx->priv_data;
     int i;
 
+<<<<<<< HEAD
     if (avctx->ch_layout.nb_channels > 2) {
+=======
+    if (avctx->channels > 2) {
+>>>>>>> refs/remotes/origin/master
         avpriv_report_missing_feature(avctx, ">2 channel AMR");
         return AVERROR_PATCHWELCOME;
     }
 
+<<<<<<< HEAD
     if (!avctx->ch_layout.nb_channels) {
         av_channel_layout_uninit(&avctx->ch_layout);
         avctx->ch_layout      = (AVChannelLayout)AV_CHANNEL_LAYOUT_MONO;
+=======
+    if (!avctx->channels) {
+        avctx->channels       = 1;
+        avctx->channel_layout = AV_CH_LAYOUT_MONO;
+>>>>>>> refs/remotes/origin/master
     }
     if (!avctx->sample_rate)
         avctx->sample_rate = 16000;
     avctx->sample_fmt     = AV_SAMPLE_FMT_FLTP;
 
+<<<<<<< HEAD
     for (int ch = 0; ch < avctx->ch_layout.nb_channels; ch++) {
+=======
+    for (int ch = 0; ch < avctx->channels; ch++) {
+>>>>>>> refs/remotes/origin/master
         AMRWBContext *ctx = &s->ch[ch];
 
         av_lfg_init(&ctx->prng, 1);
@@ -1106,6 +1120,10 @@ static int amrwb_decode_frame(AVCodecContext *avctx, AVFrame *frame,
                               int *got_frame_ptr, AVPacket *avpkt)
 {
     AMRWBChannelsContext *s  = avctx->priv_data;
+<<<<<<< HEAD
+=======
+    AVFrame *frame     = data;
+>>>>>>> refs/remotes/origin/master
     const uint8_t *buf = avpkt->data;
     int buf_size       = avpkt->size;
     int sub, i, ret;
@@ -1115,7 +1133,11 @@ static int amrwb_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     if ((ret = ff_get_buffer(avctx, frame, 0)) < 0)
         return ret;
 
+<<<<<<< HEAD
     for (int ch = 0; ch < avctx->ch_layout.nb_channels; ch++) {
+=======
+    for (int ch = 0; ch < avctx->channels; ch++) {
+>>>>>>> refs/remotes/origin/master
         AMRWBContext *ctx  = &s->ch[ch];
         AMRWBFrame   *cf   = &ctx->frame;
         int expected_fr_size, header_size;
@@ -1292,6 +1314,7 @@ static int amrwb_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_amrwb_decoder = {
     .p.name         = "amrwb",
     .p.long_name    = NULL_IF_CONFIG_SMALL("AMR-WB (Adaptive Multi-Rate WideBand)"),
@@ -1302,6 +1325,18 @@ const FFCodec ff_amrwb_decoder = {
     FF_CODEC_DECODE_CB(amrwb_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.sample_fmts  = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLT,
+=======
+const AVCodec ff_amrwb_decoder = {
+    .name           = "amrwb",
+    .long_name      = NULL_IF_CONFIG_SMALL("AMR-WB (Adaptive Multi-Rate WideBand)"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_AMR_WB,
+    .priv_data_size = sizeof(AMRWBChannelsContext),
+    .init           = amrwb_decode_init,
+    .decode         = amrwb_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+    .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLT,
+>>>>>>> refs/remotes/origin/master
                                                      AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

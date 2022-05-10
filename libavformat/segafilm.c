@@ -182,7 +182,11 @@ static int film_read_header(AVFormatContext *s)
 
         if (film->audio_type == AV_CODEC_ID_ADPCM_ADX) {
             st->codecpar->bits_per_coded_sample = 18 * 8 / 32;
+<<<<<<< HEAD
             st->codecpar->block_align = film->audio_channels * 18;
+=======
+            st->codecpar->block_align = st->codecpar->channels * 18;
+>>>>>>> refs/remotes/origin/master
             ffstream(st)->need_parsing = AVSTREAM_PARSE_FULL;
         } else {
             st->codecpar->bits_per_coded_sample = film->audio_bits;

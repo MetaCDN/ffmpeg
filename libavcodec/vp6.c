@@ -712,11 +712,19 @@ static av_cold void vp6_decode_free_context(VP56Context *s)
     }
 }
 
+<<<<<<< HEAD
 const FFCodec ff_vp6_decoder = {
     .p.name         = "vp6",
     .p.long_name    = NULL_IF_CONFIG_SMALL("On2 VP6"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_VP6,
+=======
+const AVCodec ff_vp6_decoder = {
+    .name           = "vp6",
+    .long_name      = NULL_IF_CONFIG_SMALL("On2 VP6"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_VP6,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VP56Context),
     .init           = vp6_decode_init,
     .close          = vp6_decode_free,
@@ -726,11 +734,19 @@ const FFCodec ff_vp6_decoder = {
 };
 
 /* flash version, not flipped upside-down */
+<<<<<<< HEAD
 const FFCodec ff_vp6f_decoder = {
     .p.name         = "vp6f",
     .p.long_name    = NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_VP6F,
+=======
+const AVCodec ff_vp6f_decoder = {
+    .name           = "vp6f",
+    .long_name      = NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_VP6F,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VP56Context),
     .init           = vp6_decode_init,
     .close          = vp6_decode_free,
@@ -740,12 +756,21 @@ const FFCodec ff_vp6f_decoder = {
 };
 
 /* flash version, not flipped upside-down, with alpha channel */
+<<<<<<< HEAD
 const FFCodec ff_vp6a_decoder = {
     .p.name         = "vp6a",
     .p.long_name    = NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version, with alpha channel)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_VP6A,
     .priv_data_size = 2 /* Main context + alpha context */ * sizeof(VP56Context),
+=======
+const AVCodec ff_vp6a_decoder = {
+    .name           = "vp6a",
+    .long_name      = NULL_IF_CONFIG_SMALL("On2 VP6 (Flash version, with alpha channel)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_VP6A,
+    .priv_data_size = sizeof(VP56Context),
+>>>>>>> refs/remotes/origin/master
     .init           = vp6_decode_init,
     .close          = vp6_decode_free,
     FF_CODEC_DECODE_CB(ff_vp56_decode_frame),

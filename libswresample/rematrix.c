@@ -110,11 +110,16 @@ static int even(int64_t layout){
     return 0;
 }
 
+<<<<<<< HEAD
 static int clean_layout(AVChannelLayout *out, const AVChannelLayout *in, void *s)
 {
     int ret = 0;
 
     if (av_channel_layout_index_from_channel(in, AV_CHAN_FRONT_CENTER) < 0 && in->nb_channels == 1) {
+=======
+static int64_t clean_layout(void *s, int64_t layout){
+    if(layout && layout != AV_CH_FRONT_CENTER && !(layout&(layout-1))) {
+>>>>>>> refs/remotes/origin/master
         char buf[128];
         av_channel_layout_describe(in, buf, sizeof(buf));
         av_log(s, AV_LOG_VERBOSE, "Treating %s as mono\n", buf);
@@ -205,6 +210,7 @@ av_cold int swr_build_matrix2(const AVChannelLayout *in_layout, const AVChannelL
                buf);
     }
 
+<<<<<<< HEAD
     if(!av_channel_layout_check(&in_ch_layout)) {
         av_log(log_context, AV_LOG_ERROR, "Input channel layout is invalid\n");
         ret = AVERROR(EINVAL);
@@ -212,6 +218,20 @@ av_cold int swr_build_matrix2(const AVChannelLayout *in_layout, const AVChannelL
     }
     if(!sane_layout(&in_ch_layout)) {
         av_channel_layout_describe(&in_ch_layout, buf, sizeof(buf));
+=======
+    if (in_ch_layout == AV_CH_LAYOUT_22POINT2 &&
+        out_ch_layout != AV_CH_LAYOUT_22POINT2) {
+        in_ch_layout = (AV_CH_LAYOUT_7POINT1_WIDE_BACK|AV_CH_BACK_CENTER);
+        av_get_channel_layout_string(buf, sizeof(buf), -1, in_ch_layout);
+        av_log(log_context, AV_LOG_WARNING,
+               "Full-on remixing from 22.2 has not yet been implemented! "
+               "Processing the input as '%s'\n",
+               buf);
+    }
+
+    if(!sane_layout(in_ch_layout)){
+        av_get_channel_layout_string(buf, sizeof(buf), -1, in_ch_layout_param);
+>>>>>>> refs/remotes/origin/master
         av_log(log_context, AV_LOG_ERROR, "Input channel layout '%s' is not supported\n", buf);
         ret = AVERROR(EINVAL);
         goto fail;

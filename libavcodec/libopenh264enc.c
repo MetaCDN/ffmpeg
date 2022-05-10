@@ -30,7 +30,10 @@
 #include "libavutil/mathematics.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "libopenh264.h"
@@ -451,19 +454,32 @@ static const FFCodecDefault svc_enc_defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libopenh264_encoder = {
     .p.name         = "libopenh264",
     .p.long_name    = NULL_IF_CONFIG_SMALL("OpenH264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_H264,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_OTHER_THREADS,
+=======
+const AVCodec ff_libopenh264_encoder = {
+    .name           = "libopenh264",
+    .long_name      = NULL_IF_CONFIG_SMALL("OpenH264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_H264,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_OTHER_THREADS,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(SVCContext),
     .init           = svc_encode_init,
     FF_CODEC_ENCODE_CB(svc_encode_frame),
     .close          = svc_encode_close,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP |
                       FF_CODEC_CAP_AUTO_THREADS,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P,
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P,
+>>>>>>> refs/remotes/origin/master
                                                     AV_PIX_FMT_NONE },
     .defaults       = svc_enc_defaults,
     .p.priv_class   = &class,

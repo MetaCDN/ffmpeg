@@ -111,8 +111,12 @@ static av_cold int mpc7_decode_init(AVCodecContext * avctx)
     c->frames_to_skip = 0;
 
     avctx->sample_fmt = AV_SAMPLE_FMT_S16P;
+<<<<<<< HEAD
     av_channel_layout_uninit(&avctx->ch_layout);
     avctx->ch_layout = (AVChannelLayout)AV_CHANNEL_LAYOUT_STEREO;
+=======
+    avctx->channel_layout = AV_CH_LAYOUT_STEREO;
+>>>>>>> refs/remotes/origin/master
 
     ff_thread_once(&init_static_once, mpc7_init_static);
 
@@ -309,11 +313,19 @@ static av_cold int mpc7_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_mpc7_decoder = {
     .p.name         = "mpc7",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Musepack SV7"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_MUSEPACK7,
+=======
+const AVCodec ff_mpc7_decoder = {
+    .name           = "mpc7",
+    .long_name      = NULL_IF_CONFIG_SMALL("Musepack SV7"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_MUSEPACK7,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MPCContext),
     .init           = mpc7_decode_init,
     .close          = mpc7_decode_close,

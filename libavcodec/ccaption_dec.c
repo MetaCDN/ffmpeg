@@ -21,7 +21,11 @@
 
 #include "avcodec.h"
 #include "ass.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/opt.h"
 
 #define SCREEN_ROWS 15
@@ -944,6 +948,7 @@ static const AVClass ccaption_dec_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_ccaption_decoder = {
     .p.name         = "cc_dec",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Closed Caption (EIA-608 / CEA-708)"),
@@ -951,10 +956,23 @@ const FFCodec ff_ccaption_decoder = {
     .p.id           = AV_CODEC_ID_EIA_608,
     .p.priv_class   = &ccaption_dec_class,
     .p.capabilities = AV_CODEC_CAP_DELAY,
+=======
+const AVCodec ff_ccaption_decoder = {
+    .name           = "cc_dec",
+    .long_name      = NULL_IF_CONFIG_SMALL("Closed Caption (EIA-608 / CEA-708)"),
+    .type           = AVMEDIA_TYPE_SUBTITLE,
+    .id             = AV_CODEC_ID_EIA_608,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(CCaptionSubContext),
     .init           = init_decoder,
     .close          = close_decoder,
     .flush          = flush_decoder,
+<<<<<<< HEAD
     FF_CODEC_DECODE_SUB_CB(decode),
+=======
+    .decode         = decode,
+    .priv_class     = &ccaption_dec_class,
+    .capabilities   = AV_CODEC_CAP_DELAY,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

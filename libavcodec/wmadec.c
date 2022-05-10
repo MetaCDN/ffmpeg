@@ -841,7 +841,11 @@ static int wma_decode_superframe(AVCodecContext *avctx, AVFrame *frame,
         if ((ret = ff_get_buffer(avctx, frame, 0)) < 0)
             return ret;
 
+<<<<<<< HEAD
         for (i = 0; i < s->avctx->ch_layout.nb_channels; i++)
+=======
+        for (i = 0; i < s->avctx->channels; i++)
+>>>>>>> refs/remotes/origin/master
             memcpy(frame->extended_data[i], &s->frame_out[i][0],
                    frame->nb_samples * sizeof(s->frame_out[i][0]));
 
@@ -999,35 +1003,61 @@ static av_cold void flush(AVCodecContext *avctx)
 }
 
 #if CONFIG_WMAV1_DECODER
+<<<<<<< HEAD
 const FFCodec ff_wmav1_decoder = {
     .p.name         = "wmav1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Audio 1"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_WMAV1,
+=======
+const AVCodec ff_wmav1_decoder = {
+    .name           = "wmav1",
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio 1"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_WMAV1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WMACodecContext),
     .init           = wma_decode_init,
     .close          = ff_wma_end,
     FF_CODEC_DECODE_CB(wma_decode_superframe),
     .flush          = flush,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+=======
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };
 #endif
 #if CONFIG_WMAV2_DECODER
+<<<<<<< HEAD
 const FFCodec ff_wmav2_decoder = {
     .p.name         = "wmav2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Audio 2"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_WMAV2,
+=======
+const AVCodec ff_wmav2_decoder = {
+    .name           = "wmav2",
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio 2"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_WMAV2,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WMACodecContext),
     .init           = wma_decode_init,
     .close          = ff_wma_end,
     FF_CODEC_DECODE_CB(wma_decode_superframe),
     .flush          = flush,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+=======
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

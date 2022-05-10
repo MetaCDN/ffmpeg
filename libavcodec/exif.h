@@ -30,7 +30,11 @@
 
 #include <stdint.h>
 #include "libavutil/dict.h"
+<<<<<<< HEAD
 #include "bytestream.h"
+=======
+#include "tiff.h"
+>>>>>>> refs/remotes/origin/master
 
 #define EXIF_MAX_IFD_RECURSION 2
 #define EXIF_TAG_NAME_LENGTH   32

@@ -454,7 +454,11 @@ static int extract_lines(AVFilterContext *ctx, void *arg,
     for (int i = start; i < end; i++) {
         ScanItem *scan = &s->scan[i];
 
+<<<<<<< HEAD
         extract_line(ctx, in, scan, inlink->w, s->start + i);
+=======
+        extract_line(ctx, in, scan, inlink->w, i);
+>>>>>>> refs/remotes/origin/master
     }
 
     return 0;

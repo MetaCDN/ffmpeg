@@ -105,8 +105,13 @@ static int filter_channels(AVFilterContext *ctx, void *arg, int jobnr, int nb_jo
     ThreadData *td = arg;
     AVFrame *out = td->out;
     AVFrame *in = td->in;
+<<<<<<< HEAD
     const int start = (in->ch_layout.nb_channels * jobnr) / nb_jobs;
     const int end = (in->ch_layout.nb_channels * (jobnr+1)) / nb_jobs;
+=======
+    const int start = (in->channels * jobnr) / nb_jobs;
+    const int end = (in->channels * (jobnr+1)) / nb_jobs;
+>>>>>>> refs/remotes/origin/master
 
     for (int ch = start; ch < end; ch++) {
         const double *src = (const double *)in->extended_data[ch];
@@ -144,7 +149,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
     td.in = in; td.out = out;
     ff_filter_execute(ctx, filter_channels, &td, NULL,
+<<<<<<< HEAD
                       FFMIN(inlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
+=======
+                      FFMIN(inlink->channels, ff_filter_get_nb_threads(ctx)));
+>>>>>>> refs/remotes/origin/master
 
     if (in != out)
         av_frame_free(&in);

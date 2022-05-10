@@ -175,11 +175,19 @@ static av_cold int avs_decode_end(AVCodecContext *avctx)
 }
 
 
+<<<<<<< HEAD
 const FFCodec ff_avs_decoder = {
     .p.name         = "avs",
     .p.long_name    = NULL_IF_CONFIG_SMALL("AVS (Audio Video Standard) video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_AVS,
+=======
+const AVCodec ff_avs_decoder = {
+    .name           = "avs",
+    .long_name      = NULL_IF_CONFIG_SMALL("AVS (Audio Video Standard) video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AVS,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AvsContext),
     .init           = avs_decode_init,
     FF_CODEC_DECODE_CB(avs_decode_frame),

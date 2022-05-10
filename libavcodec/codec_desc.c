@@ -1863,6 +1863,7 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("GEM Raster image"),
         .props     = AV_CODEC_PROP_LOSSY,
     },
+<<<<<<< HEAD
     {
         .id        = AV_CODEC_ID_VBN,
         .type      = AVMEDIA_TYPE_VIDEO,
@@ -1879,6 +1880,8 @@ static const AVCodecDescriptor codec_descriptors[] = {
                      AV_CODEC_PROP_LOSSLESS,
         .mime_types= MT("image/jxl"),
     },
+=======
+>>>>>>> refs/remotes/origin/master
 
     /* various PCM "codecs" */
     {
@@ -3253,6 +3256,7 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("MSN Siren"),
         .props     = AV_CODEC_PROP_INTRA_ONLY | AV_CODEC_PROP_LOSSY,
     },
+<<<<<<< HEAD
     {
         .id        = AV_CODEC_ID_DFPWM,
         .type      = AVMEDIA_TYPE_AUDIO,
@@ -3260,6 +3264,8 @@ static const AVCodecDescriptor codec_descriptors[] = {
         .long_name = NULL_IF_CONFIG_SMALL("DFPWM (Dynamic Filter Pulse Width Modulation)"),
         .props     = AV_CODEC_PROP_LOSSY,
     },
+=======
+>>>>>>> refs/remotes/origin/master
 
     /* subtitle codecs */
     {

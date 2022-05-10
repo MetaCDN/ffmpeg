@@ -35,7 +35,10 @@
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 
@@ -468,6 +471,7 @@ static av_cold int smc_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_smc_decoder = {
     .p.name         = "smc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("QuickTime Graphics (SMC)"),
@@ -478,5 +482,17 @@ const FFCodec ff_smc_decoder = {
     .close          = smc_decode_end,
     FF_CODEC_DECODE_CB(smc_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_smc_decoder = {
+    .name           = "smc",
+    .long_name      = NULL_IF_CONFIG_SMALL("QuickTime Graphics (SMC)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_SMC,
+    .priv_data_size = sizeof(SmcContext),
+    .init           = smc_decode_init,
+    .close          = smc_decode_end,
+    .decode         = smc_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

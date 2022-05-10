@@ -31,7 +31,10 @@
 #include "config_components.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "huffyuv.h"
 #include "huffman.h"
@@ -1049,11 +1052,19 @@ static const AVClass ff_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_huffyuv_encoder = {
     .p.name         = "huffyuv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Huffyuv / HuffYUV"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_HUFFYUV,
+=======
+const AVCodec ff_huffyuv_encoder = {
+    .name           = "huffyuv",
+    .long_name      = NULL_IF_CONFIG_SMALL("Huffyuv / HuffYUV"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_HUFFYUV,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(HYuvContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
@@ -1069,11 +1080,19 @@ const FFCodec ff_huffyuv_encoder = {
 };
 
 #if CONFIG_FFVHUFF_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_ffvhuff_encoder = {
     .p.name         = "ffvhuff",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Huffyuv FFmpeg variant"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FFVHUFF,
+=======
+const AVCodec ff_ffvhuff_encoder = {
+    .name           = "ffvhuff",
+    .long_name      = NULL_IF_CONFIG_SMALL("Huffyuv FFmpeg variant"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_FFVHUFF,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(HYuvContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),

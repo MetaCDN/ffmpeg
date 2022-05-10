@@ -40,7 +40,11 @@ typedef struct SWFEncContext {
     int swf_frame_number;
     int video_frame_number;
     int tag;
+<<<<<<< HEAD
     AVFifo *audio_fifo;
+=======
+    AVFifoBuffer *audio_fifo;
+>>>>>>> refs/remotes/origin/master
     AVCodecParameters *audio_par, *video_par;
     AVStream *video_st;
 } SWFEncContext;
@@ -543,7 +547,11 @@ static void swf_deinit(AVFormatContext *s)
 {
     SWFEncContext *swf = s->priv_data;
 
+<<<<<<< HEAD
     av_fifo_freep2(&swf->audio_fifo);
+=======
+    av_fifo_freep(&swf->audio_fifo);
+>>>>>>> refs/remotes/origin/master
 }
 
 #if CONFIG_SWF_MUXER

@@ -24,8 +24,11 @@
 
 #include <stdint.h>
 
+<<<<<<< HEAD
 #include "libavutil/channel_layout.h"
 
+=======
+>>>>>>> refs/remotes/origin/master
 #define SYNC_MLP        0xbb
 #define SYNC_TRUEHD     0xba
 

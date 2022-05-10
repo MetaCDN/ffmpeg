@@ -37,6 +37,7 @@ AVFrame *ff_null_get_audio_buffer(AVFilterLink *link, int nb_samples)
 AVFrame *ff_default_get_audio_buffer(AVFilterLink *link, int nb_samples)
 {
     AVFrame *frame = NULL;
+<<<<<<< HEAD
     int channels = link->ch_layout.nb_channels;
 #if FF_API_OLD_CHANNEL_LAYOUT
 FF_DISABLE_DEPRECATION_WARNINGS
@@ -46,6 +47,12 @@ FF_DISABLE_DEPRECATION_WARNINGS
     av_assert0(channels == channel_layout_nb_channels || !channel_layout_nb_channels);
 FF_ENABLE_DEPRECATION_WARNINGS
 #endif
+=======
+    int channels = link->channels;
+    int channel_layout_nb_channels = av_get_channel_layout_nb_channels(link->channel_layout);
+
+    av_assert0(channels == channel_layout_nb_channels || !channel_layout_nb_channels);
+>>>>>>> refs/remotes/origin/master
 
     if (!link->frame_pool) {
         link->frame_pool = ff_frame_pool_audio_init(av_buffer_allocz, channels,

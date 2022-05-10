@@ -365,11 +365,19 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_prosumer_decoder = {
     .p.name         = "prosumer",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Brooktree ProSumer Video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_PROSUMER,
+=======
+const AVCodec ff_prosumer_decoder = {
+    .name           = "prosumer",
+    .long_name      = NULL_IF_CONFIG_SMALL("Brooktree ProSumer Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_PROSUMER,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ProSumerContext),
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),

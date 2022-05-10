@@ -1702,18 +1702,30 @@ error:
     return ret;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_wavpack_decoder = {
     .p.name         = "wavpack",
     .p.long_name    = NULL_IF_CONFIG_SMALL("WavPack"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_WAVPACK,
+=======
+const AVCodec ff_wavpack_decoder = {
+    .name           = "wavpack",
+    .long_name      = NULL_IF_CONFIG_SMALL("WavPack"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_WAVPACK,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WavpackContext),
     .init           = wavpack_decode_init,
     .close          = wavpack_decode_end,
     FF_CODEC_DECODE_CB(wavpack_decode_frame),
     .flush          = wavpack_decode_flush,
     .update_thread_context = ONLY_IF_THREADS_ENABLED(update_thread_context),
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS |
+=======
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_SLICE_THREADS | AV_CODEC_CAP_CHANNEL_CONF,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP |
                       FF_CODEC_CAP_ALLOCATE_PROGRESS,

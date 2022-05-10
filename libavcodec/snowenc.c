@@ -24,8 +24,13 @@
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "packet_internal.h"
 #include "snow_dwt.h"
 #include "snow.h"
@@ -1912,11 +1917,19 @@ static const AVClass snowenc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_snow_encoder = {
     .p.name         = "snow",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Snow"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_SNOW,
+=======
+const AVCodec ff_snow_encoder = {
+    .name           = "snow",
+    .long_name      = NULL_IF_CONFIG_SMALL("Snow"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_SNOW,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(SnowContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),

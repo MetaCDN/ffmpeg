@@ -48,7 +48,10 @@
 #include "idctdsp.h"
 #include "mpeg12.h"
 #include "mpeg12data.h"
+<<<<<<< HEAD
 #include "mpeg12enc.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "mpegvideo.h"
 #include "mpegvideodata.h"
 #include "mpegvideoenc.h"
@@ -61,7 +64,11 @@
 #include "mpegutils.h"
 #include "mjpegenc.h"
 #include "speedhqenc.h"
+<<<<<<< HEAD
 #include "msmpeg4enc.h"
+=======
+#include "msmpeg4.h"
+>>>>>>> refs/remotes/origin/master
 #include "pixblockdsp.h"
 #include "qpeldsp.h"
 #include "faandct.h"
@@ -69,7 +76,10 @@
 #include "flvenc.h"
 #include "mpeg4video.h"
 #include "mpeg4videodata.h"
+<<<<<<< HEAD
 #include "mpeg4videoenc.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "internal.h"
 #include "bytestream.h"
 #include "wmv2enc.h"
@@ -816,6 +826,15 @@ av_cold int ff_mpv_encode_init(AVCodecContext *avctx)
     ff_pixblockdsp_init(&s->pdsp, avctx);
     ff_qpeldsp_init(&s->qdsp);
 
+<<<<<<< HEAD
+=======
+    if (s->msmpeg4_version) {
+        int ac_stats_size = 2 * 2 * (MAX_LEVEL + 1) *  (MAX_RUN + 1) * 2 * sizeof(int);
+        if (!(s->ac_stats = av_mallocz(ac_stats_size)))
+            return AVERROR(ENOMEM);
+    }
+
+>>>>>>> refs/remotes/origin/master
     if (!(avctx->stats_out = av_mallocz(256))               ||
         !FF_ALLOCZ_TYPED_ARRAY(s->q_intra_matrix,          32) ||
         !FF_ALLOCZ_TYPED_ARRAY(s->q_chroma_intra_matrix,   32) ||
@@ -938,9 +957,17 @@ av_cold int ff_mpv_encode_end(AVCodecContext *avctx)
     for (i = 0; i < FF_ARRAY_ELEMS(s->tmp_frames); i++)
         av_frame_free(&s->tmp_frames[i]);
 
+<<<<<<< HEAD
     av_frame_free(&s->new_picture);
 
     av_freep(&avctx->stats_out);
+=======
+    ff_free_picture_tables(&s->new_picture);
+    ff_mpeg_unref_picture(avctx, &s->new_picture);
+
+    av_freep(&avctx->stats_out);
+    av_freep(&s->ac_stats);
+>>>>>>> refs/remotes/origin/master
 
     if(s->q_chroma_intra_matrix   != s->q_intra_matrix  ) av_freep(&s->q_chroma_intra_matrix);
     if(s->q_chroma_intra_matrix16 != s->q_intra_matrix16) av_freep(&s->q_chroma_intra_matrix16);
@@ -1217,6 +1244,10 @@ static int encode_frame(AVCodecContext *c, AVFrame *frame, AVPacket *pkt)
 
 static int estimate_best_b_count(MpegEncContext *s)
 {
+<<<<<<< HEAD
+=======
+    const AVCodec *codec = avcodec_find_encoder(s->avctx->codec_id);
+>>>>>>> refs/remotes/origin/master
     AVPacket *pkt;
     const int scale = s->brd_scale;
     int width  = s->width  >> scale;
@@ -1525,8 +1556,13 @@ no_output_pic:
             // input is not a shared pix -> reuse buffer for current_pix
             s->current_picture_ptr = s->reordered_input_picture[0];
             for (i = 0; i < 4; i++) {
+<<<<<<< HEAD
                 if (s->new_picture->data[i])
                     s->new_picture->data[i] += INPLACE_OFFSET;
+=======
+                if (s->new_picture.f->data[i])
+                    s->new_picture.f->data[i] += INPLACE_OFFSET;
+>>>>>>> refs/remotes/origin/master
             }
         }
         s->picture_number = s->new_picture->display_picture_number;
@@ -1682,6 +1718,7 @@ int ff_mpv_encode_picture(AVCodecContext *avctx, AVPacket *pkt,
     }
 
     /* output? */
+<<<<<<< HEAD
     if (s->new_picture->data[0]) {
         int growing_buffer = context_count == 1 && !s->data_partitioning;
         size_t pkt_size = 10000 + s->mb_width * s->mb_height *
@@ -1691,6 +1728,13 @@ int ff_mpv_encode_picture(AVCodecContext *avctx, AVPacket *pkt,
             if (ret < 0)
                 return ret;
         }
+=======
+    if (s->new_picture.f->data[0]) {
+        int growing_buffer = context_count == 1 && !pkt->data && !s->data_partitioning;
+        int pkt_size = growing_buffer ? FFMAX(s->mb_width*s->mb_height*64+10000, avctx->internal->byte_buffer_size) - AV_INPUT_BUFFER_PADDING_SIZE
+                                              :
+                                              s->mb_width*s->mb_height*(MAX_MB_BYTES+100)+10000;
+>>>>>>> refs/remotes/origin/master
         if ((ret = ff_alloc_packet(avctx, pkt, pkt_size)) < 0)
             return ret;
         pkt->size = avctx->internal->byte_buffer_size - AV_INPUT_BUFFER_PADDING_SIZE;
@@ -4542,3 +4586,120 @@ int ff_dct_quantize_c(MpegEncContext *s,
 
     return last_non_zero;
 }
+<<<<<<< HEAD
+=======
+
+#define OFFSET(x) offsetof(MpegEncContext, x)
+#define VE AV_OPT_FLAG_VIDEO_PARAM | AV_OPT_FLAG_ENCODING_PARAM
+static const AVOption h263_options[] = {
+    { "obmc",         "use overlapped block motion compensation.", OFFSET(obmc), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, VE },
+    { "mb_info",      "emit macroblock info for RFC 2190 packetization, the parameter value is the maximum payload size", OFFSET(mb_info), AV_OPT_TYPE_INT, { .i64 = 0 }, 0, INT_MAX, VE },
+    FF_MPV_COMMON_OPTS
+#if FF_API_MPEGVIDEO_OPTS
+    FF_MPV_DEPRECATED_MPEG_QUANT_OPT
+    FF_MPV_DEPRECATED_A53_CC_OPT
+    FF_MPV_DEPRECATED_MATRIX_OPT
+    FF_MPV_DEPRECATED_BFRAME_OPTS
+#endif
+    { NULL },
+};
+
+static const AVClass h263_class = {
+    .class_name = "H.263 encoder",
+    .item_name  = av_default_item_name,
+    .option     = h263_options,
+    .version    = LIBAVUTIL_VERSION_INT,
+};
+
+const AVCodec ff_h263_encoder = {
+    .name           = "h263",
+    .long_name      = NULL_IF_CONFIG_SMALL("H.263 / H.263-1996"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_H263,
+    .priv_data_size = sizeof(MpegEncContext),
+    .init           = ff_mpv_encode_init,
+    .encode2        = ff_mpv_encode_picture,
+    .close          = ff_mpv_encode_end,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .pix_fmts= (const enum AVPixelFormat[]){AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE},
+    .priv_class     = &h263_class,
+};
+
+static const AVOption h263p_options[] = {
+    { "umv",        "Use unlimited motion vectors.",    OFFSET(umvplus),       AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, VE },
+    { "aiv",        "Use alternative inter VLC.",       OFFSET(alt_inter_vlc), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, VE },
+    { "obmc",       "use overlapped block motion compensation.", OFFSET(obmc), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, VE },
+    { "structured_slices", "Write slice start position at every GOB header instead of just GOB number.", OFFSET(h263_slice_structured), AV_OPT_TYPE_BOOL, { .i64 = 0 }, 0, 1, VE},
+    FF_MPV_COMMON_OPTS
+#if FF_API_MPEGVIDEO_OPTS
+    FF_MPV_DEPRECATED_MPEG_QUANT_OPT
+    FF_MPV_DEPRECATED_A53_CC_OPT
+    FF_MPV_DEPRECATED_MATRIX_OPT
+    FF_MPV_DEPRECATED_BFRAME_OPTS
+#endif
+    { NULL },
+};
+static const AVClass h263p_class = {
+    .class_name = "H.263p encoder",
+    .item_name  = av_default_item_name,
+    .option     = h263p_options,
+    .version    = LIBAVUTIL_VERSION_INT,
+};
+
+const AVCodec ff_h263p_encoder = {
+    .name           = "h263p",
+    .long_name      = NULL_IF_CONFIG_SMALL("H.263+ / H.263-1998 / H.263 version 2"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_H263P,
+    .priv_data_size = sizeof(MpegEncContext),
+    .init           = ff_mpv_encode_init,
+    .encode2        = ff_mpv_encode_picture,
+    .close          = ff_mpv_encode_end,
+    .capabilities   = AV_CODEC_CAP_SLICE_THREADS,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
+    .priv_class     = &h263p_class,
+};
+
+const AVCodec ff_msmpeg4v2_encoder = {
+    .name           = "msmpeg4v2",
+    .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 2"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MSMPEG4V2,
+    .priv_class     = &ff_mpv_enc_class,
+    .priv_data_size = sizeof(MpegEncContext),
+    .init           = ff_mpv_encode_init,
+    .encode2        = ff_mpv_encode_picture,
+    .close          = ff_mpv_encode_end,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
+};
+
+const AVCodec ff_msmpeg4v3_encoder = {
+    .name           = "msmpeg4",
+    .long_name      = NULL_IF_CONFIG_SMALL("MPEG-4 part 2 Microsoft variant version 3"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MSMPEG4V3,
+    .priv_class     = &ff_mpv_enc_class,
+    .priv_data_size = sizeof(MpegEncContext),
+    .init           = ff_mpv_encode_init,
+    .encode2        = ff_mpv_encode_picture,
+    .close          = ff_mpv_encode_end,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
+};
+
+const AVCodec ff_wmv1_encoder = {
+    .name           = "wmv1",
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Video 7"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_WMV1,
+    .priv_class     = &ff_mpv_enc_class,
+    .priv_data_size = sizeof(MpegEncContext),
+    .init           = ff_mpv_encode_init,
+    .encode2        = ff_mpv_encode_picture,
+    .close          = ff_mpv_encode_end,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
+};
+>>>>>>> refs/remotes/origin/master

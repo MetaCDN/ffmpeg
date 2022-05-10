@@ -350,7 +350,11 @@ int ff_update_picture_tables(Picture *dst, const Picture *src)
     }
 
     if (ret < 0) {
+<<<<<<< HEAD
         free_picture_tables(dst);
+=======
+        ff_free_picture_tables(dst);
+>>>>>>> refs/remotes/origin/master
         return ret;
     }
 

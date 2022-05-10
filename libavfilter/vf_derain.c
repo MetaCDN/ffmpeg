@@ -62,7 +62,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     AVFilterContext *ctx  = inlink->dst;
     AVFilterLink *outlink = ctx->outputs[0];
     DRContext *dr_context = ctx->priv;
+<<<<<<< HEAD
     int dnn_result;
+=======
+    DNNReturnType dnn_result;
+>>>>>>> refs/remotes/origin/master
     AVFrame *out;
 
     out = ff_get_video_buffer(outlink, outlink->w, outlink->h);
@@ -74,10 +78,17 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     av_frame_copy_props(out, in);
 
     dnn_result = ff_dnn_execute_model(&dr_context->dnnctx, in, out);
+<<<<<<< HEAD
     if (dnn_result != 0){
         av_log(ctx, AV_LOG_ERROR, "failed to execute model\n");
         av_frame_free(&in);
         return dnn_result;
+=======
+    if (dnn_result != DNN_SUCCESS){
+        av_log(ctx, AV_LOG_ERROR, "failed to execute model\n");
+        av_frame_free(&in);
+        return AVERROR(EIO);
+>>>>>>> refs/remotes/origin/master
     }
     do {
         async_state = ff_dnn_get_result(&dr_context->dnnctx, &in, &out);

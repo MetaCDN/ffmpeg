@@ -23,7 +23,10 @@
 #include "libavutil/common.h"
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 
@@ -462,6 +465,10 @@ static int gdv_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     GDVContext *gdv = avctx->priv_data;
     GetByteContext *gb = &gdv->gb;
     PutByteContext *pb = &gdv->pb;
+<<<<<<< HEAD
+=======
+    AVFrame *frame = data;
+>>>>>>> refs/remotes/origin/master
     int ret, i;
     int compression;
     unsigned flags;
@@ -560,11 +567,19 @@ static av_cold int gdv_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_gdv_decoder = {
     .p.name         = "gdv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Gremlin Digital Video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_GDV,
+=======
+const AVCodec ff_gdv_decoder = {
+    .name           = "gdv",
+    .long_name      = NULL_IF_CONFIG_SMALL("Gremlin Digital Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_GDV,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(GDVContext),
     .init           = gdv_decode_init,
     .close          = gdv_decode_close,

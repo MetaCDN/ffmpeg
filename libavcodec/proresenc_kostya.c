@@ -27,7 +27,10 @@
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "fdctdsp.h"
 #include "put_bits.h"
@@ -1393,11 +1396,19 @@ static const AVClass proresenc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_prores_ks_encoder = {
     .p.name         = "prores_ks",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Apple ProRes (iCodec Pro)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_PRORES,
+=======
+const AVCodec ff_prores_ks_encoder = {
+    .name           = "prores_ks",
+    .long_name      = NULL_IF_CONFIG_SMALL("Apple ProRes (iCodec Pro)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_PRORES,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ProresContext),
     .init           = encode_init,
     .close          = encode_close,
@@ -1407,7 +1418,13 @@ const FFCodec ff_prores_ks_encoder = {
                           AV_PIX_FMT_YUV422P10, AV_PIX_FMT_YUV444P10,
                           AV_PIX_FMT_YUVA444P10, AV_PIX_FMT_NONE
                       },
+<<<<<<< HEAD
     .p.priv_class   = &proresenc_class,
     .p.profiles     = NULL_IF_CONFIG_SMALL(ff_prores_profiles),
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+=======
+    .priv_class     = &proresenc_class,
+    .profiles       = NULL_IF_CONFIG_SMALL(ff_prores_profiles),
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
+>>>>>>> refs/remotes/origin/master
 };

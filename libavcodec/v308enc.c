@@ -22,7 +22,10 @@
 
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 
@@ -70,6 +73,7 @@ static int v308_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_v308_encoder = {
     .p.name       = "v308",
     .p.long_name  = NULL_IF_CONFIG_SMALL("Uncompressed packed 4:4:4"),
@@ -79,5 +83,16 @@ const FFCodec ff_v308_encoder = {
     .init         = v308_encode_init,
     FF_CODEC_ENCODE_CB(v308_encode_frame),
     .p.pix_fmts   = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV444P, AV_PIX_FMT_NONE },
+=======
+const AVCodec ff_v308_encoder = {
+    .name         = "v308",
+    .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed packed 4:4:4"),
+    .type         = AVMEDIA_TYPE_VIDEO,
+    .id           = AV_CODEC_ID_V308,
+    .capabilities = AV_CODEC_CAP_DR1,
+    .init         = v308_encode_init,
+    .encode2      = v308_encode_frame,
+    .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV444P, AV_PIX_FMT_NONE },
+>>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

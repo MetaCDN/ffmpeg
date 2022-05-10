@@ -44,6 +44,7 @@ struct channel_name {
 };
 
 static const struct channel_name channel_names[] = {
+<<<<<<< HEAD
     [AV_CHAN_FRONT_LEFT           ] = { "FL",        "front left"            },
     [AV_CHAN_FRONT_RIGHT          ] = { "FR",        "front right"           },
     [AV_CHAN_FRONT_CENTER         ] = { "FC",        "front center"          },
@@ -74,6 +75,38 @@ static const struct channel_name channel_names[] = {
     [AV_CHAN_BOTTOM_FRONT_CENTER  ] = { "BFC",       "bottom front center"   },
     [AV_CHAN_BOTTOM_FRONT_LEFT    ] = { "BFL",       "bottom front left"     },
     [AV_CHAN_BOTTOM_FRONT_RIGHT   ] = { "BFR",       "bottom front right"    },
+=======
+     [0] = { "FL",        "front left"            },
+     [1] = { "FR",        "front right"           },
+     [2] = { "FC",        "front center"          },
+     [3] = { "LFE",       "low frequency"         },
+     [4] = { "BL",        "back left"             },
+     [5] = { "BR",        "back right"            },
+     [6] = { "FLC",       "front left-of-center"  },
+     [7] = { "FRC",       "front right-of-center" },
+     [8] = { "BC",        "back center"           },
+     [9] = { "SL",        "side left"             },
+    [10] = { "SR",        "side right"            },
+    [11] = { "TC",        "top center"            },
+    [12] = { "TFL",       "top front left"        },
+    [13] = { "TFC",       "top front center"      },
+    [14] = { "TFR",       "top front right"       },
+    [15] = { "TBL",       "top back left"         },
+    [16] = { "TBC",       "top back center"       },
+    [17] = { "TBR",       "top back right"        },
+    [29] = { "DL",        "downmix left"          },
+    [30] = { "DR",        "downmix right"         },
+    [31] = { "WL",        "wide left"             },
+    [32] = { "WR",        "wide right"            },
+    [33] = { "SDL",       "surround direct left"  },
+    [34] = { "SDR",       "surround direct right" },
+    [35] = { "LFE2",      "low frequency 2"       },
+    [36] = { "TSL",       "top side left"         },
+    [37] = { "TSR",       "top side right"        },
+    [38] = { "BFC",       "bottom front center"   },
+    [39] = { "BFL",       "bottom front left"     },
+    [40] = { "BFR",       "bottom front right"    },
+>>>>>>> refs/remotes/origin/master
 };
 
 static const char *get_channel_name(enum AVChannel channel_id)
@@ -167,7 +200,42 @@ enum AVChannel av_channel_from_string(const char *str)
 
 struct channel_layout_name {
     const char *name;
+<<<<<<< HEAD
     AVChannelLayout layout;
+=======
+    int         nb_channels;
+    uint64_t     layout;
+} channel_layout_map[] = {
+    { "mono",        1,  AV_CH_LAYOUT_MONO },
+    { "stereo",      2,  AV_CH_LAYOUT_STEREO },
+    { "2.1",         3,  AV_CH_LAYOUT_2POINT1 },
+    { "3.0",         3,  AV_CH_LAYOUT_SURROUND },
+    { "3.0(back)",   3,  AV_CH_LAYOUT_2_1 },
+    { "4.0",         4,  AV_CH_LAYOUT_4POINT0 },
+    { "quad",        4,  AV_CH_LAYOUT_QUAD },
+    { "quad(side)",  4,  AV_CH_LAYOUT_2_2 },
+    { "3.1",         4,  AV_CH_LAYOUT_3POINT1 },
+    { "5.0",         5,  AV_CH_LAYOUT_5POINT0_BACK },
+    { "5.0(side)",   5,  AV_CH_LAYOUT_5POINT0 },
+    { "4.1",         5,  AV_CH_LAYOUT_4POINT1 },
+    { "5.1",         6,  AV_CH_LAYOUT_5POINT1_BACK },
+    { "5.1(side)",   6,  AV_CH_LAYOUT_5POINT1 },
+    { "6.0",         6,  AV_CH_LAYOUT_6POINT0 },
+    { "6.0(front)",  6,  AV_CH_LAYOUT_6POINT0_FRONT },
+    { "hexagonal",   6,  AV_CH_LAYOUT_HEXAGONAL },
+    { "6.1",         7,  AV_CH_LAYOUT_6POINT1 },
+    { "6.1(back)",   7,  AV_CH_LAYOUT_6POINT1_BACK },
+    { "6.1(front)",  7,  AV_CH_LAYOUT_6POINT1_FRONT },
+    { "7.0",         7,  AV_CH_LAYOUT_7POINT0 },
+    { "7.0(front)",  7,  AV_CH_LAYOUT_7POINT0_FRONT },
+    { "7.1",         8,  AV_CH_LAYOUT_7POINT1 },
+    { "7.1(wide)",   8,  AV_CH_LAYOUT_7POINT1_WIDE_BACK },
+    { "7.1(wide-side)",   8,  AV_CH_LAYOUT_7POINT1_WIDE },
+    { "octagonal",   8,  AV_CH_LAYOUT_OCTAGONAL },
+    { "hexadecagonal", 16, AV_CH_LAYOUT_HEXADECAGONAL },
+    { "downmix",     2,  AV_CH_LAYOUT_STEREO_DOWNMIX, },
+    { "22.2",          24, AV_CH_LAYOUT_22POINT2, },
+>>>>>>> refs/remotes/origin/master
 };
 
 static const struct channel_layout_name channel_layout_map[] = {

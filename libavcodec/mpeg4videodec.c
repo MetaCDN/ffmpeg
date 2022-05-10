@@ -26,8 +26,13 @@
 
 #include "libavutil/internal.h"
 #include "libavutil/opt.h"
+<<<<<<< HEAD
 #include "libavutil/thread.h"
 #include "codec_internal.h"
+=======
+#include "libavutil/pixdesc.h"
+#include "libavutil/thread.h"
+>>>>>>> refs/remotes/origin/master
 #include "error_resilience.h"
 #include "hwconfig.h"
 #include "idctdsp.h"
@@ -37,7 +42,10 @@
 #include "mpegvideodec.h"
 #include "mpeg4video.h"
 #include "mpeg4videodata.h"
+<<<<<<< HEAD
 #include "mpeg4videodec.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "h263.h"
 #include "h263data.h"
 #include "h263dec.h"
@@ -2288,7 +2296,11 @@ static void extension_and_user_data(MpegEncContext *s, GetBitContext *gb, int id
 static int decode_studio_vol_header(Mpeg4DecContext *ctx, GetBitContext *gb)
 {
     MpegEncContext *s = &ctx->m;
+<<<<<<< HEAD
     int width, height, aspect_ratio_info;
+=======
+    int width, height;
+>>>>>>> refs/remotes/origin/master
     int bits_per_raw_sample;
     int rgb, chroma_format;
 
@@ -2343,12 +2355,21 @@ static int decode_studio_vol_header(Mpeg4DecContext *ctx, GetBitContext *gb)
             s->height = height;
         }
     }
+<<<<<<< HEAD
     aspect_ratio_info = get_bits(gb, 4);
     if (aspect_ratio_info == FF_ASPECT_EXTENDED) {
         s->avctx->sample_aspect_ratio.num = get_bits(gb, 8);  // par_width
         s->avctx->sample_aspect_ratio.den = get_bits(gb, 8);  // par_height
     } else {
         s->avctx->sample_aspect_ratio = ff_h263_pixel_aspect[aspect_ratio_info];
+=======
+    s->aspect_ratio_info = get_bits(gb, 4);
+    if (s->aspect_ratio_info == FF_ASPECT_EXTENDED) {
+        s->avctx->sample_aspect_ratio.num = get_bits(gb, 8);  // par_width
+        s->avctx->sample_aspect_ratio.den = get_bits(gb, 8);  // par_height
+    } else {
+        s->avctx->sample_aspect_ratio = ff_h263_pixel_aspect[s->aspect_ratio_info];
+>>>>>>> refs/remotes/origin/master
     }
     skip_bits(gb, 4); /* frame_rate_code */
     skip_bits(gb, 15); /* first_half_bit_rate */
@@ -3662,6 +3683,7 @@ static const AVClass mpeg4_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_mpeg4_decoder = {
     .p.name                = "mpeg4",
     .p.long_name           = NULL_IF_CONFIG_SMALL("MPEG-4 part 2"),
@@ -3672,12 +3694,28 @@ const FFCodec ff_mpeg4_decoder = {
     .close                 = ff_h263_decode_end,
     FF_CODEC_DECODE_CB(ff_h263_decode_frame),
     .p.capabilities        = AV_CODEC_CAP_DRAW_HORIZ_BAND | AV_CODEC_CAP_DR1 |
+=======
+const AVCodec ff_mpeg4_decoder = {
+    .name                  = "mpeg4",
+    .long_name             = NULL_IF_CONFIG_SMALL("MPEG-4 part 2"),
+    .type                  = AVMEDIA_TYPE_VIDEO,
+    .id                    = AV_CODEC_ID_MPEG4,
+    .priv_data_size        = sizeof(Mpeg4DecContext),
+    .init                  = decode_init,
+    .close                 = ff_h263_decode_end,
+    .decode                = ff_h263_decode_frame,
+    .capabilities          = AV_CODEC_CAP_DRAW_HORIZ_BAND | AV_CODEC_CAP_DR1 |
+>>>>>>> refs/remotes/origin/master
 #if FF_API_FLAG_TRUNCATED
                              AV_CODEC_CAP_TRUNCATED |
 #endif
                              AV_CODEC_CAP_DELAY | AV_CODEC_CAP_FRAME_THREADS,
+<<<<<<< HEAD
     .caps_internal         = FF_CODEC_CAP_INIT_THREADSAFE |
                              FF_CODEC_CAP_SKIP_FRAME_FILL_PARAM |
+=======
+    .caps_internal         = FF_CODEC_CAP_SKIP_FRAME_FILL_PARAM |
+>>>>>>> refs/remotes/origin/master
                              FF_CODEC_CAP_ALLOCATE_PROGRESS,
     .flush                 = ff_mpeg_flush,
     .p.max_lowres          = 3,
@@ -3685,7 +3723,11 @@ const FFCodec ff_mpeg4_decoder = {
     .p.profiles            = NULL_IF_CONFIG_SMALL(ff_mpeg4_video_profiles),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(mpeg4_update_thread_context),
     .update_thread_context_for_user = ONLY_IF_THREADS_ENABLED(mpeg4_update_thread_context_for_user),
+<<<<<<< HEAD
     .p.priv_class = &mpeg4_class,
+=======
+    .priv_class = &mpeg4_class,
+>>>>>>> refs/remotes/origin/master
     .hw_configs            = (const AVCodecHWConfigInternal *const []) {
 #if CONFIG_MPEG4_NVDEC_HWACCEL
                                HWACCEL_NVDEC(mpeg4),

@@ -752,15 +752,24 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_g729_decoder = {
     .p.name         = "g729",
     .p.long_name    = NULL_IF_CONFIG_SMALL("G.729"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_G729,
+=======
+const AVCodec ff_g729_decoder = {
+    .name           = "g729",
+    .long_name      = NULL_IF_CONFIG_SMALL("G.729"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_G729,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(G729Context),
     .init           = decoder_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .close          = decode_close,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };
@@ -770,10 +779,25 @@ const FFCodec ff_acelp_kelvin_decoder = {
     .p.long_name    = NULL_IF_CONFIG_SMALL("Sipro ACELP.KELVIN"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_ACELP_KELVIN,
+=======
+    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
+};
+
+const AVCodec ff_acelp_kelvin_decoder = {
+    .name           = "acelp.kelvin",
+    .long_name      = NULL_IF_CONFIG_SMALL("Sipro ACELP.KELVIN"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_ACELP_KELVIN,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(G729Context),
     .init           = decoder_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .close          = decode_close,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1,
+=======
+    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

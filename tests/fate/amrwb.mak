@@ -41,7 +41,13 @@ FATE_AMRWB += fate-amrwb-23k85-2
 fate-amrwb-23k85-2: CMD = pcm -i $(TARGET_SAMPLES)/amrwb/deus-23k85.awb
 fate-amrwb-23k85-2: REF = $(SAMPLES)/amrwb/deus-23k85.pcm
 
+<<<<<<< HEAD
 FATE_AMRWB_REMUX-$(call REMUX, AMR, MOV_DEMUXER AMR_PARSER) += fate-amrwb-remux
+=======
+FATE_AMRWB_REMUX-$(call ALLYES, FILE_PROTOCOL MOV_DEMUXER AMR_PARSER AMR_MUXER \
+                                AMR_DEMUXER FRAMECRC_MUXER PIPE_PROTOCOL)      \
+                                += fate-amrwb-remux
+>>>>>>> refs/remotes/origin/master
 fate-amrwb-remux: CMD = transcode mov $(TARGET_SAMPLES)/amrwb/seed-23k85.awb amr "-c copy" "-c copy -t 1"
 
 $(FATE_AMRWB): CMP = stddev

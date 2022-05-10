@@ -1224,6 +1224,7 @@ static const enum AVPixelFormat allowed_pix_fmts[] = {
     AV_PIX_FMT_NONE
 };
 
+<<<<<<< HEAD
 const FFCodec ff_vc2_encoder = {
     .p.name         = "vc2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("SMPTE VC-2"),
@@ -1236,6 +1237,20 @@ const FFCodec ff_vc2_encoder = {
     .close          = vc2_encode_end,
     FF_CODEC_ENCODE_CB(vc2_encode_frame),
     .p.priv_class   = &vc2enc_class,
+=======
+const AVCodec ff_vc2_encoder = {
+    .name           = "vc2",
+    .long_name      = NULL_IF_CONFIG_SMALL("SMPTE VC-2"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_DIRAC,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SLICE_THREADS,
+    .priv_data_size = sizeof(VC2EncContext),
+    .init           = vc2_encode_init,
+    .close          = vc2_encode_end,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
+    .encode2        = vc2_encode_frame,
+    .priv_class     = &vc2enc_class,
+>>>>>>> refs/remotes/origin/master
     .defaults       = vc2enc_defaults,
     .p.pix_fmts     = allowed_pix_fmts
 };

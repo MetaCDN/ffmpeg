@@ -54,6 +54,7 @@ static float floormod(float src0, float src1)
 }
 
 static void math_binary_commutative(FunType pfun, const DnnLayerMathBinaryParams *params, const DnnOperand *input, DnnOperand *output, DnnOperand *operands, const int32_t *input_operand_indexes)
+<<<<<<< HEAD
 {
     int dims_count;
     const float *src;
@@ -99,6 +100,53 @@ static void math_binary_not_commutative(FunType pfun, const DnnLayerMathBinaryPa
 }
 int ff_dnn_load_layer_math_binary(Layer *layer, AVIOContext *model_file_context, int file_size, int operands_num)
 {
+=======
+{
+    int dims_count;
+    const float *src;
+    float *dst;
+    dims_count = ff_calculate_operand_dims_count(output);
+    src = input->data;
+    dst = output->data;
+    if (params->input0_broadcast || params->input1_broadcast) {
+        for (int i = 0; i < dims_count; ++i) {
+            dst[i] = pfun(params->v, src[i]);
+        }
+    } else {
+        const DnnOperand *input1 = &operands[input_operand_indexes[1]];
+        const float *src1 = input1->data;
+        for (int i = 0; i < dims_count; ++i) {
+            dst[i] = pfun(src[i], src1[i]);
+        }
+    }
+}
+static void math_binary_not_commutative(FunType pfun, const DnnLayerMathBinaryParams *params, const DnnOperand *input, DnnOperand *output, DnnOperand *operands, const int32_t *input_operand_indexes)
+{
+    int dims_count;
+    const float *src;
+    float *dst;
+    dims_count = ff_calculate_operand_dims_count(output);
+    src = input->data;
+    dst = output->data;
+    if (params->input0_broadcast) {
+        for (int i = 0; i < dims_count; ++i) {
+            dst[i] = pfun(params->v, src[i]);
+        }
+    } else if (params->input1_broadcast) {
+        for (int i = 0; i < dims_count; ++i) {
+            dst[i] = pfun(src[i], params->v);
+        }
+    } else {
+        const DnnOperand *input1 = &operands[input_operand_indexes[1]];
+        const float *src1 = input1->data;
+        for (int i = 0; i < dims_count; ++i) {
+            dst[i] = pfun(src[i], src1[i]);
+        }
+    }
+}
+int ff_dnn_load_layer_math_binary(Layer *layer, AVIOContext *model_file_context, int file_size, int operands_num)
+{
+>>>>>>> refs/remotes/origin/master
     DnnLayerMathBinaryParams params = { 0 };
     int dnn_size = 0;
     int input_index = 0;
@@ -159,12 +207,20 @@ int ff_dnn_execute_layer_math_binary(DnnOperand *operands, const int32_t *input_
     output->length = ff_calculate_operand_data_length(output);
     if (output->length <= 0) {
         av_log(ctx, AV_LOG_ERROR, "The output data length overflow\n");
+<<<<<<< HEAD
         return AVERROR(EINVAL);
+=======
+        return DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
     }
     output->data = av_realloc(output->data, output->length);
     if (!output->data) {
         av_log(ctx, AV_LOG_ERROR, "Failed to reallocate memory for output\n");
+<<<<<<< HEAD
         return AVERROR(ENOMEM);
+=======
+        return DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
     }
 
     switch (params->bin_op) {
@@ -188,6 +244,10 @@ int ff_dnn_execute_layer_math_binary(DnnOperand *operands, const int32_t *input_
         return 0;
     default:
         av_log(ctx, AV_LOG_ERROR, "Unmatch math binary operator\n");
+<<<<<<< HEAD
         return AVERROR(EINVAL);
+=======
+        return DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
     }
 }

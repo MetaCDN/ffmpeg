@@ -80,10 +80,16 @@ static av_cold void init_uni_ac_vlc(const uint8_t huff_size_ac[256],
 
 static void mjpeg_encode_picture_header(MpegEncContext *s)
 {
+<<<<<<< HEAD
     ff_mjpeg_encode_picture_header(s->avctx, &s->pb, s->picture->f, s->mjpeg_ctx,
                                    &s->intra_scantable, 0,
                                    s->intra_matrix, s->chroma_intra_matrix,
                                    s->slice_context_count > 1);
+=======
+    ff_mjpeg_encode_picture_header(s->avctx, &s->pb, s->mjpeg_ctx,
+                                   &s->intra_scantable, 0,
+                                   s->intra_matrix, s->chroma_intra_matrix);
+>>>>>>> refs/remotes/origin/master
 
     s->esc_pos = put_bytes_count(&s->pb, 0);
     for (int i = 1; i < s->slice_context_count; i++)
@@ -252,7 +258,11 @@ int ff_mjpeg_encode_stuffing(MpegEncContext *s)
 
     ff_mjpeg_escape_FF(pbc, s->esc_pos);
 
+<<<<<<< HEAD
     if (s->slice_context_count > 1 && mb_y < s->mb_height - 1)
+=======
+    if ((s->avctx->active_thread_type & FF_THREAD_SLICE) && mb_y < s->mb_height - 1)
+>>>>>>> refs/remotes/origin/master
         put_marker(pbc, RST0 + (mb_y&7));
     s->esc_pos = put_bytes_count(pbc, 0);
 
@@ -294,14 +304,36 @@ static int alloc_huffman(MpegEncContext *s)
 av_cold int ff_mjpeg_encode_init(MpegEncContext *s)
 {
     MJpegContext *const m = &((MJPEGEncContext*)s)->mjpeg;
+<<<<<<< HEAD
     int ret, use_slices;
 
     s->mjpeg_ctx = m;
     use_slices = s->avctx->slices > 0 ? s->avctx->slices > 1 :
                  (s->avctx->active_thread_type & FF_THREAD_SLICE) &&
                  s->avctx->thread_count > 1;
+=======
+    int ret;
+
+    s->mjpeg_ctx = m;
+>>>>>>> refs/remotes/origin/master
 
     if (s->codec_id == AV_CODEC_ID_AMV || use_slices)
+        m->huffman = HUFFMAN_TABLE_DEFAULT;
+
+    if (s->mpv_flags & FF_MPV_FLAG_QP_RD) {
+        // Used to produce garbage with MJPEG.
+        av_log(s->avctx, AV_LOG_ERROR,
+               "QP RD is no longer compatible with MJPEG or AMV\n");
+        return AVERROR(EINVAL);
+    }
+
+    /* The following check is automatically true for AMV,
+     * but it doesn't hurt either. */
+    ret = ff_mjpeg_encode_check_pix_fmt(s->avctx);
+    if (ret < 0)
+        return ret;
+
+    if (s->codec_id == AV_CODEC_ID_AMV || (s->avctx->active_thread_type & FF_THREAD_SLICE))
         m->huffman = HUFFMAN_TABLE_DEFAULT;
 
     if (s->mpv_flags & FF_MPV_FLAG_QP_RD) {
@@ -653,6 +685,7 @@ static const AVClass mjpeg_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_mjpeg_encoder = {
     .p.name         = "mjpeg",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MJPEG (Motion JPEG)"),
@@ -665,6 +698,20 @@ const FFCodec ff_mjpeg_encoder = {
     .p.capabilities = AV_CODEC_CAP_SLICE_THREADS | AV_CODEC_CAP_FRAME_THREADS,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.pix_fmts     = (const enum AVPixelFormat[]) {
+=======
+const AVCodec ff_mjpeg_encoder = {
+    .name           = "mjpeg",
+    .long_name      = NULL_IF_CONFIG_SMALL("MJPEG (Motion JPEG)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MJPEG,
+    .priv_data_size = sizeof(MJPEGEncContext),
+    .init           = ff_mpv_encode_init,
+    .encode2        = ff_mpv_encode_picture,
+    .close          = mjpeg_encode_close,
+    .capabilities   = AV_CODEC_CAP_SLICE_THREADS | AV_CODEC_CAP_FRAME_THREADS,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .pix_fmts       = (const enum AVPixelFormat[]) {
+>>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_YUVJ422P, AV_PIX_FMT_YUVJ444P,
         AV_PIX_FMT_YUV420P,  AV_PIX_FMT_YUV422P,  AV_PIX_FMT_YUV444P,
         AV_PIX_FMT_NONE
@@ -682,6 +729,7 @@ static const AVClass amv_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_amv_encoder = {
     .p.name         = "amv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("AMV Video"),
@@ -693,6 +741,19 @@ const FFCodec ff_amv_encoder = {
     .close          = mjpeg_encode_close,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.pix_fmts     = (const enum AVPixelFormat[]) {
+=======
+const AVCodec ff_amv_encoder = {
+    .name           = "amv",
+    .long_name      = NULL_IF_CONFIG_SMALL("AMV Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AMV,
+    .priv_data_size = sizeof(MJPEGEncContext),
+    .init           = ff_mpv_encode_init,
+    .encode2        = amv_encode_picture,
+    .close          = mjpeg_encode_close,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .pix_fmts       = (const enum AVPixelFormat[]) {
+>>>>>>> refs/remotes/origin/master
         AV_PIX_FMT_YUVJ420P, AV_PIX_FMT_NONE
     },
     .p.priv_class   = &amv_class,

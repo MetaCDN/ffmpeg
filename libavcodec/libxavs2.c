@@ -23,7 +23,10 @@
  */
 
 #include "xavs2.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "mpeg12.h"
 #include "libavutil/avstring.h"
@@ -286,19 +289,32 @@ static const FFCodecDefault xavs2_defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libxavs2_encoder = {
     .p.name         = "libxavs2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libxavs2 AVS2-P2/IEEE1857.4"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_AVS2,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+=======
+const AVCodec ff_libxavs2_encoder = {
+    .name           = "libxavs2",
+    .long_name      = NULL_IF_CONFIG_SMALL("libxavs2 AVS2-P2/IEEE1857.4"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AVS2,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_OTHER_THREADS,
     .priv_data_size = sizeof(XAVS2EContext),
     .init           = xavs2_init,
     FF_CODEC_ENCODE_CB(xavs2_encode_frame),
     .close          = xavs2_close,
     .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
+>>>>>>> refs/remotes/origin/master
                                                      AV_PIX_FMT_NONE },
     .p.priv_class   = &libxavs2,
     .defaults       = xavs2_defaults,

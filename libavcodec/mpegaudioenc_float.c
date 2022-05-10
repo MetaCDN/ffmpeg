@@ -24,11 +24,19 @@
 #include "codec_internal.h"
 #include "mpegaudioenc_template.c"
 
+<<<<<<< HEAD
 const FFCodec ff_mp2_encoder = {
     .p.name                = "mp2",
     .p.long_name           = NULL_IF_CONFIG_SMALL("MP2 (MPEG audio layer 2)"),
     .p.type                = AVMEDIA_TYPE_AUDIO,
     .p.id                  = AV_CODEC_ID_MP2,
+=======
+const AVCodec ff_mp2_encoder = {
+    .name                  = "mp2",
+    .long_name             = NULL_IF_CONFIG_SMALL("MP2 (MPEG audio layer 2)"),
+    .type                  = AVMEDIA_TYPE_AUDIO,
+    .id                    = AV_CODEC_ID_MP2,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(MpegAudioContext),
     .init                  = MPA_encode_init,
     FF_CODEC_ENCODE_CB(MPA_encode_frame),

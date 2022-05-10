@@ -23,7 +23,10 @@
 #include "libavutil/common.h"
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 
@@ -74,6 +77,7 @@ static int v410_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_v410_encoder = {
     .p.name       = "v410",
     .p.long_name  = NULL_IF_CONFIG_SMALL("Uncompressed 4:4:4 10-bit"),
@@ -83,5 +87,16 @@ const FFCodec ff_v410_encoder = {
     .init         = v410_encode_init,
     FF_CODEC_ENCODE_CB(v410_encode_frame),
     .p.pix_fmts   = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV444P10, AV_PIX_FMT_NONE },
+=======
+const AVCodec ff_v410_encoder = {
+    .name         = "v410",
+    .long_name    = NULL_IF_CONFIG_SMALL("Uncompressed 4:4:4 10-bit"),
+    .type         = AVMEDIA_TYPE_VIDEO,
+    .id           = AV_CODEC_ID_V410,
+    .capabilities = AV_CODEC_CAP_DR1,
+    .init         = v410_encode_init,
+    .encode2      = v410_encode_frame,
+    .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_YUV444P10, AV_PIX_FMT_NONE },
+>>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

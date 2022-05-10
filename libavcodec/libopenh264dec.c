@@ -94,6 +94,10 @@ static int svc_decode_frame(AVCodecContext *avctx, AVFrame *avframe,
     SBufferInfo info = { 0 };
     uint8_t *ptrs[4] = { NULL };
     int ret, linesize[4];
+<<<<<<< HEAD
+=======
+    AVFrame *avframe = data;
+>>>>>>> refs/remotes/origin/master
     DECODING_STATE state;
 #if OPENH264_VER_AT_LEAST(1, 7)
     int opt;
@@ -156,11 +160,19 @@ static int svc_decode_frame(AVCodecContext *avctx, AVFrame *avframe,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_libopenh264_decoder = {
     .p.name         = "libopenh264",
     .p.long_name    = NULL_IF_CONFIG_SMALL("OpenH264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_H264,
+=======
+const AVCodec ff_libopenh264_decoder = {
+    .name           = "libopenh264",
+    .long_name      = NULL_IF_CONFIG_SMALL("OpenH264 H.264 / AVC / MPEG-4 AVC / MPEG-4 part 10"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_H264,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(SVCContext),
     .init           = svc_decode_init,
     FF_CODEC_DECODE_CB(svc_decode_frame),

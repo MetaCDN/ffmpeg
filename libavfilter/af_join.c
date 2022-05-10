@@ -24,7 +24,6 @@
  * a single output
  */
 
-#include "libavutil/avassert.h"
 #include "libavutil/avstring.h"
 #include "libavutil/channel_layout.h"
 #include "libavutil/common.h"
@@ -53,6 +52,12 @@ typedef struct JoinContext {
 
     int64_t  eof_pts;
 
+<<<<<<< HEAD
+=======
+    int64_t  eof_pts;
+
+    int      nb_channels;
+>>>>>>> refs/remotes/origin/master
     ChannelMap *channels;
 
     /**
@@ -176,8 +181,14 @@ FF_ENABLE_DEPRECATION_WARNINGS
 #endif
     }
 
+<<<<<<< HEAD
     s->channels     = av_calloc(s->ch_layout.nb_channels, sizeof(*s->channels));
     s->buffers      = av_calloc(s->ch_layout.nb_channels, sizeof(*s->buffers));
+=======
+    s->nb_channels  = av_get_channel_layout_nb_channels(s->channel_layout);
+    s->channels     = av_calloc(s->nb_channels, sizeof(*s->channels));
+    s->buffers      = av_calloc(s->nb_channels, sizeof(*s->buffers));
+>>>>>>> refs/remotes/origin/master
     s->input_frames = av_calloc(s->inputs, sizeof(*s->input_frames));
     if (!s->channels || !s->buffers|| !s->input_frames)
         return AVERROR(ENOMEM);
@@ -227,7 +238,11 @@ static int join_query_formats(AVFilterContext *ctx)
     AVFilterChannelLayouts *layouts = NULL;
     int i, ret;
 
+<<<<<<< HEAD
     if ((ret = ff_add_channel_layout(&layouts, &s->ch_layout)) < 0 ||
+=======
+    if ((ret = ff_add_channel_layout(&layouts, s->channel_layout)) < 0 ||
+>>>>>>> refs/remotes/origin/master
         (ret = ff_channel_layouts_ref(layouts, &ctx->outputs[0]->incfg.channel_layouts)) < 0)
         return ret;
 
@@ -307,9 +322,14 @@ static int join_config_output(AVFilterLink *outlink)
     char inbuf[64], outbuf[64];
     int i, ret = 0;
 
+<<<<<<< HEAD
     /* initialize unused channel list for each input */
     inputs_unused = av_calloc(ctx->nb_inputs, sizeof(*inputs_unused));
     if (!inputs_unused)
+=======
+    /* initialize inputs to user-specified mappings */
+    if (!(inputs = av_calloc(ctx->nb_inputs, sizeof(*inputs))))
+>>>>>>> refs/remotes/origin/master
         return AVERROR(ENOMEM);
     for (i = 0; i < ctx->nb_inputs; i++) {
         AVFilterLink *inlink = ctx->inputs[i];
@@ -460,8 +480,13 @@ static int try_push_frame(AVFilterContext *ctx)
     frame = av_frame_alloc();
     if (!frame)
         return AVERROR(ENOMEM);
+<<<<<<< HEAD
     if (s->ch_layout.nb_channels > FF_ARRAY_ELEMS(frame->data)) {
         frame->extended_data = av_calloc(s->ch_layout.nb_channels,
+=======
+    if (s->nb_channels > FF_ARRAY_ELEMS(frame->data)) {
+        frame->extended_data = av_calloc(s->nb_channels,
+>>>>>>> refs/remotes/origin/master
                                           sizeof(*frame->extended_data));
         if (!frame->extended_data) {
             ret = AVERROR(ENOMEM);

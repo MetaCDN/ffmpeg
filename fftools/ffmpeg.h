@@ -280,7 +280,11 @@ typedef struct OutputFilter {
     // those are only set if no format is specified and the encoder gives us multiple options
     // They point directly to the relevant lists of the encoder.
     const int *formats;
+<<<<<<< HEAD
     const AVChannelLayout *ch_layouts;
+=======
+    const uint64_t *channel_layouts;
+>>>>>>> refs/remotes/origin/master
     const int *sample_rates;
 } OutputFilter;
 
@@ -559,6 +563,15 @@ typedef struct OutputStream {
 
     /* the packets are buffered here until the muxer is ready to be initialized */
     AVFifo *muxing_queue;
+
+    /*
+     * The size of the AVPackets' buffers in queue.
+     * Updated when a packet is either pushed or pulled from the queue.
+     */
+    size_t muxing_queue_data_size;
+
+    /* Threshold after which max_muxing_queue_size will be in effect */
+    size_t muxing_queue_data_threshold;
 
     /*
      * The size of the AVPackets' buffers in queue.

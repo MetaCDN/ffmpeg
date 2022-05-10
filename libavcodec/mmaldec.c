@@ -34,7 +34,10 @@
 #include <stdatomic.h>
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "hwconfig.h"
 #include "internal.h"
@@ -829,6 +832,7 @@ static const AVClass ffmmal_dec_class = {
 };
 
 #define FFMMAL_DEC(NAME, ID) \
+<<<<<<< HEAD
     const FFCodec ff_##NAME##_mmal_decoder = { \
         .p.name         = #NAME "_mmal", \
         .p.long_name    = NULL_IF_CONFIG_SMALL(#NAME " (mmal)"), \
@@ -841,6 +845,20 @@ static const AVClass ffmmal_dec_class = {
         .flush          = ffmmal_flush, \
         .p.priv_class   = &ffmmal_dec_class, \
         .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE, \
+=======
+    const AVCodec ff_##NAME##_mmal_decoder = { \
+        .name           = #NAME "_mmal", \
+        .long_name      = NULL_IF_CONFIG_SMALL(#NAME " (mmal)"), \
+        .type           = AVMEDIA_TYPE_VIDEO, \
+        .id             = ID, \
+        .priv_data_size = sizeof(MMALDecodeContext), \
+        .init           = ffmmal_init_decoder, \
+        .close          = ffmmal_close_decoder, \
+        .receive_frame  = ffmmal_receive_frame, \
+        .flush          = ffmmal_flush, \
+        .priv_class     = &ffmmal_dec_class, \
+        .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE, \
+>>>>>>> refs/remotes/origin/master
         .caps_internal  = FF_CODEC_CAP_SETS_PKT_DTS, \
         .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_MMAL, \
                                                          AV_PIX_FMT_YUV420P, \

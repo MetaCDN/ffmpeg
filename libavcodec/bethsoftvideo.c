@@ -158,11 +158,19 @@ static av_cold int bethsoftvid_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_bethsoftvid_decoder = {
     .p.name         = "bethsoftvid",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Bethesda VID video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_BETHSOFTVID,
+=======
+const AVCodec ff_bethsoftvid_decoder = {
+    .name           = "bethsoftvid",
+    .long_name      = NULL_IF_CONFIG_SMALL("Bethesda VID video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_BETHSOFTVID,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(BethsoftvidContext),
     .init           = bethsoftvid_decode_init,
     .close          = bethsoftvid_decode_end,

@@ -27,8 +27,11 @@
  * http://www.goice.co.jp/member/mo/formats/au.html
  */
 
+<<<<<<< HEAD
 #include "config_components.h"
 
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/bprint.h"
 #include "avformat.h"
 #include "internal.h"

@@ -229,6 +229,7 @@ static av_cold int cmv_decode_end(AVCodecContext *avctx){
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_eacmv_decoder = {
     .p.name         = "eacmv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Electronic Arts CMV video"),
@@ -239,5 +240,17 @@ const FFCodec ff_eacmv_decoder = {
     .close          = cmv_decode_end,
     FF_CODEC_DECODE_CB(cmv_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_eacmv_decoder = {
+    .name           = "eacmv",
+    .long_name      = NULL_IF_CONFIG_SMALL("Electronic Arts CMV video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_CMV,
+    .priv_data_size = sizeof(CmvContext),
+    .init           = cmv_decode_init,
+    .close          = cmv_decode_end,
+    .decode         = cmv_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

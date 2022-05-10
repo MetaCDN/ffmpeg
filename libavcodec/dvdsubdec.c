@@ -753,15 +753,27 @@ static const AVClass dvdsub_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_dvdsub_decoder = {
     .p.name         = "dvdsub",
     .p.long_name    = NULL_IF_CONFIG_SMALL("DVD subtitles"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_DVD_SUBTITLE,
+=======
+const AVCodec ff_dvdsub_decoder = {
+    .name           = "dvdsub",
+    .long_name      = NULL_IF_CONFIG_SMALL("DVD subtitles"),
+    .type           = AVMEDIA_TYPE_SUBTITLE,
+    .id             = AV_CODEC_ID_DVD_SUBTITLE,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(DVDSubContext),
     .init           = dvdsub_init,
     FF_CODEC_DECODE_SUB_CB(dvdsub_decode),
     .flush          = dvdsub_flush,
+<<<<<<< HEAD
     .p.priv_class   = &dvdsub_class,
+=======
+    .priv_class     = &dvdsub_class,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

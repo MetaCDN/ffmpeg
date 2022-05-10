@@ -20,7 +20,6 @@
 #include "libavutil/opt.h"
 
 #include "bsf.h"
-#include "bsf_internal.h"
 #include "cbs.h"
 #include "cbs_bsf.h"
 #include "cbs_h265.h"
@@ -507,4 +506,8 @@ const FFBitStreamFilter ff_hevc_metadata_bsf = {
     .init           = &h265_metadata_init,
     .close          = &ff_cbs_bsf_generic_close,
     .filter         = &ff_cbs_bsf_generic_filter,
+<<<<<<< HEAD
+=======
+    .codec_ids      = h265_metadata_codec_ids,
+>>>>>>> refs/remotes/origin/master
 };

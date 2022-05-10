@@ -30,7 +30,10 @@
 #include "libavcodec/avcodec.h"
 #include "libavutil/pixdesc.h"
 #include "libavutil/hwcontext_videotoolbox.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "internal.h"
 #include <pthread.h>
 #include "atsc_a53.h"
@@ -100,7 +103,10 @@ static struct{
 
     CFStringRef kVTCompressionPropertyKey_RealTime;
     CFStringRef kVTCompressionPropertyKey_TargetQualityForAlpha;
+<<<<<<< HEAD
     CFStringRef kVTCompressionPropertyKey_PrioritizeEncodingSpeedOverQuality;
+=======
+>>>>>>> refs/remotes/origin/master
 
     CFStringRef kVTVideoEncoderSpecification_EnableHardwareAcceleratedVideoEncoder;
     CFStringRef kVTVideoEncoderSpecification_RequireHardwareAcceleratedVideoEncoder;
@@ -162,8 +168,11 @@ static void loadVTEncSymbols(){
     GET_SYM(kVTCompressionPropertyKey_RealTime, "RealTime");
     GET_SYM(kVTCompressionPropertyKey_TargetQualityForAlpha,
             "TargetQualityForAlpha");
+<<<<<<< HEAD
     GET_SYM(kVTCompressionPropertyKey_PrioritizeEncodingSpeedOverQuality,
             "PrioritizeEncodingSpeedOverQuality");
+=======
+>>>>>>> refs/remotes/origin/master
 
     GET_SYM(kVTVideoEncoderSpecification_EnableHardwareAcceleratedVideoEncoder,
             "EnableHardwareAcceleratedVideoEncoder");
@@ -240,7 +249,10 @@ typedef struct VTEncContext {
     int allow_sw;
     int require_sw;
     double alpha_quality;
+<<<<<<< HEAD
     int prio_speed;
+=======
+>>>>>>> refs/remotes/origin/master
 
     bool flushing;
     int has_b_frames;
@@ -1121,6 +1133,7 @@ static int vtenc_create_encoder(AVCodecContext   *avctx,
         av_log(avctx, AV_LOG_ERROR, "Error: -q:v qscale not available for encoder. Use -b:v bitrate instead.\n");
         return AVERROR_EXTERNAL;
     }
+<<<<<<< HEAD
 
     if (avctx->flags & AV_CODEC_FLAG_QSCALE) {
         quality = quality >= 100 ? 1.0 : quality / 100;
@@ -1129,6 +1142,16 @@ static int vtenc_create_encoder(AVCodecContext   *avctx,
                                      &quality);
         if (!quality_num) return AVERROR(ENOMEM);
 
+=======
+
+    if (avctx->flags & AV_CODEC_FLAG_QSCALE) {
+        quality = quality >= 100 ? 1.0 : quality / 100;
+        quality_num = CFNumberCreate(kCFAllocatorDefault,
+                                     kCFNumberFloat32Type,
+                                     &quality);
+        if (!quality_num) return AVERROR(ENOMEM);
+
+>>>>>>> refs/remotes/origin/master
         status = VTSessionSetProperty(vtctx->session,
                                       kVTCompressionPropertyKey_Quality,
                                       quality_num);
@@ -1150,6 +1173,7 @@ static int vtenc_create_encoder(AVCodecContext   *avctx,
         return AVERROR_EXTERNAL;
     }
 
+<<<<<<< HEAD
     if (vtctx->prio_speed >= 0) {
         status = VTSessionSetProperty(vtctx->session,
                                       compat_keys.kVTCompressionPropertyKey_PrioritizeEncodingSpeedOverQuality,
@@ -1159,6 +1183,8 @@ static int vtenc_create_encoder(AVCodecContext   *avctx,
         }
     }
 
+=======
+>>>>>>> refs/remotes/origin/master
     if ((vtctx->codec_id == AV_CODEC_ID_H264 || vtctx->codec_id == AV_CODEC_ID_HEVC)
             && max_rate > 0) {
         bytes_per_second_value = max_rate >> 3;
@@ -1217,6 +1243,7 @@ static int vtenc_create_encoder(AVCodecContext   *avctx,
                                           compat_keys.kVTCompressionPropertyKey_TargetQualityForAlpha,
                                           alpha_quality_num);
             CFRelease(alpha_quality_num);
+<<<<<<< HEAD
         }
     }
 
@@ -1229,6 +1256,20 @@ static int vtenc_create_encoder(AVCodecContext   *avctx,
         }
     }
 
+=======
+        }
+    }
+
+    if (profile_level) {
+        status = VTSessionSetProperty(vtctx->session,
+                                      kVTCompressionPropertyKey_ProfileLevel,
+                                      profile_level);
+        if (status) {
+            av_log(avctx, AV_LOG_ERROR, "Error setting profile/level property: %d. Output will be encoded using a supported profile/level combination.\n", status);
+        }
+    }
+
+>>>>>>> refs/remotes/origin/master
     if (avctx->gop_size > 0 && avctx->codec_id != AV_CODEC_ID_PRORES) {
         CFNumberRef interval = CFNumberCreate(kCFAllocatorDefault,
                                               kCFNumberIntType,
@@ -2738,18 +2779,31 @@ static const AVClass h264_videotoolbox_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_h264_videotoolbox_encoder = {
     .p.name           = "h264_videotoolbox",
     .p.long_name      = NULL_IF_CONFIG_SMALL("VideoToolbox H.264 Encoder"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_H264,
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+=======
+const AVCodec ff_h264_videotoolbox_encoder = {
+    .name             = "h264_videotoolbox",
+    .long_name        = NULL_IF_CONFIG_SMALL("VideoToolbox H.264 Encoder"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_H264,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(VTEncContext),
     .p.pix_fmts       = avc_pix_fmts,
     .init             = vtenc_init,
     FF_CODEC_ENCODE_CB(vtenc_frame),
     .close            = vtenc_close,
+<<<<<<< HEAD
     .p.priv_class     = &h264_videotoolbox_class,
+=======
+    .priv_class       = &h264_videotoolbox_class,
+>>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE |
                         FF_CODEC_CAP_INIT_CLEANUP,
 };
@@ -2772,6 +2826,7 @@ static const AVClass hevc_videotoolbox_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_hevc_videotoolbox_encoder = {
     .p.name           = "hevc_videotoolbox",
     .p.long_name      = NULL_IF_CONFIG_SMALL("VideoToolbox H.265 Encoder"),
@@ -2817,14 +2872,65 @@ const FFCodec ff_prores_videotoolbox_encoder = {
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_PRORES,
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+=======
+const AVCodec ff_hevc_videotoolbox_encoder = {
+    .name             = "hevc_videotoolbox",
+    .long_name        = NULL_IF_CONFIG_SMALL("VideoToolbox H.265 Encoder"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_HEVC,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+>>>>>>> refs/remotes/origin/master
                         AV_CODEC_CAP_HARDWARE,
     .priv_data_size   = sizeof(VTEncContext),
     .p.pix_fmts       = prores_pix_fmts,
     .init             = vtenc_init,
     FF_CODEC_ENCODE_CB(vtenc_frame),
     .close            = vtenc_close,
+<<<<<<< HEAD
     .p.priv_class     = &prores_videotoolbox_class,
+=======
+    .priv_class       = &hevc_videotoolbox_class,
+>>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE |
                         FF_CODEC_CAP_INIT_CLEANUP,
     .p.wrapper_name   = "videotoolbox",
+};
+
+static const AVOption prores_options[] = {
+    { "profile", "Profile", OFFSET(profile), AV_OPT_TYPE_INT64, { .i64 = FF_PROFILE_UNKNOWN }, FF_PROFILE_UNKNOWN, FF_PROFILE_PRORES_XQ, VE, "profile" },
+    { "auto",     "Automatically determine based on input format", 0, AV_OPT_TYPE_CONST, { .i64 = FF_PROFILE_UNKNOWN },            INT_MIN, INT_MAX, VE, "profile" },
+    { "proxy",    "ProRes 422 Proxy",                              0, AV_OPT_TYPE_CONST, { .i64 = FF_PROFILE_PRORES_PROXY },       INT_MIN, INT_MAX, VE, "profile" },
+    { "lt",       "ProRes 422 LT",                                 0, AV_OPT_TYPE_CONST, { .i64 = FF_PROFILE_PRORES_LT },          INT_MIN, INT_MAX, VE, "profile" },
+    { "standard", "ProRes 422",                                    0, AV_OPT_TYPE_CONST, { .i64 = FF_PROFILE_PRORES_STANDARD },    INT_MIN, INT_MAX, VE, "profile" },
+    { "hq",       "ProRes 422 HQ",                                 0, AV_OPT_TYPE_CONST, { .i64 = FF_PROFILE_PRORES_HQ },          INT_MIN, INT_MAX, VE, "profile" },
+    { "4444",     "ProRes 4444",                                   0, AV_OPT_TYPE_CONST, { .i64 = FF_PROFILE_PRORES_4444 },        INT_MIN, INT_MAX, VE, "profile" },
+    { "xq",       "ProRes 4444 XQ",                                0, AV_OPT_TYPE_CONST, { .i64 = FF_PROFILE_PRORES_XQ },          INT_MIN, INT_MAX, VE, "profile" },
+
+    COMMON_OPTIONS
+    { NULL },
+};
+
+static const AVClass prores_videotoolbox_class = {
+    .class_name = "prores_videotoolbox",
+    .item_name  = av_default_item_name,
+    .option     = prores_options,
+    .version    = LIBAVUTIL_VERSION_INT,
+};
+
+const AVCodec ff_prores_videotoolbox_encoder = {
+    .name             = "prores_videotoolbox",
+    .long_name        = NULL_IF_CONFIG_SMALL("VideoToolbox ProRes Encoder"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_PRORES,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+                        AV_CODEC_CAP_HARDWARE,
+    .priv_data_size   = sizeof(VTEncContext),
+    .pix_fmts         = prores_pix_fmts,
+    .init             = vtenc_init,
+    .encode2          = vtenc_frame,
+    .close            = vtenc_close,
+    .priv_class       = &prores_videotoolbox_class,
+    .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE |
+                        FF_CODEC_CAP_INIT_CLEANUP,
+    .wrapper_name     = "videotoolbox",
 };

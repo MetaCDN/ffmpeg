@@ -213,7 +213,11 @@ static int fir_quantum(AVFilterContext *ctx, AVFrame *out, int ch, int offset)
         seg->itx_fn(seg->itx[ch], sumout, sumin, sizeof(float));
 
         buf = (float *)seg->buffer->extended_data[ch];
+<<<<<<< HEAD
         fir_fadd(s, buf, sumout, seg->part_size);
+=======
+        fir_fadd(s, buf, sum, seg->part_size);
+>>>>>>> refs/remotes/origin/master
 
         memcpy(dst, buf, seg->part_size * sizeof(*dst));
 
@@ -276,7 +280,15 @@ static int fir_frame(AudioFIRContext *s, AVFrame *in, AVFilterLink *outlink)
 
     s->in = in;
     ff_filter_execute(ctx, fir_channels, out, NULL,
+<<<<<<< HEAD
                       FFMIN(outlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
+=======
+                      FFMIN(outlink->channels, ff_filter_get_nb_threads(ctx)));
+
+    out->pts = s->pts;
+    if (s->pts != AV_NOPTS_VALUE)
+        s->pts += av_rescale_q(out->nb_samples, (AVRational){1, outlink->sample_rate}, outlink->time_base);
+>>>>>>> refs/remotes/origin/master
 
     av_frame_free(&in);
     s->in = NULL;
@@ -792,7 +804,11 @@ static int query_formats(AVFilterContext *ctx)
         if ((ret = ff_channel_layouts_ref(layouts, &ctx->outputs[0]->incfg.channel_layouts)) < 0)
             return ret;
 
+<<<<<<< HEAD
         ret = ff_add_channel_layout(&mono, &(AVChannelLayout)AV_CHANNEL_LAYOUT_MONO);
+=======
+        ret = ff_add_channel_layout(&mono, AV_CH_LAYOUT_MONO);
+>>>>>>> refs/remotes/origin/master
         if (ret)
             return ret;
         for (int i = 1; i < ctx->nb_inputs; i++) {

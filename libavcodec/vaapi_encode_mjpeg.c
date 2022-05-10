@@ -564,17 +564,30 @@ static const AVClass vaapi_encode_mjpeg_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_mjpeg_vaapi_encoder = {
     .p.name         = "mjpeg_vaapi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MJPEG (VAAPI)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_MJPEG,
+=======
+const AVCodec ff_mjpeg_vaapi_encoder = {
+    .name           = "mjpeg_vaapi",
+    .long_name      = NULL_IF_CONFIG_SMALL("MJPEG (VAAPI)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MJPEG,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VAAPIEncodeMJPEGContext),
     .init           = &vaapi_encode_mjpeg_init,
     FF_CODEC_RECEIVE_PACKET_CB(&ff_vaapi_encode_receive_packet),
     .close          = &vaapi_encode_mjpeg_close,
+<<<<<<< HEAD
     .p.priv_class   = &vaapi_encode_mjpeg_class,
     .p.capabilities = AV_CODEC_CAP_HARDWARE | AV_CODEC_CAP_DR1,
+=======
+    .priv_class     = &vaapi_encode_mjpeg_class,
+    .capabilities   = AV_CODEC_CAP_HARDWARE | AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
     .defaults       = vaapi_encode_mjpeg_defaults,
     .p.pix_fmts = (const enum AVPixelFormat[]) {

@@ -222,6 +222,7 @@ static av_cold int cpia_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_cpia_decoder = {
     .p.name         = "cpia",
     .p.long_name    = NULL_IF_CONFIG_SMALL("CPiA video format"),
@@ -232,5 +233,17 @@ const FFCodec ff_cpia_decoder = {
     .close          = cpia_decode_end,
     FF_CODEC_DECODE_CB(cpia_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_cpia_decoder = {
+    .name           = "cpia",
+    .long_name      = NULL_IF_CONFIG_SMALL("CPiA video format"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_CPIA,
+    .priv_data_size = sizeof(CpiaContext),
+    .init           = cpia_decode_init,
+    .close          = cpia_decode_end,
+    .decode         = cpia_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

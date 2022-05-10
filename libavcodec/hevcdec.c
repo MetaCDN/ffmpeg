@@ -2987,6 +2987,7 @@ static int set_side_data(HEVCContext *s)
     if ((ret = ff_dovi_attach_side_data(&s->dovi_ctx, out)) < 0)
         return ret;
 
+<<<<<<< HEAD
     if (s->sei.dynamic_hdr_vivid.info) {
         AVBufferRef *info_ref = av_buffer_ref(s->sei.dynamic_hdr_vivid.info);
         if (!info_ref)
@@ -2998,6 +2999,8 @@ static int set_side_data(HEVCContext *s)
         }
     }
 
+=======
+>>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -3042,7 +3045,11 @@ static int hevc_frame_start(HEVCContext *s)
         s->ref->frame_grain->format = s->ref->frame->format;
         s->ref->frame_grain->width = s->ref->frame->width;
         s->ref->frame_grain->height = s->ref->frame->height;
+<<<<<<< HEAD
         if ((ret = ff_thread_get_buffer(s->avctx, s->ref->frame_grain, 0)) < 0)
+=======
+        if ((ret = ff_thread_get_buffer(s->avctx, &s->ref->tf_grain, 0)) < 0)
+>>>>>>> refs/remotes/origin/master
             goto fail;
     }
 
@@ -3549,7 +3556,11 @@ static int hevc_ref_frame(HEVCContext *s, HEVCFrame *dst, HEVCFrame *src)
         return ret;
 
     if (src->needs_fg) {
+<<<<<<< HEAD
         ret = av_frame_ref(dst->frame_grain, src->frame_grain);
+=======
+        ret = ff_thread_ref_frame(&dst->tf_grain, &src->tf_grain);
+>>>>>>> refs/remotes/origin/master
         if (ret < 0)
             return ret;
         dst->needs_fg = 1;
@@ -3668,6 +3679,10 @@ static av_cold int hevc_init_context(AVCodecContext *avctx)
         s->DPB[i].frame_grain = av_frame_alloc();
         if (!s->DPB[i].frame_grain)
             goto fail;
+<<<<<<< HEAD
+=======
+        s->DPB[i].tf_grain.f = s->DPB[i].frame_grain;
+>>>>>>> refs/remotes/origin/master
     }
 
     s->max_ra = INT_MAX;
@@ -3791,10 +3806,13 @@ static int hevc_update_thread_context(AVCodecContext *dst,
     if (ret < 0)
         return ret;
 
+<<<<<<< HEAD
     ret = av_buffer_replace(&s->sei.dynamic_hdr_vivid.info, s0->sei.dynamic_hdr_vivid.info);
     if (ret < 0)
         return ret;
 
+=======
+>>>>>>> refs/remotes/origin/master
     s->sei.frame_packing        = s0->sei.frame_packing;
     s->sei.display_orientation  = s0->sei.display_orientation;
     s->sei.mastering_display    = s0->sei.mastering_display;
@@ -3875,11 +3893,19 @@ static const AVClass hevc_decoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_hevc_decoder = {
     .p.name                = "hevc",
     .p.long_name           = NULL_IF_CONFIG_SMALL("HEVC (High Efficiency Video Coding)"),
     .p.type                = AVMEDIA_TYPE_VIDEO,
     .p.id                  = AV_CODEC_ID_HEVC,
+=======
+const AVCodec ff_hevc_decoder = {
+    .name                  = "hevc",
+    .long_name             = NULL_IF_CONFIG_SMALL("HEVC (High Efficiency Video Coding)"),
+    .type                  = AVMEDIA_TYPE_VIDEO,
+    .id                    = AV_CODEC_ID_HEVC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(HEVCContext),
     .p.priv_class          = &hevc_decoder_class,
     .init                  = hevc_decode_init,
@@ -3891,7 +3917,11 @@ const FFCodec ff_hevc_decoder = {
                              AV_CODEC_CAP_SLICE_THREADS | AV_CODEC_CAP_FRAME_THREADS,
     .caps_internal         = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_EXPORTS_CROPPING |
                              FF_CODEC_CAP_ALLOCATE_PROGRESS | FF_CODEC_CAP_INIT_CLEANUP,
+<<<<<<< HEAD
     .p.profiles            = NULL_IF_CONFIG_SMALL(ff_hevc_profiles),
+=======
+    .profiles              = NULL_IF_CONFIG_SMALL(ff_hevc_profiles),
+>>>>>>> refs/remotes/origin/master
     .hw_configs            = (const AVCodecHWConfigInternal *const []) {
 #if CONFIG_HEVC_DXVA2_HWACCEL
                                HWACCEL_DXVA2(hevc),

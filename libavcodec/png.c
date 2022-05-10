@@ -38,6 +38,19 @@ static const uint8_t ff_png_pass_xshift[NB_PASSES] = {
     3, 3, 2, 2, 1, 1, 0
 };
 
+<<<<<<< HEAD
+=======
+void *ff_png_zalloc(void *opaque, unsigned int items, unsigned int size)
+{
+    return av_calloc(items, size);
+}
+
+void ff_png_zfree(void *opaque, void *ptr)
+{
+    av_free(ptr);
+}
+
+>>>>>>> refs/remotes/origin/master
 int ff_png_get_nb_channels(int color_type)
 {
     int channels;

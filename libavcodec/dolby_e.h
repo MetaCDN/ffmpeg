@@ -59,12 +59,19 @@ typedef struct DolbyEHeaderInfo {
      */
     int         multi_prog_warned;
 
+<<<<<<< HEAD
     int         output_channel_order;
 
     int         sample_rate;
     /** @} */
 } DolbyEHeaderInfo;
 
+=======
+    int         sample_rate;
+    /** @} */
+} DolbyEHeaderInfo;
+
+>>>>>>> refs/remotes/origin/master
 /**
  * @struct DBEContext
  * Dolby E reading context used by decoder and parser.

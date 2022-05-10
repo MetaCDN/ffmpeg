@@ -28,12 +28,18 @@
 #include "samplefmt.h"
 #include "hwcontext.h"
 
+<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
+=======
+>>>>>>> refs/remotes/origin/master
 #define CHECK_CHANNELS_CONSISTENCY(frame) \
     av_assert2(!(frame)->channel_layout || \
                (frame)->channels == \
                av_get_channel_layout_nb_channels((frame)->channel_layout))
+<<<<<<< HEAD
 #endif
+=======
+>>>>>>> refs/remotes/origin/master
 
 #if FF_API_COLORSPACE_NAME
 const char *av_get_colorspace_name(enum AVColorSpace val)
@@ -375,6 +381,7 @@ FF_ENABLE_DEPRECATION_WARNINGS
     ret = frame_copy_props(dst, src, 0);
     if (ret < 0)
         goto fail;
+<<<<<<< HEAD
 
     // this check is needed only until FF_API_OLD_CHANNEL_LAYOUT is out
     if (av_channel_layout_check(&src->ch_layout)) {
@@ -382,6 +389,8 @@ FF_ENABLE_DEPRECATION_WARNINGS
         if (ret < 0)
             goto fail;
     }
+=======
+>>>>>>> refs/remotes/origin/master
 
     /* duplicate the frame data if it's not refcounted */
     if (!src->buf[0]) {
@@ -498,8 +507,11 @@ void av_frame_unref(AVFrame *frame)
     if (frame->extended_data != frame->data)
         av_freep(&frame->extended_data);
 
+<<<<<<< HEAD
     av_channel_layout_uninit(&frame->ch_layout);
 
+=======
+>>>>>>> refs/remotes/origin/master
     get_frame_defaults(frame);
 }
 

@@ -90,8 +90,13 @@ static int nist_read_header(AVFormatContext *s)
 
             return 0;
         } else if (!memcmp(buffer, "channel_count", 13)) {
+<<<<<<< HEAD
             sscanf(buffer, "%*s %*s %u", &st->codecpar->ch_layout.nb_channels);
             if (st->codecpar->ch_layout.nb_channels <= 0 || st->codecpar->ch_layout.nb_channels > INT16_MAX)
+=======
+            sscanf(buffer, "%*s %*s %u", &st->codecpar->channels);
+            if (st->codecpar->channels <= 0 || st->codecpar->channels > INT16_MAX)
+>>>>>>> refs/remotes/origin/master
                 return AVERROR_INVALIDDATA;
         } else if (!memcmp(buffer, "sample_byte_format", 18)) {
             sscanf(buffer, "%*s %*s %31s", format);

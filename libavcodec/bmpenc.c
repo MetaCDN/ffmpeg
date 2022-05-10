@@ -27,8 +27,13 @@
 #include "avcodec.h"
 #include "bytestream.h"
 #include "bmp.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 
 static const uint32_t monoblack_pal[] = { 0x000000, 0xFFFFFF };
 static const uint32_t rgb565_masks[]  = { 0xF800, 0x07E0, 0x001F };
@@ -155,12 +160,21 @@ static int bmp_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_bmp_encoder = {
     .p.name         = "bmp",
     .p.long_name    = NULL_IF_CONFIG_SMALL("BMP (Windows and OS/2 bitmap)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_BMP,
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_bmp_encoder = {
+    .name           = "bmp",
+    .long_name      = NULL_IF_CONFIG_SMALL("BMP (Windows and OS/2 bitmap)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_BMP,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .init           = bmp_encode_init,
     FF_CODEC_ENCODE_CB(bmp_encode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]){

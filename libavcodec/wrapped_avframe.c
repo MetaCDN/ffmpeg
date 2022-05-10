@@ -108,6 +108,7 @@ static int wrapped_avframe_decode(AVCodecContext *avctx, AVFrame *out,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_wrapped_avframe_encoder = {
     .p.name         = "wrapped_avframe",
     .p.long_name    = NULL_IF_CONFIG_SMALL("AVFrame to AVPacket passthrough"),
@@ -123,5 +124,22 @@ const FFCodec ff_wrapped_avframe_decoder = {
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_WRAPPED_AVFRAME,
     FF_CODEC_DECODE_CB(wrapped_avframe_decode),
+=======
+const AVCodec ff_wrapped_avframe_encoder = {
+    .name           = "wrapped_avframe",
+    .long_name      = NULL_IF_CONFIG_SMALL("AVFrame to AVPacket passthrough"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_WRAPPED_AVFRAME,
+    .encode2        = wrapped_avframe_encode,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
+};
+
+const AVCodec ff_wrapped_avframe_decoder = {
+    .name           = "wrapped_avframe",
+    .long_name      = NULL_IF_CONFIG_SMALL("AVPacket to AVFrame passthrough"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_WRAPPED_AVFRAME,
+    .decode         = wrapped_avframe_decode,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

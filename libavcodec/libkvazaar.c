@@ -36,8 +36,13 @@
 #include "libavutil/opt.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "packet_internal.h"
 
 typedef struct LibkvazaarContext {
@@ -318,6 +323,7 @@ static const FFCodecDefault defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libkvazaar_encoder = {
     .p.name           = "libkvazaar",
     .p.long_name      = NULL_IF_CONFIG_SMALL("libkvazaar H.265 / HEVC"),
@@ -326,6 +332,16 @@ const FFCodec ff_libkvazaar_encoder = {
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
                         AV_CODEC_CAP_OTHER_THREADS,
     .p.pix_fmts       = pix_fmts,
+=======
+const AVCodec ff_libkvazaar_encoder = {
+    .name             = "libkvazaar",
+    .long_name        = NULL_IF_CONFIG_SMALL("libkvazaar H.265 / HEVC"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_HEVC,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+                        AV_CODEC_CAP_OTHER_THREADS,
+    .pix_fmts         = pix_fmts,
+>>>>>>> refs/remotes/origin/master
 
     .p.priv_class     = &class,
     .priv_data_size   = sizeof(LibkvazaarContext),

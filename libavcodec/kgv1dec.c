@@ -176,16 +176,28 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_kgv1_decoder = {
     .p.name         = "kgv1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Kega Game Video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_KGV1,
+=======
+const AVCodec ff_kgv1_decoder = {
+    .name           = "kgv1",
+    .long_name      = NULL_IF_CONFIG_SMALL("Kega Game Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_KGV1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(KgvContext),
     .init           = decode_init,
     .close          = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),
     .flush          = decode_flush,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

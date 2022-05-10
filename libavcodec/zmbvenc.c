@@ -30,9 +30,14 @@
 #include "libavutil/common.h"
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
 #include "zlib_wrapper.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 
 #include <zlib.h>
 
@@ -75,7 +80,12 @@ typedef struct ZmbvEncContext {
     int keyint, curfrm;
     int bypp;
     enum ZmbvFormat fmt;
+<<<<<<< HEAD
     FFZStream zstream;
+=======
+    int zlib_init_ok;
+    z_stream zstream;
+>>>>>>> refs/remotes/origin/master
 
     int score_tab[ZMBV_BLOCK * ZMBV_BLOCK * 4 + 1];
 } ZmbvEncContext;
@@ -277,7 +287,11 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *pkt,
         return -1;
     }
 
+<<<<<<< HEAD
     pkt_size = zstream->total_out + 1 + 6 * keyframe;
+=======
+    pkt_size = c->zstream.total_out + 1 + 6*keyframe;
+>>>>>>> refs/remotes/origin/master
     if ((ret = ff_get_encode_buffer(avctx, pkt, pkt_size, 0)) < 0)
         return ret;
     buf = pkt->data;
@@ -308,7 +322,12 @@ static av_cold int encode_end(AVCodecContext *avctx)
     av_freep(&c->work_buf);
 
     av_freep(&c->prev_buf);
+<<<<<<< HEAD
     ff_deflate_end(&c->zstream);
+=======
+    if (c->zlib_init_ok)
+        deflateEnd(&c->zstream);
+>>>>>>> refs/remotes/origin/master
 
     return 0;
 }
@@ -407,6 +426,7 @@ static av_cold int encode_init(AVCodecContext *avctx)
     }
     c->prev = c->prev_buf + prev_offset;
 
+<<<<<<< HEAD
     return ff_deflate_init(&c->zstream, lvl, avctx);
 }
 
@@ -416,6 +436,27 @@ const FFCodec ff_zmbv_encoder = {
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_ZMBV,
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+    c->zstream.zalloc = Z_NULL;
+    c->zstream.zfree = Z_NULL;
+    c->zstream.opaque = Z_NULL;
+    zret = deflateInit(&c->zstream, lvl);
+    if (zret != Z_OK) {
+        av_log(avctx, AV_LOG_ERROR, "Inflate init error: %d\n", zret);
+        return -1;
+    }
+    c->zlib_init_ok = 1;
+
+    return 0;
+}
+
+const AVCodec ff_zmbv_encoder = {
+    .name           = "zmbv",
+    .long_name      = NULL_IF_CONFIG_SMALL("Zip Motion Blocks Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_ZMBV,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ZmbvEncContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),

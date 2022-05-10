@@ -101,17 +101,28 @@ static int rsd_read_header(AVFormatContext *s)
         memset(par->extradata, 0, 34);
         break;
     case AV_CODEC_ID_ADPCM_PSX:
+<<<<<<< HEAD
         par->block_align = 16 * par->ch_layout.nb_channels;
         break;
     case AV_CODEC_ID_ADPCM_IMA_RAD:
         par->block_align = 20 * par->ch_layout.nb_channels;
+=======
+        par->block_align = 16 * par->channels;
+        break;
+    case AV_CODEC_ID_ADPCM_IMA_RAD:
+        par->block_align = 20 * par->channels;
+>>>>>>> refs/remotes/origin/master
         break;
     case AV_CODEC_ID_ADPCM_IMA_WAV:
         if (version == 2)
             start = avio_rl32(pb);
 
         par->bits_per_coded_sample = 4;
+<<<<<<< HEAD
         par->block_align = 36 * par->ch_layout.nb_channels;
+=======
+        par->block_align = 36 * par->channels;
+>>>>>>> refs/remotes/origin/master
         break;
     case AV_CODEC_ID_ADPCM_THP_LE:
         /* RSD3GADP is mono, so only alloc enough memory
@@ -129,7 +140,11 @@ static int rsd_read_header(AVFormatContext *s)
         if ((ret = ff_alloc_extradata(st->codecpar, 32 * par->ch_layout.nb_channels)) < 0)
             return ret;
 
+<<<<<<< HEAD
         for (i = 0; i < par->ch_layout.nb_channels; i++) {
+=======
+        for (i = 0; i < par->channels; i++) {
+>>>>>>> refs/remotes/origin/master
             if (avio_feof(pb))
                 return AVERROR_EOF;
             avio_read(s->pb, st->codecpar->extradata + 32 * i, 32);
@@ -158,11 +173,19 @@ static int rsd_read_header(AVFormatContext *s)
                 st->duration = av_get_audio_frame_duration2(par, remaining - start);
                 break;
             case AV_CODEC_ID_ADPCM_THP:
+<<<<<<< HEAD
                 st->duration = (remaining - start) / (8 * par->ch_layout.nb_channels) * 14;
                 break;
             case AV_CODEC_ID_PCM_S16LE:
             case AV_CODEC_ID_PCM_S16BE:
                 st->duration = (remaining - start) / 2 / par->ch_layout.nb_channels;
+=======
+                st->duration = (remaining - start) / (8 * par->channels) * 14;
+                break;
+            case AV_CODEC_ID_PCM_S16LE:
+            case AV_CODEC_ID_PCM_S16BE:
+                st->duration = (remaining - start) / 2 / par->channels;
+>>>>>>> refs/remotes/origin/master
             }
     }
 

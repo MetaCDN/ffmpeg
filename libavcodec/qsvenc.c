@@ -78,6 +78,7 @@ static const struct profile_names hevc_profiles[] = {
 #endif
 #if QSV_VERSION_ATLEAST(1, 32)
     { MFX_PROFILE_HEVC_SCC,                     "hevc scc"                   },
+<<<<<<< HEAD
 #endif
 };
 
@@ -96,6 +97,20 @@ typedef struct QSVPacket {
     mfxBitstream   *bs;
 } QSVPacket;
 
+=======
+#endif
+};
+
+static const struct profile_names vp9_profiles[] = {
+#if QSV_VERSION_ATLEAST(1, 19)
+    { MFX_PROFILE_VP9_0,                        "vp9 0"                     },
+    { MFX_PROFILE_VP9_1,                        "vp9 1"                     },
+    { MFX_PROFILE_VP9_2,                        "vp9 2"                     },
+    { MFX_PROFILE_VP9_3,                        "vp9 3"                     },
+#endif
+};
+
+>>>>>>> refs/remotes/origin/master
 static const char *print_profile(enum AVCodecID codec_id, mfxU16 profile)
 {
     const struct profile_names *profiles;
@@ -372,6 +387,7 @@ static void dump_video_param(AVCodecContext *avctx, QSVEncContext *q,
 #if QSV_VERSION_ATLEAST(1, 26)
     av_log(avctx, AV_LOG_VERBOSE, "TransformSkip: %s \n", print_threestate(co3->TransformSkip));
 #endif
+<<<<<<< HEAD
 
 #if QSV_VERSION_ATLEAST(1, 16)
     av_log(avctx, AV_LOG_VERBOSE, "IntRefCycleDist: %"PRId16"\n", co3->IntRefCycleDist);
@@ -383,6 +399,8 @@ static void dump_video_param(AVCodecContext *avctx, QSVEncContext *q,
     av_log(avctx, AV_LOG_VERBOSE, "MaxFrameSizeI: %d; ", co3->MaxFrameSizeI);
     av_log(avctx, AV_LOG_VERBOSE, "MaxFrameSizeP: %d\n", co3->MaxFrameSizeP);
 #endif
+=======
+>>>>>>> refs/remotes/origin/master
 }
 
 static void dump_video_vp9_param(AVCodecContext *avctx, QSVEncContext *q,
@@ -418,11 +436,19 @@ static void dump_video_vp9_param(AVCodecContext *avctx, QSVEncContext *q,
     } else if (info->RateControlMethod == MFX_RATECONTROL_CQP) {
         av_log(avctx, AV_LOG_VERBOSE, "QPI: %"PRIu16"; QPP: %"PRIu16"; QPB: %"PRIu16"\n",
                info->QPI, info->QPP, info->QPB);
+<<<<<<< HEAD
     }
 #if QSV_HAVE_ICQ
     else if (info->RateControlMethod == MFX_RATECONTROL_ICQ) {
         av_log(avctx, AV_LOG_VERBOSE, "ICQQuality: %"PRIu16"\n", info->ICQQuality);
     }
+=======
+    }
+#if QSV_HAVE_ICQ
+    else if (info->RateControlMethod == MFX_RATECONTROL_ICQ) {
+        av_log(avctx, AV_LOG_VERBOSE, "ICQQuality: %"PRIu16"\n", info->ICQQuality);
+    }
+>>>>>>> refs/remotes/origin/master
 #endif
     else {
         av_log(avctx, AV_LOG_VERBOSE, "Unsupported ratecontrol method: %d \n", info->RateControlMethod);
@@ -887,6 +913,16 @@ static int init_video_param(AVCodecContext *avctx, QSVEncContext *q)
         if (avctx->codec_id == AV_CODEC_ID_H264) {
             if (q->bitrate_limit >= 0)
                 q->extco2.BitrateLimit = q->bitrate_limit ? MFX_CODINGOPTION_ON : MFX_CODINGOPTION_OFF;
+<<<<<<< HEAD
+=======
+            if (q->mbbrc >= 0)
+                q->extco2.MBBRC = q->mbbrc ? MFX_CODINGOPTION_ON : MFX_CODINGOPTION_OFF;
+
+#if QSV_HAVE_MAX_SLICE_SIZE
+            if (q->max_slice_size >= 0)
+                q->extco2.MaxSliceSize = q->max_slice_size;
+#endif
+>>>>>>> refs/remotes/origin/master
 
 #if QSV_HAVE_TRELLIS
             if (avctx->trellis >= 0)
@@ -899,6 +935,11 @@ static int init_video_param(AVCodecContext *avctx, QSVEncContext *q)
             q->extco2.LookAheadDS = q->look_ahead_downsampling;
             q->extco2.RepeatPPS   = q->repeat_pps ? MFX_CODINGOPTION_ON : MFX_CODINGOPTION_OFF;
 
+<<<<<<< HEAD
+=======
+            if (q->b_strategy >= 0)
+                q->extco2.BRefType = q->b_strategy ? MFX_B_REF_PYRAMID : MFX_B_REF_OFF;
+>>>>>>> refs/remotes/origin/master
             if (q->adaptive_i >= 0)
                 q->extco2.AdaptiveI = q->adaptive_i ? MFX_CODINGOPTION_ON : MFX_CODINGOPTION_OFF;
             if (q->adaptive_b >= 0)
@@ -911,6 +952,7 @@ static int init_video_param(AVCodecContext *avctx, QSVEncContext *q)
                 q->extco2.ExtBRC = q->extbrc ? MFX_CODINGOPTION_ON : MFX_CODINGOPTION_OFF;
             if (q->max_frame_size >= 0)
                 q->extco2.MaxFrameSize = q->max_frame_size;
+<<<<<<< HEAD
             if (q->int_ref_type >= 0)
                 q->extco2.IntRefType = q->int_ref_type;
             if (q->int_ref_cycle_size >= 0)
@@ -921,6 +963,8 @@ static int init_video_param(AVCodecContext *avctx, QSVEncContext *q)
             if (q->max_slice_size >= 0)
                 q->extco2.MaxSliceSize = q->max_slice_size;
 #endif
+=======
+>>>>>>> refs/remotes/origin/master
 #if QSV_HAVE_DISABLEDEBLOCKIDC
             q->extco2.DisableDeblockingIdc = q->dblk_idc;
 #endif
@@ -994,6 +1038,7 @@ static int init_video_param(AVCodecContext *avctx, QSVEncContext *q)
                        "Please set max_b_frames(-bf) to 0 to enable P-pyramid\n");
             }
 #endif
+<<<<<<< HEAD
 #if QSV_VERSION_ATLEAST(1, 16)
             if (q->int_ref_cycle_dist >= 0)
                 q->extco3.IntRefCycleDist = q->int_ref_cycle_dist;
@@ -1008,6 +1053,8 @@ static int init_video_param(AVCodecContext *avctx, QSVEncContext *q)
             if (q->max_frame_size_p >= 0)
                 q->extco3.MaxFrameSizeP = q->max_frame_size_p;
 #endif
+=======
+>>>>>>> refs/remotes/origin/master
         }
 
         if (avctx->codec_id == AV_CODEC_ID_HEVC) {
@@ -1623,10 +1670,31 @@ static int submit_frame(QSVEncContext *q, const AVFrame *frame,
         else if (frame->repeat_pict == 4)
             qf->surface.Info.PicStruct |= MFX_PICSTRUCT_FRAME_TRIPLING;
 
+<<<<<<< HEAD
         ret = ff_qsv_map_frame_to_surface(qf->frame, &qf->surface);
         if (ret < 0) {
             av_log(q->avctx, AV_LOG_ERROR, "map frame to surface failed.\n");
             return ret;
+=======
+        qf->surface.Data.PitchLow  = qf->frame->linesize[0];
+        qf->surface.Data.Y         = qf->frame->data[0];
+        qf->surface.Data.UV        = qf->frame->data[1];
+
+        /* The SDK checks Data.V when using system memory for VP9 encoding */
+        switch (frame->format) {
+        case AV_PIX_FMT_NV12:
+            qf->surface.Data.V     = qf->surface.Data.UV + 1;
+            break;
+
+        case AV_PIX_FMT_P010:
+            qf->surface.Data.V     = qf->surface.Data.UV + 2;
+            break;
+
+        default:
+            /* should not reach here */
+            av_assert0(0);
+            break;
+>>>>>>> refs/remotes/origin/master
         }
     }
     qf->surface.Data.TimeStamp = av_rescale_q(frame->pts, q->avctx->time_base, (AVRational){1, 90000});
@@ -1651,7 +1719,12 @@ static void print_interlace_msg(AVCodecContext *avctx, QSVEncContext *q)
 static int encode_frame(AVCodecContext *avctx, QSVEncContext *q,
                         const AVFrame *frame)
 {
+<<<<<<< HEAD
     QSVPacket pkt = { { 0 } };
+=======
+    AVPacket new_pkt = { 0 };
+    mfxBitstream *bs = NULL;
+>>>>>>> refs/remotes/origin/master
 #if QSV_VERSION_ATLEAST(1, 26)
     mfxExtAVCEncodedFrameInfo *enc_info = NULL;
     mfxExtBuffer **enc_buf = NULL;
@@ -1686,11 +1759,19 @@ static int encode_frame(AVCodecContext *avctx, QSVEncContext *q,
         return ret;
     }
 
+<<<<<<< HEAD
     pkt.bs = av_mallocz(sizeof(*pkt.bs));
     if (!pkt.bs)
         goto nomem;
     pkt.bs->Data      = pkt.pkt.data;
     pkt.bs->MaxLength = pkt.pkt.size;
+=======
+    bs = av_mallocz(sizeof(*bs));
+    if (!bs)
+        goto nomem;
+    bs->Data      = new_pkt.data;
+    bs->MaxLength = new_pkt.size;
+>>>>>>> refs/remotes/origin/master
 
 #if QSV_VERSION_ATLEAST(1, 26)
     if (avctx->codec_id == AV_CODEC_ID_H264) {
@@ -1714,8 +1795,13 @@ static int encode_frame(AVCodecContext *avctx, QSVEncContext *q,
         q->set_encode_ctrl_cb(avctx, frame, &qsv_frame->enc_ctrl);
     }
 
+<<<<<<< HEAD
     pkt.sync = av_mallocz(sizeof(*pkt.sync));
     if (!pkt.sync)
+=======
+    sync = av_mallocz(sizeof(*sync));
+    if (!sync)
+>>>>>>> refs/remotes/origin/master
         goto nomem;
 
     do {
@@ -1738,6 +1824,7 @@ static int encode_frame(AVCodecContext *avctx, QSVEncContext *q,
 
     ret = 0;
 
+<<<<<<< HEAD
     if (*pkt.sync) {
         av_fifo_write(q->async_fifo, &pkt, 1);
     } else {
@@ -1745,6 +1832,17 @@ free:
         av_freep(&pkt.sync);
         av_packet_unref(&pkt.pkt);
         av_freep(&pkt.bs);
+=======
+    if (*sync) {
+        av_fifo_generic_write(q->async_fifo, &new_pkt, sizeof(new_pkt), NULL);
+        av_fifo_generic_write(q->async_fifo, &sync,    sizeof(sync),    NULL);
+        av_fifo_generic_write(q->async_fifo, &bs,      sizeof(bs),    NULL);
+    } else {
+free:
+        av_freep(&sync);
+        av_packet_unref(&new_pkt);
+        av_freep(&bs);
+>>>>>>> refs/remotes/origin/master
 #if QSV_VERSION_ATLEAST(1, 26)
         if (avctx->codec_id == AV_CODEC_ID_H264) {
             av_freep(&enc_info);
@@ -1814,10 +1912,17 @@ int ff_qsv_encode(AVCodecContext *avctx, QSVEncContext *q,
             av_freep(&enc_buf);
         }
 #endif
+<<<<<<< HEAD
         av_freep(&qpkt.bs);
         av_freep(&qpkt.sync);
 
         av_packet_move_ref(pkt, &qpkt.pkt);
+=======
+        av_freep(&bs);
+        av_freep(&sync);
+
+        av_packet_move_ref(pkt, &new_pkt);
+>>>>>>> refs/remotes/origin/master
 
         *got_packet = 1;
     }
@@ -1847,6 +1952,7 @@ int ff_qsv_enc_close(AVCodecContext *avctx, QSVEncContext *q)
         cur = q->work_frames;
     }
 
+<<<<<<< HEAD
     if (q->async_fifo) {
         QSVPacket pkt;
         while (av_fifo_read(q->async_fifo, &pkt, 1) >= 0) {
@@ -1863,6 +1969,28 @@ int ff_qsv_enc_close(AVCodecContext *avctx, QSVEncContext *q)
             av_packet_unref(&pkt.pkt);
         }
         av_fifo_freep2(&q->async_fifo);
+=======
+    while (q->async_fifo && av_fifo_size(q->async_fifo)) {
+        AVPacket pkt;
+        mfxSyncPoint *sync;
+        mfxBitstream *bs;
+
+        av_fifo_generic_read(q->async_fifo, &pkt,  sizeof(pkt),  NULL);
+        av_fifo_generic_read(q->async_fifo, &sync, sizeof(sync), NULL);
+        av_fifo_generic_read(q->async_fifo, &bs,   sizeof(bs),   NULL);
+
+#if QSV_VERSION_ATLEAST(1, 26)
+        if (avctx->codec_id == AV_CODEC_ID_H264) {
+            mfxExtBuffer **enc_buf = bs->ExtParam;
+            mfxExtAVCEncodedFrameInfo *enc_info = (mfxExtAVCEncodedFrameInfo *)(*bs->ExtParam);
+            av_freep(&enc_info);
+            av_freep(&enc_buf);
+        }
+#endif
+        av_freep(&sync);
+        av_freep(&bs);
+        av_packet_unref(&pkt);
+>>>>>>> refs/remotes/origin/master
     }
 
     av_freep(&q->opaque_surfaces);

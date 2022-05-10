@@ -57,5 +57,9 @@ typedef struct GBlurContext {
     void (*postscale_slice)(float *buffer, int length, float postscale, float min, float max);
 } GBlurContext;
 
+<<<<<<< HEAD
+=======
+void ff_gblur_init(GBlurContext *s);
+>>>>>>> refs/remotes/origin/master
 void ff_gblur_init_x86(GBlurContext *s);
 #endif

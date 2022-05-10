@@ -184,17 +184,29 @@ static const AVClass v210dec_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_v210_decoder = {
     .p.name         = "v210",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_V210,
+=======
+const AVCodec ff_v210_decoder = {
+    .name           = "v210",
+    .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed 4:2:2 10-bit"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_V210,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(V210DecContext),
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 |
                       AV_CODEC_CAP_SLICE_THREADS |
                       AV_CODEC_CAP_FRAME_THREADS,
+<<<<<<< HEAD
     .p.priv_class   = &v210dec_class,
+=======
+    .priv_class     = &v210dec_class,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

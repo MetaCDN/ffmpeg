@@ -93,6 +93,7 @@ static int dxtory_decode_v1_rgb(AVCodecContext *avctx, AVFrame *pic,
                                 const uint8_t *src, int src_size,
                                 int id, int bpp, uint32_t vflipped)
 {
+    ThreadFrame frame = { .f = pic };
     int h;
     uint8_t *dst;
     int ret;
@@ -103,7 +104,11 @@ static int dxtory_decode_v1_rgb(AVCodecContext *avctx, AVFrame *pic,
     }
 
     avctx->pix_fmt = id;
+<<<<<<< HEAD
     if ((ret = ff_thread_get_buffer(avctx, pic, 0)) < 0)
+=======
+    if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     do_vflip(avctx, pic, vflipped);
@@ -124,6 +129,7 @@ static int dxtory_decode_v1_410(AVCodecContext *avctx, AVFrame *pic,
                                 const uint8_t *src, int src_size,
                                 uint32_t vflipped)
 {
+    ThreadFrame frame = { .f = pic };
     int h, w;
     uint8_t *Y1, *Y2, *Y3, *Y4, *U, *V;
     int height, width, hmargin, vmargin;
@@ -136,7 +142,11 @@ static int dxtory_decode_v1_410(AVCodecContext *avctx, AVFrame *pic,
     }
 
     avctx->pix_fmt = AV_PIX_FMT_YUV410P;
+<<<<<<< HEAD
     if ((ret = ff_thread_get_buffer(avctx, pic, 0)) < 0)
+=======
+    if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     do_vflip(avctx, pic, vflipped);
@@ -219,6 +229,7 @@ static int dxtory_decode_v1_420(AVCodecContext *avctx, AVFrame *pic,
                                 const uint8_t *src, int src_size,
                                 uint32_t vflipped)
 {
+    ThreadFrame frame = { .f = pic };
     int h, w;
     uint8_t *Y1, *Y2, *U, *V;
     int height, width, hmargin, vmargin;
@@ -231,7 +242,11 @@ static int dxtory_decode_v1_420(AVCodecContext *avctx, AVFrame *pic,
     }
 
     avctx->pix_fmt = AV_PIX_FMT_YUV420P;
+<<<<<<< HEAD
     if ((ret = ff_thread_get_buffer(avctx, pic, 0)) < 0)
+=======
+    if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     do_vflip(avctx, pic, vflipped);
@@ -291,6 +306,7 @@ static int dxtory_decode_v1_444(AVCodecContext *avctx, AVFrame *pic,
                                 const uint8_t *src, int src_size,
                                 uint32_t vflipped)
 {
+    ThreadFrame frame = { .f = pic };
     int h, w;
     uint8_t *Y, *U, *V;
     int ret;
@@ -301,7 +317,11 @@ static int dxtory_decode_v1_444(AVCodecContext *avctx, AVFrame *pic,
     }
 
     avctx->pix_fmt = AV_PIX_FMT_YUV444P;
+<<<<<<< HEAD
     if ((ret = ff_thread_get_buffer(avctx, pic, 0)) < 0)
+=======
+    if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     do_vflip(avctx, pic, vflipped);
@@ -426,6 +446,7 @@ static int dxtory_decode_v2(AVCodecContext *avctx, AVFrame *pic,
                             enum AVPixelFormat fmt,
                             uint32_t vflipped)
 {
+    ThreadFrame frame = { .f = pic };
     GetByteContext gb, gb_check;
     GetBitContext  gb2;
     int nslices, slice, line = 0;
@@ -452,7 +473,11 @@ static int dxtory_decode_v2(AVCodecContext *avctx, AVFrame *pic,
         return AVERROR_INVALIDDATA;
 
     avctx->pix_fmt = fmt;
+<<<<<<< HEAD
     if ((ret = ff_thread_get_buffer(avctx, pic, 0)) < 0)
+=======
+    if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     do_vflip(avctx, pic, vflipped);
@@ -870,6 +895,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *pic,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_dxtory_decoder = {
     .p.name         = "dxtory",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Dxtory"),
@@ -877,4 +903,13 @@ const FFCodec ff_dxtory_decoder = {
     .p.id           = AV_CODEC_ID_DXTORY,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+=======
+const AVCodec ff_dxtory_decoder = {
+    .name           = "dxtory",
+    .long_name      = NULL_IF_CONFIG_SMALL("Dxtory"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_DXTORY,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+>>>>>>> refs/remotes/origin/master
 };

@@ -432,6 +432,11 @@ static int magy_decode_frame(AVCodecContext *avctx, AVFrame *p,
                              int *got_frame, AVPacket *avpkt)
 {
     MagicYUVContext *s = avctx->priv_data;
+<<<<<<< HEAD
+=======
+    ThreadFrame frame = { .f = data };
+    AVFrame *p = data;
+>>>>>>> refs/remotes/origin/master
     GetByteContext gb;
     uint32_t first_offset, offset, next_offset, header_size, slice_width;
     int width, height, format, version, table_size;
@@ -693,11 +698,19 @@ static av_cold int magy_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_magicyuv_decoder = {
     .p.name           = "magicyuv",
     .p.long_name      = NULL_IF_CONFIG_SMALL("MagicYUV video"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_MAGICYUV,
+=======
+const AVCodec ff_magicyuv_decoder = {
+    .name             = "magicyuv",
+    .long_name        = NULL_IF_CONFIG_SMALL("MagicYUV video"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_MAGICYUV,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(MagicYUVContext),
     .init             = magy_decode_init,
     .close            = magy_decode_end,

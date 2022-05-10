@@ -12,8 +12,11 @@ fate-gif-gray: CMD = framecrc -i $(TARGET_SAMPLES)/gif/Newtons_cradle_animation_
 
 FATE_GIF += fate-gif-deal
 fate-gif-deal: CMD = framecrc -i $(TARGET_SAMPLES)/gif/deal.gif -vsync cfr -pix_fmt bgra -auto_conversion_filters
+<<<<<<< HEAD
 
 FATE_GIF-$(call FRAMECRC, GIF, GIF, SCALE_FILTER) += $(FATE_GIF)
+=======
+>>>>>>> refs/remotes/origin/master
 
 fate-gifenc%: PIXFMT = $(word 3, $(subst -, ,$(@)))
 fate-gifenc%: SRC = $(TARGET_SAMPLES)/gif/tc217.gif

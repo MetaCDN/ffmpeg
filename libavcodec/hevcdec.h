@@ -26,6 +26,10 @@
 #include <stdatomic.h>
 
 #include "libavutil/buffer.h"
+<<<<<<< HEAD
+=======
+#include "libavutil/md5.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/mem_internal.h"
 
 #include "avcodec.h"
@@ -40,7 +44,12 @@
 #include "hevc_sei.h"
 #include "hevcdsp.h"
 #include "h274.h"
+<<<<<<< HEAD
 #include "threadframe.h"
+=======
+#include "internal.h"
+#include "thread.h"
+>>>>>>> refs/remotes/origin/master
 #include "videodsp.h"
 
 #define SHIFT_CTB_WPP 2
@@ -394,6 +403,10 @@ typedef struct HEVCFrame {
     AVFrame *frame;
     AVFrame *frame_grain;
     ThreadFrame tf;
+<<<<<<< HEAD
+=======
+    ThreadFrame tf_grain;
+>>>>>>> refs/remotes/origin/master
     int needs_fg; /* 1 if grain needs to be applied by the decoder */
     MvField *tab_mvf;
     RefPicList *refPicList;

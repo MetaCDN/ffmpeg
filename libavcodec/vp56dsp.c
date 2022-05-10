@@ -22,7 +22,10 @@
 #include <stdint.h>
 
 #include "config.h"
+<<<<<<< HEAD
 #include "config_components.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/attributes.h"
 #include "vp56dsp.h"
 #include "libavutil/common.h"

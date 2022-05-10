@@ -183,11 +183,19 @@ static int screenpresso_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_screenpresso_decoder = {
     .p.name         = "screenpresso",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Screenpresso"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_SCREENPRESSO,
+=======
+const AVCodec ff_screenpresso_decoder = {
+    .name           = "screenpresso",
+    .long_name      = NULL_IF_CONFIG_SMALL("Screenpresso"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_SCREENPRESSO,
+>>>>>>> refs/remotes/origin/master
     .init           = screenpresso_init,
     FF_CODEC_DECODE_CB(screenpresso_decode_frame),
     .close          = screenpresso_close,

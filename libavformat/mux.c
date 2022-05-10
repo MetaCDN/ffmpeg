@@ -21,7 +21,10 @@
 
 #include "avformat.h"
 #include "internal.h"
+<<<<<<< HEAD
 #include "version.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavcodec/bsf.h"
 #include "libavcodec/internal.h"
 #include "libavcodec/packet_internal.h"
@@ -1079,12 +1082,21 @@ int ff_interleave_packet_per_dts(AVFormatContext *s, AVPacket *pkt,
 
 int ff_interleave_packet_passthrough(AVFormatContext *s, AVPacket *pkt,
                                      int flush, int has_packet)
+<<<<<<< HEAD
 {
     return has_packet;
 }
 
 int ff_get_muxer_ts_offset(AVFormatContext *s, int stream_index, int64_t *offset)
 {
+=======
+{
+    return has_packet;
+}
+
+int ff_get_muxer_ts_offset(AVFormatContext *s, int stream_index, int64_t *offset)
+{
+>>>>>>> refs/remotes/origin/master
     AVStream *st;
 
     if (stream_index < 0 || stream_index >= s->nb_streams)

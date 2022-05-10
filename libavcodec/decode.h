@@ -90,7 +90,11 @@ int ff_copy_palette(void *dst, const AVPacket *src, void *logctx);
 
 /**
  * Perform decoder initialization and validation.
+<<<<<<< HEAD
  * Called when opening the decoder, before the FFCodec.init() call.
+=======
+ * Called when opening the decoder, before the AVCodec.init() call.
+>>>>>>> refs/remotes/origin/master
  */
 int ff_decode_preinit(AVCodecContext *avctx);
 

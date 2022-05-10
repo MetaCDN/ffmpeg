@@ -35,6 +35,10 @@
 #include "dct.h"
 #include "encode.h"
 #include "fdctdsp.h"
+<<<<<<< HEAD
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "mpeg12data.h"
 
 static inline void asv1_put_level(PutBitContext *pb, int level)
@@ -343,11 +347,19 @@ static av_cold int encode_init(AVCodecContext *avctx)
 }
 
 #if CONFIG_ASV1_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_asv1_encoder = {
     .p.name         = "asv1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ASUS V1"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_ASV1,
+=======
+const AVCodec ff_asv1_encoder = {
+    .name           = "asv1",
+    .long_name      = NULL_IF_CONFIG_SMALL("ASUS V1"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_ASV1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ASV1Context),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
@@ -358,11 +370,19 @@ const FFCodec ff_asv1_encoder = {
 #endif
 
 #if CONFIG_ASV2_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_asv2_encoder = {
     .p.name         = "asv2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ASUS V2"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_ASV2,
+=======
+const AVCodec ff_asv2_encoder = {
+    .name           = "asv2",
+    .long_name      = NULL_IF_CONFIG_SMALL("ASUS V2"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_ASV2,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ASV1Context),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),

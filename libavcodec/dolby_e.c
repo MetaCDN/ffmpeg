@@ -23,7 +23,10 @@
 #include "libavutil/thread.h"
 #include "libavutil/mem.h"
 #include "libavutil/mem_internal.h"
+<<<<<<< HEAD
 #include "libavutil/opt.h"
+=======
+>>>>>>> refs/remotes/origin/master
 
 #include "codec_internal.h"
 #include "internal.h"
@@ -41,11 +44,14 @@
 #define MAX_MSTR_EXP    2
 #define MAX_BIAS_EXP    50
 
+<<<<<<< HEAD
 enum DBEOutputChannelOrder {
     CHANNEL_ORDER_DEFAULT,
     CHANNEL_ORDER_CODED,
 };
 
+=======
+>>>>>>> refs/remotes/origin/master
 typedef struct DBEGroup {
     uint8_t         nb_exponent;
     uint8_t         nb_bias_exp[MAX_MSTR_EXP];
@@ -77,7 +83,10 @@ typedef struct DBEChannel {
 } DBEChannel;
 
 typedef struct DBEDecodeContext {
+<<<<<<< HEAD
     const AVClass   *class;
+=======
+>>>>>>> refs/remotes/origin/master
     AVCodecContext  *avctx;
     DBEContext  dectx;
 
@@ -1065,7 +1074,11 @@ static int filter_frame(DBEDecodeContext *s, AVFrame *frame)
         reorder = ch_reorder_4;
     else if (metadata->nb_channels == 6)
         reorder = ch_reorder_6;
+<<<<<<< HEAD
     else if (metadata->nb_programs == 1 && metadata->output_channel_order == CHANNEL_ORDER_DEFAULT)
+=======
+    else if (metadata->nb_programs == 1 && !(s->avctx->request_channel_layout & AV_CH_LAYOUT_NATIVE))
+>>>>>>> refs/remotes/origin/master
         reorder = ch_reorder_8;
     else
         reorder = ch_reorder_n;
@@ -1101,7 +1114,10 @@ static int dolby_e_decode_frame(AVCodecContext *avctx, AVFrame *frame,
         s->metadata.multi_prog_warned = 1;
     }
 
+<<<<<<< HEAD
     av_channel_layout_uninit(&avctx->ch_layout);
+=======
+>>>>>>> refs/remotes/origin/master
     switch (s->metadata.nb_channels) {
     case 4:
         avctx->ch_layout = (AVChannelLayout)AV_CHANNEL_LAYOUT_4POINT0;
@@ -1118,6 +1134,10 @@ static int dolby_e_decode_frame(AVCodecContext *avctx, AVFrame *frame,
         break;
     }
 
+<<<<<<< HEAD
+=======
+    avctx->channels    = s->metadata.nb_channels;
+>>>>>>> refs/remotes/origin/master
     avctx->sample_rate = s->metadata.sample_rate;
     avctx->sample_fmt  = AV_SAMPLE_FMT_FLTP;
 
@@ -1135,7 +1155,11 @@ static int dolby_e_decode_frame(AVCodecContext *avctx, AVFrame *frame,
         return ret;
     if ((ret = parse_meter(s1)) < 0)
         return ret;
+<<<<<<< HEAD
     if ((ret = filter_frame(s1, frame)) < 0)
+=======
+    if ((ret = filter_frame(s1, data)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     *got_frame_ptr = 1;
@@ -1264,6 +1288,7 @@ static av_cold int dolby_e_init(AVCodecContext *avctx)
     if (!(s->fdsp = avpriv_float_dsp_alloc(0)))
         return AVERROR(ENOMEM);
 
+<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
 FF_DISABLE_DEPRECATION_WARNINGS
     if (avctx->request_channel_layout & AV_CH_LAYOUT_NATIVE)
@@ -1272,10 +1297,14 @@ FF_ENABLE_DEPRECATION_WARNINGS
 #endif
 
     s->dectx.metadata.multi_prog_warned = s->dectx.metadata.output_channel_order == CHANNEL_ORDER_CODED;
+=======
+    s->dectx.metadata.multi_prog_warned = !!(avctx->request_channel_layout & AV_CH_LAYOUT_NATIVE);
+>>>>>>> refs/remotes/origin/master
     s->dectx.avctx = s->avctx = avctx;
     return 0;
 }
 
+<<<<<<< HEAD
 #define OFFSET(x) offsetof(DBEDecodeContext, x)
 #define FLAGS (AV_OPT_FLAG_DECODING_PARAM | AV_OPT_FLAG_AUDIO_PARAM)
 static const AVOption options[] = {
@@ -1304,6 +1333,14 @@ const FFCodec ff_dolby_e_decoder = {
     .p.id           = AV_CODEC_ID_DOLBY_E,
     .priv_data_size = sizeof(DBEDecodeContext),
     .p.priv_class   = &dolby_e_decoder_class,
+=======
+const AVCodec ff_dolby_e_decoder = {
+    .name           = "dolby_e",
+    .long_name      = NULL_IF_CONFIG_SMALL("Dolby E"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_DOLBY_E,
+    .priv_data_size = sizeof(DBEDecodeContext),
+>>>>>>> refs/remotes/origin/master
     .init           = dolby_e_init,
     FF_CODEC_DECODE_CB(dolby_e_decode_frame),
     .close          = dolby_e_close,

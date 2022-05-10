@@ -23,8 +23,13 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "sgi.h"
 #include "rle.h"
 
@@ -270,11 +275,19 @@ static const AVClass sgi_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_sgi_encoder = {
     .p.name    = "sgi",
     .p.long_name = NULL_IF_CONFIG_SMALL("SGI image"),
     .p.type    = AVMEDIA_TYPE_VIDEO,
     .p.id      = AV_CODEC_ID_SGI,
+=======
+const AVCodec ff_sgi_encoder = {
+    .name      = "sgi",
+    .long_name = NULL_IF_CONFIG_SMALL("SGI image"),
+    .type      = AVMEDIA_TYPE_VIDEO,
+    .id        = AV_CODEC_ID_SGI,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(SgiContext),
     .p.priv_class = &sgi_class,
     .init      = encode_init,

@@ -305,12 +305,20 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *p,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_targa_decoder = {
     .p.name         = "targa",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Truevision Targa image"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_TARGA,
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_targa_decoder = {
+    .name           = "targa",
+    .long_name      = NULL_IF_CONFIG_SMALL("Truevision Targa image"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_TARGA,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(TargaContext),
     FF_CODEC_DECODE_CB(decode_frame),
 };

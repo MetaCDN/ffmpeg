@@ -30,6 +30,10 @@
 
 #include "config.h"
 #include "attributes.h"
+<<<<<<< HEAD
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "lls.h"
 
 static void update_lls(LLSModel *m, const double *var)

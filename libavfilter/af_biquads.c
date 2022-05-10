@@ -100,7 +100,10 @@ enum WidthType {
 enum TransformType {
     DI,
     DII,
+<<<<<<< HEAD
     TDI,
+=======
+>>>>>>> refs/remotes/origin/master
     TDII,
     LATT,
     SVF,
@@ -124,7 +127,10 @@ typedef struct BiquadsContext {
     int csg;
     int transform_type;
     int precision;
+<<<<<<< HEAD
     int block_samples;
+=======
+>>>>>>> refs/remotes/origin/master
 
     int bypass;
 
@@ -143,8 +149,11 @@ typedef struct BiquadsContext {
     double oa0, oa1, oa2;
     double ob0, ob1, ob2;
 
+<<<<<<< HEAD
     AVFrame *block[3];
 
+=======
+>>>>>>> refs/remotes/origin/master
     ChanCache *cache;
     int block_align;
 
@@ -328,6 +337,7 @@ BIQUAD_DII_FILTER(s32, int32_t, INT32_MIN, INT32_MAX, 1)
 BIQUAD_DII_FILTER(flt, float,   -1., 1., 0)
 BIQUAD_DII_FILTER(dbl, double,  -1., 1., 0)
 
+<<<<<<< HEAD
 #define BIQUAD_TDI_FILTER(name, type, min, max, need_clipping)                \
 static void biquad_tdi_## name (BiquadsContext *s,                            \
                             const void *input, void *output, int len,         \
@@ -384,6 +394,8 @@ BIQUAD_TDI_FILTER(s32, int32_t, INT32_MIN, INT32_MAX, 1)
 BIQUAD_TDI_FILTER(flt, float,   -1., 1., 0)
 BIQUAD_TDI_FILTER(dbl, double,  -1., 1., 0)
 
+=======
+>>>>>>> refs/remotes/origin/master
 #define BIQUAD_TDII_FILTER(name, type, min, max, need_clipping)               \
 static void biquad_tdii_## name (BiquadsContext *s,                           \
                             const void *input, void *output, int len,         \
@@ -786,6 +798,7 @@ static int config_filter(AVFilterLink *outlink, int reset)
     if (!s->cache)
         return AVERROR(ENOMEM);
     if (reset)
+<<<<<<< HEAD
         memset(s->cache, 0, sizeof(ChanCache) * inlink->ch_layout.nb_channels);
 
     if (reset && s->block_samples > 0) {
@@ -905,6 +918,102 @@ static int config_filter(AVFilterLink *outlink, int reset)
 
      s->block_align = av_get_bytes_per_sample(inlink->format);
 
+=======
+        memset(s->cache, 0, sizeof(ChanCache) * inlink->channels);
+
+    switch (s->transform_type) {
+    case DI:
+        switch (inlink->format) {
+        case AV_SAMPLE_FMT_S16P:
+            s->filter = biquad_s16;
+            break;
+        case AV_SAMPLE_FMT_S32P:
+            s->filter = biquad_s32;
+            break;
+        case AV_SAMPLE_FMT_FLTP:
+            s->filter = biquad_flt;
+            break;
+        case AV_SAMPLE_FMT_DBLP:
+            s->filter = biquad_dbl;
+            break;
+        default: av_assert0(0);
+        }
+        break;
+    case DII:
+        switch (inlink->format) {
+        case AV_SAMPLE_FMT_S16P:
+            s->filter = biquad_dii_s16;
+            break;
+        case AV_SAMPLE_FMT_S32P:
+            s->filter = biquad_dii_s32;
+            break;
+        case AV_SAMPLE_FMT_FLTP:
+            s->filter = biquad_dii_flt;
+            break;
+        case AV_SAMPLE_FMT_DBLP:
+            s->filter = biquad_dii_dbl;
+            break;
+        default: av_assert0(0);
+        }
+        break;
+    case TDII:
+        switch (inlink->format) {
+        case AV_SAMPLE_FMT_S16P:
+            s->filter = biquad_tdii_s16;
+            break;
+        case AV_SAMPLE_FMT_S32P:
+            s->filter = biquad_tdii_s32;
+            break;
+        case AV_SAMPLE_FMT_FLTP:
+            s->filter = biquad_tdii_flt;
+            break;
+        case AV_SAMPLE_FMT_DBLP:
+            s->filter = biquad_tdii_dbl;
+            break;
+        default: av_assert0(0);
+        }
+        break;
+    case LATT:
+        switch (inlink->format) {
+        case AV_SAMPLE_FMT_S16P:
+            s->filter = biquad_latt_s16;
+            break;
+        case AV_SAMPLE_FMT_S32P:
+            s->filter = biquad_latt_s32;
+            break;
+        case AV_SAMPLE_FMT_FLTP:
+            s->filter = biquad_latt_flt;
+            break;
+        case AV_SAMPLE_FMT_DBLP:
+            s->filter = biquad_latt_dbl;
+            break;
+        default: av_assert0(0);
+        }
+        break;
+    case SVF:
+        switch (inlink->format) {
+        case AV_SAMPLE_FMT_S16P:
+            s->filter = biquad_svf_s16;
+            break;
+        case AV_SAMPLE_FMT_S32P:
+            s->filter = biquad_svf_s32;
+            break;
+        case AV_SAMPLE_FMT_FLTP:
+            s->filter = biquad_svf_flt;
+            break;
+        case AV_SAMPLE_FMT_DBLP:
+            s->filter = biquad_svf_dbl;
+            break;
+        default: av_assert0(0);
+        }
+        break;
+    default:
+        av_assert0(0);
+     }
+
+     s->block_align = av_get_bytes_per_sample(inlink->format);
+
+>>>>>>> refs/remotes/origin/master
      if (s->transform_type == LATT)
          convert_dir2latt(s);
      else if (s->transform_type == SVF)
@@ -1036,6 +1145,9 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
         av_channel_layout_from_string(&s->ch_layout,
                                       s->ch_layout_str);
 
+    if (s->bypass)
+        return ff_filter_frame(outlink, buf);
+
     if (av_frame_is_writable(buf)) {
         out_buf = buf;
     } else {
@@ -1050,7 +1162,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *buf)
     td.in = buf;
     td.out = out_buf;
     ff_filter_execute(ctx, filter_channel, &td, NULL,
+<<<<<<< HEAD
                       FFMIN(outlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
+=======
+                      FFMIN(outlink->channels, ff_filter_get_nb_threads(ctx)));
+>>>>>>> refs/remotes/origin/master
 
     for (ch = 0; ch < outlink->ch_layout.nb_channels; ch++) {
         if (s->cache[ch].clippings > 0)
@@ -1146,7 +1262,11 @@ static av_cold int name_##_init(AVFilterContext *ctx)                   \
     return 0;                                                           \
 }                                                                       \
                                                          \
+<<<<<<< HEAD
 const AVFilter ff_af_##name_ = {                         \
+=======
+const AVFilter ff_af_##name_ = {                               \
+>>>>>>> refs/remotes/origin/master
     .name          = #name_,                             \
     .description   = NULL_IF_CONFIG_SMALL(description_), \
     .priv_class    = &priv_class_##_class,               \
@@ -1190,7 +1310,10 @@ static const AVOption equalizer_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1201,8 +1324,11 @@ static const AVOption equalizer_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 
@@ -1235,7 +1361,10 @@ static const AVOption bass_lowshelf_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1246,8 +1375,11 @@ static const AVOption bass_lowshelf_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 
@@ -1287,7 +1419,10 @@ static const AVOption treble_highshelf_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1298,8 +1433,11 @@ static const AVOption treble_highshelf_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 
@@ -1338,7 +1476,10 @@ static const AVOption bandpass_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1349,8 +1490,11 @@ static const AVOption bandpass_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 
@@ -1379,7 +1523,10 @@ static const AVOption bandreject_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1390,8 +1537,11 @@ static const AVOption bandreject_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 
@@ -1422,7 +1572,10 @@ static const AVOption lowpass_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1433,8 +1586,11 @@ static const AVOption lowpass_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 
@@ -1465,7 +1621,10 @@ static const AVOption highpass_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1476,8 +1635,11 @@ static const AVOption highpass_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 
@@ -1508,7 +1670,10 @@ static const AVOption allpass_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1542,7 +1707,10 @@ static const AVOption biquad_options[] = {
     {"a",         "set transform type", OFFSET(transform_type), AV_OPT_TYPE_INT, {.i64=0}, 0, NB_TTYPE-1, AF, "transform_type"},
     {"di",   "direct form I",  0, AV_OPT_TYPE_CONST, {.i64=DI}, 0, 0, AF, "transform_type"},
     {"dii",  "direct form II", 0, AV_OPT_TYPE_CONST, {.i64=DII}, 0, 0, AF, "transform_type"},
+<<<<<<< HEAD
     {"tdi",  "transposed direct form I",  0, AV_OPT_TYPE_CONST, {.i64=TDI},  0, 0, AF, "transform_type"},
+=======
+>>>>>>> refs/remotes/origin/master
     {"tdii", "transposed direct form II", 0, AV_OPT_TYPE_CONST, {.i64=TDII}, 0, 0, AF, "transform_type"},
     {"latt", "lattice-ladder form", 0, AV_OPT_TYPE_CONST, {.i64=LATT}, 0, 0, AF, "transform_type"},
     {"svf",  "state variable filter form", 0, AV_OPT_TYPE_CONST, {.i64=SVF}, 0, 0, AF, "transform_type"},
@@ -1553,8 +1721,11 @@ static const AVOption biquad_options[] = {
     {"s32", "signed 32-bit",         0, AV_OPT_TYPE_CONST, {.i64=1},  0, 0, AF, "precision"},
     {"f32", "floating-point single", 0, AV_OPT_TYPE_CONST, {.i64=2},  0, 0, AF, "precision"},
     {"f64", "floating-point double", 0, AV_OPT_TYPE_CONST, {.i64=3},  0, 0, AF, "precision"},
+<<<<<<< HEAD
     {"blocksize", "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
     {"b",         "set the block size", OFFSET(block_samples), AV_OPT_TYPE_INT, {.i64=0}, 0, 32768, AF},
+=======
+>>>>>>> refs/remotes/origin/master
     {NULL}
 };
 

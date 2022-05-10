@@ -49,8 +49,13 @@
 #include <zlib.h>
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "put_bits.h"
 #include "bytestream.h"
 
@@ -257,15 +262,27 @@ static int flashsv_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_flashsv_encoder = {
     .p.name         = "flashsv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Flash Screen Video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FLASHSV,
+=======
+const AVCodec ff_flashsv_encoder = {
+    .name           = "flashsv",
+    .long_name      = NULL_IF_CONFIG_SMALL("Flash Screen Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_FLASHSV,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(FlashSVContext),
     .init           = flashsv_encode_init,
     FF_CODEC_ENCODE_CB(flashsv_encode_frame),
     .close          = flashsv_encode_end,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_BGR24, AV_PIX_FMT_NONE },
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_BGR24, AV_PIX_FMT_NONE },
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

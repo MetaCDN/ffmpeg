@@ -27,8 +27,11 @@
  * MSMPEG4 backend for encoder and decoder
  */
 
+<<<<<<< HEAD
 #include "config_components.h"
 
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/thread.h"
 
 #include "avcodec.h"

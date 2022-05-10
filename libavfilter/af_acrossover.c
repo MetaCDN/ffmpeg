@@ -354,10 +354,17 @@ BIQUAD_PROCESS(dblp, double)
 static int filter_channels_## name(AVFilterContext *ctx, void *arg, int jobnr, int nb_jobs) \
 {                                                                                           \
     AudioCrossoverContext *s = ctx->priv;                                                   \
+<<<<<<< HEAD
     AVFrame *in = arg;                                                           \
     AVFrame **frames = s->frames;                                                           \
     const int start = (in->ch_layout.nb_channels * jobnr) / nb_jobs;                        \
     const int end = (in->ch_layout.nb_channels * (jobnr+1)) / nb_jobs;                      \
+=======
+    AVFrame *in = s->input_frame;                                                           \
+    AVFrame **frames = s->frames;                                                           \
+    const int start = (in->channels * jobnr) / nb_jobs;                                     \
+    const int end = (in->channels * (jobnr+1)) / nb_jobs;                                   \
+>>>>>>> refs/remotes/origin/master
     const int nb_samples = in->nb_samples;                                                  \
     const int nb_outs = ctx->nb_outputs;                                                    \
     const int first_order = s->first_order;                                                 \
@@ -495,6 +502,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
     if (ret < 0)
         goto fail;
 
+<<<<<<< HEAD
     ff_filter_execute(ctx, s->filter_channels, in, NULL,
                       FFMIN(inlink->ch_layout.nb_channels, ff_filter_get_nb_threads(ctx)));
 
@@ -503,6 +511,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
             av_frame_free(&frames[i]);
             continue;
         }
+=======
+    s->input_frame = in;
+    ff_filter_execute(ctx, s->filter_channels, NULL, NULL,
+                      FFMIN(inlink->channels, ff_filter_get_nb_threads(ctx)));
+>>>>>>> refs/remotes/origin/master
 
         ret = ff_filter_frame(ctx->outputs[i], frames[i]);
         frames[i] = NULL;

@@ -491,11 +491,19 @@ static av_cold int cllc_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_cllc_decoder = {
     .p.name         = "cllc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Canopus Lossless Codec"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_CLLC,
+=======
+const AVCodec ff_cllc_decoder = {
+    .name           = "cllc",
+    .long_name      = NULL_IF_CONFIG_SMALL("Canopus Lossless Codec"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_CLLC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(CLLCContext),
     .init           = cllc_decode_init,
     FF_CODEC_DECODE_CB(cllc_decode_frame),

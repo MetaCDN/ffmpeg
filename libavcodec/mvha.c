@@ -298,11 +298,19 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_mvha_decoder = {
     .p.name           = "mvha",
     .p.long_name      = NULL_IF_CONFIG_SMALL("MidiVid Archive Codec"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_MVHA,
+=======
+const AVCodec ff_mvha_decoder = {
+    .name             = "mvha",
+    .long_name        = NULL_IF_CONFIG_SMALL("MidiVid Archive Codec"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_MVHA,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(MVHAContext),
     .init             = decode_init,
     .close            = decode_close,

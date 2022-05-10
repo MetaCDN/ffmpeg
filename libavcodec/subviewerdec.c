@@ -26,7 +26,11 @@
 
 #include "avcodec.h"
 #include "ass.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/bprint.h"
 
 static int subviewer_event_to_ass(AVBPrint *buf, const char *p)
@@ -65,12 +69,21 @@ static int subviewer_decode_frame(AVCodecContext *avctx, AVSubtitle *sub,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_subviewer_decoder = {
     .p.name         = "subviewer",
     .p.long_name    = NULL_IF_CONFIG_SMALL("SubViewer subtitle"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_SUBVIEWER,
     FF_CODEC_DECODE_SUB_CB(subviewer_decode_frame),
+=======
+const AVCodec ff_subviewer_decoder = {
+    .name           = "subviewer",
+    .long_name      = NULL_IF_CONFIG_SMALL("SubViewer subtitle"),
+    .type           = AVMEDIA_TYPE_SUBTITLE,
+    .id             = AV_CODEC_ID_SUBVIEWER,
+    .decode         = subviewer_decode_frame,
+>>>>>>> refs/remotes/origin/master
     .init           = ff_ass_subtitle_header_default,
     .flush          = ff_ass_decoder_flush,
     .priv_data_size = sizeof(FFASSDecoderContext),

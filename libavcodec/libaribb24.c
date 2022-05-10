@@ -381,6 +381,7 @@ static const AVClass aribb24_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libaribb24_decoder = {
     .p.name         = "libaribb24",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libaribb24 ARIB STD-B24 caption decoder"),
@@ -388,6 +389,13 @@ const FFCodec ff_libaribb24_decoder = {
     .p.id           = AV_CODEC_ID_ARIB_CAPTION,
     .p.priv_class   = &aribb24_class,
     .p.wrapper_name = "libaribb24",
+=======
+const AVCodec ff_libaribb24_decoder = {
+    .name      = "libaribb24",
+    .long_name = NULL_IF_CONFIG_SMALL("libaribb24 ARIB STD-B24 caption decoder"),
+    .type      = AVMEDIA_TYPE_SUBTITLE,
+    .id        = AV_CODEC_ID_ARIB_CAPTION,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(Libaribb24Context),
     .init      = libaribb24_init,
     .close     = libaribb24_close,

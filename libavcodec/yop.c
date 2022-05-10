@@ -266,6 +266,7 @@ static int yop_decode_frame(AVCodecContext *avctx, AVFrame *rframe,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_yop_decoder = {
     .p.name         = "yop",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Psygnosis YOP Video"),
@@ -275,5 +276,16 @@ const FFCodec ff_yop_decoder = {
     .init           = yop_decode_init,
     .close          = yop_decode_close,
     FF_CODEC_DECODE_CB(yop_decode_frame),
+=======
+const AVCodec ff_yop_decoder = {
+    .name           = "yop",
+    .long_name      = NULL_IF_CONFIG_SMALL("Psygnosis YOP Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_YOP,
+    .priv_data_size = sizeof(YopDecContext),
+    .init           = yop_decode_init,
+    .close          = yop_decode_close,
+    .decode         = yop_decode_frame,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

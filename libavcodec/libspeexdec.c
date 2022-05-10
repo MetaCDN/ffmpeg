@@ -190,6 +190,7 @@ static av_cold void libspeex_decode_flush(AVCodecContext *avctx)
     speex_bits_reset(&s->bits);
 }
 
+<<<<<<< HEAD
 const FFCodec ff_libspeex_decoder = {
     .p.name         = "libspeex",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libspeex Speex"),
@@ -197,9 +198,21 @@ const FFCodec ff_libspeex_decoder = {
     .p.id           = AV_CODEC_ID_SPEEX,
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.wrapper_name = "libspeex",
+=======
+const AVCodec ff_libspeex_decoder = {
+    .name           = "libspeex",
+    .long_name      = NULL_IF_CONFIG_SMALL("libspeex Speex"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_SPEEX,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibSpeexContext),
     .init           = libspeex_decode_init,
     .close          = libspeex_decode_close,
     FF_CODEC_DECODE_CB(libspeex_decode_frame),
     .flush          = libspeex_decode_flush,
+<<<<<<< HEAD
+=======
+    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+    .wrapper_name   = "libspeex",
+>>>>>>> refs/remotes/origin/master
 };

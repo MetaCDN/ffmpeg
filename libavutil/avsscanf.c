@@ -31,6 +31,11 @@
 #include <string.h>
 #include <float.h>
 
+<<<<<<< HEAD
+=======
+#include "config.h"
+#include "common.h"
+>>>>>>> refs/remotes/origin/master
 #include "avstring.h"
 #include "libm.h"
 

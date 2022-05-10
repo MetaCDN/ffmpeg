@@ -22,6 +22,9 @@
 #define CACHED_BITSTREAM_READER !ARCH_X86_32
 #define SHEER_VLC_BITS 12
 
+#define CACHED_BITSTREAM_READER !ARCH_X86_32
+#define SHEER_VLC_BITS 12
+
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
 #include "codec_internal.h"
@@ -1805,7 +1808,13 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *p,
                         int *got_frame, AVPacket *avpkt)
 {
     SheerVideoContext *s = avctx->priv_data;
+<<<<<<< HEAD
     const SheerTable *table;
+=======
+    ThreadFrame frame = { .f = data };
+    const SheerTable *table;
+    AVFrame *p = data;
+>>>>>>> refs/remotes/origin/master
     GetBitContext gb;
     unsigned format;
     int ret;
@@ -1998,12 +2007,20 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_sheervideo_decoder = {
     .p.name           = "sheervideo",
     .p.long_name      = NULL_IF_CONFIG_SMALL("BitJazz SheerVideo"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_SHEERVIDEO,
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+=======
+const AVCodec ff_sheervideo_decoder = {
+    .name             = "sheervideo",
+    .long_name        = NULL_IF_CONFIG_SMALL("BitJazz SheerVideo"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_SHEERVIDEO,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(SheerVideoContext),
     .close            = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),

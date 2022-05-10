@@ -433,6 +433,7 @@ static int xan_decode_frame(AVCodecContext *avctx, AVFrame *rframe,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_xan_wc4_decoder = {
     .p.name         = "xan_wc4",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Wing Commander IV / Xxan"),
@@ -443,5 +444,17 @@ const FFCodec ff_xan_wc4_decoder = {
     .close          = xan_decode_end,
     FF_CODEC_DECODE_CB(xan_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_xan_wc4_decoder = {
+    .name           = "xan_wc4",
+    .long_name      = NULL_IF_CONFIG_SMALL("Wing Commander IV / Xxan"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_XAN_WC4,
+    .priv_data_size = sizeof(XanContext),
+    .init           = xan_decode_init,
+    .close          = xan_decode_end,
+    .decode         = xan_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_INIT_THREADSAFE,
 };

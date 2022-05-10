@@ -27,7 +27,10 @@
 #include "libavutil/internal.h"
 #include "libavutil/opt.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 
@@ -140,9 +143,15 @@ static int amr_wb_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_libvo_amrwbenc_encoder = {
     .p.name         = "libvo_amrwbenc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Android VisualOn AMR-WB "
+=======
+const AVCodec ff_libvo_amrwbenc_encoder = {
+    .name           = "libvo_amrwbenc",
+    .long_name      = NULL_IF_CONFIG_SMALL("Android VisualOn AMR-WB "
+>>>>>>> refs/remotes/origin/master
                                            "(Adaptive Multi-Rate Wide-Band)"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_AMR_WB,

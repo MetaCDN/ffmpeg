@@ -34,7 +34,10 @@
 
 #include "avcodec.h"
 #include "celp_math.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "g723_1.h"
 
@@ -1238,12 +1241,21 @@ static const FFCodecDefault defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_g723_1_encoder = {
     .p.name         = "g723_1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("G.723.1"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_G723_1,
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_g723_1_encoder = {
+    .name           = "g723_1",
+    .long_name      = NULL_IF_CONFIG_SMALL("G.723.1"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_G723_1,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(G723_1_Context),
     .init           = g723_1_encode_init,
     FF_CODEC_ENCODE_CB(g723_1_encode_frame),
@@ -1251,8 +1263,11 @@ const FFCodec ff_g723_1_encoder = {
     .p.sample_fmts  = (const enum AVSampleFormat[]) {
         AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE
     },
+<<<<<<< HEAD
     .p.ch_layouts   = (const AVChannelLayout[]){
         AV_CHANNEL_LAYOUT_MONO, { 0 }
     },
+=======
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

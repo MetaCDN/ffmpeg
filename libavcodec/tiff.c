@@ -1018,7 +1018,11 @@ static int dng_decode_tiles(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 static int init_image(TiffContext *s, AVFrame *frame)
+=======
+static int init_image(TiffContext *s, ThreadFrame *frame)
+>>>>>>> refs/remotes/origin/master
 {
     int ret;
     int create_gray_palette = 0;
@@ -2177,6 +2181,7 @@ static const AVClass tiff_decoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_tiff_decoder = {
     .p.name         = "tiff",
     .p.long_name    = NULL_IF_CONFIG_SMALL("TIFF image"),
@@ -2189,4 +2194,18 @@ const FFCodec ff_tiff_decoder = {
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.priv_class   = &tiff_decoder_class,
+=======
+const AVCodec ff_tiff_decoder = {
+    .name           = "tiff",
+    .long_name      = NULL_IF_CONFIG_SMALL("TIFF image"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_TIFF,
+    .priv_data_size = sizeof(TiffContext),
+    .init           = tiff_init,
+    .close          = tiff_end,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .priv_class     = &tiff_decoder_class,
+>>>>>>> refs/remotes/origin/master
 };

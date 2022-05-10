@@ -46,9 +46,15 @@ static const AVClass dnn_native_class = {
     .category   = AV_CLASS_CATEGORY_FILTER,
 };
 
+<<<<<<< HEAD
 static int execute_model_native(Queue *lltask_queue);
 
 static int extract_lltask_from_task(TaskItem *task, Queue *lltask_queue)
+=======
+static DNNReturnType execute_model_native(Queue *lltask_queue);
+
+static DNNReturnType extract_lltask_from_task(TaskItem *task, Queue *lltask_queue)
+>>>>>>> refs/remotes/origin/master
 {
     NativeModel *native_model = task->model;
     NativeContext *ctx = &native_model->ctx;
@@ -56,7 +62,11 @@ static int extract_lltask_from_task(TaskItem *task, Queue *lltask_queue)
 
     if (!lltask) {
         av_log(ctx, AV_LOG_ERROR, "Unable to allocate space for LastLevelTaskItem\n");
+<<<<<<< HEAD
         return AVERROR(ENOMEM);
+=======
+        return DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
     }
     task->inference_todo = 1;
     task->inference_done = 0;
@@ -65,9 +75,15 @@ static int extract_lltask_from_task(TaskItem *task, Queue *lltask_queue)
     if (ff_queue_push_back(lltask_queue, lltask) < 0) {
         av_log(ctx, AV_LOG_ERROR, "Failed to push back lltask_queue.\n");
         av_freep(&lltask);
+<<<<<<< HEAD
         return AVERROR(ENOMEM);
     }
     return 0;
+=======
+        return DNN_ERROR;
+    }
+    return DNN_SUCCESS;
+>>>>>>> refs/remotes/origin/master
 }
 
 static int get_input_native(void *model, DNNData *input, const char *input_name)
@@ -80,7 +96,11 @@ static int get_input_native(void *model, DNNData *input, const char *input_name)
         if (strcmp(oprd->name, input_name) == 0) {
             if (oprd->type != DOT_INPUT) {
                 av_log(ctx, AV_LOG_ERROR, "Found \"%s\" in model, but it is not input node\n", input_name);
+<<<<<<< HEAD
                 return AVERROR(EINVAL);
+=======
+                return DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
             }
             input->dt = oprd->data_type;
             av_assert0(oprd->dims[0] == 1);
@@ -93,6 +113,7 @@ static int get_input_native(void *model, DNNData *input, const char *input_name)
 
     // do not find the input operand
     av_log(ctx, AV_LOG_ERROR, "Could not find \"%s\" in model\n", input_name);
+<<<<<<< HEAD
     return AVERROR(EINVAL);
 }
 
@@ -100,6 +121,15 @@ static int get_output_native(void *model, const char *input_name, int input_widt
                                        const char *output_name, int *output_width, int *output_height)
 {
     int ret = 0;
+=======
+    return DNN_ERROR;
+}
+
+static DNNReturnType get_output_native(void *model, const char *input_name, int input_width, int input_height,
+                                       const char *output_name, int *output_width, int *output_height)
+{
+    DNNReturnType ret = 0;
+>>>>>>> refs/remotes/origin/master
     NativeModel *native_model = model;
     NativeContext *ctx = &native_model->ctx;
     TaskItem task;
@@ -111,6 +141,7 @@ static int get_output_native(void *model, const char *input_name, int input_widt
         .out_frame      = NULL,
     };
 
+<<<<<<< HEAD
     ret = ff_dnn_fill_gettingoutput_task(&task, &exec_params, native_model, input_height, input_width, ctx);
     if (ret != 0) {
         goto err;
@@ -119,6 +150,16 @@ static int get_output_native(void *model, const char *input_name, int input_widt
     ret = extract_lltask_from_task(&task, native_model->lltask_queue);
     if (ret != 0) {
         av_log(ctx, AV_LOG_ERROR, "unable to extract last level task from task.\n");
+=======
+    if (ff_dnn_fill_gettingoutput_task(&task, &exec_params, native_model, input_height, input_width, ctx) != DNN_SUCCESS) {
+        ret = DNN_ERROR;
+        goto err;
+    }
+
+    if (extract_lltask_from_task(&task, native_model->lltask_queue) != DNN_SUCCESS) {
+        av_log(ctx, AV_LOG_ERROR, "unable to extract last level task from task.\n");
+        ret = DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
         goto err;
     }
 
@@ -193,6 +234,7 @@ DNNModel *ff_dnn_load_model_native(const char *model_filename, DNNFunctionType f
     if (native_model->ctx.options.async) {
         av_log(&native_model->ctx, AV_LOG_WARNING, "Async not supported. Rolling back to sync\n");
         native_model->ctx.options.async = 0;
+<<<<<<< HEAD
     }
 
 #if !HAVE_PTHREAD_CANCEL
@@ -200,6 +242,15 @@ DNNModel *ff_dnn_load_model_native(const char *model_filename, DNNFunctionType f
         av_log(&native_model->ctx, AV_LOG_WARNING, "'conv2d_threads' option was set but it is not supported "
                        "on this build (pthread support is required)\n");
     }
+=======
+    }
+
+#if !HAVE_PTHREAD_CANCEL
+    if (native_model->ctx.options.conv2d_threads > 1){
+        av_log(&native_model->ctx, AV_LOG_WARNING, "'conv2d_threads' option was set but it is not supported "
+                       "on this build (pthread support is required)\n");
+    }
+>>>>>>> refs/remotes/origin/master
 #endif
 
     avio_seek(model_file_context, file_size - 8, SEEK_SET);
@@ -215,6 +266,7 @@ DNNModel *ff_dnn_load_model_native(const char *model_filename, DNNFunctionType f
 
     native_model->operands = av_mallocz(native_model->operands_num * sizeof(DnnOperand));
     if (!native_model->operands){
+<<<<<<< HEAD
         goto fail;
     }
 
@@ -228,6 +280,21 @@ DNNModel *ff_dnn_load_model_native(const char *model_filename, DNNFunctionType f
         goto fail;
     }
 
+=======
+        goto fail;
+    }
+
+    native_model->task_queue = ff_queue_create();
+    if (!native_model->task_queue) {
+        goto fail;
+    }
+
+    native_model->lltask_queue = ff_queue_create();
+    if (!native_model->lltask_queue) {
+        goto fail;
+    }
+
+>>>>>>> refs/remotes/origin/master
     for (layer = 0; layer < native_model->layers_num; ++layer){
         layer_type = (int32_t)avio_rl32(model_file_context);
         dnn_size += 4;
@@ -297,7 +364,11 @@ fail:
     return NULL;
 }
 
+<<<<<<< HEAD
 static int execute_model_native(Queue *lltask_queue)
+=======
+static DNNReturnType execute_model_native(Queue *lltask_queue)
+>>>>>>> refs/remotes/origin/master
 {
     NativeModel *native_model = NULL;
     NativeContext *ctx = NULL;
@@ -306,12 +377,20 @@ static int execute_model_native(Queue *lltask_queue)
     DnnOperand *oprd = NULL;
     LastLevelTaskItem *lltask = NULL;
     TaskItem *task = NULL;
+<<<<<<< HEAD
     int ret = 0;
+=======
+    DNNReturnType ret = 0;
+>>>>>>> refs/remotes/origin/master
 
     lltask = ff_queue_pop_front(lltask_queue);
     if (!lltask) {
         av_log(NULL, AV_LOG_ERROR, "Failed to get LastLevelTaskItem\n");
+<<<<<<< HEAD
         ret = AVERROR(EINVAL);
+=======
+        ret = DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
         goto err;
     }
     task = lltask->task;
@@ -320,6 +399,7 @@ static int execute_model_native(Queue *lltask_queue)
 
     if (native_model->layers_num <= 0 || native_model->operands_num <= 0) {
         av_log(ctx, AV_LOG_ERROR, "No operands or layers in model\n");
+<<<<<<< HEAD
         ret = AVERROR(EINVAL);
         goto err;
     }
@@ -454,11 +534,145 @@ int ff_dnn_execute_model_native(const DNNModel *model, DNNExecBaseParams *exec_p
     if (ret != 0) {
         av_freep(&task);
         return ret;
+=======
+        ret = DNN_ERROR;
+        goto err;
+    }
+
+    for (int i = 0; i < native_model->operands_num; ++i) {
+        oprd = &native_model->operands[i];
+        if (strcmp(oprd->name, task->input_name) == 0) {
+            if (oprd->type != DOT_INPUT) {
+                av_log(ctx, AV_LOG_ERROR, "Found \"%s\" in model, but it is not input node\n", task->input_name);
+                ret = DNN_ERROR;
+                goto err;
+            }
+            break;
+        }
+        oprd = NULL;
+    }
+    if (!oprd) {
+        av_log(ctx, AV_LOG_ERROR, "Could not find \"%s\" in model\n", task->input_name);
+        ret = DNN_ERROR;
+        goto err;
+    }
+
+    oprd->dims[1] = task->in_frame->height;
+    oprd->dims[2] = task->in_frame->width;
+
+    av_freep(&oprd->data);
+    oprd->length = ff_calculate_operand_data_length(oprd);
+    if (oprd->length <= 0) {
+        av_log(ctx, AV_LOG_ERROR, "The input data length overflow\n");
+        ret = DNN_ERROR;
+        goto err;
+    }
+    oprd->data = av_malloc(oprd->length);
+    if (!oprd->data) {
+        av_log(ctx, AV_LOG_ERROR, "Failed to malloc memory for input data\n");
+        ret = DNN_ERROR;
+        goto err;
+    }
+
+    input.height = oprd->dims[1];
+    input.width = oprd->dims[2];
+    input.channels = oprd->dims[3];
+    input.data = oprd->data;
+    input.dt = oprd->data_type;
+    if (task->do_ioproc) {
+        if (native_model->model->frame_pre_proc != NULL) {
+            native_model->model->frame_pre_proc(task->in_frame, &input, native_model->model->filter_ctx);
+        } else {
+            ff_proc_from_frame_to_dnn(task->in_frame, &input, ctx);
+        }
+    }
+
+    if (task->nb_output != 1) {
+        // currently, the filter does not need multiple outputs,
+        // so we just pending the support until we really need it.
+        avpriv_report_missing_feature(ctx, "multiple outputs");
+        ret = DNN_ERROR;
+        goto err;
+    }
+
+    for (layer = 0; layer < native_model->layers_num; ++layer){
+        DNNLayerType layer_type = native_model->layers[layer].type;
+        if (ff_layer_funcs[layer_type].pf_exec(native_model->operands,
+                                            native_model->layers[layer].input_operand_indexes,
+                                            native_model->layers[layer].output_operand_index,
+                                            native_model->layers[layer].params,
+                                            &native_model->ctx) == DNN_ERROR) {
+            av_log(ctx, AV_LOG_ERROR, "Failed to execute model\n");
+            ret = DNN_ERROR;
+            goto err;
+        }
+    }
+
+    for (uint32_t i = 0; i < task->nb_output; ++i) {
+        DnnOperand *oprd = NULL;
+        const char *output_name = task->output_names[i];
+        for (int j = 0; j < native_model->operands_num; ++j) {
+            if (strcmp(native_model->operands[j].name, output_name) == 0) {
+                oprd = &native_model->operands[j];
+                break;
+            }
+        }
+
+        if (oprd == NULL) {
+            av_log(ctx, AV_LOG_ERROR, "Could not find output in model\n");
+            ret = DNN_ERROR;
+            goto err;
+        }
+
+        output.data = oprd->data;
+        output.height = oprd->dims[1];
+        output.width = oprd->dims[2];
+        output.channels = oprd->dims[3];
+        output.dt = oprd->data_type;
+
+        if (task->do_ioproc) {
+            if (native_model->model->frame_post_proc != NULL) {
+                native_model->model->frame_post_proc(task->out_frame, &output, native_model->model->filter_ctx);
+            } else {
+                ff_proc_from_dnn_to_frame(task->out_frame, &output, ctx);
+            }
+        } else {
+            task->out_frame->width = output.width;
+            task->out_frame->height = output.height;
+        }
+    }
+    task->inference_done++;
+err:
+    av_freep(&lltask);
+    return ret;
+}
+
+DNNReturnType ff_dnn_execute_model_native(const DNNModel *model, DNNExecBaseParams *exec_params)
+{
+    NativeModel *native_model = model->model;
+    NativeContext *ctx = &native_model->ctx;
+    TaskItem *task;
+
+    if (ff_check_exec_params(ctx, DNN_NATIVE, model->func_type, exec_params) != 0) {
+        return DNN_ERROR;
+    }
+
+    task = av_malloc(sizeof(*task));
+    if (!task) {
+        av_log(ctx, AV_LOG_ERROR, "unable to alloc memory for task item.\n");
+        return DNN_ERROR;
+    }
+
+    if (ff_dnn_fill_task(task, exec_params, native_model, ctx->options.async, 1) != DNN_SUCCESS) {
+        av_freep(&task);
+        return DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
     }
 
     if (ff_queue_push_back(native_model->task_queue, task) < 0) {
         av_freep(&task);
         av_log(ctx, AV_LOG_ERROR, "unable to push back task_queue.\n");
+<<<<<<< HEAD
         return AVERROR(ENOMEM);
     }
 
@@ -466,18 +680,34 @@ int ff_dnn_execute_model_native(const DNNModel *model, DNNExecBaseParams *exec_p
     if (ret != 0) {
         av_log(ctx, AV_LOG_ERROR, "unable to extract last level task from task.\n");
         return ret;
+=======
+        return DNN_ERROR;
+    }
+
+    if (extract_lltask_from_task(task, native_model->lltask_queue) != DNN_SUCCESS) {
+        av_log(ctx, AV_LOG_ERROR, "unable to extract last level task from task.\n");
+        return DNN_ERROR;
+>>>>>>> refs/remotes/origin/master
     }
 
     return execute_model_native(native_model->lltask_queue);
 }
 
+<<<<<<< HEAD
 int ff_dnn_flush_native(const DNNModel *model)
+=======
+DNNReturnType ff_dnn_flush_native(const DNNModel *model)
+>>>>>>> refs/remotes/origin/master
 {
     NativeModel *native_model = model->model;
 
     if (ff_queue_size(native_model->lltask_queue) == 0) {
         // no pending task need to flush
+<<<<<<< HEAD
         return 0;
+=======
+        return DNN_SUCCESS;
+>>>>>>> refs/remotes/origin/master
     }
 
     // for now, use sync node with flush operation

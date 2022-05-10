@@ -544,12 +544,20 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *picture,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_psd_decoder = {
     .p.name           = "psd",
     .p.long_name      = NULL_IF_CONFIG_SMALL("Photoshop PSD file"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_PSD,
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+=======
+const AVCodec ff_psd_decoder = {
+    .name             = "psd",
+    .long_name        = NULL_IF_CONFIG_SMALL("Photoshop PSD file"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_PSD,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(PSDContext),
     FF_CODEC_DECODE_CB(decode_frame),
 };

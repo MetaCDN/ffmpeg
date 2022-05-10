@@ -26,7 +26,11 @@
 #include "bsf_internal.h"
 #include "h264.h"
 #include "hevc.h"
+<<<<<<< HEAD
 #include "startcode.h"
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "vc1_common.h"
 
 enum RemoveFreq {
@@ -249,5 +253,9 @@ const FFBitStreamFilter ff_remove_extradata_bsf = {
     .p.name         = "remove_extra",
     .p.priv_class   = &remove_extradata_class,
     .priv_data_size = sizeof(RemoveExtradataContext),
+<<<<<<< HEAD
+=======
+    .priv_class     = &remove_extradata_class,
+>>>>>>> refs/remotes/origin/master
     .filter         = remove_extradata,
 };

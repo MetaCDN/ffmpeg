@@ -437,11 +437,19 @@ static int mimic_decode_frame(AVCodecContext *avctx, AVFrame *rframe,
     return buf_size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_mimic_decoder = {
     .p.name                = "mimic",
     .p.long_name           = NULL_IF_CONFIG_SMALL("Mimic"),
     .p.type                = AVMEDIA_TYPE_VIDEO,
     .p.id                  = AV_CODEC_ID_MIMIC,
+=======
+const AVCodec ff_mimic_decoder = {
+    .name                  = "mimic",
+    .long_name             = NULL_IF_CONFIG_SMALL("Mimic"),
+    .type                  = AVMEDIA_TYPE_VIDEO,
+    .id                    = AV_CODEC_ID_MIMIC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size        = sizeof(MimicContext),
     .init                  = mimic_decode_init,
     .close                 = mimic_decode_end,

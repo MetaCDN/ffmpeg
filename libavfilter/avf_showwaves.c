@@ -825,7 +825,11 @@ static int showwavespic_config_input(AVFilterLink *inlink)
     ShowWavesContext *showwaves = ctx->priv;
 
     if (showwaves->single_pic) {
+<<<<<<< HEAD
         showwaves->sum = av_calloc(inlink->ch_layout.nb_channels, sizeof(*showwaves->sum));
+=======
+        showwaves->sum = av_calloc(inlink->channels, sizeof(*showwaves->sum));
+>>>>>>> refs/remotes/origin/master
         if (!showwaves->sum)
             return AVERROR(ENOMEM);
     }

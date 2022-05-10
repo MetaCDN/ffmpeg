@@ -854,12 +854,20 @@ rgb_to_xy(float rc,
     *y = m[1][0] * rc + m[1][1] * gc + m[1][2] * bc;
     *z = m[2][0] * rc + m[2][1] * gc + m[2][2] * bc;
 
+<<<<<<< HEAD
     scale = *x + *y + *z;
     if (scale == 0.f)
         scale = 1.f;
     scale = 1.f / scale;
     *x = *x * scale;
     *y = *y * scale;
+=======
+    sum = *x + *y + *z;
+    if (sum == 0)
+        sum = 1;
+    *x = *x / sum;
+    *y = *y / sum;
+>>>>>>> refs/remotes/origin/master
 }
 
 static int

@@ -68,7 +68,11 @@ enum {
 
 enum {
     UNINITIALIZED,  ///< Thread has not been created, AVCodec->close mustn't be called
+<<<<<<< HEAD
     NEEDS_CLOSE,    ///< FFCodec->close needs to be called
+=======
+    NEEDS_CLOSE,    ///< AVCodec->close needs to be called
+>>>>>>> refs/remotes/origin/master
     INITIALIZED,    ///< Thread has been properly set up
 };
 
@@ -218,7 +222,11 @@ FF_ENABLE_DEPRECATION_WARNINGS
 
         av_frame_unref(p->frame);
         p->got_frame = 0;
+<<<<<<< HEAD
         p->result = codec->cb.decode(avctx, p->frame, &p->got_frame, p->avpkt);
+=======
+        p->result = codec->decode(avctx, p->frame, &p->got_frame, p->avpkt);
+>>>>>>> refs/remotes/origin/master
 
         if ((p->result < 0 || !p->got_frame) && p->frame->buf[0])
             ff_thread_release_buffer(avctx, p->frame);
@@ -329,8 +337,13 @@ FF_ENABLE_DEPRECATION_WARNINGS
     }
 
     if (for_user) {
+<<<<<<< HEAD
         if (codec->update_thread_context_for_user)
             err = codec->update_thread_context_for_user(dst, src);
+=======
+        if (dst->codec->update_thread_context_for_user)
+            err = dst->codec->update_thread_context_for_user(dst, src);
+>>>>>>> refs/remotes/origin/master
     } else {
         if (codec->update_thread_context)
             err = codec->update_thread_context(dst, src);
@@ -702,7 +715,11 @@ DEFINE_OFFSET_ARRAY(PerThreadContext, per_thread, pthread_init_cnt,
 void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
 {
     FrameThreadContext *fctx = avctx->internal->thread_ctx;
+<<<<<<< HEAD
     const FFCodec *codec = ffcodec(avctx->codec);
+=======
+    const AVCodec *codec = avctx->codec;
+>>>>>>> refs/remotes/origin/master
     int i;
 
     park_frame_worker_threads(fctx, thread_count);
@@ -731,6 +748,7 @@ void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
                 p->die = 1;
                 pthread_cond_signal(&p->input_cond);
                 pthread_mutex_unlock(&p->mutex);
+<<<<<<< HEAD
 
                 pthread_join(p->thread, NULL);
             }
@@ -751,6 +769,28 @@ void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
 
             av_freep(&ctx->slice_offset);
 
+=======
+
+                pthread_join(p->thread, NULL);
+            }
+            if (codec->close && p->thread_init != UNINITIALIZED)
+                codec->close(ctx);
+
+#if FF_API_THREAD_SAFE_CALLBACKS
+            release_delayed_buffers(p);
+            for (int j = 0; j < p->released_buffers_allocated; j++)
+                av_frame_free(&p->released_buffers[j]);
+            av_freep(&p->released_buffers);
+#endif
+            if (ctx->priv_data) {
+                if (codec->priv_class)
+                    av_opt_free(ctx->priv_data);
+                av_freep(&ctx->priv_data);
+            }
+
+            av_freep(&ctx->slice_offset);
+
+>>>>>>> refs/remotes/origin/master
             av_buffer_unref(&ctx->internal->pool);
             av_freep(&ctx->internal);
             av_buffer_unref(&ctx->hw_frames_ctx);
@@ -766,6 +806,7 @@ void ff_frame_thread_free(AVCodecContext *avctx, int thread_count)
 
     av_freep(&fctx->threads);
     ff_pthread_free(fctx, thread_ctx_offsets);
+<<<<<<< HEAD
 
     av_freep(&avctx->internal->thread_ctx);
 }
@@ -798,13 +839,52 @@ static av_cold int init_thread(PerThreadContext *p, int *threads_to_free,
 
     copy->delay = avctx->delay;
 
+=======
+
+    av_freep(&avctx->internal->thread_ctx);
+}
+
+static av_cold int init_thread(PerThreadContext *p, int *threads_to_free,
+                               FrameThreadContext *fctx, AVCodecContext *avctx,
+                               const AVCodec *codec, int first)
+{
+    AVCodecContext *copy;
+    int err;
+
+    atomic_init(&p->state, STATE_INPUT_READY);
+
+    copy = av_memdup(avctx, sizeof(*avctx));
+    if (!copy)
+        return AVERROR(ENOMEM);
+    copy->priv_data = NULL;
+
+    /* From now on, this PerThreadContext will be cleaned up by
+     * ff_frame_thread_free in case of errors. */
+    (*threads_to_free)++;
+
+    p->parent = fctx;
+    p->avctx  = copy;
+
+    copy->internal = av_memdup(avctx->internal, sizeof(*avctx->internal));
+    if (!copy->internal)
+        return AVERROR(ENOMEM);
+    copy->internal->thread_ctx = p;
+
+    copy->delay = avctx->delay;
+
+>>>>>>> refs/remotes/origin/master
     if (codec->priv_data_size) {
         copy->priv_data = av_mallocz(codec->priv_data_size);
         if (!copy->priv_data)
             return AVERROR(ENOMEM);
 
+<<<<<<< HEAD
         if (codec->p.priv_class) {
             *(const AVClass **)copy->priv_data = codec->p.priv_class;
+=======
+        if (codec->priv_class) {
+            *(const AVClass **)copy->priv_data = codec->priv_class;
+>>>>>>> refs/remotes/origin/master
             err = av_opt_copy(copy->priv_data, avctx->priv_data);
             if (err < 0)
                 return err;
@@ -849,7 +929,11 @@ static av_cold int init_thread(PerThreadContext *p, int *threads_to_free,
 int ff_frame_thread_init(AVCodecContext *avctx)
 {
     int thread_count = avctx->thread_count;
+<<<<<<< HEAD
     const FFCodec *codec = ffcodec(avctx->codec);
+=======
+    const AVCodec *codec = avctx->codec;
+>>>>>>> refs/remotes/origin/master
     FrameThreadContext *fctx;
     int err, i = 0;
 
@@ -881,7 +965,11 @@ int ff_frame_thread_init(AVCodecContext *avctx)
     fctx->async_lock = 1;
     fctx->delaying = 1;
 
+<<<<<<< HEAD
     if (codec->p.type == AVMEDIA_TYPE_VIDEO)
+=======
+    if (codec->type == AVMEDIA_TYPE_VIDEO)
+>>>>>>> refs/remotes/origin/master
         avctx->delay = avctx->thread_count - 1;
 
     fctx->threads = av_calloc(thread_count, sizeof(*fctx->threads));
@@ -943,7 +1031,11 @@ int ff_thread_can_start_frame(AVCodecContext *avctx)
     PerThreadContext *p = avctx->internal->thread_ctx;
 FF_DISABLE_DEPRECATION_WARNINGS
     if ((avctx->active_thread_type&FF_THREAD_FRAME) && atomic_load(&p->state) != STATE_SETTING_UP &&
+<<<<<<< HEAD
         (ffcodec(avctx->codec)->update_thread_context
+=======
+        (avctx->codec->update_thread_context
+>>>>>>> refs/remotes/origin/master
 #if FF_API_THREAD_SAFE_CALLBACKS
          || !THREAD_SAFE_CALLBACKS(avctx)
 #endif
@@ -962,10 +1054,16 @@ static int thread_get_buffer_internal(AVCodecContext *avctx, AVFrame *f, int fla
     if (!(avctx->active_thread_type & FF_THREAD_FRAME))
         return ff_get_buffer(avctx, f, flags);
 
+<<<<<<< HEAD
     p = avctx->internal->thread_ctx;
 FF_DISABLE_DEPRECATION_WARNINGS
     if (atomic_load(&p->state) != STATE_SETTING_UP &&
         (ffcodec(avctx->codec)->update_thread_context
+=======
+FF_DISABLE_DEPRECATION_WARNINGS
+    if (atomic_load(&p->state) != STATE_SETTING_UP &&
+        (avctx->codec->update_thread_context
+>>>>>>> refs/remotes/origin/master
 #if FF_API_THREAD_SAFE_CALLBACKS
          || !THREAD_SAFE_CALLBACKS(avctx)
 #endif
@@ -1001,6 +1099,11 @@ FF_DISABLE_DEPRECATION_WARNINGS
         ff_thread_finish_setup(avctx);
 FF_ENABLE_DEPRECATION_WARNINGS
 #endif
+<<<<<<< HEAD
+=======
+    if (err)
+        av_buffer_unref(&f->progress);
+>>>>>>> refs/remotes/origin/master
 
     pthread_mutex_unlock(&p->parent->buffer_mutex);
 
@@ -1049,6 +1152,7 @@ int ff_thread_get_buffer(AVCodecContext *avctx, AVFrame *f, int flags)
 
 int ff_thread_get_ext_buffer(AVCodecContext *avctx, ThreadFrame *f, int flags)
 {
+<<<<<<< HEAD
     int ret;
 
     f->owner[0] = f->owner[1] = avctx;
@@ -1083,6 +1187,11 @@ void ff_thread_release_buffer(AVCodecContext *avctx, AVFrame *f)
 #if FF_API_THREAD_SAFE_CALLBACKS
 FF_DISABLE_DEPRECATION_WARNINGS
     PerThreadContext *p;
+=======
+#if FF_API_THREAD_SAFE_CALLBACKS
+FF_DISABLE_DEPRECATION_WARNINGS
+    PerThreadContext *p = avctx->internal->thread_ctx;
+>>>>>>> refs/remotes/origin/master
     FrameThreadContext *fctx;
     AVFrame *dst;
     int ret = 0;
@@ -1097,6 +1206,12 @@ FF_ENABLE_DEPRECATION_WARNINGS
     if (avctx->debug & FF_DEBUG_BUFFERS)
         av_log(avctx, AV_LOG_DEBUG, "thread_release_buffer called on pic %p\n", f);
 
+<<<<<<< HEAD
+=======
+    av_buffer_unref(&f->progress);
+    f->owner[0] = f->owner[1] = NULL;
+
+>>>>>>> refs/remotes/origin/master
 #if !FF_API_THREAD_SAFE_CALLBACKS
     av_frame_unref(f->f);
 #else
@@ -1143,6 +1258,7 @@ fail:
         av_frame_unref(f);
     }
 #endif
+<<<<<<< HEAD
 }
 
 void ff_thread_release_ext_buffer(AVCodecContext *avctx, ThreadFrame *f)
@@ -1150,4 +1266,6 @@ void ff_thread_release_ext_buffer(AVCodecContext *avctx, ThreadFrame *f)
     av_buffer_unref(&f->progress);
     f->owner[0] = f->owner[1] = NULL;
     ff_thread_release_buffer(avctx, f->f);
+=======
+>>>>>>> refs/remotes/origin/master
 }

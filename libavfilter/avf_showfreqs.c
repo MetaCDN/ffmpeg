@@ -22,6 +22,10 @@
 #include <math.h>
 
 #include "libavutil/tx.h"
+<<<<<<< HEAD
+=======
+#include "libavutil/audio_fifo.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/avassert.h"
 #include "libavutil/avstring.h"
 #include "libavutil/channel_layout.h"
@@ -51,14 +55,20 @@ typedef struct ShowFreqsContext {
     int ascale, fscale;
     int avg;
     int win_func;
+<<<<<<< HEAD
     char *ch_layout_str;
     uint8_t *bypass;
     AVChannelLayout ch_layout;
+=======
+>>>>>>> refs/remotes/origin/master
     AVTXContext *fft;
     av_tx_fn tx_fn;
     AVComplexFloat **fft_input;
     AVComplexFloat **fft_data;
+<<<<<<< HEAD
     AVFrame *window;
+=======
+>>>>>>> refs/remotes/origin/master
     float **avg_data;
     float *window_func_lut;
     float overlap;
@@ -109,7 +119,10 @@ static const AVOption showfreqs_options[] = {
         { "magnitude", "show magnitude",  0, AV_OPT_TYPE_CONST, {.i64=MAGNITUDE}, 0, 0, FLAGS, "data" },
         { "phase",     "show phase",      0, AV_OPT_TYPE_CONST, {.i64=PHASE},     0, 0, FLAGS, "data" },
         { "delay",     "show group delay",0, AV_OPT_TYPE_CONST, {.i64=DELAY},     0, 0, FLAGS, "data" },
+<<<<<<< HEAD
     { "channels", "set channels to draw", OFFSET(ch_layout_str), AV_OPT_TYPE_STRING, {.str="all"}, 0, 0, FLAGS },
+=======
+>>>>>>> refs/remotes/origin/master
     { NULL }
 };
 
@@ -130,7 +143,11 @@ static int query_formats(AVFilterContext *ctx)
     if ((ret = ff_formats_ref(formats, &inlink->outcfg.formats)) < 0)
         return ret;
 
+<<<<<<< HEAD
     layouts = ff_all_channel_counts();
+=======
+    layouts = ff_all_channel_layouts();
+>>>>>>> refs/remotes/origin/master
     if ((ret = ff_channel_layouts_ref(layouts, &inlink->outcfg.channel_layouts)) < 0)
         return ret;
 
@@ -154,9 +171,15 @@ static int config_output(AVFilterLink *outlink)
     float overlap, scale;
     int i, ret;
 
+<<<<<<< HEAD
     s->old_pts = AV_NOPTS_VALUE;
     s->nb_freq = s->fft_size / 2;
     s->win_size = s->fft_size;
+=======
+    s->nb_freq = s->fft_size / 2;
+    s->win_size = s->fft_size;
+    av_audio_fifo_free(s->fifo);
+>>>>>>> refs/remotes/origin/master
     av_tx_uninit(&s->fft);
     ret = av_tx_init(&s->fft, &s->tx_fn, AV_TX_FLOAT_FFT, 0, s->fft_size, &scale, 0);
     if (ret < 0) {
@@ -173,15 +196,21 @@ static int config_output(AVFilterLink *outlink)
         av_freep(&s->fft_data[i]);
         av_freep(&s->avg_data[i]);
     }
+<<<<<<< HEAD
     av_freep(&s->bypass);
+=======
+>>>>>>> refs/remotes/origin/master
     av_freep(&s->fft_input);
     av_freep(&s->fft_data);
     av_freep(&s->avg_data);
     s->nb_channels = inlink->ch_layout.nb_channels;
 
+<<<<<<< HEAD
     s->bypass = av_calloc(s->nb_channels, sizeof(*s->bypass));
     if (!s->bypass)
         return AVERROR(ENOMEM);
+=======
+>>>>>>> refs/remotes/origin/master
     s->fft_input = av_calloc(s->nb_channels, sizeof(*s->fft_input));
     if (!s->fft_input)
         return AVERROR(ENOMEM);
@@ -389,20 +418,33 @@ static int plot_freqs(AVFilterLink *inlink, int64_t pts)
     for (ch = 0; ch < s->nb_channels; ch++) {
         const float *p = (float *)in->extended_data[ch];
 
+<<<<<<< HEAD
         if (s->bypass[ch])
             continue;
 
         for (n = 0; n < win_size; n++) {
             s->fft_input[ch][n].re = p[n] * s->window_func_lut[n];
             s->fft_input[ch][n].im = 0;
+=======
+        for (n = 0; n < in->nb_samples; n++) {
+            s->fft_input[ch][n].re = p[n] * s->window_func_lut[n];
+            s->fft_input[ch][n].im = 0;
+        }
+        for (; n < win_size; n++) {
+            s->fft_input[ch][n].re = 0;
+            s->fft_input[ch][n].im = 0;
+>>>>>>> refs/remotes/origin/master
         }
     }
 
     /* run FFT on each samples set */
     for (ch = 0; ch < s->nb_channels; ch++) {
+<<<<<<< HEAD
         if (s->bypass[ch])
             continue;
 
+=======
+>>>>>>> refs/remotes/origin/master
         s->tx_fn(s->fft, s->fft_data[ch], s->fft_input[ch], sizeof(float));
     }
 
@@ -436,26 +478,48 @@ static int plot_freqs(AVFilterLink *inlink, int64_t pts)
         if (color)
             av_parse_color(fg, color, -1, ctx);
 
+<<<<<<< HEAD
         if (s->bypass[ch])
             continue;
 
         switch (s->data_mode) {
         case MAGNITUDE:
             for (f = 0; f < s->nb_freq; f++) {
+=======
+        switch (s->data_mode) {
+        case MAGNITUDE:
+            a = av_clipd(M(RE(0, ch), 0) / s->scale, 0, 1);
+            plot_freq(s, ch, a, 0, fg, &prev_y, out, outlink);
+
+            for (f = 1; f < s->nb_freq; f++) {
+>>>>>>> refs/remotes/origin/master
                 a = av_clipd(M(RE(f, ch), IM(f, ch)) / s->scale, 0, 1);
 
                 plot_freq(s, ch, a, f, fg, &prev_y, out, outlink);
             }
             break;
         case PHASE:
+<<<<<<< HEAD
             for (f = 0; f < s->nb_freq; f++) {
+=======
+            a = av_clipd((M_PI + P(RE(0, ch), 0)) / (2. * M_PI), 0, 1);
+            plot_freq(s, ch, a, 0, fg, &prev_y, out, outlink);
+
+            for (f = 1; f < s->nb_freq; f++) {
+>>>>>>> refs/remotes/origin/master
                 a = av_clipd((M_PI + P(RE(f, ch), IM(f, ch))) / (2. * M_PI), 0, 1);
 
                 plot_freq(s, ch, a, f, fg, &prev_y, out, outlink);
             }
             break;
         case DELAY:
+<<<<<<< HEAD
             for (f = 0; f < s->nb_freq; f++) {
+=======
+            plot_freq(s, ch, 0, 0, fg, &prev_y, out, outlink);
+
+            for (f = 1; f < s->nb_freq; f++) {
+>>>>>>> refs/remotes/origin/master
                 a = av_clipd((M_PI - P(IM(f, ch) * RE(f-1, ch) - IM(f-1, ch) * RE(f, ch),
                                        RE(f, ch) * RE(f-1, ch) + IM(f, ch) * IM(f-1, ch))) / (2. * M_PI), 0, 1);
 
@@ -526,7 +590,10 @@ static av_cold void uninit(AVFilterContext *ctx)
     ShowFreqsContext *s = ctx->priv;
     int i;
 
+<<<<<<< HEAD
     av_channel_layout_uninit(&s->ch_layout);
+=======
+>>>>>>> refs/remotes/origin/master
     av_tx_uninit(&s->fft);
     for (i = 0; i < s->nb_channels; i++) {
         if (s->fft_input)
@@ -536,7 +603,10 @@ static av_cold void uninit(AVFilterContext *ctx)
         if (s->avg_data)
             av_freep(&s->avg_data[i]);
     }
+<<<<<<< HEAD
     av_freep(&s->bypass);
+=======
+>>>>>>> refs/remotes/origin/master
     av_freep(&s->fft_input);
     av_freep(&s->fft_data);
     av_freep(&s->avg_data);

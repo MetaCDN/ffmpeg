@@ -379,6 +379,11 @@ static int cfhd_decode(AVCodecContext *avctx, AVFrame *pic,
     CFHDContext *s = avctx->priv_data;
     CFHDDSPContext *dsp = &s->dsp;
     GetByteContext gb;
+<<<<<<< HEAD
+=======
+    ThreadFrame frame = { .f = data };
+    AVFrame *pic = data;
+>>>>>>> refs/remotes/origin/master
     int ret = 0, i, j, plane, got_buffer = 0;
     int16_t *coeff_data;
 
@@ -690,9 +695,16 @@ static int cfhd_decode(AVCodecContext *avctx, AVFrame *pic,
             s->coded_format = AV_PIX_FMT_NONE;
             got_buffer = 1;
         } else if (tag == FrameIndex && data == 1 && s->sample_type == 1 && s->frame_type == 2) {
+<<<<<<< HEAD
             pic->width = pic->height = 0;
 
             if ((ret = ff_thread_get_buffer(avctx, pic, 0)) < 0)
+=======
+            frame.f->width =
+            frame.f->height = 0;
+
+            if ((ret = ff_thread_get_buffer(avctx, &frame, 0)) < 0)
+>>>>>>> refs/remotes/origin/master
                 return ret;
             s->coded_width = 0;
             s->coded_height = 0;
@@ -835,7 +847,11 @@ static int cfhd_decode(AVCodecContext *avctx, AVFrame *pic,
                             const uint16_t q = s->quantisation;
 
                             for (i = 0; i < run; i++) {
+<<<<<<< HEAD
                                 *coeff_data |= coeff * 256U;
+=======
+                                *coeff_data |= coeff * 256;
+>>>>>>> refs/remotes/origin/master
                                 *coeff_data++ *= q;
                             }
                         } else {
@@ -866,7 +882,11 @@ static int cfhd_decode(AVCodecContext *avctx, AVFrame *pic,
                             const uint16_t q = s->quantisation;
 
                             for (i = 0; i < run; i++) {
+<<<<<<< HEAD
                                 *coeff_data |= coeff * 256U;
+=======
+                                *coeff_data |= coeff * 256;
+>>>>>>> refs/remotes/origin/master
                                 *coeff_data++ *= q;
                             }
                         } else {
@@ -1455,6 +1475,7 @@ static int update_thread_context(AVCodecContext *dst, const AVCodecContext *src)
 }
 #endif
 
+<<<<<<< HEAD
 const FFCodec ff_cfhd_decoder = {
     .p.name           = "cfhd",
     .p.long_name      = NULL_IF_CONFIG_SMALL("GoPro CineForm HD"),
@@ -1466,5 +1487,18 @@ const FFCodec ff_cfhd_decoder = {
     FF_CODEC_DECODE_CB(cfhd_decode),
     .update_thread_context = ONLY_IF_THREADS_ENABLED(update_thread_context),
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+=======
+const AVCodec ff_cfhd_decoder = {
+    .name             = "cfhd",
+    .long_name        = NULL_IF_CONFIG_SMALL("GoPro CineForm HD"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_CFHD,
+    .priv_data_size   = sizeof(CFHDContext),
+    .init             = cfhd_init,
+    .close            = cfhd_close,
+    .decode           = cfhd_decode,
+    .update_thread_context = ONLY_IF_THREADS_ENABLED(update_thread_context),
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+>>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

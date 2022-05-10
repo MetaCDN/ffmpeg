@@ -535,6 +535,7 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_notchlc_decoder = {
     .p.name           = "notchlc",
     .p.long_name      = NULL_IF_CONFIG_SMALL("NotchLC"),
@@ -545,5 +546,17 @@ const FFCodec ff_notchlc_decoder = {
     .close            = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+=======
+const AVCodec ff_notchlc_decoder = {
+    .name             = "notchlc",
+    .long_name        = NULL_IF_CONFIG_SMALL("NotchLC"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_NOTCHLC,
+    .priv_data_size   = sizeof(NotchLCContext),
+    .init             = decode_init,
+    .close            = decode_end,
+    .decode           = decode_frame,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+>>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE,
 };

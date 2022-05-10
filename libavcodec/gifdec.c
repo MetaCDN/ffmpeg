@@ -556,11 +556,19 @@ static const AVClass decoder_class = {
     .category   = AV_CLASS_CATEGORY_DECODER,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_gif_decoder = {
     .p.name         = "gif",
     .p.long_name    = NULL_IF_CONFIG_SMALL("GIF (Graphics Interchange Format)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_GIF,
+=======
+const AVCodec ff_gif_decoder = {
+    .name           = "gif",
+    .long_name      = NULL_IF_CONFIG_SMALL("GIF (Graphics Interchange Format)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_GIF,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(GifState),
     .init           = gif_decode_init,
     .close          = gif_decode_close,

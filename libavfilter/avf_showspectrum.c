@@ -26,12 +26,19 @@
  * (by Michael Niedermayer) and lavfi/avf_showwaves (by Stefano Sabatini).
  */
 
+<<<<<<< HEAD
 #include "config_components.h"
 
+=======
+>>>>>>> refs/remotes/origin/master
 #include <float.h>
 #include <math.h>
 
 #include "libavutil/tx.h"
+<<<<<<< HEAD
+=======
+#include "libavutil/audio_fifo.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/avassert.h"
 #include "libavutil/avstring.h"
 #include "libavutil/channel_layout.h"
@@ -107,7 +114,10 @@ typedef struct ShowSpectrumContext {
     int start_x, start_y;
     float drange, limit;
     float dmin, dmax;
+<<<<<<< HEAD
     uint64_t samples;
+=======
+>>>>>>> refs/remotes/origin/master
     int (*plot_channel)(AVFilterContext *ctx, void *arg, int jobnr, int nb_jobs);
 
     float opacity_factor;
@@ -176,7 +186,10 @@ static const AVOption showspectrum_options[] = {
     { "legend", "draw legend", OFFSET(legend), AV_OPT_TYPE_BOOL, {.i64 = 0}, 0, 1, FLAGS },
     { "drange", "set dynamic range in dBFS", OFFSET(drange), AV_OPT_TYPE_FLOAT, {.dbl = 120}, 10, 200, FLAGS },
     { "limit", "set upper limit in dBFS", OFFSET(limit), AV_OPT_TYPE_FLOAT, {.dbl = 0}, -100, 100, FLAGS },
+<<<<<<< HEAD
     { "opacity", "set opacity strength", OFFSET(opacity_factor), AV_OPT_TYPE_FLOAT, {.dbl = 1}, 0, 10, FLAGS },
+=======
+>>>>>>> refs/remotes/origin/master
     { NULL }
 };
 
@@ -371,7 +384,11 @@ static int query_formats(AVFilterContext *ctx)
     if ((ret = ff_formats_ref(formats, &inlink->outcfg.formats)) < 0)
         return ret;
 
+<<<<<<< HEAD
     layouts = ff_all_channel_counts();
+=======
+    layouts = ff_all_channel_layouts();
+>>>>>>> refs/remotes/origin/master
     if ((ret = ff_channel_layouts_ref(layouts, &inlink->outcfg.channel_layouts)) < 0)
         return ret;
 
@@ -400,12 +417,15 @@ static int run_channel_fft(AVFilterContext *ctx, void *arg, int jobnr, int nb_jo
     const float *p = (float *)fin->extended_data[ch];
     float *in_frame = (float *)s->in_frame->extended_data[ch];
 
+<<<<<<< HEAD
     memmove(in_frame, in_frame + s->hop_size, (s->fft_size - s->hop_size) * sizeof(float));
     memcpy(in_frame + s->fft_size - s->hop_size, p, fin->nb_samples * sizeof(float));
 
     for (int i = fin->nb_samples; i < s->hop_size; i++)
         in_frame[i + s->fft_size - s->hop_size] = 0.f;
 
+=======
+>>>>>>> refs/remotes/origin/master
     if (s->stop) {
         float theta, phi, psi, a, b, S, c;
         AVComplexFloat *f = s->fft_in[ch];
@@ -416,7 +436,11 @@ static int run_channel_fft(AVFilterContext *ctx, void *arg, int jobnr, int nb_jo
         int M = s->win_size / 2;
 
         for (n = 0; n < s->win_size; n++) {
+<<<<<<< HEAD
             s->fft_data[ch][n].re = in_frame[n] * window_func_lut[n];
+=======
+            s->fft_data[ch][n].re = p[n] * window_func_lut[n];
+>>>>>>> refs/remotes/origin/master
             s->fft_data[ch][n].im = 0;
         }
 
@@ -483,7 +507,11 @@ static int run_channel_fft(AVFilterContext *ctx, void *arg, int jobnr, int nb_jo
         }
     } else {
         for (n = 0; n < s->win_size; n++) {
+<<<<<<< HEAD
             s->fft_in[ch][n].re = in_frame[n] * window_func_lut[n];
+=======
+            s->fft_in[ch][n].re = p[n] * window_func_lut[n];
+>>>>>>> refs/remotes/origin/master
             s->fft_in[ch][n].im = 0;
         }
 
@@ -747,6 +775,7 @@ static float get_iscale(AVFilterContext *ctx, int scale, float a)
     ShowSpectrumContext *s = ctx->priv;
     const float dmin = s->dmin;
     const float dmax = s->dmax;
+<<<<<<< HEAD
 
     switch (scale) {
     case LINEAR:
@@ -773,6 +802,34 @@ static float get_iscale(AVFilterContext *ctx, int scale, float a)
     if (scale != LOG)
         a = a * (dmax - dmin) + dmin;
 
+=======
+
+    switch (scale) {
+    case LINEAR:
+        break;
+    case SQRT:
+        a = a * a;
+        break;
+    case CBRT:
+        a = a * a * a;
+        break;
+    case FOURTHRT:
+        a = a * a * a * a;
+        break;
+    case FIFTHRT:
+        a = a * a * a * a * a;
+        break;
+    case LOG:
+        a = expf(M_LN10 * (a * s->drange - s->drange + s->limit) / 20.f);
+        break;
+    default:
+        av_assert0(0);
+    }
+
+    if (scale != LOG)
+        a = a * (dmax - dmin) + dmin;
+
+>>>>>>> refs/remotes/origin/master
     return a;
 }
 
@@ -1047,7 +1104,11 @@ static int plot_channel_log(AVFilterContext *ctx, void *arg, int jobnr, int nb_j
         a1 = get_value(ctx, ch, av_clip(pos+1, 0, h-1));
         {
             int row = (s->mode == COMBINED) ? yy : ch * h + yy;
+<<<<<<< HEAD
             float *out = &s->color_buffer[ch][4 * row];
+=======
+            float *out = &s->color_buffer[ch][3 * row];
+>>>>>>> refs/remotes/origin/master
 
             pick_color(s, yf, uf, vf, delta * a1 + (1.f - delta) * a0, out);
         }
@@ -1064,7 +1125,10 @@ static int config_output(AVFilterLink *outlink)
     int i, fft_size, h, w, ret;
     float overlap;
 
+<<<<<<< HEAD
     s->old_pts = AV_NOPTS_VALUE;
+=======
+>>>>>>> refs/remotes/origin/master
     s->dmax = expf(s->limit * M_LN10 / 20.f);
     s->dmin = expf((s->limit - s->drange) * M_LN10 / 20.f);
 
@@ -1536,6 +1600,23 @@ static int plot_spectrum_column(AVFilterLink *inlink, AVFrame *insamples)
             s->xpos = 0;
     }
 
+<<<<<<< HEAD
+=======
+    if (s->sliding == LREPLACE) {
+        s->xpos--;
+        if (s->orientation == VERTICAL && s->xpos < 0)
+            s->xpos = s->w - 1;
+        if (s->orientation == HORIZONTAL && s->xpos < 0)
+            s->xpos = s->h - 1;
+    } else {
+        s->xpos++;
+        if (s->orientation == VERTICAL && s->xpos >= s->w)
+            s->xpos = 0;
+        if (s->orientation == HORIZONTAL && s->xpos >= s->h)
+            s->xpos = 0;
+    }
+
+>>>>>>> refs/remotes/origin/master
     if (!s->single_pic && (s->sliding != FULLFRAME || s->xpos == 0)) {
         if (s->old_pts < outpicref->pts || s->sliding == FULLFRAME) {
             AVFrame *clone;
@@ -1618,6 +1699,29 @@ static int activate(AVFilterContext *ctx)
             if (ret <= 0)
                 return ret;
         }
+<<<<<<< HEAD
+=======
+
+        av_assert0(fin->nb_samples == s->win_size);
+
+        ff_filter_execute(ctx, run_channel_fft, fin, NULL, s->nb_display_channels);
+
+        if (s->data == D_MAGNITUDE)
+            ff_filter_execute(ctx, calc_channel_magnitudes, NULL, NULL, s->nb_display_channels);
+
+        if (s->data == D_PHASE)
+            ff_filter_execute(ctx, calc_channel_phases, NULL, NULL, s->nb_display_channels);
+
+        if (s->data == D_UPHASE)
+            ff_filter_execute(ctx, calc_channel_uphases, NULL, NULL, s->nb_display_channels);
+
+        ret = plot_spectrum_column(inlink, fin);
+
+        av_frame_free(&fin);
+        av_audio_fifo_drain(s->fifo, s->hop_size);
+        if (ret <= 0 && !ff_outlink_get_status(inlink))
+            return ret;
+>>>>>>> refs/remotes/origin/master
     }
 
     if (ff_outlink_get_status(inlink) == AVERROR_EOF &&
@@ -1641,7 +1745,11 @@ static int activate(AVFilterContext *ctx)
                     memset(s->outpicref->data[3] + i * s->outpicref->linesize[3], 0, outlink->w);
             }
         }
+<<<<<<< HEAD
         s->outpicref->pts = av_rescale_q(s->in_pts, inlink->time_base, outlink->time_base);
+=======
+        s->outpicref->pts += av_rescale_q(s->consumed, inlink->time_base, outlink->time_base);
+>>>>>>> refs/remotes/origin/master
         pts = s->outpicref->pts;
         ret = ff_filter_frame(outlink, s->outpicref);
         s->outpicref = NULL;
@@ -1649,6 +1757,7 @@ static int activate(AVFilterContext *ctx)
         return 0;
     }
 
+<<<<<<< HEAD
     if (ff_inlink_acknowledge_status(inlink, &status, &pts)) {
         if (status == AVERROR_EOF) {
             ff_outlink_set_status(outlink, status, s->pts);
@@ -1657,11 +1766,23 @@ static int activate(AVFilterContext *ctx)
     }
 
     if (ff_inlink_queued_samples(inlink) >= s->hop_size) {
+=======
+    FF_FILTER_FORWARD_STATUS(inlink, outlink);
+    if (av_audio_fifo_size(s->fifo) >= s->win_size ||
+        ff_inlink_queued_frames(inlink) > 0 ||
+        ff_outlink_get_status(inlink) == AVERROR_EOF) {
+>>>>>>> refs/remotes/origin/master
         ff_filter_set_ready(ctx, 10);
         return 0;
     }
 
+<<<<<<< HEAD
     if (ff_outlink_frame_wanted(outlink)) {
+=======
+    if (ff_outlink_frame_wanted(outlink) && av_audio_fifo_size(s->fifo) < s->win_size &&
+        ff_inlink_queued_frames(inlink) == 0 &&
+        ff_outlink_get_status(inlink) != AVERROR_EOF) {
+>>>>>>> refs/remotes/origin/master
         ff_inlink_request_frame(inlink);
         return 0;
     }
@@ -1744,7 +1865,10 @@ static const AVOption showspectrumpic_options[] = {
     { "stop",  "stop frequency",  OFFSET(stop),  AV_OPT_TYPE_INT, {.i64 = 0}, 0, INT32_MAX, FLAGS },
     { "drange", "set dynamic range in dBFS", OFFSET(drange), AV_OPT_TYPE_FLOAT, {.dbl = 120}, 10, 200, FLAGS },
     { "limit", "set upper limit in dBFS", OFFSET(limit), AV_OPT_TYPE_FLOAT, {.dbl = 0}, -100, 100, FLAGS },
+<<<<<<< HEAD
     { "opacity", "set opacity strength", OFFSET(opacity_factor), AV_OPT_TYPE_FLOAT, {.dbl = 1}, 0, 10, FLAGS },
+=======
+>>>>>>> refs/remotes/origin/master
     { NULL }
 };
 

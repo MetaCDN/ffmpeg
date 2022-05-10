@@ -21,8 +21,13 @@
  */
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/intreadwrite.h"
 
 static av_cold int avui_encode_init(AVCodecContext *avctx)
@@ -91,6 +96,7 @@ static int avui_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_avui_encoder = {
     .p.name         = "avui",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Avid Meridien Uncompressed"),
@@ -100,5 +106,16 @@ const FFCodec ff_avui_encoder = {
     .p.pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_UYVY422, AV_PIX_FMT_NONE },
     .init         = avui_encode_init,
     FF_CODEC_ENCODE_CB(avui_encode_frame),
+=======
+const AVCodec ff_avui_encoder = {
+    .name         = "avui",
+    .long_name    = NULL_IF_CONFIG_SMALL("Avid Meridien Uncompressed"),
+    .type         = AVMEDIA_TYPE_VIDEO,
+    .id           = AV_CODEC_ID_AVUI,
+    .init         = avui_encode_init,
+    .encode2      = avui_encode_frame,
+    .capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_EXPERIMENTAL,
+    .pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_UYVY422, AV_PIX_FMT_NONE },
+>>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

@@ -1328,19 +1328,33 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_wmalossless_decoder = {
     .p.name         = "wmalossless",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Audio Lossless"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_WMALOSSLESS,
+=======
+const AVCodec ff_wmalossless_decoder = {
+    .name           = "wmalossless",
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio Lossless"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_WMALOSSLESS,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WmallDecodeCtx),
     .init           = decode_init,
     .close          = decode_close,
     FF_CODEC_DECODE_CB(decode_packet),
     .flush          = flush,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
+=======
+    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_S32P,
                                                       AV_SAMPLE_FMT_NONE },
 };

@@ -104,6 +104,9 @@ static int get_aiff_header(AVFormatContext *s, int size,
     if (size == INT_MAX)
         return AVERROR_INVALIDDATA;
 
+    if (size == INT_MAX)
+        return AVERROR_INVALIDDATA;
+
     if (size & 1)
         size++;
     par->codec_type = AVMEDIA_TYPE_AUDIO;

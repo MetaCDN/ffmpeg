@@ -38,8 +38,13 @@
 #include "libavutil/opt.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "mpegutils.h"
 #include "packet_internal.h"
 
@@ -897,11 +902,19 @@ static const AVClass xvid_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libxvid_encoder = {
     .p.name         = "libxvid",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libxvidcore MPEG-4 part 2"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_MPEG4,
+=======
+const AVCodec ff_libxvid_encoder = {
+    .name           = "libxvid",
+    .long_name      = NULL_IF_CONFIG_SMALL("libxvidcore MPEG-4 part 2"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MPEG4,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(struct xvid_context),
     .init           = xvid_encode_init,
     FF_CODEC_ENCODE_CB(xvid_encode_frame),

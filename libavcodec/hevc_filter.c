@@ -26,7 +26,10 @@
 #include "libavutil/internal.h"
 
 #include "hevcdec.h"
+<<<<<<< HEAD
 #include "threadframe.h"
+=======
+>>>>>>> refs/remotes/origin/master
 
 #define LUMA 0
 #define CB 1

@@ -78,6 +78,7 @@ static int bmv_aud_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return buf_size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_bmv_audio_decoder = {
     .p.name         = "bmv_audio",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Discworld II BMV audio"),
@@ -86,5 +87,15 @@ const FFCodec ff_bmv_audio_decoder = {
     .init           = bmv_aud_decode_init,
     FF_CODEC_DECODE_CB(bmv_aud_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+=======
+const AVCodec ff_bmv_audio_decoder = {
+    .name           = "bmv_audio",
+    .long_name      = NULL_IF_CONFIG_SMALL("Discworld II BMV audio"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_BMV_AUDIO,
+    .init           = bmv_aud_decode_init,
+    .decode         = bmv_aud_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

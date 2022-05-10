@@ -103,11 +103,19 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *pic,
 }
 
 #if CONFIG_R210_DECODER
+<<<<<<< HEAD
 const FFCodec ff_r210_decoder = {
     .p.name         = "r210",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Uncompressed RGB 10-bit"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_R210,
+=======
+const AVCodec ff_r210_decoder = {
+    .name           = "r210",
+    .long_name      = NULL_IF_CONFIG_SMALL("Uncompressed RGB 10-bit"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_R210,
+>>>>>>> refs/remotes/origin/master
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
@@ -115,11 +123,19 @@ const FFCodec ff_r210_decoder = {
 };
 #endif
 #if CONFIG_R10K_DECODER
+<<<<<<< HEAD
 const FFCodec ff_r10k_decoder = {
     .p.name         = "r10k",
     .p.long_name    = NULL_IF_CONFIG_SMALL("AJA Kona 10-bit RGB Codec"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_R10K,
+=======
+const AVCodec ff_r10k_decoder = {
+    .name           = "r10k",
+    .long_name      = NULL_IF_CONFIG_SMALL("AJA Kona 10-bit RGB Codec"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_R10K,
+>>>>>>> refs/remotes/origin/master
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
@@ -127,11 +143,19 @@ const FFCodec ff_r10k_decoder = {
 };
 #endif
 #if CONFIG_AVRP_DECODER
+<<<<<<< HEAD
 const FFCodec ff_avrp_decoder = {
     .p.name         = "avrp",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Avid 1:1 10-bit RGB Packer"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_AVRP,
+=======
+const AVCodec ff_avrp_decoder = {
+    .name           = "avrp",
+    .long_name      = NULL_IF_CONFIG_SMALL("Avid 1:1 10-bit RGB Packer"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AVRP,
+>>>>>>> refs/remotes/origin/master
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,

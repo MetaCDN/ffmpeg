@@ -177,11 +177,19 @@ static int cyuv_decode_frame(AVCodecContext *avctx, AVFrame *frame,
 }
 
 #if CONFIG_AURA_DECODER
+<<<<<<< HEAD
 const FFCodec ff_aura_decoder = {
     .p.name         = "aura",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Auravision AURA"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_AURA,
+=======
+const AVCodec ff_aura_decoder = {
+    .name           = "aura",
+    .long_name      = NULL_IF_CONFIG_SMALL("Auravision AURA"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AURA,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(CyuvDecodeContext),
     .init           = cyuv_decode_init,
     FF_CODEC_DECODE_CB(cyuv_decode_frame),
@@ -191,11 +199,19 @@ const FFCodec ff_aura_decoder = {
 #endif
 
 #if CONFIG_CYUV_DECODER
+<<<<<<< HEAD
 const FFCodec ff_cyuv_decoder = {
     .p.name         = "cyuv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Creative YUV (CYUV)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_CYUV,
+=======
+const AVCodec ff_cyuv_decoder = {
+    .name           = "cyuv",
+    .long_name      = NULL_IF_CONFIG_SMALL("Creative YUV (CYUV)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_CYUV,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(CyuvDecodeContext),
     .init           = cyuv_decode_init,
     FF_CODEC_DECODE_CB(cyuv_decode_frame),

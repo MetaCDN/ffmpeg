@@ -23,7 +23,10 @@
 #include <pulse/error.h>
 #include "libavformat/avformat.h"
 #include "libavformat/internal.h"
+<<<<<<< HEAD
 #include "libavformat/version.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/channel_layout.h"
 #include "libavutil/internal.h"
 #include "libavutil/opt.h"

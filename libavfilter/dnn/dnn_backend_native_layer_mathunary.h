@@ -83,8 +83,12 @@ int ff_dnn_load_layer_math_unary(Layer *layer, AVIOContext *model_file_context, 
  * @param parameters unary math layer parameters
  * @param ctx pointer to Native model context for logging
  * @retval 0 if the execution succeeds
+<<<<<<< HEAD
  * @retval AVERROR(ENOMEM) if memory allocation fails
  * @retval AVERROR(EINVAL) for invalid arguments
+=======
+ * @retval DNN_ERROR if the execution fails
+>>>>>>> refs/remotes/origin/master
  */
 int ff_dnn_execute_layer_math_unary(DnnOperand *operands, const int32_t *input_operand_indexes,
                                     int32_t output_operand_index, const void *parameters, NativeContext *ctx);

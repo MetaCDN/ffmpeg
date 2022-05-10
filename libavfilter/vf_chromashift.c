@@ -326,7 +326,11 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
                             in->data[0], in->linesize[0],
                             s->linesize[0], s->height[0]);
     }
+<<<<<<< HEAD
     ff_filter_execute(ctx, s->filter_slice[s->edge], out, NULL,
+=======
+    ff_filter_execute(ctx, s->filter_slice, out, NULL,
+>>>>>>> refs/remotes/origin/master
                       FFMIN3(s->height[1],
                              s->height[2],
                              ff_filter_get_nb_threads(ctx)));
@@ -416,6 +420,14 @@ const AVFilter ff_vf_chromashift = {
     FILTER_PIXFMTS_ARRAY(yuv_pix_fmts),
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC | AVFILTER_FLAG_SLICE_THREADS,
     .process_command = ff_filter_process_command,
+};
+
+static const enum AVPixelFormat rgb_pix_fmts[] = {
+    AV_PIX_FMT_GBRP, AV_PIX_FMT_GBRAP, AV_PIX_FMT_GBRP9,
+    AV_PIX_FMT_GBRP10, AV_PIX_FMT_GBRP12,
+    AV_PIX_FMT_GBRP14, AV_PIX_FMT_GBRP16,
+    AV_PIX_FMT_GBRAP10, AV_PIX_FMT_GBRAP12, AV_PIX_FMT_GBRAP16,
+    AV_PIX_FMT_NONE
 };
 
 static const enum AVPixelFormat rgb_pix_fmts[] = {

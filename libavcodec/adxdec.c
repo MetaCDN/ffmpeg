@@ -190,18 +190,32 @@ static void adx_decode_flush(AVCodecContext *avctx)
     c->eof = 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_adpcm_adx_decoder = {
     .p.name         = "adpcm_adx",
     .p.long_name    = NULL_IF_CONFIG_SMALL("SEGA CRI ADX ADPCM"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_ADPCM_ADX,
+=======
+const AVCodec ff_adpcm_adx_decoder = {
+    .name           = "adpcm_adx",
+    .long_name      = NULL_IF_CONFIG_SMALL("SEGA CRI ADX ADPCM"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_ADPCM_ADX,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ADXContext),
     .init           = adx_decode_init,
     FF_CODEC_DECODE_CB(adx_decode_frame),
     .flush          = adx_decode_flush,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_CHANNEL_CONF |
                       AV_CODEC_CAP_DR1,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
+=======
+    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
+                      AV_CODEC_CAP_DR1,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

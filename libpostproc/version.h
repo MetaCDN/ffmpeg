@@ -28,9 +28,14 @@
 
 #include "libavutil/version.h"
 
+<<<<<<< HEAD
 #include "version_major.h"
 
 #define LIBPOSTPROC_VERSION_MINOR   5
+=======
+#define LIBPOSTPROC_VERSION_MAJOR  56
+#define LIBPOSTPROC_VERSION_MINOR   4
+>>>>>>> refs/remotes/origin/master
 #define LIBPOSTPROC_VERSION_MICRO 100
 
 #define LIBPOSTPROC_VERSION_INT AV_VERSION_INT(LIBPOSTPROC_VERSION_MAJOR, \

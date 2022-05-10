@@ -1,5 +1,9 @@
 # FIXME dropped frames in this test because of coarse timebase
+<<<<<<< HEAD
 FATE_SCREEN-$(call FRAMECRC, AVI, CSCD, SCALE_FILTER) += fate-cscd
+=======
+FATE_SCREEN-$(call DEMDEC, AVI, CSCD) += fate-cscd
+>>>>>>> refs/remotes/origin/master
 fate-cscd: CMD = framecrc -i $(TARGET_SAMPLES)/CSCD/sample_video.avi -an -pix_fmt rgb24 -vf scale
 
 FATE_SCREEN-$(call FRAMECRC, AVI, DXTORY) += fate-dxtory
@@ -27,7 +31,11 @@ fate-fraps-v1: CMD = framecrc -i $(TARGET_SAMPLES)/fraps/sample-v1.avi -an
 FATE_FRAPS += fate-fraps-v2
 fate-fraps-v2: CMD = framecrc -i $(TARGET_SAMPLES)/fraps/test3-nosound-partial.avi
 
+<<<<<<< HEAD
 FATE_FRAPS-$(call FRAMECRC, AVI, FRAPS, SCALE_FILTER) += fate-fraps-v3
+=======
+FATE_FRAPS += fate-fraps-v3
+>>>>>>> refs/remotes/origin/master
 fate-fraps-v3: CMD = framecrc -i $(TARGET_SAMPLES)/fraps/psclient-partial.avi -pix_fmt rgb24 -vf scale
 
 FATE_FRAPS += fate-fraps-v4
@@ -55,7 +63,11 @@ fate-g2m: $(FATE_G2M)
 FATE_RSCC += fate-iscc
 fate-iscc: CMD = framecrc -i $(TARGET_SAMPLES)/rscc/pip.avi -an
 
+<<<<<<< HEAD
 FATE_RSCC-$(call FRAMECRC, AVI, RSCC, SCALE_FILTER) += fate-rscc-8bit
+=======
+FATE_RSCC += fate-rscc-8bit
+>>>>>>> refs/remotes/origin/master
 fate-rscc-8bit: CMD = framecrc -i $(TARGET_SAMPLES)/rscc/8bpp.avi -an -pix_fmt rgb24 -vf scale
 
 FATE_RSCC += fate-rscc-16bit

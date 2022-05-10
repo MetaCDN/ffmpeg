@@ -89,8 +89,13 @@
 #include "libavutil/common.h"
 #include "libavutil/opt.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "audio_frame_queue.h"
 
 /* TODO: Think about converting abr, vad, dtx and such flags to a bit field */
@@ -348,11 +353,19 @@ static const FFCodecDefault defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libspeex_encoder = {
     .p.name         = "libspeex",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libspeex Speex"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_SPEEX,
+=======
+const AVCodec ff_libspeex_encoder = {
+    .name           = "libspeex",
+    .long_name      = NULL_IF_CONFIG_SMALL("libspeex Speex"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_SPEEX,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibSpeexEncContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),

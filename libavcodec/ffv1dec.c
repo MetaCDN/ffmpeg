@@ -969,8 +969,13 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *rframe,
     ff_thread_report_progress(&f->picture, INT_MAX, 0);
 
     if (f->last_picture.f)
+<<<<<<< HEAD
         ff_thread_release_ext_buffer(avctx, &f->last_picture);
     if ((ret = av_frame_ref(rframe, f->picture.f)) < 0)
+=======
+        ff_thread_release_buffer(avctx, &f->last_picture);
+    if ((ret = av_frame_ref(data, f->picture.f)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     *got_frame = 1;
@@ -1052,11 +1057,19 @@ static int update_thread_context(AVCodecContext *dst, const AVCodecContext *src)
 }
 #endif
 
+<<<<<<< HEAD
 const FFCodec ff_ffv1_decoder = {
     .p.name         = "ffv1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("FFmpeg video codec #1"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FFV1,
+=======
+const AVCodec ff_ffv1_decoder = {
+    .name           = "ffv1",
+    .long_name      = NULL_IF_CONFIG_SMALL("FFmpeg video codec #1"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_FFV1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(FFV1Context),
     .init           = decode_init,
     .close          = ff_ffv1_close,

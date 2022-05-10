@@ -147,7 +147,11 @@ static int apm_read_header(AVFormatContext *s)
     par->codec_type            = AVMEDIA_TYPE_AUDIO;
     par->codec_id              = AV_CODEC_ID_ADPCM_IMA_APM;
     par->format                = AV_SAMPLE_FMT_S16;
+<<<<<<< HEAD
     par->bit_rate              = par->ch_layout.nb_channels *
+=======
+    par->bit_rate              = par->channels *
+>>>>>>> refs/remotes/origin/master
                                  par->sample_rate *
                                  par->bits_per_coded_sample;
 

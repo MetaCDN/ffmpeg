@@ -336,6 +336,7 @@ static av_cold int cdxl_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_cdxl_decoder = {
     .p.name         = "cdxl",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Commodore CDXL video"),
@@ -346,5 +347,17 @@ const FFCodec ff_cdxl_decoder = {
     .close          = cdxl_decode_end,
     FF_CODEC_DECODE_CB(cdxl_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_cdxl_decoder = {
+    .name           = "cdxl",
+    .long_name      = NULL_IF_CONFIG_SMALL("Commodore CDXL video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_CDXL,
+    .priv_data_size = sizeof(CDXLVideoContext),
+    .init           = cdxl_decode_init,
+    .close          = cdxl_decode_end,
+    .decode         = cdxl_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

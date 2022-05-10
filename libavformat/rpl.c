@@ -212,7 +212,11 @@ static int rpl_read_header(AVFormatContext *s)
             ast->codecpar->bits_per_coded_sample = 4;
 
         ast->codecpar->bit_rate = ast->codecpar->sample_rate *
+<<<<<<< HEAD
                                   (int64_t)ast->codecpar->ch_layout.nb_channels;
+=======
+                                  (int64_t)ast->codecpar->channels;
+>>>>>>> refs/remotes/origin/master
         if (ast->codecpar->bit_rate > INT64_MAX / ast->codecpar->bits_per_coded_sample)
             return AVERROR_INVALIDDATA;
         ast->codecpar->bit_rate *= ast->codecpar->bits_per_coded_sample;

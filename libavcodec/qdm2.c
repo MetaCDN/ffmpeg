@@ -1869,6 +1869,7 @@ static int qdm2_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return s->checksum_size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_qdm2_decoder = {
     .p.name           = "qdm2",
     .p.long_name      = NULL_IF_CONFIG_SMALL("QDesign Music Codec 2"),
@@ -1879,5 +1880,17 @@ const FFCodec ff_qdm2_decoder = {
     .close            = qdm2_decode_close,
     FF_CODEC_DECODE_CB(qdm2_decode_frame),
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+=======
+const AVCodec ff_qdm2_decoder = {
+    .name             = "qdm2",
+    .long_name        = NULL_IF_CONFIG_SMALL("QDesign Music Codec 2"),
+    .type             = AVMEDIA_TYPE_AUDIO,
+    .id               = AV_CODEC_ID_QDM2,
+    .priv_data_size   = sizeof(QDM2Context),
+    .init             = qdm2_decode_init,
+    .close            = qdm2_decode_close,
+    .decode           = qdm2_decode_frame,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+>>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE,
 };

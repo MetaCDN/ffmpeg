@@ -27,7 +27,11 @@
 
 #include <stdint.h>
 #include "libavutil/avassert.h"
+<<<<<<< HEAD
 #include "libavutil/macros.h"
+=======
+#include "libavutil/common.h"
+>>>>>>> refs/remotes/origin/master
 #include "lzw.h"
 #include "put_bits.h"
 

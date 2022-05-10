@@ -156,6 +156,7 @@ read_header:
     return buf_size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_mjpegb_decoder = {
     .p.name         = "mjpegb",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Apple MJPEG-B"),
@@ -167,5 +168,18 @@ const FFCodec ff_mjpegb_decoder = {
     FF_CODEC_DECODE_CB(mjpegb_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
     .p.max_lowres   = 3,
+=======
+const AVCodec ff_mjpegb_decoder = {
+    .name           = "mjpegb",
+    .long_name      = NULL_IF_CONFIG_SMALL("Apple MJPEG-B"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MJPEGB,
+    .priv_data_size = sizeof(MJpegDecodeContext),
+    .init           = ff_mjpeg_decode_init,
+    .close          = ff_mjpeg_decode_end,
+    .decode         = mjpegb_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+    .max_lowres     = 3,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

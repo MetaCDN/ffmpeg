@@ -48,8 +48,13 @@
 
 #include "libavutil/imgutils.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "put_bits.h"
 #include "bytestream.h"
 #include "zlib_wrapper.h"
@@ -236,6 +241,10 @@ static av_cold int flashsv2_encode_init(AVCodecContext * avctx)
 
     if ((ret = av_image_check_size(avctx->width, avctx->height, 0, avctx)) < 0)
         return ret;
+<<<<<<< HEAD
+=======
+
+>>>>>>> refs/remotes/origin/master
 
     ret = ff_deflate_init(&s->zstream, s->comp, avctx);
     if (ret < 0)
@@ -910,15 +919,27 @@ static av_cold int flashsv2_encode_end(AVCodecContext * avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_flashsv2_encoder = {
     .p.name         = "flashsv2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Flash Screen Video Version 2"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_FLASHSV2,
+=======
+const AVCodec ff_flashsv2_encoder = {
+    .name           = "flashsv2",
+    .long_name      = NULL_IF_CONFIG_SMALL("Flash Screen Video Version 2"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_FLASHSV2,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(FlashSV2Context),
     .init           = flashsv2_encode_init,
     FF_CODEC_ENCODE_CB(flashsv2_encode_frame),
     .close          = flashsv2_encode_end,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]){ AV_PIX_FMT_BGR24, AV_PIX_FMT_NONE },
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]){ AV_PIX_FMT_BGR24, AV_PIX_FMT_NONE },
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

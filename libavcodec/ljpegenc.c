@@ -36,7 +36,10 @@
 #include "libavutil/pixdesc.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "idctdsp.h"
 #include "jpegtables.h"
@@ -233,15 +236,23 @@ static int ljpeg_encode_frame(AVCodecContext *avctx, AVPacket *pkt,
                         * s->hsample[0] * s->vsample[0];
     }
 
+<<<<<<< HEAD
     if ((ret = ff_mjpeg_add_icc_profile_size(avctx, pict, &max_pkt_size)) < 0)
         return ret;
+=======
+>>>>>>> refs/remotes/origin/master
     if ((ret = ff_alloc_packet(avctx, pkt, max_pkt_size)) < 0)
         return ret;
 
     init_put_bits(&pb, pkt->data, pkt->size);
 
+<<<<<<< HEAD
     ff_mjpeg_encode_picture_header(avctx, &pb, pict, NULL, &s->scantable,
                                    s->pred, s->matrix, s->matrix, 0);
+=======
+    ff_mjpeg_encode_picture_header(avctx, &pb, NULL, &s->scantable,
+                                   s->pred, s->matrix, s->matrix);
+>>>>>>> refs/remotes/origin/master
 
     header_bits = put_bits_count(&pb);
 
@@ -323,11 +334,19 @@ static const AVClass ljpeg_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_ljpeg_encoder = {
     .p.name         = "ljpeg",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Lossless JPEG"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_LJPEG,
+=======
+const AVCodec ff_ljpeg_encoder = {
+    .name           = "ljpeg",
+    .long_name      = NULL_IF_CONFIG_SMALL("Lossless JPEG"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_LJPEG,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LJpegEncContext),
     .p.priv_class   = &ljpeg_class,
     .init           = ljpeg_encode_init,

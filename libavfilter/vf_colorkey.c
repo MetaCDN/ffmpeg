@@ -188,8 +188,11 @@ static const enum AVPixelFormat pixel_fmts[] = {
     AV_PIX_FMT_RGBA,
     AV_PIX_FMT_ABGR,
     AV_PIX_FMT_BGRA,
+<<<<<<< HEAD
     AV_PIX_FMT_RGBA64,
     AV_PIX_FMT_BGRA64,
+=======
+>>>>>>> refs/remotes/origin/master
     AV_PIX_FMT_NONE
 };
 
@@ -229,6 +232,10 @@ const AVFilter ff_vf_colorkey = {
     .description   = NULL_IF_CONFIG_SMALL("Turns a certain color into transparency. Operates on RGB colors."),
     .priv_size     = sizeof(ColorkeyContext),
     .priv_class    = &colorkey_class,
+<<<<<<< HEAD
+=======
+    .init          = init_filter,
+>>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(colorkey_inputs),
     FILTER_OUTPUTS(colorkey_outputs),
     FILTER_PIXFMTS_ARRAY(pixel_fmts),
@@ -253,6 +260,10 @@ const AVFilter ff_vf_colorhold = {
     .description   = NULL_IF_CONFIG_SMALL("Turns a certain color range into gray. Operates on RGB colors."),
     .priv_size     = sizeof(ColorkeyContext),
     .priv_class    = &colorhold_class,
+<<<<<<< HEAD
+=======
+    .init          = init_filter,
+>>>>>>> refs/remotes/origin/master
     FILTER_INPUTS(colorkey_inputs),
     FILTER_OUTPUTS(colorkey_outputs),
     FILTER_PIXFMTS_ARRAY(pixel_fmts),

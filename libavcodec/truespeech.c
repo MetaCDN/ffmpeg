@@ -356,6 +356,7 @@ static int truespeech_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return buf_size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_truespeech_decoder = {
     .p.name         = "truespeech",
     .p.long_name    = NULL_IF_CONFIG_SMALL("DSP Group TrueSpeech"),
@@ -365,5 +366,16 @@ const FFCodec ff_truespeech_decoder = {
     .init           = truespeech_decode_init,
     FF_CODEC_DECODE_CB(truespeech_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_truespeech_decoder = {
+    .name           = "truespeech",
+    .long_name      = NULL_IF_CONFIG_SMALL("DSP Group TrueSpeech"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_TRUESPEECH,
+    .priv_data_size = sizeof(TSContext),
+    .init           = truespeech_decode_init,
+    .decode         = truespeech_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

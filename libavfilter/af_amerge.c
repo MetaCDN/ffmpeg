@@ -73,8 +73,12 @@ static int query_formats(AVFilterContext *ctx)
         AV_SAMPLE_FMT_NONE
     };
     AMergeContext *s = ctx->priv;
+<<<<<<< HEAD
     AVChannelLayout *inlayout[SWR_CH_MAX] = { NULL }, outlayout = { 0 };
     uint64_t outmask = 0;
+=======
+    int64_t inlayout[SWR_CH_MAX], outlayout = 0;
+>>>>>>> refs/remotes/origin/master
     AVFilterChannelLayouts *layouts;
     int i, ret, overlap = 0, nb_ch = 0;
 
@@ -85,7 +89,11 @@ static int query_formats(AVFilterContext *ctx)
                    "No channel layout for input %d\n", i + 1);
             return AVERROR(EAGAIN);
         }
+<<<<<<< HEAD
         inlayout[i] = &ctx->inputs[i]->incfg.channel_layouts->channel_layouts[0];
+=======
+        inlayout[i] = ctx->inputs[i]->incfg.channel_layouts->channel_layouts[0];
+>>>>>>> refs/remotes/origin/master
         if (ctx->inputs[i]->incfg.channel_layouts->nb_channel_layouts > 1) {
             char buf[256];
             av_channel_layout_describe(inlayout[i], buf, sizeof(buf));

@@ -388,7 +388,11 @@ static void hnm_update_palette(AVCodecContext *avctx, uint8_t *src,
     }
 }
 
+<<<<<<< HEAD
 static int hnm_decode_frame(AVCodecContext *avctx, AVFrame *frame,
+=======
+static int hnm_decode_frame(AVCodecContext *avctx, void *data,
+>>>>>>> refs/remotes/origin/master
                             int *got_frame, AVPacket *avpkt)
 {
     Hnm4VideoContext *hnm = avctx->priv_data;
@@ -497,6 +501,7 @@ static av_cold int hnm_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_hnm4_video_decoder = {
     .p.name         = "hnm4video",
     .p.long_name    = NULL_IF_CONFIG_SMALL("HNM 4 video"),
@@ -507,5 +512,17 @@ const FFCodec ff_hnm4_video_decoder = {
     .close          = hnm_decode_end,
     FF_CODEC_DECODE_CB(hnm_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_hnm4_video_decoder = {
+    .name           = "hnm4video",
+    .long_name      = NULL_IF_CONFIG_SMALL("HNM 4 video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_HNM4_VIDEO,
+    .priv_data_size = sizeof(Hnm4VideoContext),
+    .init           = hnm_decode_init,
+    .close          = hnm_decode_end,
+    .decode         = hnm_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

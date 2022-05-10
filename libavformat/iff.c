@@ -758,11 +758,16 @@ static int iff_read_header(AVFormatContext *s)
         }
 
         st->codecpar->bits_per_coded_sample = av_get_bits_per_sample(st->codecpar->codec_id);
+<<<<<<< HEAD
         st->codecpar->bit_rate    = (int64_t)st->codecpar->ch_layout.nb_channels *
                                     st->codecpar->sample_rate *
                                     st->codecpar->bits_per_coded_sample;
         st->codecpar->block_align = st->codecpar->ch_layout.nb_channels *
                                     st->codecpar->bits_per_coded_sample;
+=======
+        st->codecpar->bit_rate = (int64_t)st->codecpar->channels * st->codecpar->sample_rate * st->codecpar->bits_per_coded_sample;
+        st->codecpar->block_align = st->codecpar->channels * st->codecpar->bits_per_coded_sample;
+>>>>>>> refs/remotes/origin/master
         if ((st->codecpar->codec_tag == ID_DSD || st->codecpar->codec_tag == ID_MAUD) && st->codecpar->block_align <= 0)
             return AVERROR_INVALIDDATA;
         break;

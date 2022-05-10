@@ -131,6 +131,7 @@ static int sgirle_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_sgirle_decoder = {
     .p.name         = "sgirle",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Silicon Graphics RLE 8-bit video"),
@@ -139,5 +140,15 @@ const FFCodec ff_sgirle_decoder = {
     .init           = sgirle_decode_init,
     FF_CODEC_DECODE_CB(sgirle_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_sgirle_decoder = {
+    .name           = "sgirle",
+    .long_name      = NULL_IF_CONFIG_SMALL("Silicon Graphics RLE 8-bit video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_SGIRLE,
+    .init           = sgirle_decode_init,
+    .decode         = sgirle_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

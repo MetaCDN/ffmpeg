@@ -880,7 +880,10 @@ static av_cold int atrac3_decode_init(AVCodecContext *avctx)
     const uint8_t *edata_ptr = avctx->extradata;
     ATRAC3Context *q = avctx->priv_data;
     AVFloatDSPContext *fdsp;
+<<<<<<< HEAD
     int channels = avctx->ch_layout.nb_channels;
+=======
+>>>>>>> refs/remotes/origin/master
 
     if (channels < MIN_CHANNELS || channels > MAX_CHANNELS) {
         av_log(avctx, AV_LOG_ERROR, "Channel configuration error!\n");
@@ -1006,7 +1009,11 @@ static av_cold int atrac3_decode_init(AVCodecContext *avctx)
     q->vector_fmul = fdsp->vector_fmul;
     av_free(fdsp);
 
+<<<<<<< HEAD
     q->units = av_calloc(channels, sizeof(*q->units));
+=======
+    q->units = av_calloc(avctx->channels, sizeof(*q->units));
+>>>>>>> refs/remotes/origin/master
     if (!q->units)
         return AVERROR(ENOMEM);
 
@@ -1015,11 +1022,19 @@ static av_cold int atrac3_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_atrac3_decoder = {
     .p.name           = "atrac3",
     .p.long_name      = NULL_IF_CONFIG_SMALL("ATRAC3 (Adaptive TRansform Acoustic Coding 3)"),
     .p.type           = AVMEDIA_TYPE_AUDIO,
     .p.id             = AV_CODEC_ID_ATRAC3,
+=======
+const AVCodec ff_atrac3_decoder = {
+    .name             = "atrac3",
+    .long_name        = NULL_IF_CONFIG_SMALL("ATRAC3 (Adaptive TRansform Acoustic Coding 3)"),
+    .type             = AVMEDIA_TYPE_AUDIO,
+    .id               = AV_CODEC_ID_ATRAC3,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(ATRAC3Context),
     .init             = atrac3_decode_init,
     .close            = atrac3_decode_close,
@@ -1030,11 +1045,19 @@ const FFCodec ff_atrac3_decoder = {
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_atrac3al_decoder = {
     .p.name           = "atrac3al",
     .p.long_name      = NULL_IF_CONFIG_SMALL("ATRAC3 AL (Adaptive TRansform Acoustic Coding 3 Advanced Lossless)"),
     .p.type           = AVMEDIA_TYPE_AUDIO,
     .p.id             = AV_CODEC_ID_ATRAC3AL,
+=======
+const AVCodec ff_atrac3al_decoder = {
+    .name             = "atrac3al",
+    .long_name        = NULL_IF_CONFIG_SMALL("ATRAC3 AL (Adaptive TRansform Acoustic Coding 3 Advanced Lossless)"),
+    .type             = AVMEDIA_TYPE_AUDIO,
+    .id               = AV_CODEC_ID_ATRAC3AL,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(ATRAC3Context),
     .init             = atrac3_decode_init,
     .close            = atrac3_decode_close,

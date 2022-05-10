@@ -23,9 +23,13 @@
  */
 
 #include "atsc_a53.h"
+<<<<<<< HEAD
 #include "bytestream.h"
 #include "dynamic_hdr10_plus.h"
 #include "dynamic_hdr_vivid.h"
+=======
+#include "dynamic_hdr10_plus.h"
+>>>>>>> refs/remotes/origin/master
 #include "golomb.h"
 #include "hevc_ps.h"
 #include "hevc_sei.h"
@@ -52,12 +56,20 @@ static int decode_nal_sei_decoded_picture_hash(HEVCSEIPictureHash *s,
     return 0;
 }
 
+<<<<<<< HEAD
 static int decode_nal_sei_mastering_display_info(HEVCSEIMasteringDisplay *s,
                                                  GetByteContext *gb)
 {
     int i;
 
     if (bytestream2_get_bytes_left(gb) < 24)
+=======
+static int decode_nal_sei_mastering_display_info(HEVCSEIMasteringDisplay *s, GetBitContext *gb, int size)
+{
+    int i;
+
+    if (size < 24)
+>>>>>>> refs/remotes/origin/master
         return AVERROR_INVALIDDATA;
 
     // Mastering primaries
@@ -70,14 +82,21 @@ static int decode_nal_sei_mastering_display_info(HEVCSEIMasteringDisplay *s,
     s->white_point[1] = bytestream2_get_be16u(gb);
 
     // Max and min luminance of mastering display
+<<<<<<< HEAD
     s->max_luminance = bytestream2_get_be32u(gb);
     s->min_luminance = bytestream2_get_be32u(gb);
+=======
+    s->max_luminance = get_bits_long(gb, 32);
+    s->min_luminance = get_bits_long(gb, 32);
+    size -= 24;
+>>>>>>> refs/remotes/origin/master
 
     // As this SEI message comes before the first frame that references it,
     // initialize the flag to 2 and decrement on IRAP access unit so it
     // persists for the coded video sequence (e.g., between two IRAPs)
     s->present = 2;
 
+<<<<<<< HEAD
     return 0;
 }
 
@@ -90,11 +109,30 @@ static int decode_nal_sei_content_light_info(HEVCSEIContentLight *s,
     // Max and average light levels
     s->max_content_light_level     = bytestream2_get_be16u(gb);
     s->max_pic_average_light_level = bytestream2_get_be16u(gb);
+=======
+    skip_bits_long(gb, 8 * size);
+    return 0;
+}
+
+static int decode_nal_sei_content_light_info(HEVCSEIContentLight *s, GetBitContext *gb, int size)
+{
+    if (size < 4)
+        return AVERROR_INVALIDDATA;
+
+    // Max and average light levels
+    s->max_content_light_level     = get_bits(gb, 16);
+    s->max_pic_average_light_level = get_bits(gb, 16);
+    size -= 4;
+>>>>>>> refs/remotes/origin/master
     // As this SEI message comes before the first frame that references it,
     // initialize the flag to 2 and decrement on IRAP access unit so it
     // persists for the coded video sequence (e.g., between two IRAPs)
     s->present = 2;
 
+<<<<<<< HEAD
+=======
+    skip_bits_long(gb, 8 * size);
+>>>>>>> refs/remotes/origin/master
     return  0;
 }
 
@@ -166,10 +204,19 @@ static int decode_registered_user_data_closed_caption(HEVCSEIA53Caption *s,
 {
     int ret;
 
+<<<<<<< HEAD
     ret = ff_parse_a53_cc(&s->buf_ref, gb->buffer,
                           bytestream2_get_bytes_left(gb));
     if (ret < 0)
         return ret;
+=======
+    ret = ff_parse_a53_cc(&s->buf_ref, gb->buffer + get_bits_count(gb) / 8, size);
+
+    if (ret < 0)
+        return ret;
+
+    skip_bits_long(gb, size * 8);
+>>>>>>> refs/remotes/origin/master
 
     return 0;
 }
@@ -201,6 +248,7 @@ static int decode_nal_sei_user_data_unregistered(HEVCSEIUnregistered *s,
 }
 
 static int decode_registered_user_data_dynamic_hdr_plus(HEVCSEIDynamicHDRPlus *s,
+<<<<<<< HEAD
                                                         GetByteContext *gb)
 {
     size_t meta_size;
@@ -259,9 +307,47 @@ static int decode_nal_sei_user_data_registered_itu_t_t35(HEVCSEI *s, GetByteCont
 
     if (bytestream2_get_bytes_left(gb) < 3)
         return AVERROR_INVALIDDATA;
+=======
+                                                        GetBitContext *gb, int size)
+{
+    size_t meta_size;
+    int err;
+    AVDynamicHDRPlus *metadata = av_dynamic_hdr_plus_alloc(&meta_size);
+    if (!metadata)
+        return AVERROR(ENOMEM);
+
+    err = ff_parse_itu_t_t35_to_dynamic_hdr10_plus(metadata,
+                                                   gb->buffer + get_bits_count(gb) / 8, size);
+    if (err < 0) {
+        av_free(metadata);
+        return err;
+    }
+
+    av_buffer_unref(&s->info);
+    s->info = av_buffer_create((uint8_t *)metadata, meta_size, NULL, NULL, 0);
+    if (!s->info) {
+        av_free(metadata);
+        return AVERROR(ENOMEM);
+    }
+
+    skip_bits_long(gb, size * 8);
+
+    return 0;
+}
+
+static int decode_nal_sei_user_data_registered_itu_t_t35(HEVCSEI *s, GetBitContext *gb,
+                                                         void *logctx, int size)
+{
+    int country_code, provider_code;
+
+    if (size < 3)
+        return AVERROR_INVALIDDATA;
+    size -= 3;
+>>>>>>> refs/remotes/origin/master
 
     country_code = bytestream2_get_byteu(gb);
     if (country_code == 0xFF) {
+<<<<<<< HEAD
         if (bytestream2_get_bytes_left(gb) < 3)
             return AVERROR_INVALIDDATA;
 
@@ -306,16 +392,59 @@ static int decode_nal_sei_user_data_registered_itu_t_t35(HEVCSEI *s, GetByteCont
         if (provider_oriented_code == smpte2094_40_provider_oriented_code &&
             application_identifier == smpte2094_40_application_identifier) {
             return decode_registered_user_data_dynamic_hdr_plus(&s->dynamic_hdr_plus, gb);
+=======
+        if (size < 1)
+            return AVERROR_INVALIDDATA;
+
+        skip_bits(gb, 8);
+        size--;
+    }
+
+    if (country_code != 0xB5) { // usa_country_code
+        av_log(logctx, AV_LOG_VERBOSE,
+               "Unsupported User Data Registered ITU-T T35 SEI message (country_code = %d)\n",
+               country_code);
+        goto end;
+    }
+
+    provider_code = get_bits(gb, 16);
+
+    switch (provider_code) {
+    case 0x3C: { // smpte_provider_code
+        // A/341 Amendment - 2094-40
+        const uint16_t smpte2094_40_provider_oriented_code = 0x0001;
+        const uint8_t smpte2094_40_application_identifier = 0x04;
+        uint16_t provider_oriented_code;
+        uint8_t application_identifier;
+
+        if (size < 3)
+            return AVERROR_INVALIDDATA;
+        size -= 3;
+
+        provider_oriented_code = get_bits(gb, 16);
+        application_identifier = get_bits(gb, 8);
+        if (provider_oriented_code == smpte2094_40_provider_oriented_code &&
+            application_identifier == smpte2094_40_application_identifier) {
+            return decode_registered_user_data_dynamic_hdr_plus(&s->dynamic_hdr_plus, gb, size);
+>>>>>>> refs/remotes/origin/master
         }
         break;
     }
     case 0x31: { // atsc_provider_code
         uint32_t user_identifier;
 
+<<<<<<< HEAD
         if (bytestream2_get_bytes_left(gb) < 4)
             return AVERROR_INVALIDDATA;
 
         user_identifier = bytestream2_get_be32u(gb);
+=======
+        if (size < 4)
+            return AVERROR_INVALIDDATA;
+        size -= 4;
+
+        user_identifier = get_bits_long(gb, 32);
+>>>>>>> refs/remotes/origin/master
         switch (user_identifier) {
         case MKBETAG('G', 'A', '9', '4'):
             return decode_registered_user_data_closed_caption(&s->a53_caption, gb);
@@ -326,6 +455,7 @@ static int decode_nal_sei_user_data_registered_itu_t_t35(HEVCSEI *s, GetByteCont
             break;
         }
         break;
+<<<<<<< HEAD
     }
     default:
         av_log(logctx, AV_LOG_VERBOSE,
@@ -334,6 +464,18 @@ static int decode_nal_sei_user_data_registered_itu_t_t35(HEVCSEI *s, GetByteCont
         break;
     }
 
+=======
+    }
+    default:
+        av_log(logctx, AV_LOG_VERBOSE,
+               "Unsupported User Data Registered ITU-T T35 SEI message (provider_code = %d)\n",
+               provider_code);
+        break;
+    }
+
+end:
+    skip_bits_long(gb, size * 8);
+>>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -362,6 +504,7 @@ static int decode_nal_sei_active_parameter_sets(HEVCSEI *s, GetBitContext *gb, v
     return 0;
 }
 
+<<<<<<< HEAD
 static int decode_nal_sei_alternative_transfer(HEVCSEIAlternativeTransfer *s,
                                                GetByteContext *gb)
 {
@@ -371,6 +514,18 @@ static int decode_nal_sei_alternative_transfer(HEVCSEIAlternativeTransfer *s,
     s->present = 1;
     s->preferred_transfer_characteristics = bytestream2_get_byteu(gb);
 
+=======
+static int decode_nal_sei_alternative_transfer(HEVCSEIAlternativeTransfer *s, GetBitContext *gb, int size)
+{
+    if (size < 1)
+        return AVERROR_INVALIDDATA;
+
+    s->present = 1;
+    s->preferred_transfer_characteristics = get_bits(gb, 8);
+    size--;
+
+    skip_bits_long(gb, 8 * size);
+>>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -459,6 +614,12 @@ static int decode_film_grain_characteristics(HEVCSEIFilmGrainCharacteristics *h,
 
         h->present = 1;
     }
+<<<<<<< HEAD
+=======
+
+    return 0;
+}
+>>>>>>> refs/remotes/origin/master
 
     return 0;
 }
@@ -469,12 +630,17 @@ static int decode_nal_sei_prefix(GetBitContext *gb, GetByteContext *gbyte,
 {
     switch (type) {
     case 256:  // Mismatched value from HM 8.1
+<<<<<<< HEAD
         return decode_nal_sei_decoded_picture_hash(&s->picture_hash, gbyte);
+=======
+        return decode_nal_sei_decoded_picture_hash(&s->picture_hash, gb);
+>>>>>>> refs/remotes/origin/master
     case SEI_TYPE_FRAME_PACKING_ARRANGEMENT:
         return decode_nal_sei_frame_packing_arrangement(&s->frame_packing, gb);
     case SEI_TYPE_DISPLAY_ORIENTATION:
         return decode_nal_sei_display_orientation(&s->display_orientation, gb);
     case SEI_TYPE_PIC_TIMING:
+<<<<<<< HEAD
         return decode_nal_sei_pic_timing(s, gb, ps, logctx);
     case SEI_TYPE_MASTERING_DISPLAY_COLOUR_VOLUME:
         return decode_nal_sei_mastering_display_info(&s->mastering_display, gbyte);
@@ -488,6 +654,21 @@ static int decode_nal_sei_prefix(GetBitContext *gb, GetByteContext *gbyte,
         return decode_nal_sei_user_data_unregistered(&s->unregistered, gbyte);
     case SEI_TYPE_ALTERNATIVE_TRANSFER_CHARACTERISTICS:
         return decode_nal_sei_alternative_transfer(&s->alternative_transfer, gbyte);
+=======
+        return decode_nal_sei_pic_timing(s, gb, ps, logctx, size);
+    case SEI_TYPE_MASTERING_DISPLAY_COLOUR_VOLUME:
+        return decode_nal_sei_mastering_display_info(&s->mastering_display, gb, size);
+    case SEI_TYPE_CONTENT_LIGHT_LEVEL_INFO:
+        return decode_nal_sei_content_light_info(&s->content_light, gb, size);
+    case SEI_TYPE_ACTIVE_PARAMETER_SETS:
+        return decode_nal_sei_active_parameter_sets(s, gb, logctx);
+    case SEI_TYPE_USER_DATA_REGISTERED_ITU_T_T35:
+        return decode_nal_sei_user_data_registered_itu_t_t35(s, gb, logctx, size);
+    case SEI_TYPE_USER_DATA_UNREGISTERED:
+        return decode_nal_sei_user_data_unregistered(&s->unregistered, gb, size);
+    case SEI_TYPE_ALTERNATIVE_TRANSFER_CHARACTERISTICS:
+        return decode_nal_sei_alternative_transfer(&s->alternative_transfer, gb, size);
+>>>>>>> refs/remotes/origin/master
     case SEI_TYPE_TIME_CODE:
         return decode_nal_sei_timecode(&s->timecode, gb);
     case SEI_TYPE_FILM_GRAIN_CHARACTERISTICS:
@@ -503,7 +684,11 @@ static int decode_nal_sei_suffix(GetBitContext *gb, GetByteContext *gbyte,
 {
     switch (type) {
     case SEI_TYPE_DECODED_PICTURE_HASH:
+<<<<<<< HEAD
         return decode_nal_sei_decoded_picture_hash(&s->picture_hash, gbyte);
+=======
+        return decode_nal_sei_decoded_picture_hash(&s->picture_hash, gb);
+>>>>>>> refs/remotes/origin/master
     default:
         av_log(logctx, AV_LOG_DEBUG, "Skipped SUFFIX SEI %d\n", type);
         return 0;
@@ -534,12 +719,17 @@ static int decode_nal_sei_message(GetByteContext *gb, void *logctx, HEVCSEI *s,
         byte          = bytestream2_get_byteu(gb);
         payload_size += byte;
     }
+<<<<<<< HEAD
     if (bytestream2_get_bytes_left(gb) < payload_size)
         return AVERROR_INVALIDDATA;
     bytestream2_init(&message_gbyte, gb->buffer, payload_size);
     ret = init_get_bits8(&message_gb, gb->buffer, payload_size);
     av_assert1(ret >= 0);
     bytestream2_skipu(gb, payload_size);
+=======
+    if (get_bits_left(gb) < 8LL*payload_size)
+        return AVERROR_INVALIDDATA;
+>>>>>>> refs/remotes/origin/master
     if (nal_unit_type == HEVC_NAL_SEI_PREFIX) {
         return decode_nal_sei_prefix(&message_gb, &message_gbyte,
                                      logctx, s, ps, payload_type);
@@ -582,5 +772,8 @@ void ff_hevc_reset_sei(HEVCSEI *s)
     s->unregistered.nb_buf_ref = 0;
     av_freep(&s->unregistered.buf_ref);
     av_buffer_unref(&s->dynamic_hdr_plus.info);
+<<<<<<< HEAD
     av_buffer_unref(&s->dynamic_hdr_vivid.info);
+=======
+>>>>>>> refs/remotes/origin/master
 }

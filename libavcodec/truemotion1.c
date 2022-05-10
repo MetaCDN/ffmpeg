@@ -910,6 +910,7 @@ static av_cold int truemotion1_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_truemotion1_decoder = {
     .p.name         = "truemotion1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Duck TrueMotion 1.0"),
@@ -920,5 +921,17 @@ const FFCodec ff_truemotion1_decoder = {
     .close          = truemotion1_decode_end,
     FF_CODEC_DECODE_CB(truemotion1_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_truemotion1_decoder = {
+    .name           = "truemotion1",
+    .long_name      = NULL_IF_CONFIG_SMALL("Duck TrueMotion 1.0"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_TRUEMOTION1,
+    .priv_data_size = sizeof(TrueMotion1Context),
+    .init           = truemotion1_decode_init,
+    .close          = truemotion1_decode_end,
+    .decode         = truemotion1_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

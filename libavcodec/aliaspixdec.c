@@ -121,6 +121,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *f,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_alias_pix_decoder = {
     .p.name         = "alias_pix",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Alias/Wavefront PIX image"),
@@ -128,4 +129,13 @@ const FFCodec ff_alias_pix_decoder = {
     .p.id           = AV_CODEC_ID_ALIAS_PIX,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(decode_frame),
+=======
+const AVCodec ff_alias_pix_decoder = {
+    .name         = "alias_pix",
+    .long_name    = NULL_IF_CONFIG_SMALL("Alias/Wavefront PIX image"),
+    .type         = AVMEDIA_TYPE_VIDEO,
+    .id           = AV_CODEC_ID_ALIAS_PIX,
+    .decode       = decode_frame,
+    .capabilities = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
 };

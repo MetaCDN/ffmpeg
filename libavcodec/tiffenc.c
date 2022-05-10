@@ -36,8 +36,13 @@
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "lzw.h"
 #include "put_bits.h"
 #include "rle.h"
@@ -569,11 +574,19 @@ static const AVClass tiffenc_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_tiff_encoder = {
     .p.name         = "tiff",
     .p.long_name    = NULL_IF_CONFIG_SMALL("TIFF image"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_TIFF,
+=======
+const AVCodec ff_tiff_encoder = {
+    .name           = "tiff",
+    .long_name      = NULL_IF_CONFIG_SMALL("TIFF image"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_TIFF,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(TiffEncoderContext),
     .init           = encode_init,
     .close          = encode_close,
@@ -588,6 +601,10 @@ const FFCodec ff_tiff_encoder = {
         AV_PIX_FMT_YUV410P, AV_PIX_FMT_YUV411P,
         AV_PIX_FMT_NONE
     },
+<<<<<<< HEAD
     .p.priv_class   = &tiffenc_class,
+=======
+    .priv_class     = &tiffenc_class,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

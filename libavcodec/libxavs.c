@@ -27,8 +27,13 @@
 #include <float.h>
 #include <xavs.h>
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "packet_internal.h"
 #include "libavutil/internal.h"
 #include "libavutil/mem.h"
@@ -421,20 +426,34 @@ static const FFCodecDefault xavs_defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libxavs_encoder = {
     .p.name         = "libxavs",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libxavs Chinese AVS (Audio Video Standard)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_CAVS,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+=======
+const AVCodec ff_libxavs_encoder = {
+    .name           = "libxavs",
+    .long_name      = NULL_IF_CONFIG_SMALL("libxavs Chinese AVS (Audio Video Standard)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_CAVS,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_OTHER_THREADS,
     .priv_data_size = sizeof(XavsContext),
     .init           = XAVS_init,
     FF_CODEC_ENCODE_CB(XAVS_frame),
     .close          = XAVS_close,
     .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
+<<<<<<< HEAD
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
     .p.priv_class   = &xavs_class,
+=======
+    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P, AV_PIX_FMT_NONE },
+    .priv_class     = &xavs_class,
+>>>>>>> refs/remotes/origin/master
     .defaults       = xavs_defaults,
     .p.wrapper_name = "libxavs",
 };

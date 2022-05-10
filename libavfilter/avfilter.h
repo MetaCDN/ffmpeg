@@ -648,6 +648,14 @@ struct AVFilterLink {
     int max_samples;
 
     /**
+<<<<<<< HEAD
+=======
+     * Number of channels.
+     */
+    int channels;
+
+    /**
+>>>>>>> refs/remotes/origin/master
      * Number of past frames sent through the link.
      */
     int64_t frame_count_in, frame_count_out;

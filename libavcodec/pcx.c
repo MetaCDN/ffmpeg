@@ -249,6 +249,7 @@ end:
     return ret;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_pcx_decoder = {
     .p.name       = "pcx",
     .p.long_name  = NULL_IF_CONFIG_SMALL("PC Paintbrush PCX image"),
@@ -256,4 +257,13 @@ const FFCodec ff_pcx_decoder = {
     .p.id         = AV_CODEC_ID_PCX,
     FF_CODEC_DECODE_CB(pcx_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_pcx_decoder = {
+    .name         = "pcx",
+    .long_name    = NULL_IF_CONFIG_SMALL("PC Paintbrush PCX image"),
+    .type         = AVMEDIA_TYPE_VIDEO,
+    .id           = AV_CODEC_ID_PCX,
+    .decode       = pcx_decode_frame,
+    .capabilities = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
 };

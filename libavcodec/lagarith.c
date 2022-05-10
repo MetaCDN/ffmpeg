@@ -30,6 +30,7 @@
 #include "avcodec.h"
 #include "codec_internal.h"
 #include "get_bits.h"
+#include "internal.h"
 #include "mathops.h"
 #include "lagarithrac.h"
 #include "lossless_videodsp.h"
@@ -725,6 +726,7 @@ static av_cold int lag_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_lagarith_decoder = {
     .p.name         = "lagarith",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Lagarith lossless"),
@@ -734,5 +736,16 @@ const FFCodec ff_lagarith_decoder = {
     .init           = lag_decode_init,
     FF_CODEC_DECODE_CB(lag_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+=======
+const AVCodec ff_lagarith_decoder = {
+    .name           = "lagarith",
+    .long_name      = NULL_IF_CONFIG_SMALL("Lagarith lossless"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_LAGARITH,
+    .priv_data_size = sizeof(LagarithContext),
+    .init           = lag_decode_init,
+    .decode         = lag_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

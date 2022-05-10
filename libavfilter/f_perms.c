@@ -140,7 +140,10 @@ const AVFilter ff_af_aperms = {
     FILTER_OUTPUTS(aperms_outputs),
     .flags       = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC |
                    AVFILTER_FLAG_METADATA_ONLY,
+<<<<<<< HEAD
     .process_command = ff_filter_process_command,
+=======
+>>>>>>> refs/remotes/origin/master
 };
 #endif /* CONFIG_APERMS_FILTER */
 
@@ -171,6 +174,9 @@ const AVFilter ff_vf_perms = {
     .priv_class  = &perms_class,
     .flags       = AVFILTER_FLAG_SUPPORT_TIMELINE_GENERIC |
                    AVFILTER_FLAG_METADATA_ONLY,
+<<<<<<< HEAD
     .process_command = ff_filter_process_command,
+=======
+>>>>>>> refs/remotes/origin/master
 };
 #endif /* CONFIG_PERMS_FILTER */

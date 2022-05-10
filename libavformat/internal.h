@@ -183,11 +183,14 @@ typedef struct FFFormatContext {
      * Set if chapter ids are strictly monotonic.
      */
     int chapter_ids_monotonic;
+<<<<<<< HEAD
 
     /**
      * Contexts and child contexts do not contain a metadata option
      */
     int metafree;
+=======
+>>>>>>> refs/remotes/origin/master
 } FFFormatContext;
 
 static av_always_inline FFFormatContext *ffformatcontext(AVFormatContext *s)
@@ -1025,6 +1028,7 @@ void avpriv_register_devices(const AVOutputFormat * const o[], const AVInputForm
  * Make shift_size amount of space at read_start by shifting data in the output
  * at read_start until the current IO position. The underlying IO context must
  * be seekable.
+<<<<<<< HEAD
  */
 int ff_format_shift_data(AVFormatContext *s, int64_t read_start, int shift_size);
 
@@ -1047,5 +1051,9 @@ int ff_format_shift_data(AVFormatContext *s, int64_t read_start, int shift_size)
  */
 void ff_rescale_interval(AVRational tb_in, AVRational tb_out,
                          int64_t *min_ts, int64_t *ts, int64_t *max_ts);
+=======
+ */
+int ff_format_shift_data(AVFormatContext *s, int64_t read_start, int shift_size);
+>>>>>>> refs/remotes/origin/master
 
 #endif /* AVFORMAT_INTERNAL_H */

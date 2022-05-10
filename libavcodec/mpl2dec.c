@@ -27,7 +27,11 @@
 
 #include "avcodec.h"
 #include "ass.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/bprint.h"
 
 static int mpl2_event_to_ass(AVBPrint *buf, const char *p)
@@ -81,12 +85,21 @@ static int mpl2_decode_frame(AVCodecContext *avctx, AVSubtitle *sub,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_mpl2_decoder = {
     .p.name         = "mpl2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MPL2 subtitle"),
     .p.type         = AVMEDIA_TYPE_SUBTITLE,
     .p.id           = AV_CODEC_ID_MPL2,
     FF_CODEC_DECODE_SUB_CB(mpl2_decode_frame),
+=======
+const AVCodec ff_mpl2_decoder = {
+    .name           = "mpl2",
+    .long_name      = NULL_IF_CONFIG_SMALL("MPL2 subtitle"),
+    .type           = AVMEDIA_TYPE_SUBTITLE,
+    .id             = AV_CODEC_ID_MPL2,
+    .decode         = mpl2_decode_frame,
+>>>>>>> refs/remotes/origin/master
     .init           = ff_ass_subtitle_header_default,
     .flush          = ff_ass_decoder_flush,
     .priv_data_size = sizeof(FFASSDecoderContext),

@@ -25,7 +25,10 @@
 #include "libavutil/ffmath.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "wma.h"
@@ -350,7 +353,11 @@ static int encode_block(WMACodecContext *s, float (*src_coefs)[BLOCK_MAX_SIZE],
                 put_bits(&s->pb, s->coef_vlcs[tindex]->huffbits[1],
                          s->coef_vlcs[tindex]->huffcodes[1]);
         }
+<<<<<<< HEAD
         if (s->version == 1 && channels >= 2)
+=======
+        if (s->version == 1 && s->avctx->channels >= 2)
+>>>>>>> refs/remotes/origin/master
             align_put_bits(&s->pb);
     }
     return 0;
@@ -433,11 +440,19 @@ static int encode_superframe(AVCodecContext *avctx, AVPacket *avpkt,
 }
 
 #if CONFIG_WMAV1_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_wmav1_encoder = {
     .p.name         = "wmav1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Audio 1"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_WMAV1,
+=======
+const AVCodec ff_wmav1_encoder = {
+    .name           = "wmav1",
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio 1"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_WMAV1,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WMACodecContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_superframe),
@@ -448,11 +463,19 @@ const FFCodec ff_wmav1_encoder = {
 };
 #endif
 #if CONFIG_WMAV2_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_wmav2_encoder = {
     .p.name         = "wmav2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Audio 2"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_WMAV2,
+=======
+const AVCodec ff_wmav2_encoder = {
+    .name           = "wmav2",
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio 2"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_WMAV2,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(WMACodecContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_superframe),

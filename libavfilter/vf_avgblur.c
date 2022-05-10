@@ -172,6 +172,7 @@ static void build_lut(AVFilterContext *ctx, int max)
 {
     AverageBlurContext *s = ctx->priv;
     const int area = (2 * s->radiusV + 1) * (2 * s->radius + 1);
+<<<<<<< HEAD
 
     s->area = area;
     if (max * area >= FF_ARRAY_ELEMS(s->lut))
@@ -192,6 +193,21 @@ static av_cold void uninit(AVFilterContext *ctx)
     AverageBlurContext *s = ctx->priv;
 
     av_freep(&s->buffer);
+=======
+
+    s->area = area;
+    if (max * area >= FF_ARRAY_ELEMS(s->lut))
+        return;
+
+    for (int i = 0, j = 0, k = 0; i < max * area; i++, j++) {
+        if (j == area) {
+            k++;
+            j = 0;
+        }
+
+        s->lut[i] = k;
+    }
+>>>>>>> refs/remotes/origin/master
 }
 
 static int config_input(AVFilterLink *inlink)
@@ -199,8 +215,11 @@ static int config_input(AVFilterLink *inlink)
     AVFilterContext *ctx = inlink->dst;
     const AVPixFmtDescriptor *desc = av_pix_fmt_desc_get(inlink->format);
     AverageBlurContext *s = ctx->priv;
+<<<<<<< HEAD
 
     uninit(ctx);
+=======
+>>>>>>> refs/remotes/origin/master
 
     s->depth = desc->comp[0].depth;
     s->max = 1 << s->depth;
@@ -304,6 +323,31 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
 static int process_command(AVFilterContext *ctx, const char *cmd, const char *args,
                            char *res, int res_len, int flags)
+<<<<<<< HEAD
+=======
+{
+    AverageBlurContext *s = ctx->priv;
+    const int area = s->area;
+    int ret;
+
+    ret = ff_filter_process_command(ctx, cmd, args, res, res_len, flags);
+    if (ret < 0)
+        return ret;
+
+    if (s->radiusV <= 0)
+        s->radiusV = s->radius;
+
+    s->radius  = FFMIN(s->planewidth[1]  / 2, s->radius);
+    s->radiusV = FFMIN(s->planeheight[1] / 2, s->radiusV);
+
+    if (area != (2 * s->radiusV + 1) * (2 * s->radius + 1))
+        build_lut(ctx, s->max);
+
+    return 0;
+}
+
+static av_cold void uninit(AVFilterContext *ctx)
+>>>>>>> refs/remotes/origin/master
 {
     AverageBlurContext *s = ctx->priv;
     const int area = s->area;

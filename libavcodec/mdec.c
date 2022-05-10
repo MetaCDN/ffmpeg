@@ -34,8 +34,13 @@
 #include "bswapdsp.h"
 #include "codec_internal.h"
 #include "idctdsp.h"
+<<<<<<< HEAD
 #include "mpeg12data.h"
 #include "mpeg12dec.h"
+=======
+#include "mpeg12.h"
+#include "mpeg12data.h"
+>>>>>>> refs/remotes/origin/master
 #include "thread.h"
 
 typedef struct MDECContext {
@@ -249,6 +254,7 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_mdec_decoder = {
     .p.name           = "mdec",
     .p.long_name      = NULL_IF_CONFIG_SMALL("Sony PlayStation MDEC (Motion DECoder)"),
@@ -259,5 +265,17 @@ const FFCodec ff_mdec_decoder = {
     .close            = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+=======
+const AVCodec ff_mdec_decoder = {
+    .name             = "mdec",
+    .long_name        = NULL_IF_CONFIG_SMALL("Sony PlayStation MDEC (Motion DECoder)"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_MDEC,
+    .priv_data_size   = sizeof(MDECContext),
+    .init             = decode_init,
+    .close            = decode_end,
+    .decode           = decode_frame,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS,
+>>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE,
 };

@@ -687,17 +687,30 @@ static const AVClass vaapi_encode_mpeg2_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_mpeg2_vaapi_encoder = {
     .p.name         = "mpeg2_vaapi",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MPEG-2 (VAAPI)"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_MPEG2VIDEO,
+=======
+const AVCodec ff_mpeg2_vaapi_encoder = {
+    .name           = "mpeg2_vaapi",
+    .long_name      = NULL_IF_CONFIG_SMALL("MPEG-2 (VAAPI)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MPEG2VIDEO,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(VAAPIEncodeMPEG2Context),
     .init           = &vaapi_encode_mpeg2_init,
     FF_CODEC_RECEIVE_PACKET_CB(&ff_vaapi_encode_receive_packet),
     .close          = &vaapi_encode_mpeg2_close,
+<<<<<<< HEAD
     .p.priv_class   = &vaapi_encode_mpeg2_class,
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
+=======
+    .priv_class     = &vaapi_encode_mpeg2_class,
+    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
     .defaults       = vaapi_encode_mpeg2_defaults,

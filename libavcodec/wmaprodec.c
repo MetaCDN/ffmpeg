@@ -576,6 +576,7 @@ static av_cold int decode_init(WMAProDecodeCtx *s, AVCodecContext *avctx, int nu
     if (avctx->debug & FF_DEBUG_BITSTREAM)
         dump_context(s);
 
+<<<<<<< HEAD
     if (avctx->codec_id == AV_CODEC_ID_WMAPRO) {
         if (channel_mask) {
             av_channel_layout_uninit(&avctx->ch_layout);
@@ -583,6 +584,10 @@ static av_cold int decode_init(WMAProDecodeCtx *s, AVCodecContext *avctx, int nu
         } else
             avctx->ch_layout.order = AV_CHANNEL_ORDER_UNSPEC;
     }
+=======
+    if (avctx->codec_id == AV_CODEC_ID_WMAPRO)
+        avctx->channel_layout = channel_mask;
+>>>>>>> refs/remotes/origin/master
 
     ff_thread_once(&init_static_once, decode_init_static);
 
@@ -1777,8 +1782,15 @@ static int decode_packet(AVCodecContext *avctx, WMAProDecodeCtx *s,
         return AVERROR_INVALIDDATA;
 
     if (s->trim_start && avctx->codec_id == AV_CODEC_ID_WMAPRO) {
+<<<<<<< HEAD
         if (s->trim_start < frame->nb_samples) {
             for (int ch = 0; ch < frame->ch_layout.nb_channels; ch++)
+=======
+        AVFrame *frame = data;
+
+        if (s->trim_start < frame->nb_samples) {
+            for (int ch = 0; ch < frame->channels; ch++)
+>>>>>>> refs/remotes/origin/master
                 frame->extended_data[ch] += s->trim_start * 4;
 
             frame->nb_samples -= s->trim_start;
@@ -1790,6 +1802,11 @@ static int decode_packet(AVCodecContext *avctx, WMAProDecodeCtx *s,
     }
 
     if (s->trim_end && avctx->codec_id == AV_CODEC_ID_WMAPRO) {
+<<<<<<< HEAD
+=======
+        AVFrame *frame = data;
+
+>>>>>>> refs/remotes/origin/master
         if (s->trim_end < frame->nb_samples) {
             frame->nb_samples -= s->trim_end;
         } else {
@@ -1830,6 +1847,10 @@ static int xma_decode_packet(AVCodecContext *avctx, AVFrame *frame,
 {
     XMADecodeCtx *s = avctx->priv_data;
     int got_stream_frame_ptr = 0;
+<<<<<<< HEAD
+=======
+    AVFrame *frame = data;
+>>>>>>> refs/remotes/origin/master
     int i, ret = 0, eof = 0;
 
     if (!s->frames[s->current_stream]->data[0]) {
@@ -1849,6 +1870,7 @@ static int xma_decode_packet(AVCodecContext *avctx, AVFrame *frame,
         ret = decode_packet(avctx, &s->xma[s->current_stream], s->frames[s->current_stream],
                             &got_stream_frame_ptr, avpkt);
     }
+<<<<<<< HEAD
 
     if (!avpkt->size) {
         eof = 1;
@@ -1859,6 +1881,18 @@ static int xma_decode_packet(AVCodecContext *avctx, AVFrame *frame,
                                     &got_stream_frame_ptr, avpkt);
             }
 
+=======
+
+    if (!avpkt->size) {
+        eof = 1;
+
+        for (i = 0; i < s->num_streams; i++) {
+            if (!s->xma[i].eof_done && s->frames[i]->data[0]) {
+                ret = decode_packet(avctx, &s->xma[i], s->frames[i],
+                                    &got_stream_frame_ptr, avpkt);
+            }
+
+>>>>>>> refs/remotes/origin/master
             eof &= s->xma[i].eof_done;
         }
     }
@@ -1956,6 +1990,7 @@ static av_cold int xma_decode_init(AVCodecContext *avctx)
 
     /* get stream config */
     if (avctx->codec_id == AV_CODEC_ID_XMA2 && avctx->extradata_size == 34) { /* XMA2WAVEFORMATEX */
+<<<<<<< HEAD
         unsigned int channel_mask = AV_RL32(avctx->extradata + 2);
         if (channel_mask) {
             av_channel_layout_uninit(&avctx->ch_layout);
@@ -1963,6 +1998,10 @@ static av_cold int xma_decode_init(AVCodecContext *avctx)
         } else
             avctx->ch_layout.order = AV_CHANNEL_ORDER_UNSPEC;
         s->num_streams = AV_RL16(avctx->extradata);
+=======
+        s->num_streams = AV_RL16(avctx->extradata);
+        avctx->channel_layout = AV_RL32(avctx->extradata + 2);
+>>>>>>> refs/remotes/origin/master
     } else if (avctx->codec_id == AV_CODEC_ID_XMA2 && avctx->extradata_size >= 2) { /* XMA2WAVEFORMAT */
         s->num_streams = avctx->extradata[1];
         if (avctx->extradata_size != (32 + ((avctx->extradata[0]==3)?0:8) + 4*s->num_streams)) {
@@ -2080,6 +2119,7 @@ static void xma_flush(AVCodecContext *avctx)
 /**
  *@brief wmapro decoder
  */
+<<<<<<< HEAD
 const FFCodec ff_wmapro_decoder = {
     .p.name         = "wmapro",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Windows Media Audio 9 Professional"),
@@ -2090,12 +2130,25 @@ const FFCodec ff_wmapro_decoder = {
     .close          = wmapro_decode_end,
     FF_CODEC_DECODE_CB(wmapro_decode_packet),
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_wmapro_decoder = {
+    .name           = "wmapro",
+    .long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio 9 Professional"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_WMAPRO,
+    .priv_data_size = sizeof(WMAProDecodeCtx),
+    .init           = wmapro_decode_init,
+    .close          = wmapro_decode_end,
+    .decode         = wmapro_decode_packet,
+    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .flush          = wmapro_flush,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_xma1_decoder = {
     .p.name         = "xma1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Xbox Media Audio 1"),
@@ -2107,22 +2160,48 @@ const FFCodec ff_xma1_decoder = {
     FF_CODEC_DECODE_CB(xma_decode_packet),
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+=======
+const AVCodec ff_xma1_decoder = {
+    .name           = "xma1",
+    .long_name      = NULL_IF_CONFIG_SMALL("Xbox Media Audio 1"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_XMA1,
+    .priv_data_size = sizeof(XMADecodeCtx),
+    .init           = xma_decode_init,
+    .close          = xma_decode_end,
+    .decode         = xma_decode_packet,
+    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_xma2_decoder = {
     .p.name         = "xma2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Xbox Media Audio 2"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_XMA2,
+=======
+const AVCodec ff_xma2_decoder = {
+    .name           = "xma2",
+    .long_name      = NULL_IF_CONFIG_SMALL("Xbox Media Audio 2"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_XMA2,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(XMADecodeCtx),
     .init           = xma_decode_init,
     .close          = xma_decode_end,
     FF_CODEC_DECODE_CB(xma_decode_packet),
     .flush          = xma_flush,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+=======
+    .capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

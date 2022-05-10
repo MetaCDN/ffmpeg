@@ -24,6 +24,10 @@
 #define SIZE 10240
 
 #include "libavutil/lfg.h"
+<<<<<<< HEAD
+=======
+#include "libavcodec/avcodec.h"
+>>>>>>> refs/remotes/origin/master
 #include "libavcodec/put_bits.h"
 
 typedef struct CABACTestContext {

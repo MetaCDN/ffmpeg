@@ -187,11 +187,19 @@ static av_cold int eightsvx_decode_close(AVCodecContext *avctx)
 }
 
 #if CONFIG_EIGHTSVX_FIB_DECODER
+<<<<<<< HEAD
 const FFCodec ff_eightsvx_fib_decoder = {
   .p.name         = "8svx_fib",
   .p.long_name    = NULL_IF_CONFIG_SMALL("8SVX fibonacci"),
   .p.type         = AVMEDIA_TYPE_AUDIO,
   .p.id           = AV_CODEC_ID_8SVX_FIB,
+=======
+const AVCodec ff_eightsvx_fib_decoder = {
+  .name           = "8svx_fib",
+  .long_name      = NULL_IF_CONFIG_SMALL("8SVX fibonacci"),
+  .type           = AVMEDIA_TYPE_AUDIO,
+  .id             = AV_CODEC_ID_8SVX_FIB,
+>>>>>>> refs/remotes/origin/master
   .priv_data_size = sizeof (EightSvxContext),
   .init           = eightsvx_decode_init,
   FF_CODEC_DECODE_CB(eightsvx_decode_frame),
@@ -203,11 +211,19 @@ const FFCodec ff_eightsvx_fib_decoder = {
 };
 #endif
 #if CONFIG_EIGHTSVX_EXP_DECODER
+<<<<<<< HEAD
 const FFCodec ff_eightsvx_exp_decoder = {
   .p.name         = "8svx_exp",
   .p.long_name    = NULL_IF_CONFIG_SMALL("8SVX exponential"),
   .p.type         = AVMEDIA_TYPE_AUDIO,
   .p.id           = AV_CODEC_ID_8SVX_EXP,
+=======
+const AVCodec ff_eightsvx_exp_decoder = {
+  .name           = "8svx_exp",
+  .long_name      = NULL_IF_CONFIG_SMALL("8SVX exponential"),
+  .type           = AVMEDIA_TYPE_AUDIO,
+  .id             = AV_CODEC_ID_8SVX_EXP,
+>>>>>>> refs/remotes/origin/master
   .priv_data_size = sizeof (EightSvxContext),
   .init           = eightsvx_decode_init,
   FF_CODEC_DECODE_CB(eightsvx_decode_frame),

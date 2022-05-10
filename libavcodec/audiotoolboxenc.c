@@ -29,7 +29,10 @@
 #include "audio_frame_queue.h"
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "libavformat/isom.h"
@@ -613,22 +616,37 @@ static const AVOption options[] = {
 
 #define FFAT_ENC(NAME, ID, PROFILES, CAPS, CHANNEL_LAYOUTS, CH_LAYOUTS) \
     FFAT_ENC_CLASS(NAME) \
+<<<<<<< HEAD
     const FFCodec ff_##NAME##_at_encoder = { \
         .p.name         = #NAME "_at", \
         .p.long_name    = NULL_IF_CONFIG_SMALL(#NAME " (AudioToolbox)"), \
         .p.type         = AVMEDIA_TYPE_AUDIO, \
         .p.id           = ID, \
+=======
+    const AVCodec ff_##NAME##_at_encoder = { \
+        .name           = #NAME "_at", \
+        .long_name      = NULL_IF_CONFIG_SMALL(#NAME " (AudioToolbox)"), \
+        .type           = AVMEDIA_TYPE_AUDIO, \
+        .id             = ID, \
+>>>>>>> refs/remotes/origin/master
         .priv_data_size = sizeof(ATDecodeContext), \
         .init           = ffat_init_encoder, \
         .close          = ffat_close_encoder, \
         FF_CODEC_ENCODE_CB(ffat_encode), \
         .flush          = ffat_encode_flush, \
+<<<<<<< HEAD
         .p.priv_class   = &ffat_##NAME##_enc_class, \
         .p.capabilities = AV_CODEC_CAP_DELAY | \
                           AV_CODEC_CAP_ENCODER_FLUSH CAPS, \
         .p.channel_layouts = CHANNEL_LAYOUTS, \
         .p.ch_layouts   = CH_LAYOUTS, \
         .p.sample_fmts  = (const enum AVSampleFormat[]) { \
+=======
+        .priv_class     = &ffat_##NAME##_enc_class, \
+        .capabilities   = AV_CODEC_CAP_DELAY | \
+                          AV_CODEC_CAP_ENCODER_FLUSH __VA_ARGS__, \
+        .sample_fmts    = (const enum AVSampleFormat[]) { \
+>>>>>>> refs/remotes/origin/master
             AV_SAMPLE_FMT_S16, \
             AV_SAMPLE_FMT_U8,  AV_SAMPLE_FMT_NONE \
         }, \

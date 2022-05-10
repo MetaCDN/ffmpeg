@@ -28,7 +28,11 @@
 #include "libavutil/opt.h"
 
 #include "libavcodec/ac3_parser_internal.h"
+<<<<<<< HEAD
 #include "libavcodec/startcode.h"
+=======
+#include "libavcodec/internal.h"
+>>>>>>> refs/remotes/origin/master
 
 #include "avformat.h"
 #include "avio_internal.h"
@@ -2099,10 +2103,13 @@ static int mpegts_write_packet_internal(AVFormatContext *s, AVPacket *pkt)
             ts_st->dvb_ac3_desc = dvb_ac3_desc;
         }
         av_free(hdr);
+<<<<<<< HEAD
     } else if (st->codecpar->codec_id == AV_CODEC_ID_PCM_BLURAY && ts->m2ts_mode) {
         mpegts_write_pes(s, st, buf, size, pts, dts,
                          pkt->flags & AV_PKT_FLAG_KEY, stream_id);
         return 0;
+=======
+>>>>>>> refs/remotes/origin/master
     }
 
     if (ts_st->payload_size && (ts_st->payload_size + size > ts->pes_payload_size ||

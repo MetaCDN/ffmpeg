@@ -606,6 +606,11 @@ static int pixlet_decode_frame(AVCodecContext *avctx, AVFrame *p,
 {
     PixletContext *ctx = avctx->priv_data;
     int i, w, h, width, height, ret, version;
+<<<<<<< HEAD
+=======
+    AVFrame *p = data;
+    ThreadFrame frame = { .f = data };
+>>>>>>> refs/remotes/origin/master
     uint32_t pktsize, depth;
 
     bytestream2_init(&ctx->gb, avpkt->data, avpkt->size);
@@ -684,19 +689,32 @@ static int pixlet_decode_frame(AVCodecContext *avctx, AVFrame *p,
             break;
     }
 
+<<<<<<< HEAD
     postprocess_luma(avctx, p, ctx->w, ctx->h, ctx->depth);
     postprocess_chroma(p, ctx->w >> 1, ctx->h >> 1, ctx->depth);
+=======
+    postprocess_luma(avctx, frame.f, ctx->w, ctx->h, ctx->depth);
+    postprocess_chroma(frame.f, ctx->w >> 1, ctx->h >> 1, ctx->depth);
+>>>>>>> refs/remotes/origin/master
 
     *got_frame = 1;
 
     return pktsize;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_pixlet_decoder = {
     .p.name           = "pixlet",
     .p.long_name      = NULL_IF_CONFIG_SMALL("Apple Pixlet"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_PIXLET,
+=======
+const AVCodec ff_pixlet_decoder = {
+    .name             = "pixlet",
+    .long_name        = NULL_IF_CONFIG_SMALL("Apple Pixlet"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_PIXLET,
+>>>>>>> refs/remotes/origin/master
     .init             = pixlet_init,
     .close            = pixlet_close,
     FF_CODEC_DECODE_CB(pixlet_decode_frame),

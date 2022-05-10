@@ -49,7 +49,10 @@
 #include <string.h>
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 #include "libavutil/internal.h"
@@ -215,6 +218,10 @@ static int idcin_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size;
     IdcinContext *s = avctx->priv_data;
+<<<<<<< HEAD
+=======
+    AVFrame *frame = data;
+>>>>>>> refs/remotes/origin/master
     int ret;
 
     s->buf = buf;
@@ -241,11 +248,19 @@ static const FFCodecDefault idcin_defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 const FFCodec ff_idcin_decoder = {
     .p.name         = "idcinvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("id Quake II CIN video"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_IDCIN,
+=======
+const AVCodec ff_idcin_decoder = {
+    .name           = "idcinvideo",
+    .long_name      = NULL_IF_CONFIG_SMALL("id Quake II CIN video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_IDCIN,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(IdcinContext),
     .init           = idcin_decode_init,
     FF_CODEC_DECODE_CB(idcin_decode_frame),

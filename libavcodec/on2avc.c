@@ -910,7 +910,10 @@ static av_cold int on2avc_decode_init(AVCodecContext *avctx)
     On2AVCContext *c = avctx->priv_data;
     const uint8_t  *lens = ff_on2avc_cb_lens;
     const uint16_t *syms = ff_on2avc_cb_syms;
+<<<<<<< HEAD
     int channels = avctx->ch_layout.nb_channels;
+=======
+>>>>>>> refs/remotes/origin/master
     int i, ret;
 
     if (channels > 2U) {
@@ -1004,17 +1007,31 @@ static av_cold int on2avc_decode_close(AVCodecContext *avctx)
 }
 
 
+<<<<<<< HEAD
 const FFCodec ff_on2avc_decoder = {
     .p.name         = "on2avc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("On2 Audio for Video Codec"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_ON2AVC,
+=======
+const AVCodec ff_on2avc_decoder = {
+    .name           = "on2avc",
+    .long_name      = NULL_IF_CONFIG_SMALL("On2 Audio for Video Codec"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_ON2AVC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(On2AVCContext),
     .init           = on2avc_decode_init,
     FF_CODEC_DECODE_CB(on2avc_decode_frame),
     .close          = on2avc_decode_close,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+=======
+    .capabilities   = AV_CODEC_CAP_DR1,
+    .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
 };

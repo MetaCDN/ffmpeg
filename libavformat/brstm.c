@@ -271,19 +271,32 @@ static int read_header(AVFormatContext *s)
             return AVERROR_INVALIDDATA;
 
         if (!bfstm) {
+<<<<<<< HEAD
             avio_skip(s->pb, pos + toffset - avio_tell(s->pb) - 8LL * (st->codecpar->ch_layout.nb_channels + 1));
             for (ch = 0; ch < st->codecpar->ch_layout.nb_channels; ch++) {
+=======
+            avio_skip(s->pb, pos + toffset - avio_tell(s->pb) - 8LL * (st->codecpar->channels + 1));
+            for (ch = 0; ch < st->codecpar->channels; ch++) {
+>>>>>>> refs/remotes/origin/master
                 avio_skip(s->pb, 4);
                 b->offsets[ch].channel = ch;
                 b->offsets[ch].offset = read32(s);
             }
 
+<<<<<<< HEAD
             qsort(b->offsets, st->codecpar->ch_layout.nb_channels, sizeof(*b->offsets), sort_offsets);
+=======
+            qsort(b->offsets, st->codecpar->channels, sizeof(*b->offsets), sort_offsets);
+>>>>>>> refs/remotes/origin/master
         }
 
         avio_skip(s->pb, pos + toffset - avio_tell(s->pb));
 
+<<<<<<< HEAD
         for (ch = 0; ch < st->codecpar->ch_layout.nb_channels; ch++) {
+=======
+        for (ch = 0; ch < st->codecpar->channels; ch++) {
+>>>>>>> refs/remotes/origin/master
             if (!bfstm)
                 avio_skip(s->pb, pos + 16LL + b->offsets[ch].offset - avio_tell(s->pb));
 
@@ -313,7 +326,11 @@ static int read_header(AVFormatContext *s)
                 codec != AV_CODEC_ID_ADPCM_THP_LE)
                 goto skip;
 
+<<<<<<< HEAD
             asize = b->block_count * st->codecpar->ch_layout.nb_channels * 4;
+=======
+            asize = b->block_count * st->codecpar->channels * 4;
+>>>>>>> refs/remotes/origin/master
             if (size < asize)
                 return AVERROR_INVALIDDATA;
             if (b->adpc) {

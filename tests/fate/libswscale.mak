@@ -17,6 +17,7 @@ $(SWS_SLICE_TEST-yes): tools/scale_slice_test$(EXESUF)
 $(SWS_SLICE_TEST-yes): REF = /dev/null
 FATE_LIBSWSCALE_SAMPLES += $(SWS_SLICE_TEST-yes)
 
+<<<<<<< HEAD
 FATE_LIBSWSCALE-$(CONFIG_RAWVIDEO_DEMUXER) += fate-sws-yuv-colorspace
 fate-sws-yuv-colorspace: tests/data/vsynth1.yuv
 fate-sws-yuv-colorspace: ffmpeg$(PROGSSUF)$(EXESUF)
@@ -33,6 +34,8 @@ fate-sws-yuv-range: CMD = framecrc \
   -frames 1 \
   -vf scale=in_color_matrix=bt601:in_range=limited:out_color_matrix=bt601:out_range=full:flags=+accurate_rnd+bitexact
 
+=======
+>>>>>>> refs/remotes/origin/master
 FATE_LIBSWSCALE += $(FATE_LIBSWSCALE-yes)
 FATE_LIBSWSCALE_SAMPLES += $(FATE_LIBSWSCALE_SAMPLES-yes)
 FATE-$(CONFIG_SWSCALE) += $(FATE_LIBSWSCALE)

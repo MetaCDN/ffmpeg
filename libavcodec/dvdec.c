@@ -681,6 +681,7 @@ static int dvvideo_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return s->sys->frame_size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_dvvideo_decoder = {
     .p.name         = "dvvideo",
     .p.long_name    = NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
@@ -691,5 +692,17 @@ const FFCodec ff_dvvideo_decoder = {
     FF_CODEC_DECODE_CB(dvvideo_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS | AV_CODEC_CAP_SLICE_THREADS,
     .p.max_lowres   = 3,
+=======
+const AVCodec ff_dvvideo_decoder = {
+    .name           = "dvvideo",
+    .long_name      = NULL_IF_CONFIG_SMALL("DV (Digital Video)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_DVVIDEO,
+    .priv_data_size = sizeof(DVVideoContext),
+    .init           = dvvideo_decode_init,
+    .decode         = dvvideo_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_FRAME_THREADS | AV_CODEC_CAP_SLICE_THREADS,
+    .max_lowres     = 3,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

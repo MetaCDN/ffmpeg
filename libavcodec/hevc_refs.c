@@ -36,8 +36,13 @@ void ff_hevc_unref_frame(HEVCContext *s, HEVCFrame *frame, int flags)
 
     frame->flags &= ~flags;
     if (!frame->flags) {
+<<<<<<< HEAD
         ff_thread_release_ext_buffer(s->avctx, &frame->tf);
         ff_thread_release_buffer(s->avctx, frame->frame_grain);
+=======
+        ff_thread_release_buffer(s->avctx, &frame->tf);
+        ff_thread_release_buffer(s->avctx, &frame->tf_grain);
+>>>>>>> refs/remotes/origin/master
         frame->needs_fg = 0;
 
         av_buffer_unref(&frame->tab_mvf_buf);

@@ -232,7 +232,11 @@ static struct section sections[] = {
     [SECTION_ID_FRAME] =              { SECTION_ID_FRAME, "frame", 0, { SECTION_ID_FRAME_TAGS, SECTION_ID_FRAME_SIDE_DATA_LIST, SECTION_ID_FRAME_LOGS, -1 } },
     [SECTION_ID_FRAME_TAGS] =         { SECTION_ID_FRAME_TAGS, "tags", SECTION_FLAG_HAS_VARIABLE_FIELDS, { -1 }, .element_name = "tag", .unique_name = "frame_tags" },
     [SECTION_ID_FRAME_SIDE_DATA_LIST] ={ SECTION_ID_FRAME_SIDE_DATA_LIST, "side_data_list", SECTION_FLAG_IS_ARRAY, { SECTION_ID_FRAME_SIDE_DATA, -1 }, .element_name = "side_data", .unique_name = "frame_side_data_list" },
+<<<<<<< HEAD
     [SECTION_ID_FRAME_SIDE_DATA] =     { SECTION_ID_FRAME_SIDE_DATA, "side_data", 0, { SECTION_ID_FRAME_SIDE_DATA_TIMECODE_LIST, SECTION_ID_FRAME_SIDE_DATA_COMPONENT_LIST, -1 }, .unique_name = "frame_side_data" },
+=======
+    [SECTION_ID_FRAME_SIDE_DATA] =     { SECTION_ID_FRAME_SIDE_DATA, "side_data", 0, { SECTION_ID_FRAME_SIDE_DATA_TIMECODE_LIST, SECTION_ID_FRAME_SIDE_DATA_COMPONENT_LIST, -1 } },
+>>>>>>> refs/remotes/origin/master
     [SECTION_ID_FRAME_SIDE_DATA_TIMECODE_LIST] =  { SECTION_ID_FRAME_SIDE_DATA_TIMECODE_LIST, "timecodes", SECTION_FLAG_IS_ARRAY, { SECTION_ID_FRAME_SIDE_DATA_TIMECODE, -1 } },
     [SECTION_ID_FRAME_SIDE_DATA_TIMECODE] =       { SECTION_ID_FRAME_SIDE_DATA_TIMECODE, "timecode", 0, { -1 } },
     [SECTION_ID_FRAME_SIDE_DATA_COMPONENT_LIST] = { SECTION_ID_FRAME_SIDE_DATA_COMPONENT_LIST, "components", SECTION_FLAG_IS_ARRAY, { SECTION_ID_FRAME_SIDE_DATA_COMPONENT, -1 } },
@@ -2127,6 +2131,7 @@ static void print_dynamic_hdr10_plus(WriterContext *w, const AVDynamicHDRPlus *m
     }
 }
 
+<<<<<<< HEAD
 static void print_dynamic_hdr_vivid(WriterContext *w, const AVDynamicHDRVivid *metadata)
 {
     if (!metadata)
@@ -2195,6 +2200,8 @@ static void print_dynamic_hdr_vivid(WriterContext *w, const AVDynamicHDRVivid *m
     }
 }
 
+=======
+>>>>>>> refs/remotes/origin/master
 static void print_pkt_side_data(WriterContext *w,
                                 AVCodecParameters *par,
                                 const AVPacketSideData *side_data,
@@ -2612,9 +2619,12 @@ static void show_frame(WriterContext *w, AVFrame *frame, AVStream *stream,
                 print_int("size", sd->size);
             } else if (sd->type == AV_FRAME_DATA_DOVI_METADATA) {
                 print_dovi_metadata(w, (const AVDOVIMetadata *)sd->data);
+<<<<<<< HEAD
             } else if (sd->type == AV_FRAME_DATA_DYNAMIC_HDR_VIVID) {
                 AVDynamicHDRVivid *metadata = (AVDynamicHDRVivid *)sd->data;
                 print_dynamic_hdr_vivid(w, metadata);
+=======
+>>>>>>> refs/remotes/origin/master
             }
             writer_print_section_footer(w);
         }
@@ -2808,11 +2818,16 @@ static int read_interval_packets(WriterContext *w, InputFile *ifile,
     //Flush remaining frames that are cached in the decoder
     for (i = 0; i < fmt_ctx->nb_streams; i++) {
         pkt->stream_index = i;
+<<<<<<< HEAD
         if (do_read_frames) {
             while (process_frame(w, ifile, frame, pkt, &(int){1}) > 0);
             if (ifile->streams[i].dec_ctx)
                 avcodec_flush_buffers(ifile->streams[i].dec_ctx);
         }
+=======
+        if (do_read_frames)
+            while (process_frame(w, ifile, frame, pkt, &(int){1}) > 0);
+>>>>>>> refs/remotes/origin/master
     }
 
 end:

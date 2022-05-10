@@ -181,15 +181,21 @@ int attribute_align_arg av_buffersrc_add_frame_flags(AVFilterContext *ctx, AVFra
     AVFrame *copy;
     int refcounted, ret;
 
+<<<<<<< HEAD
 #if FF_API_OLD_CHANNEL_LAYOUT
 FF_DISABLE_DEPRECATION_WARNINGS
+=======
+>>>>>>> refs/remotes/origin/master
     if (frame && frame->channel_layout &&
         av_get_channel_layout_nb_channels(frame->channel_layout) != frame->channels) {
         av_log(ctx, AV_LOG_ERROR, "Layout indicates a different number of channels than actually present\n");
         return AVERROR(EINVAL);
     }
+<<<<<<< HEAD
 FF_ENABLE_DEPRECATION_WARNINGS
 #endif
+=======
+>>>>>>> refs/remotes/origin/master
 
     s->nb_failed_requests = 0;
 

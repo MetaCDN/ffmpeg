@@ -402,9 +402,12 @@ static int config_input(AVFilterLink *inlink)
     depth = desc->comp[0].depth;
     s->filter_slice = filter_slice;
 
+<<<<<<< HEAD
     if ((ret = av_image_fill_linesizes(s->linesizes, inlink->format, inlink->w)) < 0)
         return ret;
 
+=======
+>>>>>>> refs/remotes/origin/master
     for (int p = 0; p < s->nb_planes; p++) {
         if (depth == 8 && s->sigma[p] == INT16_MAX)
             s->dsp.filter_row[p] = s->algorithm == PARALLEL ? filter_row8 : filter_row8_serial;

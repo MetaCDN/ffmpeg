@@ -139,7 +139,11 @@ static int config_input(AVFilterLink *inlink)
     int check;
 
     result = ff_dnn_get_input(&ctx->dnnctx, &model_input);
+<<<<<<< HEAD
     if (result != 0) {
+=======
+    if (result != DNN_SUCCESS) {
+>>>>>>> refs/remotes/origin/master
         av_log(ctx, AV_LOG_ERROR, "could not get input from the model\n");
         return result;
     }
@@ -194,14 +198,24 @@ static int config_output(AVFilterLink *outlink)
 {
     AVFilterContext *context = outlink->src;
     DnnProcessingContext *ctx = context->priv;
+<<<<<<< HEAD
     int result;
+=======
+    DNNReturnType result;
+>>>>>>> refs/remotes/origin/master
     AVFilterLink *inlink = context->inputs[0];
 
     // have a try run in case that the dnn model resize the frame
     result = ff_dnn_get_output(&ctx->dnnctx, inlink->w, inlink->h, &outlink->w, &outlink->h);
+<<<<<<< HEAD
     if (result != 0) {
         av_log(ctx, AV_LOG_ERROR, "could not get output from the model\n");
         return result;
+=======
+    if (result != DNN_SUCCESS) {
+        av_log(ctx, AV_LOG_ERROR, "could not get output from the model\n");
+        return AVERROR(EIO);
+>>>>>>> refs/remotes/origin/master
     }
 
     prepare_uv_scale(outlink);
@@ -247,7 +261,11 @@ static int flush_frame(AVFilterLink *outlink, int64_t pts, int64_t *out_pts)
     DNNAsyncStatusType async_state;
 
     ret = ff_dnn_flush(&ctx->dnnctx);
+<<<<<<< HEAD
     if (ret != 0) {
+=======
+    if (ret != DNN_SUCCESS) {
+>>>>>>> refs/remotes/origin/master
         return -1;
     }
 
@@ -296,7 +314,11 @@ static int activate(AVFilterContext *filter_ctx)
                 return AVERROR(ENOMEM);
             }
             av_frame_copy_props(out, in);
+<<<<<<< HEAD
             if (ff_dnn_execute_model(&ctx->dnnctx, in, out) != 0) {
+=======
+            if (ff_dnn_execute_model(&ctx->dnnctx, in, out) != DNN_SUCCESS) {
+>>>>>>> refs/remotes/origin/master
                 return AVERROR(EIO);
             }
         }

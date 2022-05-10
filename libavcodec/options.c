@@ -125,8 +125,13 @@ static int init_context_defaults(AVCodecContext *s, const AVCodec *codec)
     s->sample_fmt          = AV_SAMPLE_FMT_NONE;
 
     s->reordered_opaque    = AV_NOPTS_VALUE;
+<<<<<<< HEAD
     if(codec && codec2->priv_data_size){
         s->priv_data = av_mallocz(codec2->priv_data_size);
+=======
+    if(codec && codec->priv_data_size){
+        s->priv_data = av_mallocz(codec->priv_data_size);
+>>>>>>> refs/remotes/origin/master
         if (!s->priv_data)
             return AVERROR(ENOMEM);
         if(codec->priv_class){
@@ -186,7 +191,10 @@ const AVClass *avcodec_get_class(void)
 }
 
 #if FF_API_GET_FRAME_CLASS
+<<<<<<< HEAD
 FF_DISABLE_DEPRECATION_WARNINGS
+=======
+>>>>>>> refs/remotes/origin/master
 #define FOFFSET(x) offsetof(AVFrame,x)
 
 static const AVOption frame_options[]={
@@ -215,7 +223,10 @@ const AVClass *avcodec_get_frame_class(void)
 {
     return &av_frame_class;
 }
+<<<<<<< HEAD
 FF_ENABLE_DEPRECATION_WARNINGS
+=======
+>>>>>>> refs/remotes/origin/master
 #endif
 
 #define SROFFSET(x) offsetof(AVSubtitleRect,x)

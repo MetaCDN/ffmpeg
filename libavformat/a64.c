@@ -19,9 +19,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+<<<<<<< HEAD
 #include "libavutil/intreadwrite.h"
 #include "libavcodec/codec_id.h"
 #include "libavcodec/codec_par.h"
+=======
+#include "libavcodec/codec_id.h"
+#include "libavcodec/codec_par.h"
+#include "libavcodec/bytestream.h"
+>>>>>>> refs/remotes/origin/master
 #include "avformat.h"
 #include "rawenc.h"
 

@@ -100,8 +100,17 @@ error:
         for (i = 0; i < height; i++) {                                                      \
             PIXEL *line = (PIXEL*)(frame->data[0] + i * frame->linesize[0]);                \
             for (j = 0; j < width; j++) {                                                   \
+<<<<<<< HEAD
                 unsigned val = bytestream2_get_ ##suffix##u(g) << (D - depth);              \
                 val ^= offset;                                                              \
+=======
+                unsigned val;                                                               \
+                if (sign)                                                                   \
+                    val = (PIXEL)bytestream2_get_ ##suffix(g) + (1 << (depth - 1));         \
+                else                                                                        \
+                    val = bytestream2_get_ ##suffix(g);                                     \
+                val <<= (D - depth);                                                        \
+>>>>>>> refs/remotes/origin/master
                 *(line + j) = val;                                                          \
             }                                                                               \
         }                                                                                   \
@@ -151,6 +160,7 @@ static int pgx_decode_frame(AVCodecContext *avctx, AVFrame *p,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_pgx_decoder = {
     .p.name         = "pgx",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PGX (JPEG2000 Test Format)"),
@@ -158,4 +168,13 @@ const FFCodec ff_pgx_decoder = {
     .p.id           = AV_CODEC_ID_PGX,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(pgx_decode_frame),
+=======
+const AVCodec ff_pgx_decoder = {
+    .name           = "pgx",
+    .long_name      = NULL_IF_CONFIG_SMALL("PGX (JPEG2000 Test Format)"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_PGX,
+    .decode         = pgx_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
 };

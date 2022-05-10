@@ -176,6 +176,9 @@ typedef struct NvencContext
     NV_ENC_SEI_PAYLOAD *sei_data;
     int sei_data_size;
 
+    NV_ENC_SEI_PAYLOAD *sei_data;
+    int sei_data_size;
+
     struct {
         void *ptr;
         int ptr_index;

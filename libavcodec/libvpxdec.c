@@ -35,7 +35,10 @@
 #include "libavutil/imgutils.h"
 #include "libavutil/intreadwrite.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 #include "libvpx.h"
@@ -355,6 +358,7 @@ static av_cold int vp8_init(AVCodecContext *avctx)
     return vpx_init(avctx, &ctx->decoder, vpx_codec_vp8_dx());
 }
 
+<<<<<<< HEAD
 const FFCodec ff_libvpx_vp8_decoder = {
     .p.name         = "libvpx",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libvpx VP8"),
@@ -367,6 +371,20 @@ const FFCodec ff_libvpx_vp8_decoder = {
     .close          = vpx_free,
     FF_CODEC_DECODE_CB(vpx_decode),
     .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
+=======
+const AVCodec ff_libvpx_vp8_decoder = {
+    .name           = "libvpx",
+    .long_name      = NULL_IF_CONFIG_SMALL("libvpx VP8"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_VP8,
+    .priv_data_size = sizeof(VPxContext),
+    .init           = vp8_init,
+    .close          = vpx_free,
+    .decode         = vpx_decode,
+    .capabilities   = AV_CODEC_CAP_OTHER_THREADS | AV_CODEC_CAP_DR1,
+    .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
+    .wrapper_name   = "libvpx",
+>>>>>>> refs/remotes/origin/master
 };
 #endif /* CONFIG_LIBVPX_VP8_DECODER */
 
@@ -388,7 +406,12 @@ FFCodec ff_libvpx_vp9_decoder = {
     .priv_data_size = sizeof(VPxContext),
     .init           = vp9_init,
     .close          = vpx_free,
+<<<<<<< HEAD
     FF_CODEC_DECODE_CB(vpx_decode),
+=======
+    .decode         = vpx_decode,
+    .capabilities   = AV_CODEC_CAP_OTHER_THREADS,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_AUTO_THREADS,
     .init_static_data = ff_vp9_init_static,
 };

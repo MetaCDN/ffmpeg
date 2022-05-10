@@ -415,10 +415,15 @@ av_cold int ff_opus_parse_extradata(AVCodecContext *avctx,
     }
 
     s->channel_maps = av_calloc(channels, sizeof(*s->channel_maps));
+<<<<<<< HEAD
     if (!s->channel_maps) {
         ret = AVERROR(ENOMEM);
         goto fail;
     }
+=======
+    if (!s->channel_maps)
+        return AVERROR(ENOMEM);
+>>>>>>> refs/remotes/origin/master
 
     for (i = 0; i < channels; i++) {
         ChannelMap *map = &s->channel_maps[i];

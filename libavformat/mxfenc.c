@@ -48,10 +48,19 @@
 #include "libavutil/mastering_display_metadata.h"
 #include "libavutil/pixdesc.h"
 #include "libavutil/time_internal.h"
+<<<<<<< HEAD
 #include "libavcodec/golomb.h"
 #include "libavcodec/h264.h"
 #include "libavcodec/packet_internal.h"
 #include "libavcodec/startcode.h"
+=======
+#include "libavcodec/bytestream.h"
+#include "libavcodec/dv_profile.h"
+#include "libavcodec/h264_ps.h"
+#include "libavcodec/golomb.h"
+#include "libavcodec/internal.h"
+#include "libavcodec/packet_internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "avformat.h"
 #include "avio_internal.h"
 #include "internal.h"
@@ -228,8 +237,12 @@ static const UID mxf_d10_container_uls[] = {
     { 0x06,0x0E,0x2B,0x34,0x04,0x01,0x01,0x01,0x0D,0x01,0x03,0x01,0x02,0x01,0x06,0x01 }, // D-10 525/50 NTSC 30mb/s
 };
 
+<<<<<<< HEAD
 static const uint8_t product_uid[]          = { 0xAD,0xAB,0x44,0x24,0x2f,0x25,0x4d,0xc7,0x92,0xff,0x29,0xbd,0x00,0x0c,0x00,0x02};
 static const uint8_t uuid_base[]            = { 0xAD,0xAB,0x44,0x24,0x2f,0x25,0x4d,0xc7,0x92,0xff };
+=======
+static const uint8_t uuid_base[]            = { 0xAD,0xAB,0x44,0x24,0x2f,0x25,0x4d,0xc7,0x92,0xff,0x29,0xbd };
+>>>>>>> refs/remotes/origin/master
 static const uint8_t umid_ul[]              = { 0x06,0x0A,0x2B,0x34,0x01,0x01,0x01,0x05,0x01,0x01,0x0D,0x00,0x13 };
 
 /**
@@ -799,7 +812,11 @@ static void mxf_write_identification(AVFormatContext *s)
 
     // write product uid
     mxf_write_local_tag(s, 16, 0x3C05);
+<<<<<<< HEAD
     avio_write(pb, product_uid, 16);
+=======
+    mxf_write_uuid(pb, Identification, 2);
+>>>>>>> refs/remotes/origin/master
 
     // modification date
     mxf_write_local_tag(s, 8, 0x3C06);
@@ -1760,7 +1777,11 @@ static void mxf_write_index_table_segment(AVFormatContext *s)
 
     // instance id
     mxf_write_local_tag(s, 16, 0x3C0A);
+<<<<<<< HEAD
     mxf_write_uuid(pb, IndexTableSegment, mxf->last_indexed_edit_unit);
+=======
+    mxf_write_uuid(pb, IndexTableSegment, 0);
+>>>>>>> refs/remotes/origin/master
 
     // index edit rate
     mxf_write_local_tag(s, 8, 0x3F0B);

@@ -923,7 +923,11 @@ static int parse_playlist(HLSContext *c, const char *url,
                 if (has_iv) {
                     memcpy(seg->iv, iv, sizeof(iv));
                 } else {
+<<<<<<< HEAD
                     uint64_t seq = pls->start_seq_no + (uint64_t)pls->n_segments;
+=======
+                    int64_t seq = pls->start_seq_no + pls->n_segments;
+>>>>>>> refs/remotes/origin/master
                     memset(seg->iv, 0, sizeof(seg->iv));
                     AV_WB64(seg->iv + 8, seq);
                 }
@@ -1662,8 +1666,12 @@ static void add_metadata_from_renditions(AVFormatContext *s, struct playlist *pl
 /* if timestamp was in valid range: returns 1 and sets seq_no
  * if not: returns 0 and sets seq_no to closest segment */
 static int find_timestamp_in_playlist(HLSContext *c, struct playlist *pls,
+<<<<<<< HEAD
                                       int64_t timestamp, int64_t *seq_no,
                                       int64_t *seg_start_ts)
+=======
+                                      int64_t timestamp, int64_t *seq_no)
+>>>>>>> refs/remotes/origin/master
 {
     int i;
     int64_t pos = c->first_timestamp == AV_NOPTS_VALUE ?
@@ -2028,6 +2036,7 @@ static int hls_read_header(AVFormatContext *s)
             pls->pb.pub.buf_end = pls->pb.pub.buf_ptr = pls->pb.pub.buffer;
             /* Reset the position */
             pls->pb.pub.pos = 0;
+<<<<<<< HEAD
         }
 
         /*
@@ -2060,6 +2069,40 @@ static int hls_read_header(AVFormatContext *s)
             av_free(url);
         }
 
+=======
+        }
+
+        /*
+         * If encryption scheme is SAMPLE-AES and audio setup information is present in external audio track,
+         * use that information to find the media format, otherwise probe input data
+         */
+        if (seg && seg->key_type == KEY_SAMPLE_AES && pls->is_id3_timestamped &&
+            pls->audio_setup_info.codec_id != AV_CODEC_ID_NONE) {
+            void *iter = NULL;
+            while ((in_fmt = av_demuxer_iterate(&iter)))
+                if (in_fmt->raw_codec_id == pls->audio_setup_info.codec_id)
+                    break;
+        } else {
+            pls->ctx->probesize = s->probesize > 0 ? s->probesize : 1024 * 4;
+            pls->ctx->max_analyze_duration = s->max_analyze_duration > 0 ? s->max_analyze_duration : 4 * AV_TIME_BASE;
+            pls->ctx->interrupt_callback = s->interrupt_callback;
+            url = av_strdup(pls->segments[0]->url);
+            ret = av_probe_input_buffer(&pls->pb.pub, &in_fmt, url, NULL, 0, 0);
+            if (ret < 0) {
+                /* Free the ctx - it isn't initialized properly at this point,
+                * so avformat_close_input shouldn't be called. If
+                * avformat_open_input fails below, it frees and zeros the
+                * context, so it doesn't need any special treatment like this. */
+                av_log(s, AV_LOG_ERROR, "Error when loading first segment '%s'\n", url);
+                avformat_free_context(pls->ctx);
+                pls->ctx = NULL;
+                av_free(url);
+                return ret;
+            }
+            av_free(url);
+        }
+
+>>>>>>> refs/remotes/origin/master
         if (seg && seg->key_type == KEY_SAMPLE_AES) {
             if (strstr(in_fmt->name, "mov")) {
                 char key[33];
@@ -2081,9 +2124,15 @@ static int hls_read_header(AVFormatContext *s)
 
         if ((ret = ff_copy_whiteblacklists(pls->ctx, s)) < 0)
             return ret;
+<<<<<<< HEAD
 
         av_dict_copy(&options, c->seg_format_opts, 0);
 
+=======
+
+        av_dict_copy(&options, c->seg_format_opts, 0);
+
+>>>>>>> refs/remotes/origin/master
         ret = avformat_open_input(&pls->ctx, pls->segments[0]->url, in_fmt, &options);
         av_dict_free(&options);
         if (ret < 0)
@@ -2375,7 +2424,11 @@ static int hls_read_seek(AVFormatContext *s, int stream_index,
     int i, j;
     int stream_subdemuxer_index;
     int64_t first_timestamp, seek_timestamp, duration;
+<<<<<<< HEAD
     int64_t seq_no, seg_start_ts;
+=======
+    int64_t seq_no;
+>>>>>>> refs/remotes/origin/master
 
     if ((flags & AVSEEK_FLAG_BYTE) || (c->ctx->ctx_flags & AVFMTCTX_UNSEEKABLE))
         return AVERROR(ENOSYS);
@@ -2506,7 +2559,11 @@ const AVInputFormat ff_hls_demuxer = {
     .long_name      = NULL_IF_CONFIG_SMALL("Apple HTTP Live Streaming"),
     .priv_class     = &hls_class,
     .priv_data_size = sizeof(HLSContext),
+<<<<<<< HEAD
     .flags          = AVFMT_NOGENSEARCH | AVFMT_TS_DISCONT | AVFMT_NO_BYTE_SEEK,
+=======
+    .flags          = AVFMT_NOGENSEARCH | AVFMT_TS_DISCONT,
+>>>>>>> refs/remotes/origin/master
     .flags_internal = FF_FMT_INIT_CLEANUP,
     .read_probe     = hls_probe,
     .read_header    = hls_read_header,

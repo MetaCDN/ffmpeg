@@ -21,8 +21,12 @@
 #include <string.h>
 
 #include "avstring.h"
+<<<<<<< HEAD
 #include "frame.h"
 #include "macros.h"
+=======
+#include "common.h"
+>>>>>>> refs/remotes/origin/master
 #include "mem.h"
 #include "stereo3d.h"
 

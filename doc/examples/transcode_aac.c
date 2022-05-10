@@ -62,7 +62,10 @@ static int open_input_file(const char *filename,
 {
     AVCodecContext *avctx;
     const AVCodec *input_codec;
+<<<<<<< HEAD
     const AVStream *stream;
+=======
+>>>>>>> refs/remotes/origin/master
     int error;
 
     /* Open the input file to read from it. */
@@ -375,6 +378,13 @@ static int decode_audio_frame(AVFrame *frame,
     /* Packet used for temporary storage. */
     AVPacket *input_packet;
     int error;
+<<<<<<< HEAD
+=======
+
+    error = init_packet(&input_packet);
+    if (error < 0)
+        return error;
+>>>>>>> refs/remotes/origin/master
 
     error = init_packet(&input_packet);
     if (error < 0)
@@ -685,12 +695,23 @@ static int encode_audio_frame(AVFrame *frame,
     /* Send the audio frame stored in the temporary packet to the encoder.
      * The output audio stream encoder is used to do this. */
     error = avcodec_send_frame(output_codec_context, frame);
+<<<<<<< HEAD
     /* Check for errors, but proceed with fetching encoded samples if the
      *  encoder signals that it has nothing more to encode. */
     if (error < 0 && error != AVERROR_EOF) {
       fprintf(stderr, "Could not send packet for encoding (error '%s')\n",
               av_err2str(error));
       goto cleanup;
+=======
+    /* The encoder signals that it has nothing more to encode. */
+    if (error == AVERROR_EOF) {
+        error = 0;
+        goto cleanup;
+    } else if (error < 0) {
+        fprintf(stderr, "Could not send packet for encoding (error '%s')\n",
+                av_err2str(error));
+        goto cleanup;
+>>>>>>> refs/remotes/origin/master
     }
 
     /* Receive one encoded frame from the encoder. */

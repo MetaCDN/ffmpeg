@@ -61,6 +61,7 @@ static const int32_t csa_table[8][4] = {
 #include "mpegaudiodec_template.c"
 
 #if CONFIG_MP1_DECODER
+<<<<<<< HEAD
 const FFCodec ff_mp1_decoder = {
     .p.name         = "mp1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MP1 (MPEG audio layer 1)"),
@@ -70,6 +71,17 @@ const FFCodec ff_mp1_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_CHANNEL_CONF |
+=======
+const AVCodec ff_mp1_decoder = {
+    .name           = "mp1",
+    .long_name      = NULL_IF_CONFIG_SMALL("MP1 (MPEG audio layer 1)"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_MP1,
+    .priv_data_size = sizeof(MPADecodeContext),
+    .init           = decode_init,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .flush          = flush,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
@@ -79,6 +91,7 @@ const FFCodec ff_mp1_decoder = {
 };
 #endif
 #if CONFIG_MP2_DECODER
+<<<<<<< HEAD
 const FFCodec ff_mp2_decoder = {
     .p.name         = "mp2",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MP2 (MPEG audio layer 2)"),
@@ -88,6 +101,17 @@ const FFCodec ff_mp2_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_CHANNEL_CONF |
+=======
+const AVCodec ff_mp2_decoder = {
+    .name           = "mp2",
+    .long_name      = NULL_IF_CONFIG_SMALL("MP2 (MPEG audio layer 2)"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_MP2,
+    .priv_data_size = sizeof(MPADecodeContext),
+    .init           = decode_init,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .flush          = flush,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
@@ -97,6 +121,7 @@ const FFCodec ff_mp2_decoder = {
 };
 #endif
 #if CONFIG_MP3_DECODER
+<<<<<<< HEAD
 const FFCodec ff_mp3_decoder = {
     .p.name         = "mp3",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MP3 (MPEG audio layer 3)"),
@@ -106,6 +131,17 @@ const FFCodec ff_mp3_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_CHANNEL_CONF |
+=======
+const AVCodec ff_mp3_decoder = {
+    .name           = "mp3",
+    .long_name      = NULL_IF_CONFIG_SMALL("MP3 (MPEG audio layer 3)"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_MP3,
+    .priv_data_size = sizeof(MPADecodeContext),
+    .init           = decode_init,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .flush          = flush,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
@@ -115,6 +151,7 @@ const FFCodec ff_mp3_decoder = {
 };
 #endif
 #if CONFIG_MP3ADU_DECODER
+<<<<<<< HEAD
 const FFCodec ff_mp3adu_decoder = {
     .p.name         = "mp3adu",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ADU (Application Data Unit) MP3 (MPEG audio layer 3)"),
@@ -124,6 +161,17 @@ const FFCodec ff_mp3adu_decoder = {
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame_adu),
     .p.capabilities = AV_CODEC_CAP_CHANNEL_CONF |
+=======
+const AVCodec ff_mp3adu_decoder = {
+    .name           = "mp3adu",
+    .long_name      = NULL_IF_CONFIG_SMALL("ADU (Application Data Unit) MP3 (MPEG audio layer 3)"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_MP3ADU,
+    .priv_data_size = sizeof(MPADecodeContext),
+    .init           = decode_init,
+    .decode         = decode_frame_adu,
+    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .flush          = flush,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,
@@ -133,6 +181,7 @@ const FFCodec ff_mp3adu_decoder = {
 };
 #endif
 #if CONFIG_MP3ON4_DECODER
+<<<<<<< HEAD
 const FFCodec ff_mp3on4_decoder = {
     .p.name         = "mp3on4",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MP3onMP4"),
@@ -143,6 +192,18 @@ const FFCodec ff_mp3on4_decoder = {
     .close          = decode_close_mp3on4,
     FF_CODEC_DECODE_CB(decode_frame_mp3on4),
     .p.capabilities = AV_CODEC_CAP_CHANNEL_CONF |
+=======
+const AVCodec ff_mp3on4_decoder = {
+    .name           = "mp3on4",
+    .long_name      = NULL_IF_CONFIG_SMALL("MP3onMP4"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_MP3ON4,
+    .priv_data_size = sizeof(MP3On4DecodeContext),
+    .init           = decode_init_mp3on4,
+    .close          = decode_close_mp3on4,
+    .decode         = decode_frame_mp3on4,
+    .capabilities   = AV_CODEC_CAP_CHANNEL_CONF |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_DR1,
     .flush          = flush_mp3on4,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_S16P,

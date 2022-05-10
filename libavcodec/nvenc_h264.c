@@ -219,11 +219,19 @@ static const AVClass h264_nvenc_class = {
     .version = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_h264_nvenc_encoder = {
     .p.name         = "h264_nvenc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("NVIDIA NVENC H.264 encoder"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_H264,
+=======
+const AVCodec ff_h264_nvenc_encoder = {
+    .name           = "h264_nvenc",
+    .long_name      = NULL_IF_CONFIG_SMALL("NVIDIA NVENC H.264 encoder"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_H264,
+>>>>>>> refs/remotes/origin/master
     .init           = ff_nvenc_encode_init,
     FF_CODEC_RECEIVE_PACKET_CB(ff_nvenc_receive_packet),
     .close          = ff_nvenc_encode_close,
@@ -231,7 +239,11 @@ const FFCodec ff_h264_nvenc_encoder = {
     .priv_data_size = sizeof(NvencContext),
     .p.priv_class   = &h264_nvenc_class,
     .defaults       = defaults,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
+=======
+    .capabilities   = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_HARDWARE |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_ENCODER_FLUSH | AV_CODEC_CAP_DR1,
     .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
     .p.pix_fmts     = ff_nvenc_pix_fmts,

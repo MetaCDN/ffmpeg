@@ -118,6 +118,7 @@ static const AVClass librsvg_decoder_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_librsvg_decoder = {
     .p.name         = "librsvg",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Librsvg rasterizer"),
@@ -127,5 +128,14 @@ const FFCodec ff_librsvg_decoder = {
     .p.capabilities = AV_CODEC_CAP_DR1,
     .p.wrapper_name = "librsvg",
     FF_CODEC_DECODE_CB(librsvg_decode_frame),
+=======
+const AVCodec ff_librsvg_decoder = {
+    .name           = "librsvg",
+    .long_name      = NULL_IF_CONFIG_SMALL("Librsvg rasterizer"),
+    .priv_class     = &librsvg_decoder_class,
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_SVG,
+    .decode         = librsvg_decode_frame,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibRSVGContext),
 };

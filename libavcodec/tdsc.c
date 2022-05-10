@@ -621,11 +621,19 @@ static int tdsc_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_tdsc_decoder = {
     .p.name         = "tdsc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("TDSC"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_TDSC,
+=======
+const AVCodec ff_tdsc_decoder = {
+    .name           = "tdsc",
+    .long_name      = NULL_IF_CONFIG_SMALL("TDSC"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_TDSC,
+>>>>>>> refs/remotes/origin/master
     .init           = tdsc_init,
     FF_CODEC_DECODE_CB(tdsc_decode_frame),
     .close          = tdsc_close,

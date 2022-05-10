@@ -133,11 +133,19 @@ static void zerocodec_decode_flush(AVCodecContext *avctx)
     av_frame_unref(zc->previous_frame);
 }
 
+<<<<<<< HEAD
 const FFCodec ff_zerocodec_decoder = {
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.name         = "zerocodec",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ZeroCodec Lossless Video"),
     .p.id           = AV_CODEC_ID_ZEROCODEC,
+=======
+const AVCodec ff_zerocodec_decoder = {
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .name           = "zerocodec",
+    .long_name      = NULL_IF_CONFIG_SMALL("ZeroCodec Lossless Video"),
+    .id             = AV_CODEC_ID_ZEROCODEC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ZeroCodecContext),
     .init           = zerocodec_decode_init,
     FF_CODEC_DECODE_CB(zerocodec_decode_frame),

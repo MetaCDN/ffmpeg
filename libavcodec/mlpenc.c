@@ -23,8 +23,13 @@
 #include "config_components.h"
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "put_bits.h"
 #include "audio_frame_queue.h"
 #include "libavutil/channel_layout.h"
@@ -383,8 +388,13 @@ static void copy_restart_frame_params(MLPEncodeContext *ctx)
 
         copy_matrix_params(&dp->matrix_params, &ctx->cur_decoding_params->matrix_params);
 
+<<<<<<< HEAD
         for (unsigned int channel = 0; channel < ctx->avctx->ch_layout.nb_channels; channel++) {
             ChannelParams *cp = ctx->seq_channel_params + index*(ctx->avctx->ch_layout.nb_channels) + channel;
+=======
+        for (unsigned int channel = 0; channel < ctx->avctx->channels; channel++) {
+            ChannelParams *cp = ctx->seq_channel_params + index*(ctx->avctx->channels) + channel;
+>>>>>>> refs/remotes/origin/master
 
             dp->quant_step_size[channel] = ctx->cur_decoding_params->quant_step_size[channel];
             dp->matrix_params.shift[channel] = ctx->cur_decoding_params->matrix_params.shift[channel];
@@ -656,7 +666,11 @@ static av_cold int mlp_encode_init(AVCodecContext *avctx)
         sum += ctx->seq_size[index];
     }
     ctx->sequence_size = sum;
+<<<<<<< HEAD
     size = ctx->restart_intervals * ctx->sequence_size * ctx->avctx->ch_layout.nb_channels;
+=======
+    size = ctx->restart_intervals * ctx->sequence_size * ctx->avctx->channels;
+>>>>>>> refs/remotes/origin/master
     ctx->channel_params = av_calloc(size, sizeof(*ctx->channel_params));
     if (!ctx->channel_params)
         return AVERROR(ENOMEM);
@@ -665,12 +679,21 @@ static av_cold int mlp_encode_init(AVCodecContext *avctx)
     ctx->decoding_params = av_calloc(size, sizeof(*ctx->decoding_params));
     if (!ctx->decoding_params)
         return AVERROR(ENOMEM);
+<<<<<<< HEAD
 
     /* TODO see if noisegen_seed is really worth it. */
     rh->noisegen_seed      = 0;
 
     rh->min_channel        = 0;
     rh->max_channel        = avctx->ch_layout.nb_channels - 1;
+=======
+
+    /* TODO see if noisegen_seed is really worth it. */
+    rh->noisegen_seed      = 0;
+
+    rh->min_channel        = 0;
+    rh->max_channel        = avctx->channels - 1;
+>>>>>>> refs/remotes/origin/master
     /* FIXME: this works for 1 and 2 channels, but check for more */
     rh->max_matrix_channel = rh->max_channel;
 
@@ -1043,10 +1066,17 @@ static uint8_t *write_substr(MLPEncodeContext *ctx, uint8_t *buf, int buf_size,
         write_block_data(ctx, &pb);
 
         put_bits(&pb, 1, !substr_restart_frame);
+<<<<<<< HEAD
 
         substr_restart_frame = 0;
     }
 
+=======
+
+        substr_restart_frame = 0;
+    }
+
+>>>>>>> refs/remotes/origin/master
     put_bits(&pb, (-put_bits_count(&pb)) & 15, 0);
 
     rh->lossless_check_data ^= *lossless_check_data++;
@@ -1175,6 +1205,7 @@ static void input_data_internal(MLPEncodeContext *ctx, const uint8_t *samples,
     int32_t *sample_buffer = ctx->inout_buffer;
     int32_t temp_lossless_check_data = 0;
     uint32_t greatest = 0;
+<<<<<<< HEAD
 
     lossless_check_data += ctx->frame_index;
 
@@ -1189,6 +1220,23 @@ static void input_data_internal(MLPEncodeContext *ctx, const uint8_t *samples,
             abs_sample = FFABS(sample);
             greatest = FFMAX(greatest, abs_sample);
 
+=======
+
+    lossless_check_data += ctx->frame_index;
+
+    for (int i = 0; i < ctx->avctx->frame_size; i++) {
+        for (unsigned int channel = 0; channel <= rh->max_channel; channel++) {
+            uint32_t abs_sample;
+            int32_t sample;
+
+            sample = is24 ? *samples_32++ >> 8 : *samples_16++ * 256;
+
+            /* TODO Find out if number_sbits can be used for negative values. */
+            abs_sample = FFABS(sample);
+            if (greatest < abs_sample)
+                greatest = abs_sample;
+
+>>>>>>> refs/remotes/origin/master
             temp_lossless_check_data ^= (sample & 0x00ffffff) << channel;
             *sample_buffer++ = sample;
         }
@@ -1216,7 +1264,11 @@ static void input_to_sample_buffer(MLPEncodeContext *ctx)
         int32_t *input_buffer = ctx->inout_buffer + cur_index * ctx->one_sample_buffer_size;
 
         for (unsigned int i = 0; i < ctx->avctx->frame_size; i++) {
+<<<<<<< HEAD
             for (unsigned int channel = 0; channel < ctx->avctx->ch_layout.nb_channels; channel++)
+=======
+            for (unsigned int channel = 0; channel < ctx->avctx->channels; channel++)
+>>>>>>> refs/remotes/origin/master
                 *sample_buffer++ = *input_buffer++;
             sample_buffer += 2; /* noise_channels */
             input_buffer += 2; /* noise_channels */
@@ -1935,7 +1987,11 @@ static void set_best_codebook(MLPEncodeContext *ctx)
 
         /* Update context. */
         for (unsigned int index = 0; index < ctx->number_of_subblocks; index++) {
+<<<<<<< HEAD
             ChannelParams *cp = ctx->seq_channel_params + index*(ctx->avctx->ch_layout.nb_channels) + channel;
+=======
+            ChannelParams *cp = ctx->seq_channel_params + index*(ctx->avctx->channels) + channel;
+>>>>>>> refs/remotes/origin/master
 
             best_codebook = *best_path++;
             cur_bo = &ctx->best_offset[index][channel][best_codebook];
@@ -1956,6 +2012,7 @@ static void set_major_params(MLPEncodeContext *ctx)
     RestartHeader *rh = ctx->cur_restart_header;
     uint8_t max_huff_lsbs = 0;
     uint8_t max_output_bits = 0;
+<<<<<<< HEAD
     int channels = ctx->avctx->ch_layout.nb_channels;
     DecodingParams *seq_dp = ctx->decoding_params + ctx->seq_offset[0] * channels;
     ChannelParams *seq_cp = ctx->channel_params + ctx->seq_offset[0] * channels;
@@ -1968,6 +2025,19 @@ static void set_major_params(MLPEncodeContext *ctx)
                 max_huff_lsbs = huff_lsbs;
             memcpy(&ctx->major_channel_params[index][channel],
                    (seq_cp + index*(channels) + channel),
+=======
+    DecodingParams *seq_dp = ctx->decoding_params + ctx->seq_offset[0] * ctx->avctx->channels;
+    ChannelParams *seq_cp = ctx->channel_params + ctx->seq_offset[0] * ctx->avctx->channels;
+
+    for (unsigned int index = 0; index < ctx->seq_size[ctx->restart_intervals-1]; index++) {
+        memcpy(&ctx->major_decoding_params[index], seq_dp + index, sizeof(DecodingParams));
+        for (unsigned int channel = 0; channel < ctx->avctx->channels; channel++) {
+            uint8_t huff_lsbs = (seq_cp + index*(ctx->avctx->channels) + channel)->huff_lsbs;
+            if (max_huff_lsbs < huff_lsbs)
+                max_huff_lsbs = huff_lsbs;
+            memcpy(&ctx->major_channel_params[index][channel],
+                   (seq_cp + index*(ctx->avctx->channels) + channel),
+>>>>>>> refs/remotes/origin/master
                    sizeof(ChannelParams));
         }
     }
@@ -2006,7 +2076,11 @@ static void analyze_sample_buffer(MLPEncodeContext *ctx)
 
     ctx->cur_restart_header = &ctx->restart_header;
     ctx->cur_decoding_params = seq_dp + 1;
+<<<<<<< HEAD
     ctx->cur_channel_params = seq_cp + ctx->avctx->ch_layout.nb_channels;
+=======
+    ctx->cur_channel_params = seq_cp + ctx->avctx->channels;
+>>>>>>> refs/remotes/origin/master
 
     determine_quant_step_size(ctx);
     generate_2_noise_channels(ctx);
@@ -2033,7 +2107,11 @@ static void analyze_sample_buffer(MLPEncodeContext *ctx)
 
     for (unsigned int index = 0; index < ctx->number_of_subblocks; index++) {
         ctx->cur_decoding_params = seq_dp + index;
+<<<<<<< HEAD
         ctx->cur_channel_params = seq_cp + index*(ctx->avctx->ch_layout.nb_channels);
+=======
+        ctx->cur_channel_params = seq_cp + index*(ctx->avctx->channels);
+>>>>>>> refs/remotes/origin/master
         ctx->cur_best_offset = ctx->best_offset[index];
         determine_bits(ctx);
         ctx->sample_buffer += ctx->cur_decoding_params->blocksize * ctx->num_channels;
@@ -2067,6 +2145,7 @@ static int mlp_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
 {
     MLPEncodeContext *ctx = avctx->priv_data;
     int bytes_written = 0;
+<<<<<<< HEAD
     int channels = avctx->ch_layout.nb_channels;
     int restart_frame, ret;
     uint8_t *data;
@@ -2078,12 +2157,25 @@ static int mlp_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
         return 0;
 
     if ((ret = ff_alloc_packet(avctx, avpkt, 87500 * channels)) < 0)
+=======
+    int restart_frame, ret;
+    uint8_t *data;
+
+    if (!frame && !ctx->last_frames--)
+        return 0;
+
+    if ((ret = ff_alloc_packet(avctx, avpkt, 87500 * avctx->channels)) < 0)
+>>>>>>> refs/remotes/origin/master
         return ret;
 
     if (frame) {
         /* add current frame to queue */
         if ((ret = ff_af_queue_add(&ctx->afq, frame)) < 0)
             return ret;
+<<<<<<< HEAD
+=======
+        ctx->last_frames = ctx->max_restart_interval;
+>>>>>>> refs/remotes/origin/master
     }
 
     data = frame ? frame->data[0] : NULL;
@@ -2122,6 +2214,7 @@ static int mlp_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
 
 input_and_return:
 
+<<<<<<< HEAD
     if (frame) {
         ctx->shorten_by = avctx->frame_size - frame->nb_samples;
         ctx->next_major_frame_size += avctx->frame_size;
@@ -2129,6 +2222,14 @@ input_and_return:
     }
     if (data)
         input_data(ctx, data, frame->nb_samples);
+=======
+    if (frame)
+        ctx->shorten_by = avctx->frame_size - frame->nb_samples;
+    ctx->next_major_frame_size += avctx->frame_size;
+    ctx->next_major_number_of_frames++;
+    if (data)
+        input_data(ctx, data);
+>>>>>>> refs/remotes/origin/master
 
     restart_frame = (ctx->frame_index + 1) % ctx->min_restart_interval;
 
@@ -2142,7 +2243,11 @@ input_and_return:
             ctx->number_of_frames = ctx->next_major_number_of_frames;
             ctx->number_of_subblocks = ctx->next_major_number_of_frames + 1;
 
+<<<<<<< HEAD
             ctx->seq_channel_params = ctx->channel_params + ctx->seq_offset[seq_index] * channels;
+=======
+            ctx->seq_channel_params = ctx->channel_params + ctx->seq_offset[seq_index] * ctx->avctx->channels;
+>>>>>>> refs/remotes/origin/master
 
             ctx->seq_decoding_params = ctx->decoding_params + ctx->seq_offset[seq_index];
 
@@ -2150,7 +2255,11 @@ input_and_return:
             ctx->number_of_samples = number_of_samples;
 
             for (unsigned int index = 0; index < ctx->seq_size[seq_index]; index++) {
+<<<<<<< HEAD
                 clear_channel_params(ctx->seq_channel_params + index * channels, channels);
+=======
+                clear_channel_params(ctx->seq_channel_params + index * ctx->avctx->channels, ctx->avctx->channels);
+>>>>>>> refs/remotes/origin/master
                 default_decoding_params(ctx, ctx->seq_decoding_params + index);
             }
 
@@ -2167,6 +2276,7 @@ input_and_return:
         }
     }
 
+<<<<<<< HEAD
     if (!frame && ctx->last_frames < ctx->max_restart_interval - 1)
         avctx->frame_number++;
 
@@ -2174,6 +2284,13 @@ input_and_return:
         ff_af_queue_remove(&ctx->afq,
                            FFMIN(avctx->frame_size, ctx->afq.remaining_samples),
                            &avpkt->pts,
+=======
+    if (!frame)
+        avctx->frame_number++;
+
+    if (bytes_written > 0) {
+        ff_af_queue_remove(&ctx->afq, avctx->frame_size, &avpkt->pts,
+>>>>>>> refs/remotes/origin/master
                            &avpkt->duration);
 
         av_shrink_packet(avpkt, bytes_written);
@@ -2208,15 +2325,24 @@ static av_cold int mlp_encode_close(AVCodecContext *avctx)
 }
 
 #if CONFIG_MLP_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_mlp_encoder = {
     .p.name                 ="mlp",
     .p.long_name            = NULL_IF_CONFIG_SMALL("MLP (Meridian Lossless Packing)"),
     .p.type                 = AVMEDIA_TYPE_AUDIO,
     .p.id                   = AV_CODEC_ID_MLP,
+=======
+const AVCodec ff_mlp_encoder = {
+    .name                   ="mlp",
+    .long_name              = NULL_IF_CONFIG_SMALL("MLP (Meridian Lossless Packing)"),
+    .type                   = AVMEDIA_TYPE_AUDIO,
+    .id                     = AV_CODEC_ID_MLP,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size         = sizeof(MLPEncodeContext),
     .init                   = mlp_encode_init,
     FF_CODEC_ENCODE_CB(mlp_encode_frame),
     .close                  = mlp_encode_close,
+<<<<<<< HEAD
     .p.capabilities         = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_EXPERIMENTAL,
     .p.sample_fmts          = (const enum AVSampleFormat[]) {AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_S32, AV_SAMPLE_FMT_NONE},
     .p.supported_samplerates = (const int[]) {44100, 48000, 88200, 96000, 176400, 192000, 0},
@@ -2224,19 +2350,34 @@ const FFCodec ff_mlp_encoder = {
     .p.channel_layouts      = ff_mlp_channel_layouts,
 #endif
     .p.ch_layouts           = ff_mlp_ch_layouts,
+=======
+    .capabilities           = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_EXPERIMENTAL,
+    .sample_fmts            = (const enum AVSampleFormat[]) {AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_S32, AV_SAMPLE_FMT_NONE},
+    .supported_samplerates  = (const int[]) {44100, 48000, 88200, 96000, 176400, 192000, 0},
+    .channel_layouts        = ff_mlp_channel_layouts,
+>>>>>>> refs/remotes/origin/master
     .caps_internal          = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };
 #endif
 #if CONFIG_TRUEHD_ENCODER
+<<<<<<< HEAD
 const FFCodec ff_truehd_encoder = {
     .p.name                 ="truehd",
     .p.long_name            = NULL_IF_CONFIG_SMALL("TrueHD"),
     .p.type                 = AVMEDIA_TYPE_AUDIO,
     .p.id                   = AV_CODEC_ID_TRUEHD,
+=======
+const AVCodec ff_truehd_encoder = {
+    .name                   ="truehd",
+    .long_name              = NULL_IF_CONFIG_SMALL("TrueHD"),
+    .type                   = AVMEDIA_TYPE_AUDIO,
+    .id                     = AV_CODEC_ID_TRUEHD,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size         = sizeof(MLPEncodeContext),
     .init                   = mlp_encode_init,
     FF_CODEC_ENCODE_CB(mlp_encode_frame),
     .close                  = mlp_encode_close,
+<<<<<<< HEAD
     .p.capabilities         = AV_CODEC_CAP_SMALL_LAST_FRAME | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_EXPERIMENTAL,
     .p.sample_fmts          = (const enum AVSampleFormat[]) {AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_S32, AV_SAMPLE_FMT_NONE},
     .p.supported_samplerates = (const int[]) {44100, 48000, 88200, 96000, 176400, 192000, 0},
@@ -2249,6 +2390,12 @@ const FFCodec ff_truehd_encoder = {
                                   AV_CHANNEL_LAYOUT_5POINT1_BACK,
                                   { 0 }
                               },
+=======
+    .capabilities           = AV_CODEC_CAP_SMALL_LAST_FRAME | AV_CODEC_CAP_DELAY | AV_CODEC_CAP_EXPERIMENTAL,
+    .sample_fmts            = (const enum AVSampleFormat[]) {AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_S32, AV_SAMPLE_FMT_NONE},
+    .supported_samplerates  = (const int[]) {44100, 48000, 88200, 96000, 176400, 192000, 0},
+    .channel_layouts        = (const uint64_t[]) {AV_CH_LAYOUT_STEREO, AV_CH_LAYOUT_5POINT0_BACK, AV_CH_LAYOUT_5POINT1_BACK, 0},
+>>>>>>> refs/remotes/origin/master
     .caps_internal          = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };
 #endif

@@ -811,6 +811,7 @@ static const AVClass teletext_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libzvbi_teletext_decoder = {
     .p.name         = "libzvbi_teletextdec",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Libzvbi DVB teletext decoder"),
@@ -819,6 +820,13 @@ const FFCodec ff_libzvbi_teletext_decoder = {
     .p.capabilities = AV_CODEC_CAP_DELAY,
     .p.priv_class   = &teletext_class,
     .p.wrapper_name = "libzvbi",
+=======
+const AVCodec ff_libzvbi_teletext_decoder = {
+    .name      = "libzvbi_teletextdec",
+    .long_name = NULL_IF_CONFIG_SMALL("Libzvbi DVB teletext decoder"),
+    .type      = AVMEDIA_TYPE_SUBTITLE,
+    .id        = AV_CODEC_ID_DVB_TELETEXT,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(TeletextContext),
     .init      = teletext_init_decoder,
     .close     = teletext_close_decoder,

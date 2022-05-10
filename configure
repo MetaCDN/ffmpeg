@@ -2856,7 +2856,11 @@ jpegls_decoder_select="mjpeg_decoder"
 jv_decoder_select="blockdsp"
 lagarith_decoder_select="llviddsp"
 ljpeg_encoder_select="idctdsp jpegtables"
+<<<<<<< HEAD
 lscr_decoder_select="inflate_wrapper"
+=======
+lscr_decoder_deps="zlib"
+>>>>>>> refs/remotes/origin/master
 magicyuv_decoder_select="llviddsp"
 magicyuv_encoder_select="llvidencdsp"
 mdec_decoder_select="blockdsp bswapdsp idctdsp mpegvideo"
@@ -2940,7 +2944,11 @@ sonic_ls_encoder_select="golomb rangecoder"
 sp5x_decoder_select="mjpeg_decoder"
 speedhq_decoder_select="mpegvideo"
 speedhq_encoder_select="mpegvideoenc"
+<<<<<<< HEAD
 srgc_decoder_select="inflate_wrapper"
+=======
+srgc_decoder_deps="zlib"
+>>>>>>> refs/remotes/origin/master
 svq1_decoder_select="hpeldsp"
 svq1_encoder_select="hpeldsp me_cmp mpegvideoenc"
 svq3_decoder_select="golomb h264dsp h264parse h264pred hpeldsp tpeldsp videodsp"
@@ -2963,8 +2971,11 @@ txd_decoder_select="texturedsp"
 utvideo_decoder_select="bswapdsp llviddsp"
 utvideo_encoder_select="bswapdsp huffman llvidencdsp"
 vble_decoder_select="llviddsp"
+<<<<<<< HEAD
 vbn_decoder_select="texturedsp"
 vbn_encoder_select="texturedspenc"
+=======
+>>>>>>> refs/remotes/origin/master
 vc1_decoder_select="blockdsp h263_decoder h264qpel intrax8 mpegvideodec vc1dsp"
 vc1image_decoder_select="vc1_decoder"
 vorbis_decoder_select="mdct"
@@ -3014,6 +3025,10 @@ vaapi_x11_deps="xlib_x11"
 videotoolbox_hwaccel_deps="videotoolbox pthreads"
 videotoolbox_hwaccel_extralibs="-framework QuartzCore"
 vulkan_deps_any="libdl LoadLibrary"
+<<<<<<< HEAD
+=======
+xvmc_deps="X11_extensions_XvMClib_h"
+>>>>>>> refs/remotes/origin/master
 
 av1_d3d11va_hwaccel_deps="d3d11va DXVA_PicParams_AV1"
 av1_d3d11va_hwaccel_select="av1_decoder"
@@ -3434,7 +3449,11 @@ ivf_muxer_select="av1_metadata_bsf vp9_superframe_bsf"
 latm_muxer_select="aac_adtstoasc_bsf mpeg4audio"
 matroska_audio_muxer_select="matroska_muxer"
 matroska_demuxer_select="riffdec"
+<<<<<<< HEAD
 matroska_demuxer_suggest="bzlib zlib"
+=======
+matroska_demuxer_suggest="bzlib lzo zlib"
+>>>>>>> refs/remotes/origin/master
 matroska_muxer_select="mpeg4audio riffenc vp9_superframe_bsf aac_adtstoasc_bsf"
 mlp_demuxer_select="mlp_parser"
 mmf_muxer_select="riffenc"
@@ -3609,6 +3628,11 @@ libzmq_protocol_deps="libzmq"
 libzmq_protocol_select="network"
 
 # filters
+<<<<<<< HEAD
+=======
+afir_filter_deps="avcodec"
+afir_filter_select="rdft"
+>>>>>>> refs/remotes/origin/master
 ametadata_filter_deps="avformat"
 amovie_filter_deps="avcodec avformat"
 aresample_filter_deps="swresample"
@@ -3718,6 +3742,11 @@ showcqt_filter_suggest="libfontconfig libfreetype"
 showspatial_filter_deps="avcodec"
 showspatial_filter_select="fft"
 signature_filter_deps="gpl avcodec avformat"
+<<<<<<< HEAD
+=======
+sinc_filter_deps="avcodec"
+sinc_filter_select="rdft"
+>>>>>>> refs/remotes/origin/master
 smartblur_filter_deps="gpl swscale"
 sobel_opencl_filter_deps="opencl"
 sofalizer_filter_deps="libmysofa"
@@ -3729,6 +3758,13 @@ stereo3d_filter_deps="gpl"
 subtitles_filter_deps="avformat avcodec libass"
 super2xsai_filter_deps="gpl"
 pixfmts_super2xsai_test_deps="super2xsai_filter"
+<<<<<<< HEAD
+=======
+superequalizer_filter_deps="avcodec"
+superequalizer_filter_select="rdft"
+surround_filter_deps="avcodec"
+surround_filter_select="rdft"
+>>>>>>> refs/remotes/origin/master
 tinterlace_filter_deps="gpl"
 tinterlace_merge_test_deps="tinterlace_filter"
 tinterlace_pad_test_deps="tinterlace_filter"
@@ -6614,7 +6650,11 @@ enabled libsoxr           && require libsoxr soxr.h soxr_create -lsoxr
 enabled libssh            && require_pkg_config libssh libssh libssh/sftp.h sftp_init
 enabled libspeex          && require_pkg_config libspeex speex speex/speex.h speex_decoder_init
 enabled libsrt            && require_pkg_config libsrt "srt >= 1.3.0" srt/srt.h srt_socket
+<<<<<<< HEAD
 enabled libsvtav1         && require_pkg_config libsvtav1 "SvtAv1Enc >= 0.9.0" EbSvtAv1Enc.h svt_av1_enc_init_handle
+=======
+enabled libsvtav1         && require_pkg_config libsvtav1 "SvtAv1Enc >= 0.8.4" EbSvtAv1Enc.h svt_av1_enc_init_handle
+>>>>>>> refs/remotes/origin/master
 enabled libtensorflow     && require libtensorflow tensorflow/c/c_api.h TF_Version -ltensorflow
 enabled libtesseract      && require_pkg_config libtesseract tesseract tesseract/capi.h TessBaseAPICreate
 enabled libtheora         && require libtheora theora/theoraenc.h th_info_init -ltheoraenc -ltheoradec -logg
@@ -7385,6 +7425,10 @@ done
 enabled zlib && add_cppflags -DZLIB_CONST
 
 # conditional library dependencies, in any order
+<<<<<<< HEAD
+=======
+enabled afir_filter         && prepend avfilter_deps "avcodec"
+>>>>>>> refs/remotes/origin/master
 enabled amovie_filter       && prepend avfilter_deps "avformat avcodec"
 enabled aresample_filter    && prepend avfilter_deps "swresample"
 enabled bm3d_filter         && prepend avfilter_deps "avcodec"

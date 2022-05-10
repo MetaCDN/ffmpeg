@@ -29,8 +29,13 @@
 #include "libavutil/intreadwrite.h"
 #include "libavutil/opt.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include <openjpeg.h>
 
 typedef struct LibOpenJPEGContext {
@@ -754,11 +759,19 @@ static const AVClass openjpeg_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libopenjpeg_encoder = {
     .p.name         = "libopenjpeg",
     .p.long_name    = NULL_IF_CONFIG_SMALL("OpenJPEG JPEG 2000"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_JPEG2000,
+=======
+const AVCodec ff_libopenjpeg_encoder = {
+    .name           = "libopenjpeg",
+    .long_name      = NULL_IF_CONFIG_SMALL("OpenJPEG JPEG 2000"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_JPEG2000,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibOpenJPEGContext),
     .init           = libopenjpeg_encode_init,
     FF_CODEC_ENCODE_CB(libopenjpeg_encode_frame),

@@ -22,7 +22,10 @@
 #include "libavutil/channel_layout.h"
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 
@@ -172,6 +175,7 @@ static int pcm_dvd_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_pcm_dvd_encoder = {
     .p.name         = "pcm_dvd",
     .p.long_name    = NULL_IF_CONFIG_SMALL("PCM signed 16|20|24-bit big-endian for DVD media"),
@@ -184,6 +188,19 @@ const FFCodec ff_pcm_dvd_encoder = {
     .p.supported_samplerates = (const int[]) { 48000, 96000, 0},
 #if FF_API_OLD_CHANNEL_LAYOUT
     .p.channel_layouts = (const uint64_t[]) { AV_CH_LAYOUT_MONO,
+=======
+const AVCodec ff_pcm_dvd_encoder = {
+    .name           = "pcm_dvd",
+    .long_name      = NULL_IF_CONFIG_SMALL("PCM signed 16|20|24-bit big-endian for DVD media"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_PCM_DVD,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SMALL_LAST_FRAME,
+    .priv_data_size = sizeof(PCMDVDContext),
+    .init           = pcm_dvd_encode_init,
+    .encode2        = pcm_dvd_encode_frame,
+    .supported_samplerates = (const int[]) { 48000, 96000, 0},
+    .channel_layouts = (const uint64_t[]) { AV_CH_LAYOUT_MONO,
+>>>>>>> refs/remotes/origin/master
                                             AV_CH_LAYOUT_STEREO,
                                             AV_CH_LAYOUT_5POINT1,
                                             AV_CH_LAYOUT_7POINT1,

@@ -79,8 +79,13 @@
  */
 
 #define LIBAVUTIL_VERSION_MAJOR  57
+<<<<<<< HEAD
 #define LIBAVUTIL_VERSION_MINOR  24
 #define LIBAVUTIL_VERSION_MICRO 101
+=======
+#define LIBAVUTIL_VERSION_MINOR  19
+#define LIBAVUTIL_VERSION_MICRO 100
+>>>>>>> refs/remotes/origin/master
 
 #define LIBAVUTIL_VERSION_INT   AV_VERSION_INT(LIBAVUTIL_VERSION_MAJOR, \
                                                LIBAVUTIL_VERSION_MINOR, \
@@ -110,9 +115,12 @@
 #define FF_API_COLORSPACE_NAME          (LIBAVUTIL_VERSION_MAJOR < 58)
 #define FF_API_AV_MALLOCZ_ARRAY         (LIBAVUTIL_VERSION_MAJOR < 58)
 #define FF_API_FIFO_PEEK2               (LIBAVUTIL_VERSION_MAJOR < 58)
+<<<<<<< HEAD
 #define FF_API_FIFO_OLD_API             (LIBAVUTIL_VERSION_MAJOR < 58)
 #define FF_API_XVMC                     (LIBAVUTIL_VERSION_MAJOR < 58)
 #define FF_API_OLD_CHANNEL_LAYOUT       (LIBAVUTIL_VERSION_MAJOR < 58)
+=======
+>>>>>>> refs/remotes/origin/master
 
 /**
  * @}

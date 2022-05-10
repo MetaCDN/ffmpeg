@@ -116,11 +116,18 @@ static int get_codec_data(AVFormatContext *s, AVIOContext *pb, AVStream *vst,
                     return AVERROR_INVALIDDATA;
                 }
                 ast->codecpar->bits_per_coded_sample = avio_rl32(pb);
+<<<<<<< HEAD
                 av_channel_layout_uninit(&ast->codecpar->ch_layout);
                 ast->codecpar->ch_layout.order       = AV_CHANNEL_ORDER_UNSPEC;
                 ast->codecpar->ch_layout.nb_channels = avio_rl32(pb);
                 if (ast->codecpar->ch_layout.nb_channels <= 0) {
                     av_log(s, AV_LOG_ERROR, "Invalid channels %d\n", ast->codecpar->ch_layout.nb_channels);
+=======
+                ast->codecpar->channels              = avio_rl32(pb);
+                ast->codecpar->channel_layout        = 0;
+                if (ast->codecpar->channels <= 0) {
+                    av_log(s, AV_LOG_ERROR, "Invalid channels %d\n", ast->codecpar->channels);
+>>>>>>> refs/remotes/origin/master
                     return AVERROR_INVALIDDATA;
                 }
 

@@ -20,8 +20,11 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+<<<<<<< HEAD
 #include "config_components.h"
 
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/channel_layout.h"
 #include "avformat.h"
 #include "internal.h"
@@ -121,8 +124,18 @@ static int alp_read_header(AVFormatContext *s)
     par->codec_id               = AV_CODEC_ID_ADPCM_IMA_ALP;
     par->format                 = AV_SAMPLE_FMT_S16;
     par->sample_rate            = hdr->sample_rate;
+<<<<<<< HEAD
 
     if (hdr->num_channels > 2 || hdr->num_channels == 0)
+=======
+    par->channels               = hdr->num_channels;
+
+    if (hdr->num_channels == 1)
+        par->channel_layout     = AV_CH_LAYOUT_MONO;
+    else if (hdr->num_channels == 2)
+        par->channel_layout     = AV_CH_LAYOUT_STEREO;
+    else
+>>>>>>> refs/remotes/origin/master
         return AVERROR_INVALIDDATA;
 
     av_channel_layout_default(&par->ch_layout, hdr->num_channels);
@@ -200,7 +213,11 @@ static int alp_write_init(AVFormatContext *s)
         return AVERROR(EINVAL);
     }
 
+<<<<<<< HEAD
     if (par->ch_layout.nb_channels > 2) {
+=======
+    if (par->channels > 2) {
+>>>>>>> refs/remotes/origin/master
         av_log(s, AV_LOG_ERROR, "A maximum of 2 channels are supported\n");
         return AVERROR(EINVAL);
     }
@@ -226,7 +243,11 @@ static int alp_write_header(AVFormatContext *s)
     avio_wl32(s->pb,  alp->type == ALP_TYPE_PCM ? 12 : 8);
     avio_write(s->pb, "ADPCM", 6);
     avio_w8(s->pb,    0);
+<<<<<<< HEAD
     avio_w8(s->pb,    par->ch_layout.nb_channels);
+=======
+    avio_w8(s->pb,    par->channels);
+>>>>>>> refs/remotes/origin/master
     if (alp->type == ALP_TYPE_PCM)
         avio_wl32(s->pb, par->sample_rate);
 

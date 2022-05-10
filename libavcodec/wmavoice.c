@@ -1998,6 +1998,7 @@ static av_cold int wmavoice_decode_end(AVCodecContext *ctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_wmavoice_decoder = {
     .p.name           = "wmavoice",
     .p.long_name      = NULL_IF_CONFIG_SMALL("Windows Media Audio Voice"),
@@ -2008,6 +2009,18 @@ const FFCodec ff_wmavoice_decoder = {
     .close            = wmavoice_decode_end,
     FF_CODEC_DECODE_CB(wmavoice_decode_packet),
     .p.capabilities   = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+=======
+const AVCodec ff_wmavoice_decoder = {
+    .name             = "wmavoice",
+    .long_name        = NULL_IF_CONFIG_SMALL("Windows Media Audio Voice"),
+    .type             = AVMEDIA_TYPE_AUDIO,
+    .id               = AV_CODEC_ID_WMAVOICE,
+    .priv_data_size   = sizeof(WMAVoiceContext),
+    .init             = wmavoice_decode_init,
+    .close            = wmavoice_decode_end,
+    .decode           = wmavoice_decode_packet,
+    .capabilities     = AV_CODEC_CAP_SUBFRAMES | AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+>>>>>>> refs/remotes/origin/master
     .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .flush            = wmavoice_flush,
 };

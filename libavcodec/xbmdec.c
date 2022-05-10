@@ -137,6 +137,7 @@ static int xbm_decode_frame(AVCodecContext *avctx, AVFrame *p,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_xbm_decoder = {
     .p.name       = "xbm",
     .p.long_name  = NULL_IF_CONFIG_SMALL("XBM (X BitMap) image"),
@@ -144,4 +145,13 @@ const FFCodec ff_xbm_decoder = {
     .p.id         = AV_CODEC_ID_XBM,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(xbm_decode_frame),
+=======
+const AVCodec ff_xbm_decoder = {
+    .name         = "xbm",
+    .long_name    = NULL_IF_CONFIG_SMALL("XBM (X BitMap) image"),
+    .type         = AVMEDIA_TYPE_VIDEO,
+    .id           = AV_CODEC_ID_XBM,
+    .decode       = xbm_decode_frame,
+    .capabilities = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
 };

@@ -500,6 +500,7 @@ static const AVClass openjpeg_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_libopenjpeg_decoder = {
     .p.name         = "libopenjpeg",
     .p.long_name    = NULL_IF_CONFIG_SMALL("OpenJPEG JPEG 2000"),
@@ -509,6 +510,13 @@ const FFCodec ff_libopenjpeg_decoder = {
     .p.max_lowres   = 31,
     .p.priv_class   = &openjpeg_class,
     .p.wrapper_name = "libopenjpeg",
+=======
+const AVCodec ff_libopenjpeg_decoder = {
+    .name           = "libopenjpeg",
+    .long_name      = NULL_IF_CONFIG_SMALL("OpenJPEG JPEG 2000"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_JPEG2000,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibOpenJPEGContext),
     .init           = libopenjpeg_decode_init,
     FF_CODEC_DECODE_CB(libopenjpeg_decode_frame),

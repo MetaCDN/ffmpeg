@@ -62,6 +62,7 @@ typedef struct MixContext {
 
 static int query_formats(AVFilterContext *ctx)
 {
+<<<<<<< HEAD
     unsigned reject_flags = AV_PIX_FMT_FLAG_BITSTREAM |
                             AV_PIX_FMT_FLAG_HWACCEL   |
                             AV_PIX_FMT_FLAG_PAL;
@@ -73,6 +74,13 @@ static int query_formats(AVFilterContext *ctx)
         accept_flags |= AV_PIX_FMT_FLAG_BE;
 
     return ff_set_common_formats(ctx, ff_formats_pixdesc_filter(accept_flags, reject_flags));
+=======
+    int reject_flags = AV_PIX_FMT_FLAG_BITSTREAM |
+                       AV_PIX_FMT_FLAG_HWACCEL   |
+                       AV_PIX_FMT_FLAG_PAL;
+
+    return ff_set_common_formats(ctx, ff_formats_pixdesc_filter(0, reject_flags));
+>>>>>>> refs/remotes/origin/master
 }
 
 static int parse_weights(AVFilterContext *ctx)
@@ -110,6 +118,45 @@ static int parse_weights(AVFilterContext *ctx)
 }
 
 static av_cold int init(AVFilterContext *ctx)
+<<<<<<< HEAD
+=======
+{
+    MixContext *s = ctx->priv;
+    int ret;
+
+    s->tmix = !strcmp(ctx->filter->name, "tmix");
+
+    s->frames = av_calloc(s->nb_inputs, sizeof(*s->frames));
+    if (!s->frames)
+        return AVERROR(ENOMEM);
+
+    s->weights = av_calloc(s->nb_inputs, sizeof(*s->weights));
+    if (!s->weights)
+        return AVERROR(ENOMEM);
+
+    if (!s->tmix) {
+        for (int i = 0; i < s->nb_inputs; i++) {
+            AVFilterPad pad = { 0 };
+
+            pad.type = AVMEDIA_TYPE_VIDEO;
+            pad.name = av_asprintf("input%d", i);
+            if (!pad.name)
+                return AVERROR(ENOMEM);
+
+            if ((ret = ff_append_inpad_free_name(ctx, &pad)) < 0)
+                return ret;
+        }
+    }
+
+    return parse_weights(ctx);
+}
+
+typedef struct ThreadData {
+    AVFrame **in, *out;
+} ThreadData;
+
+static int mix_frames(AVFilterContext *ctx, void *arg, int jobnr, int nb_jobs)
+>>>>>>> refs/remotes/origin/master
 {
     MixContext *s = ctx->priv;
     int ret;
@@ -243,7 +290,11 @@ static int process_frame(FFFrameSync *fs)
     td.in = in;
     td.out = out;
     ff_filter_execute(ctx, mix_frames, &td, NULL,
+<<<<<<< HEAD
                       FFMIN(s->height[1], s->nb_threads));
+=======
+                      FFMIN(s->height[0], ff_filter_get_nb_threads(ctx)));
+>>>>>>> refs/remotes/origin/master
 
     return ff_filter_frame(outlink, out);
 }
@@ -364,7 +415,10 @@ static const AVOption mix_options[] = {
     { "inputs", "set number of inputs", OFFSET(nb_inputs), AV_OPT_TYPE_INT, {.i64=2}, 2, INT16_MAX, .flags = FLAGS },
     { "weights", "set weight for each input", OFFSET(weights_str), AV_OPT_TYPE_STRING, {.str="1 1"}, 0, 0, .flags = TFLAGS },
     { "scale", "set scale", OFFSET(scale), AV_OPT_TYPE_FLOAT, {.dbl=0}, 0, INT16_MAX, .flags = TFLAGS },
+<<<<<<< HEAD
     { "planes", "set what planes to filter", OFFSET(planes),   AV_OPT_TYPE_FLAGS, {.i64=15}, 0, 15,  .flags = TFLAGS },
+=======
+>>>>>>> refs/remotes/origin/master
     { "duration", "how to determine end of stream", OFFSET(duration), AV_OPT_TYPE_INT, {.i64=0}, 0, 2, .flags = FLAGS, "duration" },
         { "longest",  "Duration of longest input",  0, AV_OPT_TYPE_CONST, {.i64=0}, 0, 0, FLAGS, "duration" },
         { "shortest", "Duration of shortest input", 0, AV_OPT_TYPE_CONST, {.i64=1}, 0, 0, FLAGS, "duration" },
@@ -442,16 +496,26 @@ static int tmix_filter_frame(AVFilterLink *inlink, AVFrame *in)
     td.out = out;
     td.in = s->frames;
     ff_filter_execute(ctx, mix_frames, &td, NULL,
+<<<<<<< HEAD
                       FFMIN(s->height[1], s->nb_threads));
+=======
+                      FFMIN(s->height[0], ff_filter_get_nb_threads(ctx)));
+>>>>>>> refs/remotes/origin/master
 
     return ff_filter_frame(outlink, out);
 }
 
 static const AVOption tmix_options[] = {
+<<<<<<< HEAD
     { "frames", "set number of successive frames to mix", OFFSET(nb_inputs), AV_OPT_TYPE_INT, {.i64=3}, 1, 1024, .flags = FLAGS },
     { "weights", "set weight for each frame", OFFSET(weights_str), AV_OPT_TYPE_STRING, {.str="1 1 1"}, 0, 0, .flags = TFLAGS },
     { "scale", "set scale", OFFSET(scale), AV_OPT_TYPE_FLOAT, {.dbl=0}, 0, INT16_MAX, .flags = TFLAGS },
     { "planes", "set what planes to filter", OFFSET(planes),   AV_OPT_TYPE_FLAGS, {.i64=15}, 0, 15,  .flags = TFLAGS },
+=======
+    { "frames", "set number of successive frames to mix", OFFSET(nb_inputs), AV_OPT_TYPE_INT, {.i64=3}, 1, 128, .flags = FLAGS },
+    { "weights", "set weight for each frame", OFFSET(weights_str), AV_OPT_TYPE_STRING, {.str="1 1 1"}, 0, 0, .flags = TFLAGS },
+    { "scale", "set scale", OFFSET(scale), AV_OPT_TYPE_FLOAT, {.dbl=0}, 0, INT16_MAX, .flags = TFLAGS },
+>>>>>>> refs/remotes/origin/master
     { NULL },
 };
 

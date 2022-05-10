@@ -513,6 +513,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *p,
     }
 }
 
+<<<<<<< HEAD
 const FFCodec ff_qdraw_decoder = {
     .p.name         = "qdraw",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Apple QuickDraw"),
@@ -520,4 +521,13 @@ const FFCodec ff_qdraw_decoder = {
     .p.id           = AV_CODEC_ID_QDRAW,
     .p.capabilities = AV_CODEC_CAP_DR1,
     FF_CODEC_DECODE_CB(decode_frame),
+=======
+const AVCodec ff_qdraw_decoder = {
+    .name           = "qdraw",
+    .long_name      = NULL_IF_CONFIG_SMALL("Apple QuickDraw"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_QDRAW,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
 };

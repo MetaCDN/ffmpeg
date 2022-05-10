@@ -495,11 +495,19 @@ static av_cold int aic_decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_aic_decoder = {
     .p.name         = "aic",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Apple Intermediate Codec"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_AIC,
+=======
+const AVCodec ff_aic_decoder = {
+    .name           = "aic",
+    .long_name      = NULL_IF_CONFIG_SMALL("Apple Intermediate Codec"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AIC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AICContext),
     .init           = aic_decode_init,
     .close          = aic_decode_close,

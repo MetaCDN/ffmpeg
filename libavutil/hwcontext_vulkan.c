@@ -967,6 +967,7 @@ static int setup_queue_families(AVHWDeviceContext *ctx, VkDeviceCreateInfo *cd)
         /* We use this field to keep a score of how many times we've used that
          * queue family in order to make better choices. */
         qf[i].timestampValidBits = 0;
+<<<<<<< HEAD
     }
 
     /* Pick each queue family to use */
@@ -1058,6 +1059,99 @@ static int setup_queue_families(AVHWDeviceContext *ctx, VkDeviceCreateInfo *cd)
 
     av_free(qf);
 
+=======
+    }
+
+    /* Pick each queue family to use */
+    graph_index = pick_queue_family(qf, num, VK_QUEUE_GRAPHICS_BIT);
+    comp_index  = pick_queue_family(qf, num, VK_QUEUE_COMPUTE_BIT);
+    tx_index    = pick_queue_family(qf, num, VK_QUEUE_TRANSFER_BIT);
+    enc_index   = pick_queue_family(qf, num, VK_QUEUE_VIDEO_ENCODE_BIT_KHR);
+    dec_index   = pick_queue_family(qf, num, VK_QUEUE_VIDEO_DECODE_BIT_KHR);
+
+    /* Signalling the transfer capabilities on a queue family is optional */
+    if (tx_index < 0) {
+        tx_index = pick_queue_family(qf, num, VK_QUEUE_COMPUTE_BIT);
+        if (tx_index < 0)
+            tx_index = pick_queue_family(qf, num, VK_QUEUE_GRAPHICS_BIT);
+    }
+
+    hwctx->queue_family_index        = -1;
+    hwctx->queue_family_comp_index   = -1;
+    hwctx->queue_family_tx_index     = -1;
+    hwctx->queue_family_encode_index = -1;
+    hwctx->queue_family_decode_index = -1;
+
+#define SETUP_QUEUE(qf_idx)                                                    \
+    if (qf_idx > -1) {                                                         \
+        int fidx = qf_idx;                                                     \
+        int qc = qf[fidx].queueCount;                                          \
+        VkDeviceQueueCreateInfo *pc;                                           \
+                                                                               \
+        if (fidx == graph_index) {                                             \
+            hwctx->queue_family_index = fidx;                                  \
+            hwctx->nb_graphics_queues = qc;                                    \
+            graph_index = -1;                                                  \
+        }                                                                      \
+        if (fidx == comp_index) {                                              \
+            hwctx->queue_family_comp_index = fidx;                             \
+            hwctx->nb_comp_queues = qc;                                        \
+            comp_index = -1;                                                   \
+        }                                                                      \
+        if (fidx == tx_index) {                                                \
+            hwctx->queue_family_tx_index = fidx;                               \
+            hwctx->nb_tx_queues = qc;                                          \
+            tx_index = -1;                                                     \
+        }                                                                      \
+        if (fidx == enc_index) {                                               \
+            hwctx->queue_family_encode_index = fidx;                           \
+            hwctx->nb_encode_queues = qc;                                      \
+            enc_index = -1;                                                    \
+        }                                                                      \
+        if (fidx == dec_index) {                                               \
+            hwctx->queue_family_decode_index = fidx;                           \
+            hwctx->nb_decode_queues = qc;                                      \
+            dec_index = -1;                                                    \
+        }                                                                      \
+                                                                               \
+        pc = av_realloc((void *)cd->pQueueCreateInfos,                         \
+                        sizeof(*pc) * (cd->queueCreateInfoCount + 1));         \
+        if (!pc) {                                                             \
+            av_free(qf);                                                       \
+            return AVERROR(ENOMEM);                                            \
+        }                                                                      \
+        cd->pQueueCreateInfos = pc;                                            \
+        pc = &pc[cd->queueCreateInfoCount];                                    \
+                                                                               \
+        weights = av_malloc(qc * sizeof(float));                               \
+        if (!weights) {                                                        \
+            av_free(qf);                                                       \
+            return AVERROR(ENOMEM);                                            \
+        }                                                                      \
+                                                                               \
+        memset(pc, 0, sizeof(*pc));                                            \
+        pc->sType            = VK_STRUCTURE_TYPE_DEVICE_QUEUE_CREATE_INFO;     \
+        pc->queueFamilyIndex = fidx;                                           \
+        pc->queueCount       = qc;                                             \
+        pc->pQueuePriorities = weights;                                        \
+                                                                               \
+        for (int i = 0; i < qc; i++)                                           \
+            weights[i] = 1.0f / qc;                                            \
+                                                                               \
+        cd->queueCreateInfoCount++;                                            \
+    }
+
+    SETUP_QUEUE(graph_index)
+    SETUP_QUEUE(comp_index)
+    SETUP_QUEUE(tx_index)
+    SETUP_QUEUE(enc_index)
+    SETUP_QUEUE(dec_index)
+
+#undef ADD_QUEUE
+
+    av_free(qf);
+
+>>>>>>> refs/remotes/origin/master
     return 0;
 }
 
@@ -1321,6 +1415,7 @@ static int vulkan_device_create_internal(AVHWDeviceContext *ctx,
     VulkanDevicePriv *p = ctx->internal->priv;
     FFVulkanFunctions *vk = &p->vkfn;
     AVVulkanDeviceContext *hwctx = ctx->hwctx;
+<<<<<<< HEAD
 
     /*
      * VkPhysicalDeviceVulkan12Features has a timelineSemaphore field, but
@@ -1333,6 +1428,10 @@ static int vulkan_device_create_internal(AVHWDeviceContext *ctx,
     VkPhysicalDeviceVulkan12Features dev_features_1_2 = {
         .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES,
         .pNext = &timeline_features,
+=======
+    VkPhysicalDeviceVulkan12Features dev_features_1_2 = {
+        .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_2_FEATURES,
+>>>>>>> refs/remotes/origin/master
     };
     VkPhysicalDeviceVulkan11Features dev_features_1_1 = {
         .sType = VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_VULKAN_1_1_FEATURES,
@@ -1376,7 +1475,11 @@ static int vulkan_device_create_internal(AVHWDeviceContext *ctx,
 #undef COPY_FEATURE
 
     /* We require timeline semaphores */
+<<<<<<< HEAD
     if (!timeline_features.timelineSemaphore) {
+=======
+    if (!dev_features_1_2.timelineSemaphore) {
+>>>>>>> refs/remotes/origin/master
         av_log(ctx, AV_LOG_ERROR, "Device does not support timeline semaphores!\n");
         err = AVERROR(ENOSYS);
         goto end;

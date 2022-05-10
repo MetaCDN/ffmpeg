@@ -26,7 +26,10 @@
 #include "libavutil/opt.h"
 #include "avcodec.h"
 #include "audio_frame_queue.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "version.h"
@@ -350,6 +353,11 @@ static int libvorbis_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     if (av_fifo_read(s->pkt_fifo, &op, sizeof(ogg_packet)) < 0)
         return 0;
 
+<<<<<<< HEAD
+=======
+    av_fifo_generic_read(s->pkt_fifo, &op, sizeof(ogg_packet), NULL);
+
+>>>>>>> refs/remotes/origin/master
     if ((ret = ff_get_encode_buffer(avctx, avpkt, op.bytes, 0)) < 0)
         return ret;
     av_fifo_read(s->pkt_fifo, avpkt->data, op.bytes);
@@ -375,18 +383,31 @@ static int libvorbis_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_libvorbis_encoder = {
     .p.name         = "libvorbis",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libvorbis"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_VORBIS,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+=======
+const AVCodec ff_libvorbis_encoder = {
+    .name           = "libvorbis",
+    .long_name      = NULL_IF_CONFIG_SMALL("libvorbis"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_VORBIS,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_SMALL_LAST_FRAME,
     .priv_data_size = sizeof(LibvorbisEncContext),
     .init           = libvorbis_encode_init,
     FF_CODEC_ENCODE_CB(libvorbis_encode_frame),
     .close          = libvorbis_encode_close,
+<<<<<<< HEAD
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+=======
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .p.priv_class   = &vorbis_class,
     .defaults       = defaults,

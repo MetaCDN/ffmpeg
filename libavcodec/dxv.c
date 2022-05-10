@@ -1260,11 +1260,19 @@ static int dxv_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_dxv_decoder = {
     .p.name         = "dxv",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Resolume DXV"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_DXV,
+=======
+const AVCodec ff_dxv_decoder = {
+    .name           = "dxv",
+    .long_name      = NULL_IF_CONFIG_SMALL("Resolume DXV"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_DXV,
+>>>>>>> refs/remotes/origin/master
     .init           = dxv_init,
     FF_CODEC_DECODE_CB(dxv_decode),
     .close          = dxv_close,

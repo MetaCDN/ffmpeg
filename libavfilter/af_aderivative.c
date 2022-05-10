@@ -158,6 +158,7 @@ static const AVFilterPad aderivative_outputs[] = {
         .name = "default",
         .type = AVMEDIA_TYPE_AUDIO,
     },
+<<<<<<< HEAD
 };
 
 static const AVOption aderivative_options[] = {
@@ -166,6 +167,10 @@ static const AVOption aderivative_options[] = {
 
 AVFILTER_DEFINE_CLASS_EXT(aderivative, "aderivative/aintegral", aderivative_options);
 
+=======
+};
+
+>>>>>>> refs/remotes/origin/master
 const AVFilter ff_af_aderivative = {
     .name          = "aderivative",
     .description   = NULL_IF_CONFIG_SMALL("Compute derivative of input audio."),
@@ -176,7 +181,10 @@ const AVFilter ff_af_aderivative = {
     FILTER_OUTPUTS(aderivative_outputs),
     FILTER_SAMPLEFMTS(AV_SAMPLE_FMT_S16P, AV_SAMPLE_FMT_FLTP,
                       AV_SAMPLE_FMT_S32P, AV_SAMPLE_FMT_DBLP),
+<<<<<<< HEAD
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+=======
+>>>>>>> refs/remotes/origin/master
 };
 
 const AVFilter ff_af_aintegral = {
@@ -188,5 +196,8 @@ const AVFilter ff_af_aintegral = {
     FILTER_INPUTS(aderivative_inputs),
     FILTER_OUTPUTS(aderivative_outputs),
     FILTER_SAMPLEFMTS(AV_SAMPLE_FMT_FLTP, AV_SAMPLE_FMT_DBLP),
+<<<<<<< HEAD
     .flags         = AVFILTER_FLAG_SUPPORT_TIMELINE_INTERNAL,
+=======
+>>>>>>> refs/remotes/origin/master
 };

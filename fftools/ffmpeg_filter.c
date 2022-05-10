@@ -153,6 +153,7 @@ DEF_CHOOSE_FORMAT(sample_fmts, enum AVSampleFormat, format, formats,
 DEF_CHOOSE_FORMAT(sample_rates, int, sample_rate, sample_rates, 0,
                   "%d", )
 
+<<<<<<< HEAD
 static void choose_channel_layouts(OutputFilter *ofilter, AVBPrint *bprint)
 {
     if (av_channel_layout_check(&ofilter->ch_layout)) {
@@ -172,6 +173,10 @@ static void choose_channel_layouts(OutputFilter *ofilter, AVBPrint *bprint)
         return;
     av_bprint_chars(bprint, ':', 1);
 }
+=======
+DEF_CHOOSE_FORMAT(channel_layouts, uint64_t, channel_layout, channel_layouts, 0,
+                  "0x%"PRIx64, )
+>>>>>>> refs/remotes/origin/master
 
 int init_simple_filtergraph(InputStream *ist, OutputStream *ost)
 {
@@ -195,7 +200,11 @@ int init_simple_filtergraph(InputStream *ist, OutputStream *ost)
     ifilter->graph  = fg;
     ifilter->format = -1;
 
+<<<<<<< HEAD
     ifilter->frame_queue = av_fifo_alloc2(8, sizeof(AVFrame*), AV_FIFO_FLAG_AUTO_GROW);
+=======
+    ifilter->frame_queue = av_fifo_alloc(8 * sizeof(AVFrame*));
+>>>>>>> refs/remotes/origin/master
     if (!ifilter->frame_queue)
         exit_program(1);
 
@@ -304,7 +313,11 @@ static void init_input_filter(FilterGraph *fg, AVFilterInOut *in)
     ifilter->type   = ist->st->codecpar->codec_type;
     ifilter->name   = describe_filter_link(fg, in, 1);
 
+<<<<<<< HEAD
     ifilter->frame_queue = av_fifo_alloc2(8, sizeof(AVFrame*), AV_FIFO_FLAG_AUTO_GROW);
+=======
+    ifilter->frame_queue = av_fifo_alloc(8 * sizeof(AVFrame*));
+>>>>>>> refs/remotes/origin/master
     if (!ifilter->frame_queue)
         exit_program(1);
 
@@ -561,8 +574,13 @@ static int configure_output_audio_filter(FilterGraph *fg, OutputFilter *ofilter,
     if (ost->audio_channels_mapped) {
         AVChannelLayout mapped_layout = { 0 };
         int i;
+<<<<<<< HEAD
         av_channel_layout_default(&mapped_layout, ost->audio_channels_mapped);
         av_channel_layout_describe_bprint(&mapped_layout, &args);
+=======
+        av_bprintf(&args, "0x%"PRIx64,
+                   av_get_default_channel_layout(ost->audio_channels_mapped));
+>>>>>>> refs/remotes/origin/master
         for (i = 0; i < ost->audio_channels_mapped; i++)
             if (ost->audio_channels_map[i] != -1)
                 av_bprintf(&args, "|c%d=c%d", i, ost->audio_channels_map[i]);
@@ -969,8 +987,13 @@ static void cleanup_filtergraph(FilterGraph *fg)
 static int filter_is_buffersrc(const AVFilterContext *f)
 {
     return f->nb_inputs == 0 &&
+<<<<<<< HEAD
            (!strcmp(f->filter->name, "buffer") ||
             !strcmp(f->filter->name, "abuffer"));
+=======
+           (!strcmp(f->filter->name, "buffersrc") ||
+            !strcmp(f->filter->name, "abuffersrc"));
+>>>>>>> refs/remotes/origin/master
 }
 
 static int graph_is_meta(AVFilterGraph *graph)
@@ -1169,7 +1192,10 @@ fail:
 int ifilter_parameters_from_frame(InputFilter *ifilter, const AVFrame *frame)
 {
     AVFrameSideData *sd;
+<<<<<<< HEAD
     int ret;
+=======
+>>>>>>> refs/remotes/origin/master
 
     av_buffer_unref(&ifilter->hw_frames_ctx);
 
@@ -1183,6 +1209,11 @@ int ifilter_parameters_from_frame(InputFilter *ifilter, const AVFrame *frame)
     ret = av_channel_layout_copy(&ifilter->ch_layout, &frame->ch_layout);
     if (ret < 0)
         return ret;
+
+    av_freep(&ifilter->displaymatrix);
+    sd = av_frame_get_side_data(frame, AV_FRAME_DATA_DISPLAYMATRIX);
+    if (sd)
+        ifilter->displaymatrix = av_memdup(sd->data, sizeof(int32_t) * 9);
 
     av_freep(&ifilter->displaymatrix);
     sd = av_frame_get_side_data(frame, AV_FRAME_DATA_DISPLAYMATRIX);

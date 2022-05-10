@@ -88,6 +88,11 @@ HEADERS = adler32.h                                                     \
           tea.h                                                         \
           tx.h                                                          \
           film_grain_params.h                                           \
+<<<<<<< HEAD
+=======
+
+HEADERS-$(CONFIG_LZO)                   += lzo.h
+>>>>>>> refs/remotes/origin/master
 
 ARCH_HEADERS = bswap.h                                                  \
                intmath.h                                                \
@@ -182,6 +187,10 @@ OBJS-$(CONFIG_CUDA)                     += hwcontext_cuda.o
 OBJS-$(CONFIG_D3D11VA)                  += hwcontext_d3d11va.o
 OBJS-$(CONFIG_DXVA2)                    += hwcontext_dxva2.o
 OBJS-$(CONFIG_LIBDRM)                   += hwcontext_drm.o
+<<<<<<< HEAD
+=======
+OBJS-$(CONFIG_LZO)                      += lzo.o
+>>>>>>> refs/remotes/origin/master
 OBJS-$(CONFIG_MACOS_KPERF)              += macos_kperf.o
 OBJS-$(CONFIG_MEDIACODEC)               += hwcontext_mediacodec.o
 OBJS-$(CONFIG_OPENCL)                   += hwcontext_opencl.o

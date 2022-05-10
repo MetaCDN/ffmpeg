@@ -299,12 +299,16 @@ FF_DISABLE_DEPRECATION_WARNINGS
 AVFifoBuffer *av_fifo_alloc_array(size_t nmemb, size_t size)
 {
     AVFifoBuffer *f;
+<<<<<<< HEAD
     void *buffer;
 
     if (nmemb > OLD_FIFO_SIZE_MAX / size)
         return NULL;
 
     buffer = av_realloc_array(NULL, nmemb, size);
+=======
+    void *buffer = av_realloc_array(NULL, nmemb, size);
+>>>>>>> refs/remotes/origin/master
     if (!buffer)
         return NULL;
     f = av_mallocz(sizeof(AVFifoBuffer));
@@ -474,7 +478,30 @@ int av_fifo_generic_peek_at(AVFifoBuffer *f, void *dest, int offset, int buf_siz
 int av_fifo_generic_peek(AVFifoBuffer *f, void *dest, int buf_size,
                          void (*func)(void *, void *, int))
 {
+<<<<<<< HEAD
     return av_fifo_generic_peek_at(f, dest, 0, buf_size, func);
+=======
+    uint8_t *rptr = f->rptr;
+
+    if (buf_size > av_fifo_size(f))
+        return AVERROR(EINVAL);
+
+    do {
+        int len = FFMIN(f->end - rptr, buf_size);
+        if (func)
+            func(dest, rptr, len);
+        else {
+            memcpy(dest, rptr, len);
+            dest = (uint8_t *)dest + len;
+        }
+        rptr += len;
+        if (rptr >= f->end)
+            rptr -= f->end - f->buffer;
+        buf_size -= len;
+    } while (buf_size > 0);
+
+    return 0;
+>>>>>>> refs/remotes/origin/master
 }
 
 int av_fifo_generic_read(AVFifoBuffer *f, void *dest, int buf_size,

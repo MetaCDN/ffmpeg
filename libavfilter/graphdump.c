@@ -30,7 +30,10 @@
 static int print_link_prop(AVBPrint *buf, AVFilterLink *link)
 {
     const char *format;
+<<<<<<< HEAD
     char layout[128];
+=======
+>>>>>>> refs/remotes/origin/master
     AVBPrint dummy_buffer;
 
     if (!buf) {
@@ -50,8 +53,12 @@ static int print_link_prop(AVBPrint *buf, AVFilterLink *link)
             format = av_x_if_null(av_get_sample_fmt_name(link->format), "?");
             av_bprintf(buf, "[%dHz %s:",
                        (int)link->sample_rate, format);
+<<<<<<< HEAD
             av_channel_layout_describe(&link->ch_layout, layout, sizeof(layout));
             av_bprintf(buf, "%s", layout);
+=======
+            av_bprint_channel_layout(buf, link->channels, link->channel_layout);
+>>>>>>> refs/remotes/origin/master
             av_bprint_chars(buf, ']', 1);
             break;
 

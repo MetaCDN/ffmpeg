@@ -33,9 +33,15 @@
 #include "bytestream.h"
 #include "cfhd.h"
 #include "cfhdencdsp.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
 #include "put_bits.h"
+=======
+#include "encode.h"
+#include "put_bits.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "thread.h"
 
 /* Derived from existing tables from decoder */
@@ -845,6 +851,7 @@ static const AVClass cfhd_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_cfhd_encoder = {
     .p.name           = "cfhd",
     .p.long_name      = NULL_IF_CONFIG_SMALL("GoPro CineForm HD"),
@@ -857,6 +864,20 @@ const FFCodec ff_cfhd_encoder = {
     FF_CODEC_ENCODE_CB(cfhd_encode_frame),
     .p.capabilities   = AV_CODEC_CAP_FRAME_THREADS,
     .p.pix_fmts       = (const enum AVPixelFormat[]) {
+=======
+const AVCodec ff_cfhd_encoder = {
+    .name             = "cfhd",
+    .long_name        = NULL_IF_CONFIG_SMALL("GoPro CineForm HD"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_CFHD,
+    .priv_data_size   = sizeof(CFHDEncContext),
+    .priv_class       = &cfhd_class,
+    .init             = cfhd_encode_init,
+    .close            = cfhd_encode_close,
+    .encode2          = cfhd_encode_frame,
+    .capabilities     = AV_CODEC_CAP_FRAME_THREADS,
+    .pix_fmts         = (const enum AVPixelFormat[]) {
+>>>>>>> refs/remotes/origin/master
                           AV_PIX_FMT_YUV422P10,
                           AV_PIX_FMT_GBRP12,
                           AV_PIX_FMT_GBRAP12,

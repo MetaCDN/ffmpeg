@@ -408,6 +408,7 @@ static int paf_video_decode(AVCodecContext *avctx, AVFrame *rframe,
     return pkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_paf_video_decoder = {
     .p.name         = "paf_video",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Amazing Studio Packed Animation File Video"),
@@ -418,5 +419,17 @@ const FFCodec ff_paf_video_decoder = {
     .close          = paf_video_close,
     FF_CODEC_DECODE_CB(paf_video_decode),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_paf_video_decoder = {
+    .name           = "paf_video",
+    .long_name      = NULL_IF_CONFIG_SMALL("Amazing Studio Packed Animation File Video"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_PAF_VIDEO,
+    .priv_data_size = sizeof(PAFVideoDecContext),
+    .init           = paf_video_init,
+    .close          = paf_video_close,
+    .decode         = paf_video_decode,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

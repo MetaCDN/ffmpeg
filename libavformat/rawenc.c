@@ -139,6 +139,7 @@ const AVOutputFormat ff_avs2_muxer = {
     .audio_codec       = AV_CODEC_ID_NONE,
     .video_codec       = AV_CODEC_ID_AVS2,
     .init              = force_one_stream,
+<<<<<<< HEAD
     .write_packet      = ff_raw_write_packet,
     .flags             = AVFMT_NOTIMESTAMPS,
 };
@@ -152,11 +153,29 @@ const AVOutputFormat ff_avs3_muxer = {
     .audio_codec       = AV_CODEC_ID_NONE,
     .video_codec       = AV_CODEC_ID_AVS3,
     .init              = force_one_stream,
+=======
+>>>>>>> refs/remotes/origin/master
     .write_packet      = ff_raw_write_packet,
     .flags             = AVFMT_NOTIMESTAMPS,
 };
 #endif
 
+<<<<<<< HEAD
+=======
+#if CONFIG_AVS3_MUXER
+const AVOutputFormat ff_avs3_muxer = {
+    .name              = "avs3",
+    .long_name         = NULL_IF_CONFIG_SMALL("AVS3-P2/IEEE1857.10"),
+    .extensions        = "avs3",
+    .audio_codec       = AV_CODEC_ID_NONE,
+    .video_codec       = AV_CODEC_ID_AVS3,
+    .init              = force_one_stream,
+    .write_packet      = ff_raw_write_packet,
+    .flags             = AVFMT_NOTIMESTAMPS,
+};
+#endif
+
+>>>>>>> refs/remotes/origin/master
 
 #if CONFIG_CAVSVIDEO_MUXER
 const AVOutputFormat ff_cavsvideo_muxer = {
@@ -189,6 +208,7 @@ const AVOutputFormat ff_data_muxer = {
     .name              = "data",
     .long_name         = NULL_IF_CONFIG_SMALL("raw data"),
     .init              = force_one_stream,
+<<<<<<< HEAD
     .write_packet      = ff_raw_write_packet,
     .flags             = AVFMT_NOTIMESTAMPS,
 };
@@ -202,6 +222,8 @@ const AVOutputFormat ff_dfpwm_muxer = {
     .audio_codec       = AV_CODEC_ID_DFPWM,
     .video_codec       = AV_CODEC_ID_NONE,
     .init              = force_one_stream,
+=======
+>>>>>>> refs/remotes/origin/master
     .write_packet      = ff_raw_write_packet,
     .flags             = AVFMT_NOTIMESTAMPS,
 };

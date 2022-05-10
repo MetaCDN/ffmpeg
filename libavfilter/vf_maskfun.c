@@ -103,6 +103,7 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
         return ff_filter_frame(outlink, out);
     }
 
+<<<<<<< HEAD
     if (av_frame_is_writable(in)) {
         out = in;
     } else {
@@ -111,6 +112,10 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
             return AVERROR(ENOMEM);
         av_frame_copy_props(out, in);
     }
+=======
+    ff_filter_execute(ctx, s->maskfun, frame, NULL,
+                      FFMIN(s->height[1], ff_filter_get_nb_threads(ctx)));
+>>>>>>> refs/remotes/origin/master
 
     s->in = in;
     ff_filter_execute(ctx, s->maskfun, out, NULL,
@@ -208,8 +213,13 @@ static void fill_frame(AVFilterContext *ctx)
         for (int p = 0; p < s->nb_planes; p++) {
             uint8_t *dst = s->empty->data[p];
 
+<<<<<<< HEAD
             for (int y = 0; y < s->planeheight[p]; y++) {
                 memset(dst, s->fill, s->planewidth[p]);
+=======
+            for (int y = 0; y < s->height[p]; y++) {
+                memset(dst, s->fill, s->width[p]);
+>>>>>>> refs/remotes/origin/master
                 dst += s->empty->linesize[p];
             }
         }
@@ -217,8 +227,13 @@ static void fill_frame(AVFilterContext *ctx)
         for (int p = 0; p < s->nb_planes; p++) {
             uint16_t *dst = (uint16_t *)s->empty->data[p];
 
+<<<<<<< HEAD
             for (int y = 0; y < s->planeheight[p]; y++) {
                 for (int x = 0; x < s->planewidth[p]; x++)
+=======
+            for (int y = 0; y < s->height[p]; y++) {
+                for (int x = 0; x < s->width[p]; x++)
+>>>>>>> refs/remotes/origin/master
                     dst[x] = s->fill;
                 dst += s->empty->linesize[p] / 2;
             }
@@ -234,7 +249,11 @@ static void set_max_sum(AVFilterContext *ctx)
     for (int p = 0; p < s->nb_planes; p++) {
         if (!((1 << p) & s->planes))
             continue;
+<<<<<<< HEAD
         s->max_sum += (uint64_t)s->sum * s->planewidth[p] * s->planeheight[p];
+=======
+        s->max_sum += (uint64_t)s->sum * s->width[p] * s->height[p];
+>>>>>>> refs/remotes/origin/master
     }
 }
 

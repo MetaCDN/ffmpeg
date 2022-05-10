@@ -32,7 +32,10 @@
 #include "libavutil/opt.h"
 #include "libavutil/pixdesc.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "internal.h"
 #include "packet_internal.h"
@@ -740,6 +743,7 @@ static const FFCodecDefault x265_defaults[] = {
     { NULL },
 };
 
+<<<<<<< HEAD
 FFCodec ff_libx265_encoder = {
     .p.name           = "libx265",
     .p.long_name      = NULL_IF_CONFIG_SMALL("libx265 H.265 / HEVC"),
@@ -750,6 +754,16 @@ FFCodec ff_libx265_encoder = {
                         AV_CODEC_CAP_ENCODER_REORDERED_OPAQUE,
     .p.priv_class     = &class,
     .p.wrapper_name   = "libx265",
+=======
+AVCodec ff_libx265_encoder = {
+    .name             = "libx265",
+    .long_name        = NULL_IF_CONFIG_SMALL("libx265 H.265 / HEVC"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_HEVC,
+    .capabilities     = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+                        AV_CODEC_CAP_OTHER_THREADS |
+                        AV_CODEC_CAP_ENCODER_REORDERED_OPAQUE,
+>>>>>>> refs/remotes/origin/master
     .init             = libx265_encode_init,
     .init_static_data = libx265_encode_init_csp,
     FF_CODEC_ENCODE_CB(libx265_encode_frame),
@@ -757,4 +771,8 @@ FFCodec ff_libx265_encoder = {
     .priv_data_size   = sizeof(libx265Context),
     .defaults         = x265_defaults,
     .caps_internal    = FF_CODEC_CAP_AUTO_THREADS,
+<<<<<<< HEAD
+=======
+    .wrapper_name     = "libx265",
+>>>>>>> refs/remotes/origin/master
 };

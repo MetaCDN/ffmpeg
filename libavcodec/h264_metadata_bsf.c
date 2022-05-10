@@ -22,7 +22,6 @@
 #include "libavutil/opt.h"
 
 #include "bsf.h"
-#include "bsf_internal.h"
 #include "cbs.h"
 #include "cbs_bsf.h"
 #include "cbs_h264.h"
@@ -725,4 +724,8 @@ const FFBitStreamFilter ff_h264_metadata_bsf = {
     .init           = &h264_metadata_init,
     .close          = &ff_cbs_bsf_generic_close,
     .filter         = &ff_cbs_bsf_generic_filter,
+<<<<<<< HEAD
+=======
+    .codec_ids      = h264_metadata_codec_ids,
+>>>>>>> refs/remotes/origin/master
 };

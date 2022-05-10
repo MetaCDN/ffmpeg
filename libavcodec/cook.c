@@ -1296,6 +1296,7 @@ static av_cold int cook_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_cook_decoder = {
     .p.name         = "cook",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Cook / Cooker / Gecko (RealAudio G2)"),
@@ -1307,6 +1308,19 @@ const FFCodec ff_cook_decoder = {
     FF_CODEC_DECODE_CB(cook_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+=======
+const AVCodec ff_cook_decoder = {
+    .name           = "cook",
+    .long_name      = NULL_IF_CONFIG_SMALL("Cook / Cooker / Gecko (RealAudio G2)"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_COOK,
+    .priv_data_size = sizeof(COOKContext),
+    .init           = cook_decode_init,
+    .close          = cook_decode_close,
+    .decode         = cook_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLTP,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

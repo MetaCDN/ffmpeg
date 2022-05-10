@@ -27,10 +27,15 @@
 #ifdef TX_FLOAT
 #define TX_TAB(x) x ## _float
 #define TX_NAME(x) x ## _float_c
+<<<<<<< HEAD
 #define TX_NAME_STR(x) NULL_IF_CONFIG_SMALL(x "_float_c")
 #define TX_TYPE(x) AV_TX_FLOAT_ ## x
 #define TX_FN_NAME(fn, suffix) ff_tx_ ## fn ## _float_ ## suffix
 #define TX_FN_NAME_STR(fn, suffix) NULL_IF_CONFIG_SMALL(#fn "_float_" #suffix)
+=======
+#define TX_NAME_STR(x) x "_float_c"
+#define TX_TYPE(x) AV_TX_FLOAT_ ## x
+>>>>>>> refs/remotes/origin/master
 #define MULT(x, m) ((x) * (m))
 #define SCALE_TYPE float
 typedef float TXSample;
@@ -38,10 +43,15 @@ typedef AVComplexFloat TXComplex;
 #elif defined(TX_DOUBLE)
 #define TX_TAB(x) x ## _double
 #define TX_NAME(x) x ## _double_c
+<<<<<<< HEAD
 #define TX_NAME_STR(x) NULL_IF_CONFIG_SMALL(x "_double_c")
 #define TX_TYPE(x) AV_TX_DOUBLE_ ## x
 #define TX_FN_NAME(fn, suffix) ff_tx_ ## fn ## _double_ ## suffix
 #define TX_FN_NAME_STR(fn, suffix) NULL_IF_CONFIG_SMALL(#fn "_double_" #suffix)
+=======
+#define TX_NAME_STR(x) x "_double_c"
+#define TX_TYPE(x) AV_TX_DOUBLE_ ## x
+>>>>>>> refs/remotes/origin/master
 #define MULT(x, m) ((x) * (m))
 #define SCALE_TYPE double
 typedef double TXSample;
@@ -49,10 +59,15 @@ typedef AVComplexDouble TXComplex;
 #elif defined(TX_INT32)
 #define TX_TAB(x) x ## _int32
 #define TX_NAME(x) x ## _int32_c
+<<<<<<< HEAD
 #define TX_NAME_STR(x) NULL_IF_CONFIG_SMALL(x "_int32_c")
 #define TX_TYPE(x) AV_TX_INT32_ ## x
 #define TX_FN_NAME(fn, suffix) ff_tx_ ## fn ## _int32_ ## suffix
 #define TX_FN_NAME_STR(fn, suffix) NULL_IF_CONFIG_SMALL(#fn "_int32_" #suffix)
+=======
+#define TX_NAME_STR(x) x "_int32_c"
+#define TX_TYPE(x) AV_TX_INT32_ ## x
+>>>>>>> refs/remotes/origin/master
 #define MULT(x, m) (((((int64_t)(x)) * (int64_t)(m)) + 0x40000000) >> 31)
 #define SCALE_TYPE float
 typedef int32_t TXSample;
@@ -140,11 +155,21 @@ typedef void TXComplex;
 
 /* Codelet flags, used to pick codelets. Must be a superset of enum AVTXFlags,
  * but if it runs out of bits, it can be made separate. */
+<<<<<<< HEAD
 #define FF_TX_OUT_OF_PLACE (1ULL << 63) /* Can be OR'd with AV_TX_INPLACE             */
 #define FF_TX_ALIGNED      (1ULL << 62) /* Cannot be OR'd with AV_TX_UNALIGNED        */
 #define FF_TX_PRESHUFFLE   (1ULL << 61) /* Codelet expects permuted coeffs            */
 #define FF_TX_INVERSE_ONLY (1ULL << 60) /* For non-orthogonal inverse-only transforms */
 #define FF_TX_FORWARD_ONLY (1ULL << 59) /* For non-orthogonal forward-only transforms */
+=======
+typedef enum FFTXCodeletFlags {
+    FF_TX_OUT_OF_PLACE  = (1ULL << 63), /* Can be OR'd with AV_TX_INPLACE             */
+    FF_TX_ALIGNED       = (1ULL << 62), /* Cannot be OR'd with AV_TX_UNALIGNED        */
+    FF_TX_PRESHUFFLE    = (1ULL << 61), /* Codelet expects permuted coeffs            */
+    FF_TX_INVERSE_ONLY  = (1ULL << 60), /* For non-orthogonal inverse-only transforms */
+    FF_TX_FORWARD_ONLY  = (1ULL << 59), /* For non-orthogonal forward-only transforms */
+} FFTXCodeletFlags;
+>>>>>>> refs/remotes/origin/master
 
 typedef enum FFTXCodeletPriority {
     FF_TX_PRIO_BASE = 0,               /* Baseline priority */
@@ -170,6 +195,7 @@ typedef struct FFTXCodelet {
     av_tx_fn       function;      /* Codelet function, != NULL */
     enum AVTXType  type;          /* Type of codelet transform */
 #define TX_TYPE_ANY INT32_MAX     /* Special type to allow all types */
+<<<<<<< HEAD
 
     uint64_t flags;               /* A combination of AVTXFlags and codelet
                                    * flags that describe its properties. */
@@ -181,6 +207,19 @@ typedef struct FFTXCodelet {
                                    * remains will be supported, as long as the
                                    * other factors are a component of the length */
 
+=======
+
+    uint64_t flags;               /* A combination of AVTXFlags and FFTXCodeletFlags
+                                   * that describe the codelet's properties. */
+
+    int factors[TX_MAX_SUB];      /* Length factors */
+#define TX_FACTOR_ANY -1          /* When used alone, signals that the codelet
+                                   * supports all factors. Otherwise, if other
+                                   * factors are present, it signals that whatever
+                                   * remains will be supported, as long as the
+                                   * other factors are a component of the length */
+
+>>>>>>> refs/remotes/origin/master
     int min_len;                  /* Minimum length of transform, must be >= 1 */
     int max_len;                  /* Maximum length of transform */
 #define TX_LEN_UNLIMITED -1       /* Special length value to permit all lengths */
@@ -224,8 +263,14 @@ struct AVTXContext {
     const FFTXCodelet *cd[TX_MAX_SUB];  /* Subtransform codelets */
     const FFTXCodelet *cd_self;         /* Codelet for the current context */
     enum AVTXType      type;            /* Type of transform */
+<<<<<<< HEAD
     uint64_t           flags;           /* A combination of AVTXFlags and
                                          * codelet flags used when creating */
+=======
+    uint64_t           flags;           /* A combination of AVTXFlags
+                                           and FFTXCodeletFlags flags
+                                           used when creating */
+>>>>>>> refs/remotes/origin/master
     float              scale_f;
     double             scale_d;
     void              *opaque;          /* Free to use by implementations */

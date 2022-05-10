@@ -228,6 +228,7 @@ static int vmdaudio_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_vmdaudio_decoder = {
     .p.name         = "vmdaudio",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Sierra VMD audio"),
@@ -237,5 +238,16 @@ const FFCodec ff_vmdaudio_decoder = {
     .init           = vmdaudio_decode_init,
     FF_CODEC_DECODE_CB(vmdaudio_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_vmdaudio_decoder = {
+    .name           = "vmdaudio",
+    .long_name      = NULL_IF_CONFIG_SMALL("Sierra VMD audio"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_VMDAUDIO,
+    .priv_data_size = sizeof(VmdAudioContext),
+    .init           = vmdaudio_decode_init,
+    .decode         = vmdaudio_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

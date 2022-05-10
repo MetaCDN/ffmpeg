@@ -33,7 +33,10 @@
 #include "libavutil/attributes.h"
 #include "libavutil/avutil.h"
 #include "libavutil/thread.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "mpegvideo.h"
 #include "mpegvideoenc.h"
 #include "h263.h"

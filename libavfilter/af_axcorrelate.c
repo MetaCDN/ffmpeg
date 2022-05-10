@@ -113,7 +113,11 @@ static int xcorrelate_slow_##suffix(AVFilterContext *ctx, \
     const int size = FFMIN(available, s->size);           \
     int used;                                             \
                                                           \
+<<<<<<< HEAD
     for (int ch = 0; ch < out->ch_layout.nb_channels; ch++) {         \
+=======
+    for (int ch = 0; ch < out->channels; ch++) {          \
+>>>>>>> refs/remotes/origin/master
         const type *x = (const type *)s->cache[0]->extended_data[ch]; \
         const type *y = (const type *)s->cache[1]->extended_data[ch]; \
         type *sumx = (type *)s->mean_sum[0]->extended_data[ch];       \
@@ -155,7 +159,11 @@ static int xcorrelate_fast_##suffix(AVFilterContext *ctx, AVFrame *out,        \
     const int size = FFMIN(available, s->size);                                \
     int used;                                                                  \
                                                                                \
+<<<<<<< HEAD
     for (int ch = 0; ch < out->ch_layout.nb_channels; ch++) {                  \
+=======
+    for (int ch = 0; ch < out->channels; ch++) {                               \
+>>>>>>> refs/remotes/origin/master
         const type *x = (const type *)s->cache[0]->extended_data[ch];          \
         const type *y = (const type *)s->cache[1]->extended_data[ch];          \
         type *num_sum = (type *)s->num_sum->extended_data[ch];                 \
@@ -299,8 +307,13 @@ static int config_output(AVFilterLink *outlink)
 
     s->pts = AV_NOPTS_VALUE;
 
+<<<<<<< HEAD
     s->fifo[0] = av_audio_fifo_alloc(outlink->format, outlink->ch_layout.nb_channels, s->size);
     s->fifo[1] = av_audio_fifo_alloc(outlink->format, outlink->ch_layout.nb_channels, s->size);
+=======
+    s->fifo[0] = av_audio_fifo_alloc(outlink->format, outlink->channels, s->size);
+    s->fifo[1] = av_audio_fifo_alloc(outlink->format, outlink->channels, s->size);
+>>>>>>> refs/remotes/origin/master
     if (!s->fifo[0] || !s->fifo[1])
         return AVERROR(ENOMEM);
 

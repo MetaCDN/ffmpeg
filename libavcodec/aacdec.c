@@ -552,11 +552,19 @@ static av_cold int latm_decode_init(AVCodecContext *avctx)
     return ret;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_aac_decoder = {
     .p.name          = "aac",
     .p.long_name     = NULL_IF_CONFIG_SMALL("AAC (Advanced Audio Coding)"),
     .p.type          = AVMEDIA_TYPE_AUDIO,
     .p.id            = AV_CODEC_ID_AAC,
+=======
+const AVCodec ff_aac_decoder = {
+    .name            = "aac",
+    .long_name       = NULL_IF_CONFIG_SMALL("AAC (Advanced Audio Coding)"),
+    .type            = AVMEDIA_TYPE_AUDIO,
+    .id              = AV_CODEC_ID_AAC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size  = sizeof(AACContext),
     .init            = aac_decode_init,
     .close           = aac_decode_close,
@@ -580,11 +588,19 @@ const FFCodec ff_aac_decoder = {
     in MPEG transport streams which only contain one program.
     To do a more complex LATM demuxing a separate LATM demuxer should be used.
 */
+<<<<<<< HEAD
 const FFCodec ff_aac_latm_decoder = {
     .p.name          = "aac_latm",
     .p.long_name     = NULL_IF_CONFIG_SMALL("AAC LATM (Advanced Audio Coding LATM syntax)"),
     .p.type          = AVMEDIA_TYPE_AUDIO,
     .p.id            = AV_CODEC_ID_AAC_LATM,
+=======
+const AVCodec ff_aac_latm_decoder = {
+    .name            = "aac_latm",
+    .long_name       = NULL_IF_CONFIG_SMALL("AAC LATM (Advanced Audio Coding LATM syntax)"),
+    .type            = AVMEDIA_TYPE_AUDIO,
+    .id              = AV_CODEC_ID_AAC_LATM,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size  = sizeof(struct LATMContext),
     .init            = latm_decode_init,
     .close           = aac_decode_close,

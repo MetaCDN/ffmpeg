@@ -31,7 +31,10 @@ typedef struct ChanDelay {
     int64_t delay;
     size_t delay_index;
     size_t index;
+<<<<<<< HEAD
     unsigned int samples_size;
+=======
+>>>>>>> refs/remotes/origin/master
     uint8_t *samples;
 } ChanDelay;
 
@@ -204,6 +207,24 @@ static int config_input(AVFilterLink *inlink)
         else if (ret < 0)
             return ret;
         p = NULL;
+<<<<<<< HEAD
+=======
+
+        ret = av_sscanf(arg, "%"SCNd64"%c", &d->delay, &type);
+        if (ret != 2 || type != 'S') {
+            div = type == 's' ? 1.0 : 1000.0;
+            if (av_sscanf(arg, "%f", &delay) != 1) {
+                av_log(ctx, AV_LOG_ERROR, "Invalid syntax for delay.\n");
+                return AVERROR(EINVAL);
+            }
+            d->delay = delay * inlink->sample_rate / div;
+        }
+
+        if (d->delay < 0) {
+            av_log(ctx, AV_LOG_ERROR, "Delay must be non negative number.\n");
+            return AVERROR(EINVAL);
+        }
+>>>>>>> refs/remotes/origin/master
     }
 
     if (s->all && i) {

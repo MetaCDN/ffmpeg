@@ -709,12 +709,21 @@ static int dds_decode(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_dds_decoder = {
     .p.name         = "dds",
     .p.long_name    = NULL_IF_CONFIG_SMALL("DirectDraw Surface image decoder"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_DDS,
     FF_CODEC_DECODE_CB(dds_decode),
+=======
+const AVCodec ff_dds_decoder = {
+    .name           = "dds",
+    .long_name      = NULL_IF_CONFIG_SMALL("DirectDraw Surface image decoder"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_DDS,
+    .decode         = dds_decode,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(DDSContext),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_SLICE_THREADS,
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE

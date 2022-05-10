@@ -1833,8 +1833,13 @@ static int decode_header(EXRContext *s, AVFrame *frame)
             dx = bytestream2_get_le32(gb);
             dy = bytestream2_get_le32(gb);
 
+<<<<<<< HEAD
             s->w = (unsigned)dx - sx + 1;
             s->h = (unsigned)dy - sy + 1;
+=======
+            s->w = dx - sx + 1;
+            s->h = dy - sy + 1;
+>>>>>>> refs/remotes/origin/master
 
             continue;
         } else if ((var_size = check_header_variable(s, "lineOrder",
@@ -2028,6 +2033,11 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *picture,
 {
     EXRContext *s = avctx->priv_data;
     GetByteContext *gb = &s->gb;
+<<<<<<< HEAD
+=======
+    ThreadFrame frame = { .f = data };
+    AVFrame *picture = data;
+>>>>>>> refs/remotes/origin/master
     uint8_t *ptr;
 
     int i, y, ret, ymax;
@@ -2340,11 +2350,19 @@ static const AVClass exr_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_exr_decoder = {
     .p.name           = "exr",
     .p.long_name      = NULL_IF_CONFIG_SMALL("OpenEXR image"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_EXR,
+=======
+const AVCodec ff_exr_decoder = {
+    .name             = "exr",
+    .long_name        = NULL_IF_CONFIG_SMALL("OpenEXR image"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_EXR,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(EXRContext),
     .init             = decode_init,
     .close            = decode_end,

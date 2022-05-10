@@ -18,7 +18,11 @@
 
 #include <inttypes.h>
 
+<<<<<<< HEAD
 #include "libavutil/log.h"
+=======
+#include "libavutil/common.h"
+>>>>>>> refs/remotes/origin/master
 
 #include "bsf.h"
 #include "bsf_internal.h"
@@ -134,4 +138,8 @@ const FFBitStreamFilter ff_h264_redundant_pps_bsf = {
     .init           = &h264_redundant_pps_init,
     .close          = &ff_cbs_bsf_generic_close,
     .filter         = &ff_cbs_bsf_generic_filter,
+<<<<<<< HEAD
+=======
+    .codec_ids      = h264_redundant_pps_codec_ids,
+>>>>>>> refs/remotes/origin/master
 };

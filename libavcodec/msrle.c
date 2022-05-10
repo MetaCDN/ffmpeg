@@ -33,7 +33,10 @@
 #include <string.h>
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 #include "msrledec.h"
@@ -159,16 +162,28 @@ static av_cold int msrle_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_msrle_decoder = {
     .p.name         = "msrle",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Microsoft RLE"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_MSRLE,
+=======
+const AVCodec ff_msrle_decoder = {
+    .name           = "msrle",
+    .long_name      = NULL_IF_CONFIG_SMALL("Microsoft RLE"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MSRLE,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(MsrleContext),
     .init           = msrle_decode_init,
     .close          = msrle_decode_end,
     FF_CODEC_DECODE_CB(msrle_decode_frame),
     .flush          = msrle_decode_flush,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

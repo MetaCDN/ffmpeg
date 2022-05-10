@@ -130,8 +130,16 @@ static av_cold int decode_init(AVCodecContext * avctx) {
     s->scale_bias = 1.0/(32768*8);
     avctx->sample_fmt = AV_SAMPLE_FMT_FLT;
 
+<<<<<<< HEAD
     av_channel_layout_uninit(&avctx->ch_layout);
     avctx->ch_layout      = (AVChannelLayout)AV_CHANNEL_LAYOUT_MONO;
+
+    /* Generate overlap window */
+    ff_init_ff_sine_windows(7);
+=======
+    avctx->channels       = 1;
+    avctx->channel_layout = AV_CH_LAYOUT_MONO;
+>>>>>>> refs/remotes/origin/master
 
     /* Generate overlap window */
     ff_init_ff_sine_windows(7);
@@ -186,6 +194,7 @@ static av_cold int decode_end(AVCodecContext * avctx) {
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_nellymoser_decoder = {
     .p.name         = "nellymoser",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Nellymoser Asao"),
@@ -197,6 +206,19 @@ const FFCodec ff_nellymoser_decoder = {
     FF_CODEC_DECODE_CB(decode_tag),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_PARAM_CHANGE | AV_CODEC_CAP_CHANNEL_CONF,
     .p.sample_fmts  = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLT,
+=======
+const AVCodec ff_nellymoser_decoder = {
+    .name           = "nellymoser",
+    .long_name      = NULL_IF_CONFIG_SMALL("Nellymoser Asao"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_NELLYMOSER,
+    .priv_data_size = sizeof(NellyMoserDecodeContext),
+    .init           = decode_init,
+    .close          = decode_end,
+    .decode         = decode_tag,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_PARAM_CHANGE | AV_CODEC_CAP_CHANNEL_CONF,
+    .sample_fmts    = (const enum AVSampleFormat[]) { AV_SAMPLE_FMT_FLT,
+>>>>>>> refs/remotes/origin/master
                                                       AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

@@ -121,6 +121,7 @@ static int vcr1_decode_frame(AVCodecContext *avctx, AVFrame *p,
     return bytestream - avpkt->data;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_vcr1_decoder = {
     .p.name         = "vcr1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("ATI VCR1"),
@@ -130,5 +131,16 @@ const FFCodec ff_vcr1_decoder = {
     .init           = vcr1_decode_init,
     FF_CODEC_DECODE_CB(vcr1_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_vcr1_decoder = {
+    .name           = "vcr1",
+    .long_name      = NULL_IF_CONFIG_SMALL("ATI VCR1"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_VCR1,
+    .priv_data_size = sizeof(VCR1Context),
+    .init           = vcr1_decode_init,
+    .decode         = vcr1_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

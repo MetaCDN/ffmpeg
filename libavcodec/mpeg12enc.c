@@ -28,7 +28,10 @@
 #include <stdint.h>
 
 #include "config.h"
+<<<<<<< HEAD
 #include "config_components.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "libavutil/attributes.h"
 #include "libavutil/avassert.h"
 #include "libavutil/log.h"
@@ -68,9 +71,12 @@ static uint32_t mpeg1_chr_dc_uni[512];
 typedef struct MPEG12EncContext {
     MpegEncContext mpeg;
     AVRational frame_rate_ext;
+<<<<<<< HEAD
     unsigned frame_rate_index;
 
     int gop_picture_number;  ///< index of the first picture of a GOP based on fake_pic_num
+=======
+>>>>>>> refs/remotes/origin/master
 
     int64_t timecode_frame_start; ///< GOP timecode frame start number, in non drop frame format
     AVTimecode tc;           ///< timecode context
@@ -148,7 +154,11 @@ static int find_frame_rate_index(MPEG12EncContext *mpeg12)
                     || av_nearer_q(target, bestq, q) < 0
                     || ext.num==1 && ext.den==1 && av_nearer_q(target, bestq, q) == 0) {
                     bestq               = q;
+<<<<<<< HEAD
                     mpeg12->frame_rate_index   = i;
+=======
+                    s->frame_rate_index = i;
+>>>>>>> refs/remotes/origin/master
                     mpeg12->frame_rate_ext.num = ext.num;
                     mpeg12->frame_rate_ext.den = ext.den;
                 }
@@ -223,7 +233,11 @@ static av_cold int encode_init(AVCodecContext *avctx)
         return ret;
 
     if (find_frame_rate_index(mpeg12) < 0) {
+<<<<<<< HEAD
         if (avctx->strict_std_compliance > FF_COMPLIANCE_EXPERIMENTAL) {
+=======
+        if (s->strict_std_compliance > FF_COMPLIANCE_EXPERIMENTAL) {
+>>>>>>> refs/remotes/origin/master
             av_log(avctx, AV_LOG_ERROR, "MPEG-1/2 does not support %d/%d fps\n",
                    avctx->time_base.den, avctx->time_base.num);
             return AVERROR(EINVAL);
@@ -237,14 +251,22 @@ static av_cold int encode_init(AVCodecContext *avctx)
     mpeg12->drop_frame_timecode = mpeg12->drop_frame_timecode || !!(avctx->flags2 & AV_CODEC_FLAG2_DROP_FRAME_TIMECODE);
     if (mpeg12->drop_frame_timecode)
         mpeg12->tc.flags |= AV_TIMECODE_FLAG_DROPFRAME;
+<<<<<<< HEAD
     if (mpeg12->drop_frame_timecode && mpeg12->frame_rate_index != 4) {
+=======
+    if (mpeg12->drop_frame_timecode && s->frame_rate_index != 4) {
+>>>>>>> refs/remotes/origin/master
         av_log(avctx, AV_LOG_ERROR,
                "Drop frame time code only allowed with 1001/30000 fps\n");
         return AVERROR(EINVAL);
     }
 
     if (mpeg12->tc_opt_str) {
+<<<<<<< HEAD
         AVRational rate = ff_mpeg12_frame_rate_tab[mpeg12->frame_rate_index];
+=======
+        AVRational rate = ff_mpeg12_frame_rate_tab[s->frame_rate_index];
+>>>>>>> refs/remotes/origin/master
         int ret = av_timecode_init_from_string(&mpeg12->tc, rate, mpeg12->tc_opt_str, s);
         if (ret < 0)
             return ret;
@@ -343,6 +365,7 @@ static void mpeg1_encode_sequence_header(MpegEncContext *s)
     ff_write_quant_matrix(&s->pb, s->avctx->intra_matrix);
     ff_write_quant_matrix(&s->pb, s->avctx->inter_matrix);
 
+<<<<<<< HEAD
     if (s->codec_id == AV_CODEC_ID_MPEG2VIDEO) {
         const AVFrameSideData *side_data;
         int width = s->width;
@@ -398,6 +421,80 @@ static void mpeg1_encode_sequence_header(MpegEncContext *s)
             put_bits(&s->pb, 14, height);                   // display_vertical_size
             put_bits(&s->pb, 3, 0);                         // remaining 3 bits are zero padding
         }
+=======
+            put_header(s, EXT_START_CODE);
+            put_bits(&s->pb, 4, 1);                 // seq ext
+
+            put_bits(&s->pb, 1, s->avctx->profile == FF_PROFILE_MPEG2_422); // escx 1 for 4:2:2 profile
+
+            put_bits(&s->pb, 3, s->avctx->profile); // profile
+            put_bits(&s->pb, 4, s->avctx->level);   // level
+
+            put_bits(&s->pb, 1, s->progressive_sequence);
+            put_bits(&s->pb, 2, s->chroma_format);
+            put_bits(&s->pb, 2, s->width  >> 12);
+            put_bits(&s->pb, 2, s->height >> 12);
+            put_bits(&s->pb, 12, v >> 18);          // bitrate ext
+            put_bits(&s->pb, 1, 1);                 // marker
+            put_bits(&s->pb, 8, vbv_buffer_size >> 10); // vbv buffer ext
+            put_bits(&s->pb, 1, s->low_delay);
+            put_bits(&s->pb, 2, mpeg12->frame_rate_ext.num-1); // frame_rate_ext_n
+            put_bits(&s->pb, 5, mpeg12->frame_rate_ext.den-1); // frame_rate_ext_d
+
+            side_data = av_frame_get_side_data(s->current_picture_ptr->f, AV_FRAME_DATA_PANSCAN);
+            if (side_data) {
+                AVPanScan *pan_scan = (AVPanScan *)side_data->data;
+                if (pan_scan->width && pan_scan->height) {
+                    width = pan_scan->width >> 4;
+                    height = pan_scan->height >> 4;
+                }
+            }
+
+            use_seq_disp_ext = (width != s->width ||
+                                height != s->height ||
+                                s->avctx->color_primaries != AVCOL_PRI_UNSPECIFIED ||
+                                s->avctx->color_trc != AVCOL_TRC_UNSPECIFIED ||
+                                s->avctx->colorspace != AVCOL_SPC_UNSPECIFIED ||
+                                mpeg12->video_format != VIDEO_FORMAT_UNSPECIFIED);
+
+            if (mpeg12->seq_disp_ext == 1 ||
+                (mpeg12->seq_disp_ext == -1 && use_seq_disp_ext)) {
+                put_header(s, EXT_START_CODE);
+                put_bits(&s->pb, 4, 2);                         // sequence display extension
+                put_bits(&s->pb, 3, mpeg12->video_format);      // video_format
+                put_bits(&s->pb, 1, 1);                         // colour_description
+                put_bits(&s->pb, 8, s->avctx->color_primaries); // colour_primaries
+                put_bits(&s->pb, 8, s->avctx->color_trc);       // transfer_characteristics
+                put_bits(&s->pb, 8, s->avctx->colorspace);      // matrix_coefficients
+                put_bits(&s->pb, 14, width);                    // display_horizontal_size
+                put_bits(&s->pb, 1, 1);                         // marker_bit
+                put_bits(&s->pb, 14, height);                   // display_vertical_size
+                put_bits(&s->pb, 3, 0);                         // remaining 3 bits are zero padding
+            }
+        }
+
+        put_header(s, GOP_START_CODE);
+        put_bits(&s->pb, 1, mpeg12->drop_frame_timecode);    // drop frame flag
+        /* time code: we must convert from the real frame rate to a
+         * fake MPEG frame rate in case of low frame rate */
+        fps       = (framerate.num + framerate.den / 2) / framerate.den;
+        time_code = s->current_picture_ptr->f->coded_picture_number +
+                    mpeg12->timecode_frame_start;
+
+        s->gop_picture_number = s->current_picture_ptr->f->coded_picture_number;
+
+        av_assert0(mpeg12->drop_frame_timecode == !!(mpeg12->tc.flags & AV_TIMECODE_FLAG_DROPFRAME));
+        if (mpeg12->drop_frame_timecode)
+            time_code = av_timecode_adjust_ntsc_framenum2(time_code, fps);
+
+        put_bits(&s->pb, 5, (uint32_t)((time_code / (fps * 3600)) % 24));
+        put_bits(&s->pb, 6, (uint32_t)((time_code / (fps *   60)) % 60));
+        put_bits(&s->pb, 1, 1);
+        put_bits(&s->pb, 6, (uint32_t)((time_code / fps) % 60));
+        put_bits(&s->pb, 6, (uint32_t)((time_code % fps)));
+        put_bits(&s->pb, 1, !!(s->avctx->flags & AV_CODEC_FLAG_CLOSED_GOP) || s->intra_only || !s->gop_picture_number);
+        put_bits(&s->pb, 1, 0);                     // broken link
+>>>>>>> refs/remotes/origin/master
     }
 
     put_header(s, GOP_START_CODE);
@@ -468,7 +565,11 @@ void ff_mpeg1_encode_picture_header(MpegEncContext *s, int picture_number)
              (s->picture_number - mpeg12->gop_picture_number) & 0x3ff);
     put_bits(&s->pb, 3, s->pict_type);
 
+<<<<<<< HEAD
     s->vbv_delay_pos = put_bytes_count(&s->pb, 0);
+=======
+    s->vbv_delay_ptr = s->pb.buf + put_bytes_count(&s->pb, 0);
+>>>>>>> refs/remotes/origin/master
     put_bits(&s->pb, 16, 0xFFFF);               /* vbv_delay */
 
     // RAL: Forward f_code also needed for B-frames
@@ -1225,11 +1326,19 @@ static const AVClass mpeg ## x ## _class = {            \
 mpeg12_class(1)
 mpeg12_class(2)
 
+<<<<<<< HEAD
 const FFCodec ff_mpeg1video_encoder = {
     .p.name               = "mpeg1video",
     .p.long_name          = NULL_IF_CONFIG_SMALL("MPEG-1 video"),
     .p.type               = AVMEDIA_TYPE_VIDEO,
     .p.id                 = AV_CODEC_ID_MPEG1VIDEO,
+=======
+const AVCodec ff_mpeg1video_encoder = {
+    .name                 = "mpeg1video",
+    .long_name            = NULL_IF_CONFIG_SMALL("MPEG-1 video"),
+    .type                 = AVMEDIA_TYPE_VIDEO,
+    .id                   = AV_CODEC_ID_MPEG1VIDEO,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size       = sizeof(MPEG12EncContext),
     .init                 = encode_init,
     FF_CODEC_ENCODE_CB(ff_mpv_encode_picture),
@@ -1237,6 +1346,7 @@ const FFCodec ff_mpeg1video_encoder = {
     .p.supported_framerates = ff_mpeg12_frame_rate_tab + 1,
     .p.pix_fmts           = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                            AV_PIX_FMT_NONE },
+<<<<<<< HEAD
     .p.capabilities       = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_SLICE_THREADS,
     .caps_internal        = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.priv_class         = &mpeg1_class,
@@ -1247,6 +1357,18 @@ const FFCodec ff_mpeg2video_encoder = {
     .p.long_name          = NULL_IF_CONFIG_SMALL("MPEG-2 video"),
     .p.type               = AVMEDIA_TYPE_VIDEO,
     .p.id                 = AV_CODEC_ID_MPEG2VIDEO,
+=======
+    .capabilities         = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_SLICE_THREADS,
+    .caps_internal        = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .priv_class           = &mpeg1_class,
+};
+
+const AVCodec ff_mpeg2video_encoder = {
+    .name                 = "mpeg2video",
+    .long_name            = NULL_IF_CONFIG_SMALL("MPEG-2 video"),
+    .type                 = AVMEDIA_TYPE_VIDEO,
+    .id                   = AV_CODEC_ID_MPEG2VIDEO,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size       = sizeof(MPEG12EncContext),
     .init                 = encode_init,
     FF_CODEC_ENCODE_CB(ff_mpv_encode_picture),
@@ -1255,8 +1377,14 @@ const FFCodec ff_mpeg2video_encoder = {
     .p.pix_fmts           = (const enum AVPixelFormat[]) { AV_PIX_FMT_YUV420P,
                                                            AV_PIX_FMT_YUV422P,
                                                            AV_PIX_FMT_NONE },
+<<<<<<< HEAD
     .p.capabilities       = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_SLICE_THREADS,
     .caps_internal        = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
     .p.priv_class         = &mpeg2_class,
+=======
+    .capabilities         = AV_CODEC_CAP_DELAY | AV_CODEC_CAP_SLICE_THREADS,
+    .caps_internal        = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .priv_class           = &mpeg2_class,
+>>>>>>> refs/remotes/origin/master
 };
 #endif /* CONFIG_MPEG1VIDEO_ENCODER || CONFIG_MPEG2VIDEO_ENCODER */

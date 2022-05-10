@@ -28,7 +28,10 @@
 #include "avcodec.h"
 #include "decode.h"
 #include "internal.h"
+<<<<<<< HEAD
 #include "mpegvideodec.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "vc1.h"
 #include "vdpau.h"
 #include "vdpau_internal.h"

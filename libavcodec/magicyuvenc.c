@@ -28,7 +28,10 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "put_bits.h"
 #include "thread.h"
@@ -189,12 +192,15 @@ static av_cold int magy_encode_init(AVCodecContext *avctx)
         avctx->codec_tag = MKTAG('M', '8', 'G', '0');
         s->format = 0x6b;
         break;
+<<<<<<< HEAD
     }
     if (s->correlate) {
         s->decorrelate_buf[0] = av_calloc(2U * avctx->height, FFALIGN(avctx->width, 16));
         if (!s->decorrelate_buf[0])
             return AVERROR(ENOMEM);
         s->decorrelate_buf[1] = s->decorrelate_buf[0] + avctx->height * FFALIGN(avctx->width, 16);
+=======
+>>>>>>> refs/remotes/origin/master
     }
 
     ff_llvidencdsp_init(&s->llvidencdsp);
@@ -563,11 +569,19 @@ static const AVClass magicyuv_class = {
     .version    = LIBAVUTIL_VERSION_INT,
 };
 
+<<<<<<< HEAD
 const FFCodec ff_magicyuv_encoder = {
     .p.name           = "magicyuv",
     .p.long_name      = NULL_IF_CONFIG_SMALL("MagicYUV video"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_MAGICYUV,
+=======
+const AVCodec ff_magicyuv_encoder = {
+    .name             = "magicyuv",
+    .long_name        = NULL_IF_CONFIG_SMALL("MagicYUV video"),
+    .type             = AVMEDIA_TYPE_VIDEO,
+    .id               = AV_CODEC_ID_MAGICYUV,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size   = sizeof(MagicYUVContext),
     .p.priv_class     = &magicyuv_class,
     .init             = magy_encode_init,

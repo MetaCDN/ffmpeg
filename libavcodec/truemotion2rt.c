@@ -219,11 +219,19 @@ static av_cold int truemotion2rt_decode_init(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_truemotion2rt_decoder = {
     .p.name         = "truemotion2rt",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Duck TrueMotion 2.0 Real Time"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_TRUEMOTION2RT,
+=======
+const AVCodec ff_truemotion2rt_decoder = {
+    .name           = "truemotion2rt",
+    .long_name      = NULL_IF_CONFIG_SMALL("Duck TrueMotion 2.0 Real Time"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_TRUEMOTION2RT,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(TrueMotion2RTContext),
     .init           = truemotion2rt_decode_init,
     FF_CODEC_DECODE_CB(truemotion2rt_decode_frame),

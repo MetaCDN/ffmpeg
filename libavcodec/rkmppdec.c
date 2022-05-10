@@ -561,11 +561,19 @@ static const AVCodecHWConfigInternal *const rkmpp_hw_configs[] = {
 
 #define RKMPP_DEC(NAME, ID, BSFS) \
     RKMPP_DEC_CLASS(NAME) \
+<<<<<<< HEAD
     const FFCodec ff_##NAME##_rkmpp_decoder = { \
         .p.name         = #NAME "_rkmpp", \
         .p.long_name    = NULL_IF_CONFIG_SMALL(#NAME " (rkmpp)"), \
         .p.type         = AVMEDIA_TYPE_VIDEO, \
         .p.id           = ID, \
+=======
+    const AVCodec ff_##NAME##_rkmpp_decoder = { \
+        .name           = #NAME "_rkmpp", \
+        .long_name      = NULL_IF_CONFIG_SMALL(#NAME " (rkmpp)"), \
+        .type           = AVMEDIA_TYPE_VIDEO, \
+        .id             = ID, \
+>>>>>>> refs/remotes/origin/master
         .priv_data_size = sizeof(RKMPPDecodeContext), \
         .init           = rkmpp_init_decoder, \
         .close          = rkmpp_close_decoder, \

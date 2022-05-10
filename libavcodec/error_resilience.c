@@ -34,7 +34,11 @@
 #include "mpegutils.h"
 #include "mpegvideo.h"
 #include "rectangle.h"
+<<<<<<< HEAD
 #include "threadframe.h"
+=======
+#include "thread.h"
+>>>>>>> refs/remotes/origin/master
 
 /**
  * @param stride the number of MVs to get to the next row

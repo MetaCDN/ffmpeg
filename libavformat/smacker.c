@@ -196,7 +196,11 @@ static int smacker_read_header(AVFormatContext *s)
                 par->codec_id = AV_CODEC_ID_PCM_S16LE;
             else
                 smk->duration_size[i] = 4;
+<<<<<<< HEAD
             avpriv_set_pts_info(ast, 64, 1, par->sample_rate * par->ch_layout.nb_channels
+=======
+            avpriv_set_pts_info(ast, 64, 1, par->sample_rate * par->channels
+>>>>>>> refs/remotes/origin/master
                                             * par->bits_per_coded_sample / 8);
         }
     }
@@ -368,6 +372,7 @@ next_frame:
 static int smacker_read_seek(AVFormatContext *s, int stream_index,
                              int64_t timestamp, int flags)
 {
+<<<<<<< HEAD
     AVStream *st = s->streams[stream_index];
     SmackerContext *smk = s->priv_data;
     int64_t pos;
@@ -390,6 +395,22 @@ static int smacker_read_seek(AVFormatContext *s, int stream_index,
         return pos;
 
     smk->cur_frame = ret;
+=======
+    SmackerContext *smk = s->priv_data;
+    int64_t ret;
+
+    /* only rewinding to start is supported */
+    if (timestamp != 0) {
+        av_log(s, AV_LOG_ERROR,
+               "Random seeks are not supported (can only seek to start).\n");
+        return AVERROR(EINVAL);
+    }
+
+    if ((ret = avio_seek(s->pb, ffformatcontext(s)->data_offset, SEEK_SET)) < 0)
+        return ret;
+
+    smk->cur_frame = 0;
+>>>>>>> refs/remotes/origin/master
     smk->next_audio_index = 0;
     smk->new_palette = 0;
     memset(smk->pal, 0, sizeof(smk->pal));

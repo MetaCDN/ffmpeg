@@ -313,7 +313,10 @@ const AVFilter ff_avf_abitscope = {
     FILTER_INPUTS(inputs),
     FILTER_OUTPUTS(outputs),
     FILTER_QUERY_FUNC(query_formats),
+<<<<<<< HEAD
     .uninit        = uninit,
+=======
+>>>>>>> refs/remotes/origin/master
     .activate      = activate,
     .priv_class    = &abitscope_class,
 };

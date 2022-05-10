@@ -38,7 +38,10 @@
 #include <stdlib.h>
 
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "decode.h"
 #include "internal.h"
 #include "msrledec.h"
@@ -59,7 +62,12 @@ typedef struct TsccContext {
     unsigned char* decomp_buf;
     GetByteContext gb;
     int height;
+<<<<<<< HEAD
     FFZStream zstream;
+=======
+    int zlib_init_ok;
+    z_stream zstream;
+>>>>>>> refs/remotes/origin/master
 
     uint32_t pal[256];
 } CamtasiaContext;
@@ -152,6 +160,19 @@ static av_cold int decode_init(AVCodecContext *avctx)
         }
     }
 
+<<<<<<< HEAD
+=======
+    c->zstream.zalloc = Z_NULL;
+    c->zstream.zfree = Z_NULL;
+    c->zstream.opaque = Z_NULL;
+    zret = inflateInit(&c->zstream);
+    if (zret != Z_OK) {
+        av_log(avctx, AV_LOG_ERROR, "Inflate init error: %d\n", zret);
+        return AVERROR_UNKNOWN;
+    }
+    c->zlib_init_ok = 1;
+
+>>>>>>> refs/remotes/origin/master
     c->frame = av_frame_alloc();
     if (!c->frame)
         return AVERROR(ENOMEM);
@@ -165,11 +186,18 @@ static av_cold int decode_end(AVCodecContext *avctx)
 
     av_freep(&c->decomp_buf);
     av_frame_free(&c->frame);
+<<<<<<< HEAD
     ff_inflate_end(&c->zstream);
+=======
+
+    if (c->zlib_init_ok)
+        inflateEnd(&c->zstream);
+>>>>>>> refs/remotes/origin/master
 
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_tscc_decoder = {
     .p.name         = "camtasia",
     .p.long_name    = NULL_IF_CONFIG_SMALL("TechSmith Screen Capture Codec"),
@@ -180,5 +208,17 @@ const FFCodec ff_tscc_decoder = {
     .close          = decode_end,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_tscc_decoder = {
+    .name           = "camtasia",
+    .long_name      = NULL_IF_CONFIG_SMALL("TechSmith Screen Capture Codec"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_TSCC,
+    .priv_data_size = sizeof(CamtasiaContext),
+    .init           = decode_init,
+    .close          = decode_end,
+    .decode         = decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

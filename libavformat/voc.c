@@ -20,7 +20,10 @@
  */
 
 #include "config.h"
+<<<<<<< HEAD
 #include "config_components.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "voc.h"
 #include "internal.h"
 

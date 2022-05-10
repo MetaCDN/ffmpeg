@@ -18,7 +18,10 @@
 
 #include <stdatomic.h>
 #include "cpu.h"
+<<<<<<< HEAD
 #include "internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "slicethread.h"
 #include "mem.h"
 #include "thread.h"

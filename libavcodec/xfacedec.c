@@ -175,6 +175,7 @@ static int xface_decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return avpkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_xface_decoder = {
     .p.name         = "xface",
     .p.long_name    = NULL_IF_CONFIG_SMALL("X-face image"),
@@ -185,5 +186,16 @@ const FFCodec ff_xface_decoder = {
     .init           = xface_decode_init,
     FF_CODEC_DECODE_CB(xface_decode_frame),
     .p.pix_fmts     = (const enum AVPixelFormat[]) { AV_PIX_FMT_MONOWHITE, AV_PIX_FMT_NONE },
+=======
+const AVCodec ff_xface_decoder = {
+    .name           = "xface",
+    .long_name      = NULL_IF_CONFIG_SMALL("X-face image"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_XFACE,
+    .priv_data_size = sizeof(XFaceContext),
+    .init           = xface_decode_init,
+    .decode         = xface_decode_frame,
+    .pix_fmts       = (const enum AVPixelFormat[]) { AV_PIX_FMT_MONOWHITE, AV_PIX_FMT_NONE },
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

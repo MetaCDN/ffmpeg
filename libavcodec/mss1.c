@@ -219,6 +219,7 @@ static av_cold int mss1_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_mss1_decoder = {
     .p.name         = "mss1",
     .p.long_name    = NULL_IF_CONFIG_SMALL("MS Screen 1"),
@@ -229,5 +230,17 @@ const FFCodec ff_mss1_decoder = {
     .close          = mss1_decode_end,
     FF_CODEC_DECODE_CB(mss1_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+const AVCodec ff_mss1_decoder = {
+    .name           = "mss1",
+    .long_name      = NULL_IF_CONFIG_SMALL("MS Screen 1"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_MSS1,
+    .priv_data_size = sizeof(MSS1Context),
+    .init           = mss1_decode_init,
+    .close          = mss1_decode_end,
+    .decode         = mss1_decode_frame,
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

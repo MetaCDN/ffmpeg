@@ -42,7 +42,10 @@
 
 #include "audio_frame_queue.h"
 #include "avcodec.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
+=======
+>>>>>>> refs/remotes/origin/master
 #include "encode.h"
 #include "fft.h"
 #include "nellymoser.h"
@@ -170,6 +173,14 @@ static av_cold int encode_init(AVCodecContext *avctx)
     static AVOnce init_static_once = AV_ONCE_INIT;
     NellyMoserEncodeContext *s = avctx->priv_data;
     int ret;
+<<<<<<< HEAD
+=======
+
+    if (avctx->channels != 1) {
+        av_log(avctx, AV_LOG_ERROR, "Nellymoser supports only 1 channel\n");
+        return AVERROR(EINVAL);
+    }
+>>>>>>> refs/remotes/origin/master
 
     if (avctx->sample_rate != 8000 && avctx->sample_rate != 16000 &&
         avctx->sample_rate != 11025 &&
@@ -413,19 +424,33 @@ static int encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_nellymoser_encoder = {
     .p.name         = "nellymoser",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Nellymoser Asao"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_NELLYMOSER,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+=======
+const AVCodec ff_nellymoser_encoder = {
+    .name           = "nellymoser",
+    .long_name      = NULL_IF_CONFIG_SMALL("Nellymoser Asao"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_NELLYMOSER,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY |
+>>>>>>> refs/remotes/origin/master
                       AV_CODEC_CAP_SMALL_LAST_FRAME,
     .priv_data_size = sizeof(NellyMoserEncodeContext),
     .init           = encode_init,
     FF_CODEC_ENCODE_CB(encode_frame),
     .close          = encode_end,
+<<<<<<< HEAD
     .p.sample_fmts  = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLT,
                                                      AV_SAMPLE_FMT_NONE },
     .p.ch_layouts   = (const AVChannelLayout[]){ AV_CHANNEL_LAYOUT_MONO, { 0 } },
+=======
+    .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_FLT,
+                                                     AV_SAMPLE_FMT_NONE },
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

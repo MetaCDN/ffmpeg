@@ -135,11 +135,14 @@ typedef struct ZScaleContext {
     enum AVChromaLocation in_chromal, out_chromal;
 } ZScaleContext;
 
+<<<<<<< HEAD
 typedef struct ThreadData {
     const AVPixFmtDescriptor *desc, *odesc;
     AVFrame *in, *out;
 } ThreadData;
 
+=======
+>>>>>>> refs/remotes/origin/master
 static av_cold int init(AVFilterContext *ctx)
 {
     ZScaleContext *s = ctx->priv;
@@ -498,6 +501,7 @@ static enum AVColorRange convert_range_from_zimg(enum zimg_pixel_range_e color_r
     return AVCOL_RANGE_UNSPECIFIED;
 }
 
+<<<<<<< HEAD
 /* returns 0 if image formats are the same and 1 otherwise */
 static int compare_zimg_image_formats(zimg_image_format *img_fmt0, zimg_image_format *img_fmt1)
 {
@@ -543,6 +547,8 @@ static int compare_zimg_graph_builder_params(zimg_graph_builder_params *parm0, z
     return ret;
 }
 
+=======
+>>>>>>> refs/remotes/origin/master
 static void format_init(zimg_image_format *format, AVFrame *frame, const AVPixFmtDescriptor *desc,
                         int colorspace, int primaries, int transfer, int range, int location)
 {
@@ -685,6 +691,7 @@ static void update_output_color_information(ZScaleContext *s, AVFrame *frame)
         frame->chroma_location = (int)s->dst_format.chroma_location + 1;
 }
 
+<<<<<<< HEAD
 static int filter_slice(AVFilterContext *ctx, void *data, int job_nr, int n_jobs)
 {
     ThreadData *td = data;
@@ -749,6 +756,8 @@ static int filter_slice(AVFilterContext *ctx, void *data, int job_nr, int n_jobs
     return 0;
 }
 
+=======
+>>>>>>> refs/remotes/origin/master
 static int filter_frame(AVFilterLink *link, AVFrame *in)
 {
     AVFilterContext *ctx = link->dst;
@@ -828,6 +837,30 @@ static int filter_frame(AVFilterLink *link, AVFrame *in)
         s->params.allow_approximate_gamma = s->approximate_gamma;
         s->params.filter_param_a = s->params.filter_param_a_uv = s->param_a;
         s->params.filter_param_b = s->params.filter_param_b_uv = s->param_b;
+<<<<<<< HEAD
+=======
+
+        format_init(&s->src_format, in, desc, s->colorspace_in,
+                    s->primaries_in, s->trc_in, s->range_in, s->chromal_in);
+        format_init(&s->dst_format, out, odesc, s->colorspace,
+                    s->primaries, s->trc, s->range, s->chromal);
+
+        update_output_color_information(s, out);
+
+        ret = graph_build(&s->graph, &s->params, &s->src_format, &s->dst_format,
+                          &s->tmp, &s->tmp_size);
+        if (ret < 0)
+            goto fail;
+
+        s->in_colorspace  = in->colorspace;
+        s->in_trc         = in->color_trc;
+        s->in_primaries   = in->color_primaries;
+        s->in_range       = in->color_range;
+        s->out_colorspace = out->colorspace;
+        s->out_trc        = out->color_trc;
+        s->out_primaries  = out->color_primaries;
+        s->out_range      = out->color_range;
+>>>>>>> refs/remotes/origin/master
 
         if (desc->flags & AV_PIX_FMT_FLAG_ALPHA && odesc->flags & AV_PIX_FMT_FLAG_ALPHA) {
             zimg_image_format_default(&s->alpha_src_format, ZIMG_API_VERSION);
@@ -849,6 +882,7 @@ static int filter_frame(AVFilterLink *link, AVFrame *in)
             s->alpha_dst_format.color_family = ZIMG_COLOR_GREY;
         }
 
+<<<<<<< HEAD
         update_output_color_information(s, out);
         av_reduce(&out->sample_aspect_ratio.num, &out->sample_aspect_ratio.den,
                   (int64_t)in->sample_aspect_ratio.num * outlink->h * link->w,
@@ -870,6 +904,41 @@ static int filter_frame(AVFilterLink *link, AVFrame *in)
             av_frame_free(&out);
             return ret;
         }
+=======
+    update_output_color_information(s, out);
+
+    av_reduce(&out->sample_aspect_ratio.num, &out->sample_aspect_ratio.den,
+              (int64_t)in->sample_aspect_ratio.num * outlink->h * link->w,
+              (int64_t)in->sample_aspect_ratio.den * outlink->w * link->h,
+              INT_MAX);
+
+    for (plane = 0; plane < 3; plane++) {
+        int p = desc->comp[plane].plane;
+        src_buf.plane[plane].data   = in->data[p];
+        src_buf.plane[plane].stride = in->linesize[p];
+        src_buf.plane[plane].mask   = -1;
+
+        p = odesc->comp[plane].plane;
+        dst_buf.plane[plane].data   = out->data[p];
+        dst_buf.plane[plane].stride = out->linesize[p];
+        dst_buf.plane[plane].mask   = -1;
+    }
+
+    ret = zimg_filter_graph_process(s->graph, &src_buf, &dst_buf, s->tmp, 0, 0, 0, 0);
+    if (ret) {
+        ret = print_zimg_error(link->dst);
+        goto fail;
+    }
+
+    if (desc->flags & AV_PIX_FMT_FLAG_ALPHA && odesc->flags & AV_PIX_FMT_FLAG_ALPHA) {
+        src_buf.plane[0].data   = in->data[3];
+        src_buf.plane[0].stride = in->linesize[3];
+        src_buf.plane[0].mask   = -1;
+
+        dst_buf.plane[0].data   = out->data[3];
+        dst_buf.plane[0].stride = out->linesize[3];
+        dst_buf.plane[0].mask   = -1;
+>>>>>>> refs/remotes/origin/master
 
         s->src_format_tmp = s->src_format;
         s->dst_format_tmp = s->dst_format;

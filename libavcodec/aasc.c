@@ -149,11 +149,19 @@ static av_cold int aasc_decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_aasc_decoder = {
     .p.name         = "aasc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Autodesk RLE"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_AASC,
+=======
+const AVCodec ff_aasc_decoder = {
+    .name           = "aasc",
+    .long_name      = NULL_IF_CONFIG_SMALL("Autodesk RLE"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_AASC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AascContext),
     .init           = aasc_decode_init,
     .close          = aasc_decode_end,

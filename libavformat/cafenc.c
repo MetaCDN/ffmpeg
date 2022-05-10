@@ -247,7 +247,11 @@ static int caf_write_trailer(AVFormatContext *s)
         avio_seek(pb, caf->data, SEEK_SET);
         avio_wb64(pb, file_size - caf->data - 8);
         if (!par->block_align) {
+<<<<<<< HEAD
             int packet_size = samples_per_packet(par->codec_id, par->ch_layout.nb_channels, par->block_align);
+=======
+            int packet_size = samples_per_packet(par->codec_id, par->channels, par->block_align);
+>>>>>>> refs/remotes/origin/master
             if (!packet_size) {
                 packet_size = st->duration / (caf->packets - 1);
                 avio_seek(pb, FRAME_SIZE_OFFSET, SEEK_SET);

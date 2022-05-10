@@ -172,10 +172,13 @@ int LLVMFuzzerTestOneInput(const uint8_t *data, size_t size) {
         avfmt->interrupt_callback.callback = interrupt_cb;
     }
 
+<<<<<<< HEAD
     // HLS uses a loop with sleep, we thus must breakout or we timeout
     if (fmt && !strcmp(fmt->name, "hls"))
         interrupt_counter &= 31;
 
+=======
+>>>>>>> refs/remotes/origin/master
     if (!io_buffer_size || size / io_buffer_size > maxblocks)
         io_buffer_size = size;
 

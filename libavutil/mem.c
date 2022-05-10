@@ -37,8 +37,13 @@
 #include <malloc.h>
 #endif
 
+<<<<<<< HEAD
 #include "attributes.h"
 #include "avassert.h"
+=======
+#include "avutil.h"
+#include "common.h"
+>>>>>>> refs/remotes/origin/master
 #include "dynarray.h"
 #include "error.h"
 #include "internal.h"
@@ -160,11 +165,19 @@ void *av_realloc(void *ptr, size_t size)
     ret = _aligned_realloc(ptr, size + !size, ALIGN);
 #else
     ret = realloc(ptr, size + !size);
+<<<<<<< HEAD
 #endif
 #if CONFIG_MEMORY_POISONING
     if (ret && !ptr)
         memset(ret, FF_MEMORY_POISON, size);
 #endif
+=======
+#endif
+#if CONFIG_MEMORY_POISONING
+    if (ret && !ptr)
+        memset(ret, FF_MEMORY_POISON, size);
+#endif
+>>>>>>> refs/remotes/origin/master
     return ret;
 }
 

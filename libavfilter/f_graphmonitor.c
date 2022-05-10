@@ -74,10 +74,13 @@ enum {
     MODE_EOF   = 1 << 9,
     MODE_SCIN  = 1 << 10,
     MODE_SCOUT = 1 << 11,
+<<<<<<< HEAD
     MODE_PTS_DELTA = 1 << 12,
     MODE_TIME_DELTA = 1 << 13,
     MODE_FC_DELTA = 1 << 14,
     MODE_SC_DELTA = 1 << 15,
+=======
+>>>>>>> refs/remotes/origin/master
 };
 
 #define OFFSET(x) offsetof(GraphMonitorContext, x)
@@ -109,7 +112,10 @@ static const AVOption graphmonitor_options[] = {
         { "eof",              NULL, 0, AV_OPT_TYPE_CONST, {.i64=MODE_EOF},     0, 0, VF, "flags" },
         { "sample_count_in",  NULL, 0, AV_OPT_TYPE_CONST, {.i64=MODE_SCOUT},   0, 0, VF, "flags" },
         { "sample_count_out", NULL, 0, AV_OPT_TYPE_CONST, {.i64=MODE_SCIN},    0, 0, VF, "flags" },
+<<<<<<< HEAD
         { "sample_count_delta",NULL,0, AV_OPT_TYPE_CONST, {.i64=MODE_SC_DELTA},0, 0, VF, "flags" },
+=======
+>>>>>>> refs/remotes/origin/master
     { "rate", "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {.str = "25"}, 0, INT_MAX, VF },
     { "r",    "set video rate", OFFSET(frame_rate), AV_OPT_TYPE_VIDEO_RATE, {.str = "25"}, 0, INT_MAX, VF },
     { NULL }
@@ -265,11 +271,14 @@ static int draw_items(AVFilterContext *ctx, AVFrame *out,
         drawtext(out, xpos, ypos, buffer, s->white);
         xpos += strlen(buffer) * 8;
     }
+<<<<<<< HEAD
     if (s->flags & MODE_FC_DELTA) {
         snprintf(buffer, sizeof(buffer)-1, " | delta: %"PRId64, l->frame_count_in - l->frame_count_out);
         drawtext(out, xpos, ypos, buffer, s->white);
         xpos += strlen(buffer) * 8;
     }
+=======
+>>>>>>> refs/remotes/origin/master
     if (s->flags & MODE_SCIN) {
         snprintf(buffer, sizeof(buffer)-1, " | sin: %"PRId64, l->sample_count_in);
         drawtext(out, xpos, ypos, buffer, s->white);
@@ -280,11 +289,14 @@ static int draw_items(AVFilterContext *ctx, AVFrame *out,
         drawtext(out, xpos, ypos, buffer, s->white);
         xpos += strlen(buffer) * 8;
     }
+<<<<<<< HEAD
     if (s->flags & MODE_SC_DELTA) {
         snprintf(buffer, sizeof(buffer)-1, " | sdelta: %"PRId64, l->sample_count_in - l->sample_count_out);
         drawtext(out, xpos, ypos, buffer, s->white);
         xpos += strlen(buffer) * 8;
     }
+=======
+>>>>>>> refs/remotes/origin/master
     if (s->flags & MODE_PTS) {
         snprintf(buffer, sizeof(buffer)-1, " | pts: %s", av_ts2str(current_pts_us));
         drawtext(out, xpos, ypos, buffer, s->white);
@@ -300,16 +312,20 @@ static int draw_items(AVFilterContext *ctx, AVFrame *out,
         drawtext(out, xpos, ypos, buffer, s->white);
         xpos += strlen(buffer) * 8;
     }
+<<<<<<< HEAD
     if (s->flags & MODE_TIME_DELTA) {
         snprintf(buffer, sizeof(buffer)-1, " | time_delta: %s", av_ts2timestr(current_pts_us - previous_pts_us, &AV_TIME_BASE_Q));
         drawtext(out, xpos, ypos, buffer, s->white);
         xpos += strlen(buffer) * 8;
     }
+=======
+>>>>>>> refs/remotes/origin/master
     if (s->flags & MODE_EOF && ff_outlink_get_status(l)) {
         snprintf(buffer, sizeof(buffer)-1, " | eof");
         drawtext(out, xpos, ypos, buffer, s->blue);
         xpos += strlen(buffer) * 8;
     }
+<<<<<<< HEAD
 
     s->cache[s->cache_index].previous_pts_us = l->current_pts_us;
 
@@ -323,6 +339,8 @@ static int draw_items(AVFilterContext *ctx, AVFrame *out,
     s->cache_index++;
 
     return 0;
+=======
+>>>>>>> refs/remotes/origin/master
 }
 
 static int create_frame(AVFilterContext *ctx, int64_t pts)
@@ -460,6 +478,7 @@ static int config_output(AVFilterLink *outlink)
     return 0;
 }
 
+<<<<<<< HEAD
 static av_cold void uninit(AVFilterContext *ctx)
 {
     GraphMonitorContext *s = ctx->priv;
@@ -468,6 +487,8 @@ static av_cold void uninit(AVFilterContext *ctx)
     s->cache_size = s->cache_index = 0;
 }
 
+=======
+>>>>>>> refs/remotes/origin/master
 AVFILTER_DEFINE_CLASS_EXT(graphmonitor, "(a)graphmonitor", graphmonitor_options);
 
 #if CONFIG_GRAPHMONITOR_FILTER
@@ -492,8 +513,11 @@ const AVFilter ff_vf_graphmonitor = {
     .description   = NULL_IF_CONFIG_SMALL("Show various filtergraph stats."),
     .priv_size     = sizeof(GraphMonitorContext),
     .priv_class    = &graphmonitor_class,
+<<<<<<< HEAD
     .init          = init,
     .uninit        = uninit,
+=======
+>>>>>>> refs/remotes/origin/master
     .activate      = activate,
     FILTER_INPUTS(graphmonitor_inputs),
     FILTER_OUTPUTS(graphmonitor_outputs),
@@ -524,8 +548,11 @@ const AVFilter ff_avf_agraphmonitor = {
     .description   = NULL_IF_CONFIG_SMALL("Show various filtergraph stats."),
     .priv_class    = &graphmonitor_class,
     .priv_size     = sizeof(GraphMonitorContext),
+<<<<<<< HEAD
     .init          = init,
     .uninit        = uninit,
+=======
+>>>>>>> refs/remotes/origin/master
     .activate      = activate,
     FILTER_INPUTS(agraphmonitor_inputs),
     FILTER_OUTPUTS(agraphmonitor_outputs),

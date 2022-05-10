@@ -33,7 +33,10 @@
 #include "mjpegenc.h"
 #include "mjpegenc_common.h"
 #include "mjpeg.h"
+<<<<<<< HEAD
 #include "version.h"
+=======
+>>>>>>> refs/remotes/origin/master
 
 /* table_class: 0 = DC coef, 1 = AC coefs */
 static int put_huffman_table(PutBitContext *p, int table_class, int table_id,
@@ -276,7 +279,11 @@ void ff_mjpeg_init_hvsample(AVCodecContext *avctx, int hsample[4], int vsample[4
 }
 
 void ff_mjpeg_encode_picture_header(AVCodecContext *avctx, PutBitContext *pb,
+<<<<<<< HEAD
                                     const AVFrame *frame, struct MJpegContext *m,
+=======
+                                    MJpegContext *m,
+>>>>>>> refs/remotes/origin/master
                                     ScanTable *intra_scantable, int pred,
                                     uint16_t luma_intra_matrix[64],
                                     uint16_t chroma_intra_matrix[64],
@@ -300,8 +307,12 @@ void ff_mjpeg_encode_picture_header(AVCodecContext *avctx, PutBitContext *pb,
     jpeg_put_comments(avctx, pb, frame);
 
     jpeg_table_header(avctx, pb, m, intra_scantable,
+<<<<<<< HEAD
                       luma_intra_matrix, chroma_intra_matrix, hsample,
                       use_slices);
+=======
+                      luma_intra_matrix, chroma_intra_matrix, hsample);
+>>>>>>> refs/remotes/origin/master
 
     switch (avctx->codec_id) {
     case AV_CODEC_ID_MJPEG:  put_marker(pb, SOF0 ); break;

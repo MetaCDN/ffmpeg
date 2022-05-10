@@ -23,8 +23,13 @@
 
 #include "avcodec.h"
 #include "bytestream.h"
+<<<<<<< HEAD
 #include "codec_internal.h"
 #include "encode.h"
+=======
+#include "encode.h"
+#include "internal.h"
+>>>>>>> refs/remotes/origin/master
 #include "mathops.h"
 
 #define ROQ_FRAME_SIZE           735
@@ -54,7 +59,10 @@ static av_cold int roq_dpcm_encode_close(AVCodecContext *avctx)
 static av_cold int roq_dpcm_encode_init(AVCodecContext *avctx)
 {
     ROQDPCMContext *context = avctx->priv_data;
+<<<<<<< HEAD
     int channels = avctx->ch_layout.nb_channels;
+=======
+>>>>>>> refs/remotes/origin/master
 
     if (channels > 2) {
         av_log(avctx, AV_LOG_ERROR, "Audio must be mono or stereo\n");
@@ -187,17 +195,30 @@ static int roq_dpcm_encode_frame(AVCodecContext *avctx, AVPacket *avpkt,
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_roq_dpcm_encoder = {
     .p.name         = "roq_dpcm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("id RoQ DPCM"),
     .p.type         = AVMEDIA_TYPE_AUDIO,
     .p.id           = AV_CODEC_ID_ROQ_DPCM,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+=======
+const AVCodec ff_roq_dpcm_encoder = {
+    .name           = "roq_dpcm",
+    .long_name      = NULL_IF_CONFIG_SMALL("id RoQ DPCM"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_ROQ_DPCM,
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_DELAY,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ROQDPCMContext),
     .init           = roq_dpcm_encode_init,
     FF_CODEC_ENCODE_CB(roq_dpcm_encode_frame),
     .close          = roq_dpcm_encode_close,
+<<<<<<< HEAD
     .p.sample_fmts  = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16,
+=======
+    .sample_fmts    = (const enum AVSampleFormat[]){ AV_SAMPLE_FMT_S16,
+>>>>>>> refs/remotes/origin/master
                                                      AV_SAMPLE_FMT_NONE },
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE,
 };

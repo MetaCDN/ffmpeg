@@ -189,11 +189,19 @@ static av_cold int decode_end(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_anm_decoder = {
     .p.name         = "anm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Deluxe Paint Animation"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_ANM,
+=======
+const AVCodec ff_anm_decoder = {
+    .name           = "anm",
+    .long_name      = NULL_IF_CONFIG_SMALL("Deluxe Paint Animation"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_ANM,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(AnmContext),
     .init           = decode_init,
     .close          = decode_end,

@@ -211,16 +211,28 @@ static av_cold int decode_close(AVCodecContext *avctx)
     return 0;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_arbc_decoder = {
     .p.name         = "arbc",
     .p.long_name    = NULL_IF_CONFIG_SMALL("Gryphon's Anim Compressor"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_ARBC,
+=======
+const AVCodec ff_arbc_decoder = {
+    .name           = "arbc",
+    .long_name      = NULL_IF_CONFIG_SMALL("Gryphon's Anim Compressor"),
+    .type           = AVMEDIA_TYPE_VIDEO,
+    .id             = AV_CODEC_ID_ARBC,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(ARBCContext),
     .init           = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .flush          = decode_flush,
     .close          = decode_close,
+<<<<<<< HEAD
     .p.capabilities = AV_CODEC_CAP_DR1,
+=======
+    .capabilities   = AV_CODEC_CAP_DR1,
+>>>>>>> refs/remotes/origin/master
     .caps_internal  = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
 };

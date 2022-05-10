@@ -118,12 +118,18 @@ int ff_ass_add_rect2(AVSubtitle *sub, const char *dialog,
                     int readorder, int layer, const char *style,
                     const char *speaker, unsigned *nb_rect_allocated)
 {
+<<<<<<< HEAD
     AVSubtitleRect **rects = sub->rects, *rect;
     char *ass_str;
     uint64_t new_nb = 0;
+=======
+    AVSubtitleRect **rects, *rect;
+    char *ass_str;
+>>>>>>> refs/remotes/origin/master
 
     if (sub->num_rects >= UINT_MAX)
         return AVERROR(ENOMEM);
+<<<<<<< HEAD
 
     if (nb_rect_allocated && *nb_rect_allocated <= sub->num_rects) {
         if (sub->num_rects < UINT_MAX / 17 * 16) {
@@ -142,6 +148,9 @@ int ff_ass_add_rect2(AVSubtitle *sub, const char *dialog,
         sub->rects = rects;
     }
 
+=======
+    sub->rects = rects;
+>>>>>>> refs/remotes/origin/master
     rect       = av_mallocz(sizeof(*rect));
     if (!rect)
         return AVERROR(ENOMEM);

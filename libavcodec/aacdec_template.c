@@ -3235,7 +3235,11 @@ static int aac_decode_er_frame(AVCodecContext *avctx, void *data,
     return 0;
 }
 
+<<<<<<< HEAD
 static int aac_decode_frame_int(AVCodecContext *avctx, AVFrame *frame,
+=======
+static int aac_decode_frame_int(AVCodecContext *avctx, void *data,
+>>>>>>> refs/remotes/origin/master
                                 int *got_frame_ptr, GetBitContext *gb,
                                 const AVPacket *avpkt)
 {

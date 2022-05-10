@@ -125,6 +125,7 @@ static void libgsm_flush(AVCodecContext *avctx) {
 }
 
 #if CONFIG_LIBGSM_DECODER
+<<<<<<< HEAD
 const FFCodec ff_libgsm_decoder = {
     .p.name         = "libgsm",
     .p.long_name    = NULL_IF_CONFIG_SMALL("libgsm GSM"),
@@ -132,11 +133,19 @@ const FFCodec ff_libgsm_decoder = {
     .p.id           = AV_CODEC_ID_GSM,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.wrapper_name = "libgsm",
+=======
+const AVCodec ff_libgsm_decoder = {
+    .name           = "libgsm",
+    .long_name      = NULL_IF_CONFIG_SMALL("libgsm GSM"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_GSM,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibGSMDecodeContext),
     .init           = libgsm_decode_init,
     .close          = libgsm_decode_close,
     FF_CODEC_DECODE_CB(libgsm_decode_frame),
     .flush          = libgsm_flush,
+<<<<<<< HEAD
 };
 #endif
 #if CONFIG_LIBGSM_MS_DECODER
@@ -147,10 +156,27 @@ const FFCodec ff_libgsm_ms_decoder = {
     .p.id           = AV_CODEC_ID_GSM_MS,
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
     .p.wrapper_name = "libgsm",
+=======
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+    .wrapper_name   = "libgsm",
+};
+#endif
+#if CONFIG_LIBGSM_MS_DECODER
+const AVCodec ff_libgsm_ms_decoder = {
+    .name           = "libgsm_ms",
+    .long_name      = NULL_IF_CONFIG_SMALL("libgsm GSM Microsoft variant"),
+    .type           = AVMEDIA_TYPE_AUDIO,
+    .id             = AV_CODEC_ID_GSM_MS,
+>>>>>>> refs/remotes/origin/master
     .priv_data_size = sizeof(LibGSMDecodeContext),
     .init           = libgsm_decode_init,
     .close          = libgsm_decode_close,
     FF_CODEC_DECODE_CB(libgsm_decode_frame),
     .flush          = libgsm_flush,
+<<<<<<< HEAD
+=======
+    .capabilities   = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+    .wrapper_name   = "libgsm",
+>>>>>>> refs/remotes/origin/master
 };
 #endif

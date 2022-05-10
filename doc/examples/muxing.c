@@ -292,10 +292,17 @@ static void open_audio(AVFormatContext *oc, const AVCodec *codec,
     }
 
     /* set options */
+<<<<<<< HEAD
     av_opt_set_chlayout  (ost->swr_ctx, "in_chlayout",       &c->ch_layout,      0);
     av_opt_set_int       (ost->swr_ctx, "in_sample_rate",     c->sample_rate,    0);
     av_opt_set_sample_fmt(ost->swr_ctx, "in_sample_fmt",      AV_SAMPLE_FMT_S16, 0);
     av_opt_set_chlayout  (ost->swr_ctx, "out_chlayout",      &c->ch_layout,      0);
+=======
+    av_opt_set_int       (ost->swr_ctx, "in_channel_count",   c->channels,       0);
+    av_opt_set_int       (ost->swr_ctx, "in_sample_rate",     c->sample_rate,    0);
+    av_opt_set_sample_fmt(ost->swr_ctx, "in_sample_fmt",      AV_SAMPLE_FMT_S16, 0);
+    av_opt_set_int       (ost->swr_ctx, "out_channel_count",  c->channels,       0);
+>>>>>>> refs/remotes/origin/master
     av_opt_set_int       (ost->swr_ctx, "out_sample_rate",    c->sample_rate,    0);
     av_opt_set_sample_fmt(ost->swr_ctx, "out_sample_fmt",     c->sample_fmt,     0);
 

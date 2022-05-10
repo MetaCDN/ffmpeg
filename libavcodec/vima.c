@@ -207,6 +207,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
     return pkt->size;
 }
 
+<<<<<<< HEAD
 const FFCodec ff_adpcm_vima_decoder = {
     .p.name       = "adpcm_vima",
     .p.long_name  = NULL_IF_CONFIG_SMALL("LucasArts VIMA audio"),
@@ -215,5 +216,15 @@ const FFCodec ff_adpcm_vima_decoder = {
     .init         = decode_init,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+=======
+const AVCodec ff_adpcm_vima_decoder = {
+    .name         = "adpcm_vima",
+    .long_name    = NULL_IF_CONFIG_SMALL("LucasArts VIMA audio"),
+    .type         = AVMEDIA_TYPE_AUDIO,
+    .id           = AV_CODEC_ID_ADPCM_VIMA,
+    .init         = decode_init,
+    .decode       = decode_frame,
+    .capabilities = AV_CODEC_CAP_DR1 | AV_CODEC_CAP_CHANNEL_CONF,
+>>>>>>> refs/remotes/origin/master
     .caps_internal = FF_CODEC_CAP_INIT_THREADSAFE,
 };

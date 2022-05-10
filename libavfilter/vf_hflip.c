@@ -82,6 +82,32 @@ static int config_props(AVFilterLink *inlink)
     return ff_hflip_init(s, s->max_step, nb_planes);
 }
 
+<<<<<<< HEAD
+=======
+int ff_hflip_init(FlipContext *s, int step[4], int nb_planes)
+{
+    int i;
+
+    for (i = 0; i < nb_planes; i++) {
+        step[i] *= s->bayer_plus1;
+        switch (step[i]) {
+        case 1: s->flip_line[i] = hflip_byte_c;  break;
+        case 2: s->flip_line[i] = hflip_short_c; break;
+        case 3: s->flip_line[i] = hflip_b24_c;   break;
+        case 4: s->flip_line[i] = hflip_dword_c; break;
+        case 6: s->flip_line[i] = hflip_b48_c;   break;
+        case 8: s->flip_line[i] = hflip_qword_c; break;
+        default:
+            return AVERROR_BUG;
+        }
+    }
+    if (ARCH_X86)
+        ff_hflip_init_x86(s, step, nb_planes);
+
+    return 0;
+}
+
+>>>>>>> refs/remotes/origin/master
 typedef struct ThreadData {
     AVFrame *in, *out;
 } ThreadData;

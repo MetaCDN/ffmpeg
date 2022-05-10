@@ -124,8 +124,11 @@ extern const AVOutputFormat ff_daud_muxer;
 extern const AVInputFormat  ff_dcstr_demuxer;
 extern const AVInputFormat  ff_derf_demuxer;
 extern const AVInputFormat  ff_dfa_demuxer;
+<<<<<<< HEAD
 extern const AVInputFormat  ff_dfpwm_demuxer;
 extern const AVOutputFormat ff_dfpwm_muxer;
+=======
+>>>>>>> refs/remotes/origin/master
 extern const AVInputFormat  ff_dhav_demuxer;
 extern const AVInputFormat  ff_dirac_demuxer;
 extern const AVOutputFormat ff_dirac_muxer;
@@ -510,7 +513,10 @@ extern const AVInputFormat  ff_image_gif_pipe_demuxer;
 extern const AVInputFormat  ff_image_j2k_pipe_demuxer;
 extern const AVInputFormat  ff_image_jpeg_pipe_demuxer;
 extern const AVInputFormat  ff_image_jpegls_pipe_demuxer;
+<<<<<<< HEAD
 extern const AVInputFormat  ff_image_jpegxl_pipe_demuxer;
+=======
+>>>>>>> refs/remotes/origin/master
 extern const AVInputFormat  ff_image_pam_pipe_demuxer;
 extern const AVInputFormat  ff_image_pbm_pipe_demuxer;
 extern const AVInputFormat  ff_image_pcx_pipe_demuxer;
@@ -527,7 +533,10 @@ extern const AVInputFormat  ff_image_sgi_pipe_demuxer;
 extern const AVInputFormat  ff_image_svg_pipe_demuxer;
 extern const AVInputFormat  ff_image_sunrast_pipe_demuxer;
 extern const AVInputFormat  ff_image_tiff_pipe_demuxer;
+<<<<<<< HEAD
 extern const AVInputFormat  ff_image_vbn_pipe_demuxer;
+=======
+>>>>>>> refs/remotes/origin/master
 extern const AVInputFormat  ff_image_webp_pipe_demuxer;
 extern const AVInputFormat  ff_image_xbm_pipe_demuxer;
 extern const AVInputFormat  ff_image_xpm_pipe_demuxer;
