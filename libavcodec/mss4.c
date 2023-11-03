@@ -26,12 +26,13 @@
  */
 
 #include "libavutil/thread.h"
+#include "libavutil/imgutils.h"
 
 #include "avcodec.h"
 #include "bytestream.h"
 #include "codec_internal.h"
+#include "decode.h"
 #include "get_bits.h"
-#include "internal.h"
 #include "jpegtables.h"
 #include "mss34dsp.h"
 #include "unary.h"
@@ -100,7 +101,7 @@ static VLC vec_entry_vlc[2];
 static av_cold void mss4_init_vlc(VLC *vlc, unsigned *offset,
                                   const uint8_t *lens, const uint8_t *syms)
 {
-    static VLC_TYPE vlc_buf[2146][2];
+    static VLCElem vlc_buf[2146];
     uint8_t  bits[MAX_ENTRIES];
     int i, j;
     int idx = 0;
@@ -114,9 +115,9 @@ static av_cold void mss4_init_vlc(VLC *vlc, unsigned *offset,
 
     vlc->table           = &vlc_buf[*offset];
     vlc->table_allocated = FF_ARRAY_ELEMS(vlc_buf) - *offset;
-    ff_init_vlc_from_lengths(vlc, FFMIN(bits[idx - 1], 9), idx,
+    ff_vlc_init_from_lengths(vlc, FFMIN(bits[idx - 1], 9), idx,
                              bits, 1, syms, 1, 1,
-                             0, INIT_VLC_STATIC_OVERLONG, NULL);
+                             0, VLC_INIT_STATIC_OVERLONG, NULL);
     *offset += vlc->table_size;
 }
 
@@ -477,6 +478,9 @@ static int mss4_decode_frame(AVCodecContext *avctx, AVFrame *rframe,
                width, height);
         return AVERROR_INVALIDDATA;
     }
+    if (av_image_check_size2(width, height, avctx->max_pixels, AV_PIX_FMT_NONE, 0, avctx) < 0)
+        return AVERROR_INVALIDDATA;
+
     if (quality < 1 || quality > 100) {
         av_log(avctx, AV_LOG_ERROR, "Invalid quality setting %d\n", quality);
         return AVERROR_INVALIDDATA;
@@ -499,7 +503,10 @@ static int mss4_decode_frame(AVCodecContext *avctx, AVFrame *rframe,
 
     if ((ret = ff_reget_buffer(avctx, c->pic, 0)) < 0)
         return ret;
-    c->pic->key_frame = (frame_type == INTRA_FRAME);
+    if (frame_type == INTRA_FRAME)
+        c->pic->flags |= AV_FRAME_FLAG_KEY;
+    else
+        c->pic->flags &= ~AV_FRAME_FLAG_KEY;
     c->pic->pict_type = (frame_type == INTRA_FRAME) ? AV_PICTURE_TYPE_I
                                                    : AV_PICTURE_TYPE_P;
     if (frame_type == SKIP_FRAME) {
@@ -607,7 +614,7 @@ static av_cold int mss4_decode_init(AVCodecContext *avctx)
 
 const FFCodec ff_mts2_decoder = {
     .p.name         = "mts2",
-    .p.long_name    = NULL_IF_CONFIG_SMALL("MS Expression Encoder Screen"),
+    CODEC_LONG_NAME("MS Expression Encoder Screen"),
     .p.type         = AVMEDIA_TYPE_VIDEO,
     .p.id           = AV_CODEC_ID_MTS2,
     .priv_data_size = sizeof(MSS4Context),
@@ -615,5 +622,5 @@ const FFCodec ff_mts2_decoder = {
     .close          = mss4_decode_end,
     FF_CODEC_DECODE_CB(mss4_decode_frame),
     .p.capabilities = AV_CODEC_CAP_DR1,
-    .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP | FF_CODEC_CAP_INIT_THREADSAFE,
+    .caps_internal  = FF_CODEC_CAP_INIT_CLEANUP,
 };

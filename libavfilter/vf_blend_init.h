@@ -82,8 +82,8 @@ static void blend_normal_##name(const uint8_t *_top, ptrdiff_t top_linesize,    
                                 ptrdiff_t width, ptrdiff_t height,                \
                                 FilterParams *param, double *values, int starty)  \
 {                                                                                 \
-    const type *top = (type*)_top;                                                \
-    const type *bottom = (type*)_bottom;                                          \
+    const type *top = (const type*)_top;                                          \
+    const type *bottom = (const type*)_bottom;                                    \
     type *dst = (type*)_dst;                                                      \
     const float opacity = param->opacity;                                         \
                                                                                   \
@@ -194,8 +194,9 @@ static av_unused void ff_blend_init(FilterParams *param, int depth)
             param->blend = depth > 8 ? depth > 16 ? blend_copybottom_32 : blend_copybottom_16 : blend_copybottom_8;
     }
 
-    if (ARCH_X86)
-        ff_blend_init_x86(param, depth);
+#if ARCH_X86
+    ff_blend_init_x86(param, depth);
+#endif
 }
 
 #endif /* AVFILTER_BLEND_INIT_H */

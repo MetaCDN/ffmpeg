@@ -33,6 +33,7 @@
 #include "libavutil/opt.h"
 #include "audio.h"
 #include "avfilter.h"
+#include "formats.h"
 #include "internal.h"
 
 typedef struct MetaItem {
@@ -231,7 +232,6 @@ static int filter_frame(AVFilterLink *inlink, AVFrame *in)
 
         new_out_samples -= trim;
         s->in_trim -= trim;
-        out->nb_samples = new_out_samples;
     }
 
     if (new_out_samples <= 0) {

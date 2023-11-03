@@ -21,13 +21,12 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <string.h>
 
 #include "avcodec.h"
 #include "bytestream.h"
 #include "codec_internal.h"
-#include "internal.h"
+#include "decode.h"
 #include "zlib_wrapper.h"
 
 #include <zlib.h>
@@ -134,7 +133,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
 {
     MSCCContext *s = avctx->priv_data;
     z_stream *const zstream = &s->zstream.zstream;
-    uint8_t *buf = avpkt->data;
+    const uint8_t *buf = avpkt->data;
     int buf_size = avpkt->size;
     GetByteContext gb;
     PutByteContext pb;
@@ -146,18 +145,16 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
     if ((ret = ff_get_buffer(avctx, frame, 0)) < 0)
         return ret;
 
-    if (avctx->codec_id == AV_CODEC_ID_MSCC) {
-        avpkt->data[2] ^= avpkt->data[0];
-        buf += 2;
-        buf_size -= 2;
-    }
-
     if (avctx->pix_fmt == AV_PIX_FMT_PAL8) {
         size_t size;
         const uint8_t *pal = av_packet_get_side_data(avpkt, AV_PKT_DATA_PALETTE, &size);
 
         if (pal && size == AVPALETTE_SIZE) {
+#if FF_API_PALETTE_HAS_CHANGED
+FF_DISABLE_DEPRECATION_WARNINGS
             frame->palette_has_changed = 1;
+FF_ENABLE_DEPRECATION_WARNINGS
+#endif
             for (j = 0; j < 256; j++)
                 s->pal[j] = 0xFF000000 | AV_RL32(pal + j * 4);
         } else if (pal) {
@@ -172,12 +169,25 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
         av_log(avctx, AV_LOG_ERROR, "Inflate reset error: %d\n", ret);
         return AVERROR_UNKNOWN;
     }
-    zstream->next_in   = buf;
-    zstream->avail_in  = buf_size;
     zstream->next_out  = s->decomp_buf;
     zstream->avail_out = s->decomp_size;
+    if (avctx->codec_id == AV_CODEC_ID_MSCC) {
+        const uint8_t start = avpkt->data[2] ^ avpkt->data[0];
+
+        zstream->next_in  = &start;
+        zstream->avail_in = 1;
+        ret = inflate(zstream, Z_NO_FLUSH);
+        if (ret != Z_OK || zstream->avail_in != 0)
+            goto inflate_error;
+
+        buf      += 3;
+        buf_size -= 3;
+    }
+    zstream->next_in   = buf;
+    zstream->avail_in  = buf_size;
     ret = inflate(zstream, Z_FINISH);
     if (ret != Z_STREAM_END) {
+inflate_error:
         av_log(avctx, AV_LOG_ERROR, "Inflate error: %d\n", ret);
         return AVERROR_UNKNOWN;
     }
@@ -194,7 +204,7 @@ static int decode_frame(AVCodecContext *avctx, AVFrame *frame,
                s->uncomp_buf + s->bpp * j * avctx->width, s->bpp * avctx->width);
     }
 
-    frame->key_frame = 1;
+    frame->flags |= AV_FRAME_FLAG_KEY;
     frame->pict_type = AV_PICTURE_TYPE_I;
 
     *got_frame = 1;
@@ -246,7 +256,7 @@ static av_cold int decode_close(AVCodecContext *avctx)
 
 const FFCodec ff_mscc_decoder = {
     .p.name           = "mscc",
-    .p.long_name      = NULL_IF_CONFIG_SMALL("Mandsoft Screen Capture Codec"),
+    CODEC_LONG_NAME("Mandsoft Screen Capture Codec"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_MSCC,
     .priv_data_size   = sizeof(MSCCContext),
@@ -254,12 +264,12 @@ const FFCodec ff_mscc_decoder = {
     .close            = decode_close,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities   = AV_CODEC_CAP_DR1,
-    .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .caps_internal    = FF_CODEC_CAP_INIT_CLEANUP,
 };
 
 const FFCodec ff_srgc_decoder = {
     .p.name           = "srgc",
-    .p.long_name      = NULL_IF_CONFIG_SMALL("Screen Recorder Gold Codec"),
+    CODEC_LONG_NAME("Screen Recorder Gold Codec"),
     .p.type           = AVMEDIA_TYPE_VIDEO,
     .p.id             = AV_CODEC_ID_SRGC,
     .priv_data_size   = sizeof(MSCCContext),
@@ -267,5 +277,5 @@ const FFCodec ff_srgc_decoder = {
     .close            = decode_close,
     FF_CODEC_DECODE_CB(decode_frame),
     .p.capabilities   = AV_CODEC_CAP_DR1,
-    .caps_internal    = FF_CODEC_CAP_INIT_THREADSAFE | FF_CODEC_CAP_INIT_CLEANUP,
+    .caps_internal    = FF_CODEC_CAP_INIT_CLEANUP,
 };

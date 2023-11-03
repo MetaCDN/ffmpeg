@@ -33,6 +33,15 @@ errfile="${outdir}/${test}.err"
 cmpfile="${outdir}/${test}.diff"
 repfile="${outdir}/${test}.rep"
 
+case $threads in
+    random*)
+        threads_max=${threads#random}
+        [ -z "$threads_max" ] && threads_max=16
+        threads=$(awk "BEGIN { srand(); print 1+int(rand() * $threads_max) }" < /dev/null)
+        ;;
+esac
+
+
 target_path(){
     test ${1} = ${1#/} && p=${target_path}/
     echo ${p}${1}
@@ -199,26 +208,39 @@ DEC_OPTS="-threads $threads -thread_type $thread_type -idct simple $FLAGS"
 ENC_OPTS="-threads 1        -idct simple -dct fastint"
 
 enc_dec(){
-    src_fmt=$1
+    enc_fmt_in=$1
     srcfile=$2
-    enc_fmt=$3
-    enc_opt=$4
-    dec_fmt=$5
-    dec_opt=$6
+    enc_fmt_out=$3
+    enc_opt_out=$4
+    dec_fmt_out=$5
+    dec_opt_out=$6
+    dec_opt_in=$7
     ffprobe_opts=$8
-    encfile="${outdir}/${test}.${enc_fmt}"
-    decfile="${outdir}/${test}.out.${dec_fmt}"
+    twopass=$9
+    encfile="${outdir}/${test}.${enc_fmt_out}"
+    decfile="${outdir}/${test}.out.${dec_fmt_out}"
     cleanfiles="$cleanfiles $decfile"
     test "$keep" -ge 1 || cleanfiles="$cleanfiles $encfile"
     tsrcfile=$(target_path $srcfile)
     tencfile=$(target_path $encfile)
     tdecfile=$(target_path $decfile)
-    ffmpeg -auto_conversion_filters -f $src_fmt $DEC_OPTS -i $tsrcfile $ENC_OPTS $enc_opt $FLAGS \
-        -f $enc_fmt -y $tencfile || return
+
+    if [ -n "$twopass" ]; then
+        logfile_prefix="${outdir}/${test}.pass1"
+        cleanfiles="$cleanfiles ${logfile_prefix}-0.log"
+        tlogfile_prefix=$(target_path $logfile_prefix)
+        ffmpeg -auto_conversion_filters -f $enc_fmt_in $DEC_OPTS -i $tsrcfile  \
+            $ENC_OPTS $enc_opt_out $FLAGS -pass 1 -passlogfile $tlogfile_prefix \
+            -f $enc_fmt_out -y $tencfile || return
+        enc_opt_out="$enc_opt_out -pass 2 -passlogfile $tlogfile_prefix"
+    fi
+
+    ffmpeg -auto_conversion_filters -f $enc_fmt_in $DEC_OPTS -i $tsrcfile $ENC_OPTS $enc_opt_out $FLAGS \
+        -f $enc_fmt_out -y $tencfile || return
     do_md5sum $encfile
     echo $(wc -c $encfile)
-    ffmpeg -auto_conversion_filters $7 $DEC_OPTS -i $tencfile $ENC_OPTS $dec_opt $FLAGS \
-        -f $dec_fmt -y $tdecfile || return
+    ffmpeg -auto_conversion_filters $dec_opt_in $DEC_OPTS -i $tencfile $ENC_OPTS $dec_opt_out $FLAGS \
+        -f $dec_fmt_out -y $tdecfile || return
     do_md5sum $decfile
     tests/tiny_psnr${HOSTEXECSUF} $srcfile $decfile $cmp_unit $cmp_shift
     test -z $ffprobe_opts || \
@@ -234,12 +256,13 @@ transcode(){
     ffprobe_opts=$6
     additional_input=$7
     final_decode=$8
+    enc_opt_in=$9
     test -z "$additional_input" || additional_input="$DEC_OPTS $additional_input"
     encfile="${outdir}/${test}.${enc_fmt}"
     test $keep -ge 1 || cleanfiles="$cleanfiles $encfile"
     tsrcfile=$(target_path $srcfile)
     tencfile=$(target_path $encfile)
-    ffmpeg -f $src_fmt $DEC_OPTS -i $tsrcfile $additional_input \
+    ffmpeg -f $src_fmt $DEC_OPTS $enc_opt_in -i $tsrcfile $additional_input \
            $ENC_OPTS $enc_opt $FLAGS -f $enc_fmt -y $tencfile || return
     do_md5sum $encfile
     echo $(wc -c $encfile)
@@ -252,20 +275,37 @@ transcode(){
 stream_remux(){
     src_fmt=$1
     srcfile=$2
-    enc_fmt=$3
-    stream_maps=$4
-    final_decode=$5
-    ffprobe_opts=$6
+    src_opts=$3
+    enc_fmt=$4
+    stream_maps=$5
+    final_decode=$6
+    ffprobe_opts=$7
     encfile="${outdir}/${test}.${enc_fmt}"
     test $keep -ge 1 || cleanfiles="$cleanfiles $encfile"
     tsrcfile=$(target_path $srcfile)
     tencfile=$(target_path $encfile)
-    ffmpeg -f $src_fmt -i $tsrcfile $stream_maps -codec copy $FLAGS \
+    ffmpeg -f $src_fmt $src_opts -i $tsrcfile $stream_maps -codec copy $FLAGS \
         -f $enc_fmt -y $tencfile || return
     ffmpeg $DEC_OPTS -i $tencfile $ENC_OPTS $FLAGS $final_decode \
         -f framecrc - || return
     test -z $ffprobe_opts || \
         run ffprobe${PROGSUF}${EXECSUF} -bitexact $ffprobe_opts $tencfile || return
+}
+
+# this function is for testing external encoders,
+# where the precise output is not controlled by us
+# we can still test e.g. that the output can be decoded correctly
+enc_external(){
+    srcfile=$1
+    enc_fmt=$2
+    enc_opt=$3
+    probe_opt=$4
+
+    srcfile=$(target_path $srcfile)
+    encfile=$(target_path "${outdir}/${test}.${enc_fmt}")
+
+    ffmpeg -i $srcfile $enc_opt -f $enc_fmt -y $encfile || return
+    run ffprobe${PROGSUF}${EXECSUF} -bitexact $probe_opt $encfile || return
 }
 
 # FIXME: There is a certain duplication between the avconv-related helper
@@ -349,6 +389,7 @@ lavf_container_fate()
 }
 
 lavf_image(){
+    no_file_checksums="$3"
     nb_frames=13
     t="${test#lavf-}"
     outdir="tests/data/images/$t"
@@ -361,9 +402,11 @@ lavf_image(){
         done
     fi
     run_avconv $DEC_OPTS -f image2 -c:v pgmyuv -i $raw_src $1 "$ENC_OPTS -metadata title=lavftest" -vf scale -frames $nb_frames -y -qscale 10 $target_path/$file
-    do_md5sum ${outdir}/02.$t
+    if [ -z "$no_file_checksums" ]; then
+        do_md5sum ${outdir}/02.$t
+        echo $(wc -c ${outdir}/02.$t)
+    fi
     do_avconv_crc $file -auto_conversion_filters $DEC_OPTS $2 -i $target_path/$file $2
-    echo $(wc -c ${outdir}/02.$t)
 }
 
 lavf_image2pipe(){
@@ -597,6 +640,7 @@ fi
 if [ $err -eq 0 ] && test $report_type = "standard" ; then
     unset cmpo erro
 else
+    echo "threads=$threads" >> "$errfile"
     cmpo="$($base64 <$cmpfile)"
     erro="$($base64 <$errfile)"
 fi

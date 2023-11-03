@@ -3,6 +3,46 @@ project(ffmpeg)
 
 set(CMAKE_CXX_STANDARD 14)
 
+include_directories(.)
+include_directories(../srt)
+include_directories(../srt/srtcore)
+include_directories(aom-master/aom)
+include_directories(aom-master/aom/internal)
+include_directories(aom-master/aom_dsp)
+include_directories(aom-master/aom_dsp/mips)
+include_directories(aom-master/aom_dsp/simd)
+include_directories(aom-master/aom_dsp/x86)
+include_directories(aom-master/aom_mem)
+include_directories(aom-master/aom_mem/include)
+include_directories(aom-master/aom_ports)
+include_directories(aom-master/aom_scale)
+include_directories(aom-master/aom_util)
+include_directories(aom-master/apps)
+include_directories(aom-master/av1)
+include_directories(aom-master/av1/common)
+include_directories(aom-master/av1/common/arm)
+include_directories(aom-master/av1/common/x86)
+include_directories(aom-master/av1/decoder)
+include_directories(aom-master/av1/encoder)
+include_directories(aom-master/av1/encoder/x86)
+include_directories(aom-master/common)
+include_directories(aom-master/examples)
+include_directories(aom-master/stats)
+include_directories(aom-master/test)
+include_directories(aom-master/third_party/fastfeat)
+include_directories(aom-master/third_party/googletest/src/googletest/include)
+include_directories(aom-master/third_party/googletest/src/googletest/include/gtest)
+include_directories(aom-master/third_party/googletest/src/googletest/include/gtest/internal)
+include_directories(aom-master/third_party/googletest/src/googletest/include/gtest/internal/custom)
+include_directories(aom-master/third_party/googletest/src/googletest/src)
+include_directories(aom-master/third_party/libwebm/common)
+include_directories(aom-master/third_party/libwebm/mkvmuxer)
+include_directories(aom-master/third_party/libwebm/mkvparser)
+include_directories(aom-master/third_party/libyuv/include)
+include_directories(aom-master/third_party/libyuv/include/libyuv)
+include_directories(aom-master/third_party/vector)
+include_directories(aom-master/tools)
+include_directories(aom-master/tools/txfm_analyzer)
 include_directories(compat)
 include_directories(compat/aix)
 include_directories(compat/atomics/dummy)
@@ -46,9 +86,815 @@ include_directories(libpostproc)
 include_directories(libswresample)
 include_directories(libswscale)
 include_directories(libswscale/ppc)
+include_directories(openjpeg/src/bin/common)
+include_directories(openjpeg/src/bin/jp2)
+include_directories(openjpeg/src/bin/jp3d)
+include_directories(openjpeg/src/bin/jpwl)
+include_directories(openjpeg/src/bin/mj2)
+include_directories(openjpeg/src/bin/wx/OPJViewer/source)
+include_directories(openjpeg/src/lib/openjp2)
+include_directories(openjpeg/src/lib/openjp3d)
+include_directories(openjpeg/src/lib/openjpip)
+include_directories(openjpeg/src/lib/openjpwl)
+include_directories(openjpeg/src/lib/openmj2)
+include_directories(openjpeg/thirdparty/astyle)
+include_directories(openjpeg/thirdparty/include)
+include_directories(openjpeg/thirdparty/liblcms2/include)
+include_directories(openjpeg/thirdparty/liblcms2/src)
+include_directories(openjpeg/thirdparty/libpng)
+include_directories(openjpeg/thirdparty/libtiff)
+include_directories(openjpeg/thirdparty/libz)
+include_directories(openjpeg/wrapping/java/openjp2)
 include_directories(tests/checkasm)
 
 add_executable(ffmpeg
+        aom-master/aom/internal/aom_codec_internal.h
+        aom-master/aom/src/aom_codec.c
+        aom-master/aom/src/aom_decoder.c
+        aom-master/aom/src/aom_encoder.c
+        aom-master/aom/src/aom_image.c
+        aom-master/aom/src/aom_integer.c
+        aom-master/aom/aom.h
+        aom-master/aom/aom_codec.h
+        aom-master/aom/aom_decoder.h
+        aom-master/aom/aom_encoder.h
+        aom-master/aom/aom_frame_buffer.h
+        aom-master/aom/aom_image.h
+        aom-master/aom/aom_integer.h
+        aom-master/aom/aomcx.h
+        aom-master/aom/aomdx.h
+        aom-master/aom_dsp/arm/aom_convolve8_neon.c
+        aom-master/aom_dsp/arm/aom_convolve_copy_neon.c
+        aom-master/aom_dsp/arm/avg_neon.c
+        aom-master/aom_dsp/arm/fwd_txfm_neon.c
+        aom-master/aom_dsp/arm/hadamard_neon.c
+        aom-master/aom_dsp/arm/intrapred_neon.c
+        aom-master/aom_dsp/arm/loopfilter_16_neon.c
+        aom-master/aom_dsp/arm/loopfilter_4_neon.c
+        aom-master/aom_dsp/arm/loopfilter_8_neon.c
+        aom-master/aom_dsp/arm/loopfilter_neon.c
+        aom-master/aom_dsp/arm/sad4d_neon.c
+        aom-master/aom_dsp/arm/sad_neon.c
+        aom-master/aom_dsp/arm/subpel_variance_neon.c
+        aom-master/aom_dsp/arm/subtract_neon.c
+        aom-master/aom_dsp/arm/variance_neon.c
+        aom-master/aom_dsp/mips/add_noise_msa.c
+        aom-master/aom_dsp/mips/aom_convolve8_horiz_msa.c
+        aom-master/aom_dsp/mips/aom_convolve8_vert_msa.c
+        aom-master/aom_dsp/mips/aom_convolve_copy_msa.c
+        aom-master/aom_dsp/mips/aom_convolve_msa.h
+        aom-master/aom_dsp/mips/common_dspr2.c
+        aom-master/aom_dsp/mips/common_dspr2.h
+        aom-master/aom_dsp/mips/convolve2_dspr2.c
+        aom-master/aom_dsp/mips/convolve2_horiz_dspr2.c
+        aom-master/aom_dsp/mips/convolve2_vert_dspr2.c
+        aom-master/aom_dsp/mips/convolve8_dspr2.c
+        aom-master/aom_dsp/mips/convolve8_horiz_dspr2.c
+        aom-master/aom_dsp/mips/convolve8_vert_dspr2.c
+        aom-master/aom_dsp/mips/convolve_common_dspr2.h
+        aom-master/aom_dsp/mips/intrapred16_dspr2.c
+        aom-master/aom_dsp/mips/intrapred4_dspr2.c
+        aom-master/aom_dsp/mips/intrapred8_dspr2.c
+        aom-master/aom_dsp/mips/intrapred_msa.c
+        aom-master/aom_dsp/mips/loopfilter_16_msa.c
+        aom-master/aom_dsp/mips/loopfilter_4_msa.c
+        aom-master/aom_dsp/mips/loopfilter_8_msa.c
+        aom-master/aom_dsp/mips/loopfilter_filters_dspr2.c
+        aom-master/aom_dsp/mips/loopfilter_filters_dspr2.h
+        aom-master/aom_dsp/mips/loopfilter_macros_dspr2.h
+        aom-master/aom_dsp/mips/loopfilter_masks_dspr2.h
+        aom-master/aom_dsp/mips/loopfilter_mb_dspr2.c
+        aom-master/aom_dsp/mips/loopfilter_mb_horiz_dspr2.c
+        aom-master/aom_dsp/mips/loopfilter_mb_vert_dspr2.c
+        aom-master/aom_dsp/mips/loopfilter_msa.h
+        aom-master/aom_dsp/mips/macros_msa.h
+        aom-master/aom_dsp/mips/sad_msa.c
+        aom-master/aom_dsp/mips/sub_pixel_variance_msa.c
+        aom-master/aom_dsp/mips/subtract_msa.c
+        aom-master/aom_dsp/mips/variance_msa.c
+        aom-master/aom_dsp/simd/v128_intrinsics.h
+        aom-master/aom_dsp/simd/v128_intrinsics_arm.h
+        aom-master/aom_dsp/simd/v128_intrinsics_c.h
+        aom-master/aom_dsp/simd/v128_intrinsics_x86.h
+        aom-master/aom_dsp/simd/v256_intrinsics.h
+        aom-master/aom_dsp/simd/v256_intrinsics_arm.h
+        aom-master/aom_dsp/simd/v256_intrinsics_c.h
+        aom-master/aom_dsp/simd/v256_intrinsics_v128.h
+        aom-master/aom_dsp/simd/v256_intrinsics_x86.h
+        aom-master/aom_dsp/simd/v64_intrinsics.h
+        aom-master/aom_dsp/simd/v64_intrinsics_arm.h
+        aom-master/aom_dsp/simd/v64_intrinsics_c.h
+        aom-master/aom_dsp/simd/v64_intrinsics_x86.h
+        aom-master/aom_dsp/x86/aom_asm_stubs.c
+        aom-master/aom_dsp/x86/aom_subpixel_8t_intrin_avx2.c
+        aom-master/aom_dsp/x86/aom_subpixel_8t_intrin_ssse3.c
+        aom-master/aom_dsp/x86/avg_intrin_sse2.c
+        aom-master/aom_dsp/x86/blend_a64_hmask_sse4.c
+        aom-master/aom_dsp/x86/blend_a64_mask_sse4.c
+        aom-master/aom_dsp/x86/blend_a64_vmask_sse4.c
+        aom-master/aom_dsp/x86/blend_sse4.h
+        aom-master/aom_dsp/x86/common_avx2.h
+        aom-master/aom_dsp/x86/convolve.h
+        aom-master/aom_dsp/x86/convolve_avx2.h
+        aom-master/aom_dsp/x86/convolve_common_intrin.h
+        aom-master/aom_dsp/x86/convolve_sse2.h
+        aom-master/aom_dsp/x86/convolve_sse4_1.h
+        aom-master/aom_dsp/x86/fwd_txfm_impl_sse2.h
+        aom-master/aom_dsp/x86/fwd_txfm_sse2.c
+        aom-master/aom_dsp/x86/fwd_txfm_sse2.h
+        aom-master/aom_dsp/x86/halfpix_variance_sse2.c
+        aom-master/aom_dsp/x86/highbd_convolve_avx2.c
+        aom-master/aom_dsp/x86/highbd_convolve_ssse3.c
+        aom-master/aom_dsp/x86/highbd_intrapred_sse2.c
+        aom-master/aom_dsp/x86/highbd_loopfilter_avx2.c
+        aom-master/aom_dsp/x86/highbd_loopfilter_sse2.c
+        aom-master/aom_dsp/x86/highbd_quantize_intrin_avx2.c
+        aom-master/aom_dsp/x86/highbd_quantize_intrin_sse2.c
+        aom-master/aom_dsp/x86/highbd_subtract_sse2.c
+        aom-master/aom_dsp/x86/highbd_variance_sse2.c
+        aom-master/aom_dsp/x86/highbd_variance_sse4.c
+        aom-master/aom_dsp/x86/intrapred_avx2.c
+        aom-master/aom_dsp/x86/intrapred_sse2.c
+        aom-master/aom_dsp/x86/intrapred_ssse3.c
+        aom-master/aom_dsp/x86/jnt_sad_ssse3.c
+        aom-master/aom_dsp/x86/jnt_variance_ssse3.c
+        aom-master/aom_dsp/x86/loopfilter_avx2.c
+        aom-master/aom_dsp/x86/loopfilter_sse2.c
+        aom-master/aom_dsp/x86/lpf_common_sse2.h
+        aom-master/aom_dsp/x86/masked_sad_intrin_ssse3.c
+        aom-master/aom_dsp/x86/masked_variance_intrin_ssse3.c
+        aom-master/aom_dsp/x86/masked_variance_intrin_ssse3.h
+        aom-master/aom_dsp/x86/mem_sse2.h
+        aom-master/aom_dsp/x86/obmc_intrinsic_ssse3.h
+        aom-master/aom_dsp/x86/obmc_sad_sse4.c
+        aom-master/aom_dsp/x86/obmc_variance_sse4.c
+        aom-master/aom_dsp/x86/quantize_sse2.c
+        aom-master/aom_dsp/x86/sad4d_avx2.c
+        aom-master/aom_dsp/x86/sad_avx2.c
+        aom-master/aom_dsp/x86/sad_highbd_avx2.c
+        aom-master/aom_dsp/x86/sad_impl_avx2.c
+        aom-master/aom_dsp/x86/sum_squares_sse2.c
+        aom-master/aom_dsp/x86/synonyms.h
+        aom-master/aom_dsp/x86/synonyms_avx2.h
+        aom-master/aom_dsp/x86/transpose_sse2.h
+        aom-master/aom_dsp/x86/txfm_common_sse2.h
+        aom-master/aom_dsp/x86/variance_avx2.c
+        aom-master/aom_dsp/x86/variance_impl_avx2.c
+        aom-master/aom_dsp/x86/variance_sse2.c
+        aom-master/aom_dsp/add_noise.c
+        aom-master/aom_dsp/aom_convolve.c
+        aom-master/aom_dsp/aom_convolve.h
+        aom-master/aom_dsp/aom_dsp_common.h
+        aom-master/aom_dsp/aom_dsp_rtcd.c
+        aom-master/aom_dsp/aom_filter.h
+        aom-master/aom_dsp/aom_simd.h
+        aom-master/aom_dsp/aom_simd_inline.h
+        aom-master/aom_dsp/avg.c
+        aom-master/aom_dsp/binary_codes_reader.c
+        aom-master/aom_dsp/binary_codes_reader.h
+        aom-master/aom_dsp/binary_codes_writer.c
+        aom-master/aom_dsp/binary_codes_writer.h
+        aom-master/aom_dsp/bitreader.h
+        aom-master/aom_dsp/bitreader_buffer.c
+        aom-master/aom_dsp/bitreader_buffer.h
+        aom-master/aom_dsp/bitwriter.h
+        aom-master/aom_dsp/bitwriter_buffer.c
+        aom-master/aom_dsp/bitwriter_buffer.h
+        aom-master/aom_dsp/blend.h
+        aom-master/aom_dsp/blend_a64_hmask.c
+        aom-master/aom_dsp/blend_a64_mask.c
+        aom-master/aom_dsp/blend_a64_vmask.c
+        aom-master/aom_dsp/buf_ans.c
+        aom-master/aom_dsp/buf_ans.h
+        aom-master/aom_dsp/daalaboolreader.c
+        aom-master/aom_dsp/daalaboolreader.h
+        aom-master/aom_dsp/daalaboolwriter.c
+        aom-master/aom_dsp/daalaboolwriter.h
+        aom-master/aom_dsp/entcode.c
+        aom-master/aom_dsp/entcode.h
+        aom-master/aom_dsp/entdec.c
+        aom-master/aom_dsp/entdec.h
+        aom-master/aom_dsp/entenc.c
+        aom-master/aom_dsp/entenc.h
+        aom-master/aom_dsp/fastssim.c
+        aom-master/aom_dsp/fwd_txfm.c
+        aom-master/aom_dsp/grain_synthesis.c
+        aom-master/aom_dsp/grain_synthesis.h
+        aom-master/aom_dsp/grain_table.c
+        aom-master/aom_dsp/grain_table.h
+        aom-master/aom_dsp/intrapred.c
+        aom-master/aom_dsp/intrapred_common.h
+        aom-master/aom_dsp/loopfilter.c
+        aom-master/aom_dsp/noise_model.c
+        aom-master/aom_dsp/noise_model.h
+        aom-master/aom_dsp/noise_util.c
+        aom-master/aom_dsp/noise_util.h
+        aom-master/aom_dsp/postproc.h
+        aom-master/aom_dsp/prob.h
+        aom-master/aom_dsp/psnr.c
+        aom-master/aom_dsp/psnr.h
+        aom-master/aom_dsp/psnrhvs.c
+        aom-master/aom_dsp/quantize.c
+        aom-master/aom_dsp/quantize.h
+        aom-master/aom_dsp/sad.c
+        aom-master/aom_dsp/sad_av1.c
+        aom-master/aom_dsp/ssim.c
+        aom-master/aom_dsp/ssim.h
+        aom-master/aom_dsp/subtract.c
+        aom-master/aom_dsp/sum_squares.c
+        aom-master/aom_dsp/txfm_common.h
+        aom-master/aom_dsp/variance.c
+        aom-master/aom_dsp/variance.h
+        aom-master/aom_mem/include/aom_mem_intrnl.h
+        aom-master/aom_mem/aom_mem.c
+        aom-master/aom_mem/aom_mem.h
+        aom-master/aom_ports/aom_once.h
+        aom-master/aom_ports/aom_timer.h
+        aom-master/aom_ports/arm.h
+        aom-master/aom_ports/arm_cpudetect.c
+        aom-master/aom_ports/bitops.h
+        aom-master/aom_ports/emmintrin_compat.h
+        aom-master/aom_ports/mem.h
+        aom-master/aom_ports/mem_ops.h
+        aom-master/aom_ports/mem_ops_aligned.h
+        aom-master/aom_ports/msvc.h
+        aom-master/aom_ports/sanitizer.h
+        aom-master/aom_ports/system_state.h
+        aom-master/aom_ports/x86.h
+        aom-master/aom_scale/generic/aom_scale.c
+        aom-master/aom_scale/generic/gen_scalers.c
+        aom-master/aom_scale/generic/yv12config.c
+        aom-master/aom_scale/generic/yv12extend.c
+        aom-master/aom_scale/mips/dspr2/yv12extend_dspr2.c
+        aom-master/aom_scale/aom_scale.h
+        aom-master/aom_scale/aom_scale_rtcd.c
+        aom-master/aom_scale/yv12config.h
+        aom-master/aom_util/aom_thread.c
+        aom-master/aom_util/aom_thread.h
+        aom-master/aom_util/debug_util.c
+        aom-master/aom_util/debug_util.h
+        aom-master/aom_util/endian_inl.h
+        aom-master/apps/aomdec.c
+        aom-master/apps/aomenc.c
+        aom-master/apps/aomenc.h
+        aom-master/av1/common/arm/cfl_neon.c
+        aom-master/av1/common/arm/convolve_neon.c
+        aom-master/av1/common/arm/convolve_neon.h
+        aom-master/av1/common/arm/jnt_convolve_neon.c
+        aom-master/av1/common/arm/mem_neon.h
+        aom-master/av1/common/arm/transpose_neon.h
+        aom-master/av1/common/arm/wiener_convolve_neon.c
+        aom-master/av1/common/ppc/cfl_ppc.c
+        aom-master/av1/common/x86/av1_convolve_horiz_rs_sse4.c
+        aom-master/av1/common/x86/av1_convolve_scale_sse4.c
+        aom-master/av1/common/x86/av1_highbd_convolve_sse4.c
+        aom-master/av1/common/x86/av1_inv_txfm_avx2.c
+        aom-master/av1/common/x86/av1_inv_txfm_avx2.h
+        aom-master/av1/common/x86/av1_inv_txfm_ssse3.c
+        aom-master/av1/common/x86/av1_inv_txfm_ssse3.h
+        aom-master/av1/common/x86/av1_txfm_sse2.h
+        aom-master/av1/common/x86/av1_txfm_sse4.c
+        aom-master/av1/common/x86/av1_txfm_sse4.h
+        aom-master/av1/common/x86/cfl_avx2.c
+        aom-master/av1/common/x86/cfl_simd.h
+        aom-master/av1/common/x86/cfl_sse2.c
+        aom-master/av1/common/x86/cfl_ssse3.c
+        aom-master/av1/common/x86/convolve_2d_avx2.c
+        aom-master/av1/common/x86/convolve_2d_sse2.c
+        aom-master/av1/common/x86/convolve_avx2.c
+        aom-master/av1/common/x86/convolve_sse2.c
+        aom-master/av1/common/x86/filterintra_sse4.c
+        aom-master/av1/common/x86/highbd_convolve_2d_avx2.c
+        aom-master/av1/common/x86/highbd_convolve_2d_sse2.c
+        aom-master/av1/common/x86/highbd_convolve_2d_sse4.c
+        aom-master/av1/common/x86/highbd_convolve_2d_ssse3.c
+        aom-master/av1/common/x86/highbd_inv_txfm_avx2.c
+        aom-master/av1/common/x86/highbd_inv_txfm_sse4.c
+        aom-master/av1/common/x86/highbd_jnt_convolve_avx2.c
+        aom-master/av1/common/x86/highbd_jnt_convolve_sse4.c
+        aom-master/av1/common/x86/highbd_txfm_utility_sse4.h
+        aom-master/av1/common/x86/highbd_warp_plane_sse4.c
+        aom-master/av1/common/x86/highbd_wiener_convolve_avx2.c
+        aom-master/av1/common/x86/highbd_wiener_convolve_ssse3.c
+        aom-master/av1/common/x86/intra_edge_sse4.c
+        aom-master/av1/common/x86/jnt_convolve_avx2.c
+        aom-master/av1/common/x86/jnt_convolve_sse2.c
+        aom-master/av1/common/x86/jnt_convolve_ssse3.c
+        aom-master/av1/common/x86/reconinter_avx2.c
+        aom-master/av1/common/x86/reconinter_sse4.c
+        aom-master/av1/common/x86/reconinter_ssse3.c
+        aom-master/av1/common/x86/selfguided_avx2.c
+        aom-master/av1/common/x86/selfguided_sse4.c
+        aom-master/av1/common/x86/warp_plane_sse4.c
+        aom-master/av1/common/x86/wiener_convolve_avx2.c
+        aom-master/av1/common/x86/wiener_convolve_sse2.c
+        aom-master/av1/common/alloccommon.c
+        aom-master/av1/common/alloccommon.h
+        aom-master/av1/common/av1_inv_txfm1d.c
+        aom-master/av1/common/av1_inv_txfm1d.h
+        aom-master/av1/common/av1_inv_txfm1d_cfg.h
+        aom-master/av1/common/av1_inv_txfm2d.c
+        aom-master/av1/common/av1_loopfilter.c
+        aom-master/av1/common/av1_loopfilter.h
+        aom-master/av1/common/av1_rtcd.c
+        aom-master/av1/common/av1_txfm.c
+        aom-master/av1/common/av1_txfm.h
+        aom-master/av1/common/blockd.c
+        aom-master/av1/common/blockd.h
+        aom-master/av1/common/cdef.c
+        aom-master/av1/common/cdef.h
+        aom-master/av1/common/cdef_block.c
+        aom-master/av1/common/cdef_block.h
+        aom-master/av1/common/cdef_block_avx2.c
+        aom-master/av1/common/cdef_block_neon.c
+        aom-master/av1/common/cdef_block_simd.h
+        aom-master/av1/common/cdef_block_sse2.c
+        aom-master/av1/common/cdef_block_sse4.c
+        aom-master/av1/common/cdef_block_ssse3.c
+        aom-master/av1/common/cfl.c
+        aom-master/av1/common/cfl.h
+        aom-master/av1/common/common.h
+        aom-master/av1/common/common_data.h
+        aom-master/av1/common/convolve.c
+        aom-master/av1/common/convolve.h
+        aom-master/av1/common/debugmodes.c
+        aom-master/av1/common/entropy.c
+        aom-master/av1/common/entropy.h
+        aom-master/av1/common/entropymode.c
+        aom-master/av1/common/entropymode.h
+        aom-master/av1/common/entropymv.c
+        aom-master/av1/common/entropymv.h
+        aom-master/av1/common/enums.h
+        aom-master/av1/common/filter.c
+        aom-master/av1/common/filter.h
+        aom-master/av1/common/frame_buffers.c
+        aom-master/av1/common/frame_buffers.h
+        aom-master/av1/common/idct.c
+        aom-master/av1/common/idct.h
+        aom-master/av1/common/mv.h
+        aom-master/av1/common/mvref_common.c
+        aom-master/av1/common/mvref_common.h
+        aom-master/av1/common/obmc.h
+        aom-master/av1/common/odintrin.c
+        aom-master/av1/common/odintrin.h
+        aom-master/av1/common/onyxc_int.h
+        aom-master/av1/common/pred_common.c
+        aom-master/av1/common/pred_common.h
+        aom-master/av1/common/quant_common.c
+        aom-master/av1/common/quant_common.h
+        aom-master/av1/common/reconinter.c
+        aom-master/av1/common/reconinter.h
+        aom-master/av1/common/reconintra.c
+        aom-master/av1/common/reconintra.h
+        aom-master/av1/common/resize.c
+        aom-master/av1/common/resize.h
+        aom-master/av1/common/restoration.c
+        aom-master/av1/common/restoration.h
+        aom-master/av1/common/scale.c
+        aom-master/av1/common/scale.h
+        aom-master/av1/common/scan.c
+        aom-master/av1/common/scan.h
+        aom-master/av1/common/seg_common.c
+        aom-master/av1/common/seg_common.h
+        aom-master/av1/common/thread_common.c
+        aom-master/av1/common/thread_common.h
+        aom-master/av1/common/tile_common.c
+        aom-master/av1/common/tile_common.h
+        aom-master/av1/common/timing.h
+        aom-master/av1/common/token_cdfs.h
+        aom-master/av1/common/txb_common.c
+        aom-master/av1/common/txb_common.h
+        aom-master/av1/common/warped_motion.c
+        aom-master/av1/common/warped_motion.h
+        aom-master/av1/decoder/accounting.c
+        aom-master/av1/decoder/accounting.h
+        aom-master/av1/decoder/decodeframe.c
+        aom-master/av1/decoder/decodeframe.h
+        aom-master/av1/decoder/decodemv.c
+        aom-master/av1/decoder/decodemv.h
+        aom-master/av1/decoder/decoder.c
+        aom-master/av1/decoder/decoder.h
+        aom-master/av1/decoder/decodetxb.c
+        aom-master/av1/decoder/decodetxb.h
+        aom-master/av1/decoder/detokenize.c
+        aom-master/av1/decoder/detokenize.h
+        aom-master/av1/decoder/dthread.c
+        aom-master/av1/decoder/dthread.h
+        aom-master/av1/decoder/inspection.c
+        aom-master/av1/decoder/inspection.h
+        aom-master/av1/decoder/obu.c
+        aom-master/av1/decoder/obu.h
+        aom-master/av1/encoder/arm/neon/quantize_neon.c
+        aom-master/av1/encoder/mips/msa/error_msa.c
+        aom-master/av1/encoder/mips/msa/fdct4x4_msa.c
+        aom-master/av1/encoder/mips/msa/temporal_filter_msa.c
+        aom-master/av1/encoder/x86/av1_fwd_txfm1d_sse4.c
+        aom-master/av1/encoder/x86/av1_fwd_txfm2d_sse4.c
+        aom-master/av1/encoder/x86/av1_fwd_txfm_sse2.c
+        aom-master/av1/encoder/x86/av1_fwd_txfm_sse2.h
+        aom-master/av1/encoder/x86/av1_highbd_quantize_avx2.c
+        aom-master/av1/encoder/x86/av1_highbd_quantize_sse4.c
+        aom-master/av1/encoder/x86/av1_quantize_avx2.c
+        aom-master/av1/encoder/x86/av1_quantize_sse2.c
+        aom-master/av1/encoder/x86/av1_txfm1d_sse4.h
+        aom-master/av1/encoder/x86/corner_match_sse4.c
+        aom-master/av1/encoder/x86/encodetxb_sse2.c
+        aom-master/av1/encoder/x86/encodetxb_sse4.c
+        aom-master/av1/encoder/x86/error_intrin_avx2.c
+        aom-master/av1/encoder/x86/hash_sse42.c
+        aom-master/av1/encoder/x86/highbd_block_error_intrin_sse2.c
+        aom-master/av1/encoder/x86/highbd_fwd_txfm_sse4.c
+        aom-master/av1/encoder/x86/wedge_utils_sse2.c
+        aom-master/av1/encoder/aq_complexity.c
+        aom-master/av1/encoder/aq_complexity.h
+        aom-master/av1/encoder/aq_cyclicrefresh.c
+        aom-master/av1/encoder/aq_cyclicrefresh.h
+        aom-master/av1/encoder/aq_variance.c
+        aom-master/av1/encoder/aq_variance.h
+        aom-master/av1/encoder/av1_fwd_txfm1d.c
+        aom-master/av1/encoder/av1_fwd_txfm1d.h
+        aom-master/av1/encoder/av1_fwd_txfm1d_cfg.h
+        aom-master/av1/encoder/av1_fwd_txfm2d.c
+        aom-master/av1/encoder/av1_quantize.c
+        aom-master/av1/encoder/av1_quantize.h
+        aom-master/av1/encoder/bitstream.c
+        aom-master/av1/encoder/bitstream.h
+        aom-master/av1/encoder/block.h
+        aom-master/av1/encoder/blockiness.c
+        aom-master/av1/encoder/context_tree.c
+        aom-master/av1/encoder/context_tree.h
+        aom-master/av1/encoder/corner_detect.c
+        aom-master/av1/encoder/corner_detect.h
+        aom-master/av1/encoder/corner_match.c
+        aom-master/av1/encoder/corner_match.h
+        aom-master/av1/encoder/cost.c
+        aom-master/av1/encoder/cost.h
+        aom-master/av1/encoder/encodeframe.c
+        aom-master/av1/encoder/encodeframe.h
+        aom-master/av1/encoder/encodemb.c
+        aom-master/av1/encoder/encodemb.h
+        aom-master/av1/encoder/encodemv.c
+        aom-master/av1/encoder/encodemv.h
+        aom-master/av1/encoder/encoder.c
+        aom-master/av1/encoder/encoder.h
+        aom-master/av1/encoder/encodetxb.c
+        aom-master/av1/encoder/encodetxb.h
+        aom-master/av1/encoder/ethread.c
+        aom-master/av1/encoder/ethread.h
+        aom-master/av1/encoder/extend.c
+        aom-master/av1/encoder/extend.h
+        aom-master/av1/encoder/firstpass.c
+        aom-master/av1/encoder/firstpass.h
+        aom-master/av1/encoder/global_motion.c
+        aom-master/av1/encoder/global_motion.h
+        aom-master/av1/encoder/grain_test_vectors.h
+        aom-master/av1/encoder/hash.c
+        aom-master/av1/encoder/hash.h
+        aom-master/av1/encoder/hash_motion.c
+        aom-master/av1/encoder/hash_motion.h
+        aom-master/av1/encoder/hybrid_fwd_txfm.c
+        aom-master/av1/encoder/hybrid_fwd_txfm.h
+        aom-master/av1/encoder/k_means_template.h
+        aom-master/av1/encoder/lookahead.c
+        aom-master/av1/encoder/lookahead.h
+        aom-master/av1/encoder/mathutils.h
+        aom-master/av1/encoder/mbgraph.c
+        aom-master/av1/encoder/mbgraph.h
+        aom-master/av1/encoder/mcomp.c
+        aom-master/av1/encoder/mcomp.h
+        aom-master/av1/encoder/ml.c
+        aom-master/av1/encoder/ml.h
+        aom-master/av1/encoder/palette.c
+        aom-master/av1/encoder/palette.h
+        aom-master/av1/encoder/pickcdef.c
+        aom-master/av1/encoder/picklpf.c
+        aom-master/av1/encoder/picklpf.h
+        aom-master/av1/encoder/pickrst.c
+        aom-master/av1/encoder/pickrst.h
+        aom-master/av1/encoder/random.h
+        aom-master/av1/encoder/ransac.c
+        aom-master/av1/encoder/ransac.h
+        aom-master/av1/encoder/ratectrl.c
+        aom-master/av1/encoder/ratectrl.h
+        aom-master/av1/encoder/ratectrl_xiph.c
+        aom-master/av1/encoder/ratectrl_xiph.h
+        aom-master/av1/encoder/rd.c
+        aom-master/av1/encoder/rd.h
+        aom-master/av1/encoder/rdopt.c
+        aom-master/av1/encoder/rdopt.h
+        aom-master/av1/encoder/segmentation.c
+        aom-master/av1/encoder/segmentation.h
+        aom-master/av1/encoder/speed_features.c
+        aom-master/av1/encoder/speed_features.h
+        aom-master/av1/encoder/temporal_filter.c
+        aom-master/av1/encoder/temporal_filter.h
+        aom-master/av1/encoder/timing.c
+        aom-master/av1/encoder/tokenize.c
+        aom-master/av1/encoder/tokenize.h
+        aom-master/av1/encoder/tx_prune_model_weights.h
+        aom-master/av1/encoder/wedge_utils.c
+        aom-master/av1/av1_cx_iface.c
+        aom-master/av1/av1_dx_iface.c
+        aom-master/av1/av1_iface_common.h
+        aom-master/common/args.c
+        aom-master/common/args.h
+        aom-master/common/ivfdec.c
+        aom-master/common/ivfdec.h
+        aom-master/common/ivfenc.c
+        aom-master/common/ivfenc.h
+        aom-master/common/md5_utils.c
+        aom-master/common/md5_utils.h
+        aom-master/common/obudec.c
+        aom-master/common/obudec.h
+        aom-master/common/tools_common.c
+        aom-master/common/tools_common.h
+        aom-master/common/video_common.h
+        aom-master/common/video_reader.c
+        aom-master/common/video_reader.h
+        aom-master/common/video_writer.c
+        aom-master/common/video_writer.h
+        aom-master/common/warnings.c
+        aom-master/common/warnings.h
+        aom-master/common/webmdec.cc
+        aom-master/common/webmdec.h
+        aom-master/common/webmenc.cc
+        aom-master/common/webmenc.h
+        aom-master/common/y4menc.c
+        aom-master/common/y4menc.h
+        aom-master/common/y4minput.c
+        aom-master/common/y4minput.h
+        aom-master/examples/analyzer.cc
+        aom-master/examples/aom_cx_set_ref.c
+        aom-master/examples/decode_to_md5.c
+        aom-master/examples/decode_with_drops.c
+        aom-master/examples/encoder_util.c
+        aom-master/examples/encoder_util.h
+        aom-master/examples/inspect.c
+        aom-master/examples/lightfield_decoder.c
+        aom-master/examples/lightfield_encoder.c
+        aom-master/examples/lossless_encoder.c
+        aom-master/examples/noise_model.c
+        aom-master/examples/resize_util.c
+        aom-master/examples/scalable_decoder.c
+        aom-master/examples/scalable_encoder.c
+        aom-master/examples/set_maps.c
+        aom-master/examples/simple_decoder.c
+        aom-master/examples/simple_encoder.c
+        aom-master/examples/twopass_encoder.c
+        aom-master/stats/aomstats.c
+        aom-master/stats/aomstats.h
+        aom-master/stats/rate_hist.c
+        aom-master/stats/rate_hist.h
+        aom-master/test/accounting_test.cc
+        aom-master/test/acm_random.h
+        aom-master/test/active_map_test.cc
+        aom-master/test/altref_test.cc
+        aom-master/test/aom_integer_test.cc
+        aom-master/test/aq_segment_test.cc
+        aom-master/test/arf_freq_test.cc
+        aom-master/test/av1_convolve_2d_test.cc
+        aom-master/test/av1_convolve_2d_test_util.cc
+        aom-master/test/av1_convolve_2d_test_util.h
+        aom-master/test/av1_convolve_scale_test.cc
+        aom-master/test/av1_ext_tile_test.cc
+        aom-master/test/av1_fwd_txfm1d_test.cc
+        aom-master/test/av1_fwd_txfm2d_test.cc
+        aom-master/test/av1_highbd_iht_test.cc
+        aom-master/test/av1_horz_only_frame_superres_test.cc
+        aom-master/test/av1_inv_txfm1d_test.cc
+        aom-master/test/av1_inv_txfm2d_test.cc
+        aom-master/test/av1_quantize_test.cc
+        aom-master/test/av1_txfm_test.cc
+        aom-master/test/av1_txfm_test.h
+        aom-master/test/av1_wedge_utils_test.cc
+        aom-master/test/avg_test.cc
+        aom-master/test/binary_codes_test.cc
+        aom-master/test/blend_a64_mask_1d_test.cc
+        aom-master/test/blend_a64_mask_test.cc
+        aom-master/test/boolcoder_test.cc
+        aom-master/test/borders_test.cc
+        aom-master/test/cdef_test.cc
+        aom-master/test/cfl_test.cc
+        aom-master/test/clear_system_state.h
+        aom-master/test/codec_factory.h
+        aom-master/test/coding_path_sync.cc
+        aom-master/test/comp_avg_pred_test.cc
+        aom-master/test/comp_avg_pred_test.h
+        aom-master/test/comp_mask_variance_test.cc
+        aom-master/test/convolve_round_test.cc
+        aom-master/test/convolve_test.cc
+        aom-master/test/corner_match_test.cc
+        aom-master/test/cpu_speed_test.cc
+        aom-master/test/datarate_test.cc
+        aom-master/test/decode_api_test.cc
+        aom-master/test/decode_multithreaded_test.cc
+        aom-master/test/decode_perf_test.cc
+        aom-master/test/decode_test_driver.cc
+        aom-master/test/decode_test_driver.h
+        aom-master/test/divu_small_test.cc
+        aom-master/test/ec_test.cc
+        aom-master/test/encode_api_test.cc
+        aom-master/test/encode_perf_test.cc
+        aom-master/test/encode_test_driver.cc
+        aom-master/test/encode_test_driver.h
+        aom-master/test/encodetxb_test.cc
+        aom-master/test/end_to_end_test.cc
+        aom-master/test/error_block_test.cc
+        aom-master/test/error_resilience_test.cc
+        aom-master/test/ethread_test.cc
+        aom-master/test/film_grain_table_test.cc
+        aom-master/test/filterintra_test.cc
+        aom-master/test/frame_size_tests.cc
+        aom-master/test/function_equivalence_test.h
+        aom-master/test/fwht4x4_test.cc
+        aom-master/test/hadamard_test.cc
+        aom-master/test/hash_test.cc
+        aom-master/test/hbd_metrics_test.cc
+        aom-master/test/hiprec_convolve_test.cc
+        aom-master/test/hiprec_convolve_test_util.cc
+        aom-master/test/hiprec_convolve_test_util.h
+        aom-master/test/horz_superres_test.cc
+        aom-master/test/i420_video_source.h
+        aom-master/test/intra_edge_test.cc
+        aom-master/test/intrabc_test.cc
+        aom-master/test/intrapred_test.cc
+        aom-master/test/invalid_file_test.cc
+        aom-master/test/ivf_video_source.h
+        aom-master/test/lossless_test.cc
+        aom-master/test/lpf_test.cc
+        aom-master/test/masked_sad_test.cc
+        aom-master/test/masked_variance_test.cc
+        aom-master/test/md5_helper.h
+        aom-master/test/minmax_test.cc
+        aom-master/test/monochrome_test.cc
+        aom-master/test/motion_vector_test.cc
+        aom-master/test/noise_model_test.cc
+        aom-master/test/obmc_sad_test.cc
+        aom-master/test/obmc_variance_test.cc
+        aom-master/test/onyxc_int_test.cc
+        aom-master/test/qm_test.cc
+        aom-master/test/quantize_func_test.cc
+        aom-master/test/reconinter_test.cc
+        aom-master/test/register_state_check.h
+        aom-master/test/resize_test.cc
+        aom-master/test/sad_test.cc
+        aom-master/test/scalability_test.cc
+        aom-master/test/scan_test.cc
+        aom-master/test/segment_binarization_sync.cc
+        aom-master/test/selfguided_filter_test.cc
+        aom-master/test/simd_avx2_test.cc
+        aom-master/test/simd_cmp_avx2.cc
+        aom-master/test/simd_cmp_impl.h
+        aom-master/test/simd_cmp_neon.cc
+        aom-master/test/simd_cmp_sse2.cc
+        aom-master/test/simd_cmp_sse4.cc
+        aom-master/test/simd_cmp_ssse3.cc
+        aom-master/test/simd_impl.h
+        aom-master/test/simd_neon_test.cc
+        aom-master/test/simd_sse2_test.cc
+        aom-master/test/simd_sse4_test.cc
+        aom-master/test/simd_ssse3_test.cc
+        aom-master/test/subtract_test.cc
+        aom-master/test/sum_squares_test.cc
+        aom-master/test/superframe_test.cc
+        aom-master/test/test_intra_pred_speed.cc
+        aom-master/test/test_libaom.cc
+        aom-master/test/tile_independence_test.cc
+        aom-master/test/transform_test_base.h
+        aom-master/test/util.h
+        aom-master/test/variance_test.cc
+        aom-master/test/video_source.h
+        aom-master/test/warp_filter_test.cc
+        aom-master/test/warp_filter_test_util.cc
+        aom-master/test/warp_filter_test_util.h
+        aom-master/test/webm_video_source.h
+        aom-master/test/y4m_test.cc
+        aom-master/test/y4m_video_source.h
+        aom-master/test/yuv_video_source.h
+        aom-master/third_party/fastfeat/fast.c
+        aom-master/third_party/fastfeat/fast.h
+        aom-master/third_party/fastfeat/fast_9.c
+        aom-master/third_party/fastfeat/nonmax.c
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/custom/gtest-port.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/custom/gtest-printers.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/custom/gtest.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-death-test-internal.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-filepath.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-internal.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-linked_ptr.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-param-util-generated.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-param-util.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-port-arch.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-port.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-string.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-tuple.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/internal/gtest-type-util.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest-death-test.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest-message.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest-param-test.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest-printers.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest-spi.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest-test-part.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest-typed-test.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest_pred_impl.h
+        aom-master/third_party/googletest/src/googletest/include/gtest/gtest_prod.h
+        aom-master/third_party/googletest/src/googletest/src/gtest-all.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest-death-test.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest-filepath.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest-internal-inl.h
+        aom-master/third_party/googletest/src/googletest/src/gtest-port.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest-printers.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest-test-part.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest-typed-test.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest.cc
+        aom-master/third_party/googletest/src/googletest/src/gtest_main.cc
+        aom-master/third_party/libwebm/common/file_util.cc
+        aom-master/third_party/libwebm/common/file_util.h
+        aom-master/third_party/libwebm/common/hdr_util.cc
+        aom-master/third_party/libwebm/common/hdr_util.h
+        aom-master/third_party/libwebm/common/webmids.h
+        aom-master/third_party/libwebm/mkvmuxer/mkvmuxer.cc
+        aom-master/third_party/libwebm/mkvmuxer/mkvmuxer.h
+        aom-master/third_party/libwebm/mkvmuxer/mkvmuxertypes.h
+        aom-master/third_party/libwebm/mkvmuxer/mkvmuxerutil.cc
+        aom-master/third_party/libwebm/mkvmuxer/mkvmuxerutil.h
+        aom-master/third_party/libwebm/mkvmuxer/mkvwriter.cc
+        aom-master/third_party/libwebm/mkvmuxer/mkvwriter.h
+        aom-master/third_party/libwebm/mkvparser/mkvparser.cc
+        aom-master/third_party/libwebm/mkvparser/mkvparser.h
+        aom-master/third_party/libwebm/mkvparser/mkvreader.cc
+        aom-master/third_party/libwebm/mkvparser/mkvreader.h
+        aom-master/third_party/libyuv/include/libyuv/basic_types.h
+        aom-master/third_party/libyuv/include/libyuv/compare.h
+        aom-master/third_party/libyuv/include/libyuv/convert.h
+        aom-master/third_party/libyuv/include/libyuv/convert_argb.h
+        aom-master/third_party/libyuv/include/libyuv/convert_from.h
+        aom-master/third_party/libyuv/include/libyuv/convert_from_argb.h
+        aom-master/third_party/libyuv/include/libyuv/cpu_id.h
+        aom-master/third_party/libyuv/include/libyuv/mjpeg_decoder.h
+        aom-master/third_party/libyuv/include/libyuv/planar_functions.h
+        aom-master/third_party/libyuv/include/libyuv/rotate.h
+        aom-master/third_party/libyuv/include/libyuv/rotate_argb.h
+        aom-master/third_party/libyuv/include/libyuv/rotate_row.h
+        aom-master/third_party/libyuv/include/libyuv/row.h
+        aom-master/third_party/libyuv/include/libyuv/scale.h
+        aom-master/third_party/libyuv/include/libyuv/scale_argb.h
+        aom-master/third_party/libyuv/include/libyuv/scale_row.h
+        aom-master/third_party/libyuv/include/libyuv/version.h
+        aom-master/third_party/libyuv/include/libyuv/video_common.h
+        aom-master/third_party/libyuv/source/compare.cc
+        aom-master/third_party/libyuv/source/compare_common.cc
+        aom-master/third_party/libyuv/source/compare_gcc.cc
+        aom-master/third_party/libyuv/source/compare_neon.cc
+        aom-master/third_party/libyuv/source/compare_neon64.cc
+        aom-master/third_party/libyuv/source/compare_win.cc
+        aom-master/third_party/libyuv/source/convert.cc
+        aom-master/third_party/libyuv/source/convert_argb.cc
+        aom-master/third_party/libyuv/source/convert_from.cc
+        aom-master/third_party/libyuv/source/convert_from_argb.cc
+        aom-master/third_party/libyuv/source/convert_jpeg.cc
+        aom-master/third_party/libyuv/source/convert_to_argb.cc
+        aom-master/third_party/libyuv/source/convert_to_i420.cc
+        aom-master/third_party/libyuv/source/cpu_id.cc
+        aom-master/third_party/libyuv/source/mjpeg_decoder.cc
+        aom-master/third_party/libyuv/source/mjpeg_validate.cc
+        aom-master/third_party/libyuv/source/planar_functions.cc
+        aom-master/third_party/libyuv/source/rotate.cc
+        aom-master/third_party/libyuv/source/rotate_any.cc
+        aom-master/third_party/libyuv/source/rotate_argb.cc
+        aom-master/third_party/libyuv/source/rotate_common.cc
+        aom-master/third_party/libyuv/source/rotate_gcc.cc
+        aom-master/third_party/libyuv/source/rotate_mips.cc
+        aom-master/third_party/libyuv/source/rotate_neon.cc
+        aom-master/third_party/libyuv/source/rotate_neon64.cc
+        aom-master/third_party/libyuv/source/rotate_win.cc
+        aom-master/third_party/libyuv/source/row_any.cc
+        aom-master/third_party/libyuv/source/row_common.cc
+        aom-master/third_party/libyuv/source/row_gcc.cc
+        aom-master/third_party/libyuv/source/row_mips.cc
+        aom-master/third_party/libyuv/source/row_neon.cc
+        aom-master/third_party/libyuv/source/row_neon64.cc
+        aom-master/third_party/libyuv/source/row_win.cc
+        aom-master/third_party/libyuv/source/scale.cc
+        aom-master/third_party/libyuv/source/scale_any.cc
+        aom-master/third_party/libyuv/source/scale_argb.cc
+        aom-master/third_party/libyuv/source/scale_common.cc
+        aom-master/third_party/libyuv/source/scale_gcc.cc
+        aom-master/third_party/libyuv/source/scale_mips.cc
+        aom-master/third_party/libyuv/source/scale_neon.cc
+        aom-master/third_party/libyuv/source/scale_neon64.cc
+        aom-master/third_party/libyuv/source/scale_win.cc
+        aom-master/third_party/libyuv/source/video_common.cc
+        aom-master/third_party/vector/vector.c
+        aom-master/third_party/vector/vector.h
+        aom-master/tools/txfm_analyzer/txfm_gen_code.cc
+        aom-master/tools/txfm_analyzer/txfm_graph.cc
+        aom-master/tools/txfm_analyzer/txfm_graph.h
+        aom-master/tools/aom_entropy_optimizer.c
+        aom-master/tools/dump_obu.cc
+        aom-master/tools/obu_parser.cc
+        aom-master/tools/obu_parser.h
         compat/aix/math.h
         compat/atomics/dummy/stdatomic.h
         compat/atomics/gcc/stdatomic.h
@@ -394,6 +1240,7 @@ add_executable(ffmpeg
         libavcodec/tests/mjpegenc_huffman.c
         libavcodec/tests/motion.c
         libavcodec/tests/mpeg12framerate.c
+        libavcodec/tests/options.c
         libavcodec/tests/rangecoder.c
         libavcodec/tests/snowenc.c
         libavcodec/tests/utils.c
@@ -408,7 +1255,6 @@ add_executable(ffmpeg
         libavcodec/x86/cavsdsp.c
         libavcodec/x86/celt_pvq_init.c
         libavcodec/x86/cfhddsp_init.c
-        libavcodec/x86/cfhdencdsp_init.c
         libavcodec/x86/constants.c
         libavcodec/x86/constants.h
         libavcodec/x86/dcadsp_init.c
@@ -713,6 +1559,7 @@ add_executable(ffmpeg
         libavcodec/bsf.c
         libavcodec/bsf.h
         libavcodec/bsf_internal.h
+        libavcodec/bsf_list.c
         libavcodec/bswapdsp.c
         libavcodec/bswapdsp.h
         libavcodec/bytestream.h
@@ -776,8 +1623,6 @@ add_executable(ffmpeg
         libavcodec/cfhddsp.c
         libavcodec/cfhddsp.h
         libavcodec/cfhdenc.c
-        libavcodec/cfhdencdsp.c
-        libavcodec/cfhdencdsp.h
         libavcodec/cga_data.c
         libavcodec/cga_data.h
         libavcodec/chomp_bsf.c
@@ -796,6 +1641,7 @@ add_executable(ffmpeg
         libavcodec/codec_desc.c
         libavcodec/codec_desc.h
         libavcodec/codec_id.h
+        libavcodec/codec_list.c
         libavcodec/codec_par.h
         libavcodec/cook.c
         libavcodec/cook_parser.c
@@ -1006,7 +1852,6 @@ add_executable(ffmpeg
         libavcodec/flashsv2enc.c
         libavcodec/flashsvenc.c
         libavcodec/flicvideo.c
-        libavcodec/float2half.h
         libavcodec/flv.h
         libavcodec/flvdec.c
         libavcodec/flvenc.c
@@ -1114,7 +1959,6 @@ add_executable(ffmpeg
         libavcodec/h265_metadata_bsf.c
         libavcodec/h265_profile_level.c
         libavcodec/h265_profile_level.h
-        libavcodec/half2float.h
         libavcodec/hap.c
         libavcodec/hap.h
         libavcodec/hapdec.c
@@ -1188,7 +2032,6 @@ add_executable(ffmpeg
         libavcodec/imgconvert.c
         libavcodec/imm4.c
         libavcodec/imm5.c
-        libavcodec/imx.c
         libavcodec/imx_dump_header_bsf.c
         libavcodec/indeo2.c
         libavcodec/indeo2data.h
@@ -1300,6 +2143,7 @@ add_executable(ffmpeg
         libavcodec/libxavs.c
         libavcodec/libxavs2.c
         libavcodec/libxvid.c
+        libavcodec/libxvid.h
         libavcodec/libzvbi-teletextdec.c
         libavcodec/ljpegenc.c
         libavcodec/loco.c
@@ -1312,7 +2156,6 @@ add_executable(ffmpeg
         libavcodec/lossless_videoencdsp.h
         libavcodec/lpc.c
         libavcodec/lpc.h
-        libavcodec/lscrdec.c
         libavcodec/lsp.c
         libavcodec/lsp.h
         libavcodec/lzf.c
@@ -1361,7 +2204,6 @@ add_executable(ffmpeg
         libavcodec/mjpegbdec.c
         libavcodec/mjpegdec.c
         libavcodec/mjpegdec.h
-        libavcodec/mjpegdec_common.c
         libavcodec/mjpegenc.c
         libavcodec/mjpegenc.h
         libavcodec/mjpegenc_common.c
@@ -1555,6 +2397,7 @@ add_executable(ffmpeg
         libavcodec/pamenc.c
         libavcodec/parser.c
         libavcodec/parser.h
+        libavcodec/parser_list.c
         libavcodec/parsers.c
         libavcodec/pcm-bluray.c
         libavcodec/pcm-dvd.c
@@ -1624,6 +2467,7 @@ add_executable(ffmpeg
         libavcodec/qsv_api.c
         libavcodec/qsv_internal.h
         libavcodec/qsvdec.c
+        libavcodec/qsvdec.h
         libavcodec/qsvenc.c
         libavcodec/qsvenc.h
         libavcodec/qsvenc_h264.c
@@ -1720,7 +2564,6 @@ add_executable(ffmpeg
         libavcodec/screenpresso.c
         libavcodec/sei.h
         libavcodec/setts_bsf.c
-        libavcodec/sga.c
         libavcodec/sgi.h
         libavcodec/sgidec.c
         libavcodec/sgienc.c
@@ -1803,6 +2646,7 @@ add_executable(ffmpeg
         libavcodec/tiff.h
         libavcodec/tiff_common.c
         libavcodec/tiff_common.h
+        libavcodec/tiff_data.c
         libavcodec/tiff_data.h
         libavcodec/tiffenc.c
         libavcodec/tmv.c
@@ -1827,8 +2671,6 @@ add_executable(ffmpeg
         libavcodec/ttaenc.c
         libavcodec/ttaencdsp.c
         libavcodec/ttaencdsp.h
-        libavcodec/ttmlenc.c
-        libavcodec/ttmlenc.h
         libavcodec/twinvq.c
         libavcodec/twinvq.h
         libavcodec/twinvq_data.h
@@ -2092,6 +2934,7 @@ add_executable(ffmpeg
         libavdevice/file_open.c
         libavdevice/gdigrab.c
         libavdevice/iec61883.c
+        libavdevice/indev_list.c
         libavdevice/internal.h
         libavdevice/jack.c
         libavdevice/kmsgrab.c
@@ -2105,6 +2948,7 @@ add_executable(ffmpeg
         libavdevice/oss.h
         libavdevice/oss_dec.c
         libavdevice/oss_enc.c
+        libavdevice/outdev_list.c
         libavdevice/pulse_audio_common.c
         libavdevice/pulse_audio_common.h
         libavdevice/pulse_audio_dec.c
@@ -2357,6 +3201,7 @@ add_executable(ffmpeg
         libavfilter/f_streamselect.c
         libavfilter/f_zmq.c
         libavfilter/fifo.c
+        libavfilter/filter_list.c
         libavfilter/filters.h
         libavfilter/formats.c
         libavfilter/formats.h
@@ -2536,7 +3381,6 @@ add_executable(ffmpeg
         libavfilter/vf_hwupload.c
         libavfilter/vf_hwupload_cuda.c
         libavfilter/vf_hysteresis.c
-        libavfilter/vf_identity.c
         libavfilter/vf_idet.c
         libavfilter/vf_idet.h
         libavfilter/vf_il.c
@@ -2734,7 +3578,6 @@ add_executable(ffmpeg
         libavformat/adxdec.c
         libavformat/aea.c
         libavformat/afc.c
-        libavformat/aiff.c
         libavformat/aiff.h
         libavformat/aiffdec.c
         libavformat/aiffenc.c
@@ -2825,6 +3668,7 @@ add_executable(ffmpeg
         libavformat/dauddec.c
         libavformat/daudenc.c
         libavformat/dcstr.c
+        libavformat/demuxer_list.c
         libavformat/derf.c
         libavformat/dfa.c
         libavformat/dhav.c
@@ -2927,7 +3771,6 @@ add_executable(ffmpeg
         libavformat/img2_brender_pix.c
         libavformat/img2dec.c
         libavformat/img2enc.c
-        libavformat/imx.c
         libavformat/ingenientdec.c
         libavformat/internal.h
         libavformat/ip.c
@@ -2940,7 +3783,6 @@ add_executable(ffmpeg
         libavformat/ircamenc.c
         libavformat/isom.c
         libavformat/isom.h
-        libavformat/isom_tags.c
         libavformat/iss.c
         libavformat/iv8.c
         libavformat/ivfdec.c
@@ -3025,6 +3867,7 @@ add_executable(ffmpeg
         libavformat/mtv.c
         libavformat/musx.c
         libavformat/mux.c
+        libavformat/muxer_list.c
         libavformat/mvdec.c
         libavformat/mvi.c
         libavformat/mxf.c
@@ -3074,6 +3917,7 @@ add_executable(ffmpeg
         libavformat/pmpdec.c
         libavformat/pp_bnk.c
         libavformat/prompeg.c
+        libavformat/protocol_list.c
         libavformat/protocols.c
         libavformat/psxstr.c
         libavformat/pva.c
@@ -3196,7 +4040,6 @@ add_executable(ffmpeg
         libavformat/segafilmenc.c
         libavformat/segment.c
         libavformat/serdec.c
-        libavformat/sga.c
         libavformat/shortendec.c
         libavformat/sierravmd.c
         libavformat/siff.c
@@ -3254,7 +4097,6 @@ add_executable(ffmpeg
         libavformat/tmv.c
         libavformat/tta.c
         libavformat/ttaenc.c
-        libavformat/ttmlenc.c
         libavformat/tty.c
         libavformat/txd.c
         libavformat/ty.c
@@ -3464,6 +4306,7 @@ add_executable(ffmpeg
         libavutil/audio_fifo.c
         libavutil/audio_fifo.h
         libavutil/avassert.h
+        libavutil/avconfig.h
         libavutil/avsscanf.c
         libavutil/avstring.c
         libavutil/avstring.h
@@ -3512,6 +4355,7 @@ add_executable(ffmpeg
         libavutil/eval.c
         libavutil/eval.h
         libavutil/ffmath.h
+        libavutil/ffversion.h
         libavutil/fifo.c
         libavutil/fifo.h
         libavutil/file.c
@@ -3741,6 +4585,438 @@ add_executable(ffmpeg
         libswscale/version.h
         libswscale/vscale.c
         libswscale/yuv2rgb.c
+        openjpeg/cmake/TestFileOffsetBits.c
+        openjpeg/cmake/TestWindowsFSeek.c
+        openjpeg/src/bin/common/color.c
+        openjpeg/src/bin/common/color.h
+        openjpeg/src/bin/common/format_defs.h
+        openjpeg/src/bin/common/opj_getopt.c
+        openjpeg/src/bin/common/opj_getopt.h
+        openjpeg/src/bin/common/opj_string.h
+        openjpeg/src/bin/jp2/convert.c
+        openjpeg/src/bin/jp2/convert.h
+        openjpeg/src/bin/jp2/convertbmp.c
+        openjpeg/src/bin/jp2/convertpng.c
+        openjpeg/src/bin/jp2/converttif.c
+        openjpeg/src/bin/jp2/index.c
+        openjpeg/src/bin/jp2/index.h
+        openjpeg/src/bin/jp2/opj_compress.c
+        openjpeg/src/bin/jp2/opj_decompress.c
+        openjpeg/src/bin/jp2/opj_dump.c
+        openjpeg/src/bin/jp2/windirent.h
+        openjpeg/src/bin/jp3d/convert.c
+        openjpeg/src/bin/jp3d/convert.h
+        openjpeg/src/bin/jp3d/getopt.c
+        openjpeg/src/bin/jp3d/getopt.h
+        openjpeg/src/bin/jp3d/opj_jp3d_compress.c
+        openjpeg/src/bin/jp3d/opj_jp3d_decompress.c
+        openjpeg/src/bin/jp3d/windirent.h
+        openjpeg/src/bin/jpip/opj_dec_server.c
+        openjpeg/src/bin/jpip/opj_jpip_addxml.c
+        openjpeg/src/bin/jpip/opj_jpip_test.c
+        openjpeg/src/bin/jpip/opj_jpip_transcode.c
+        openjpeg/src/bin/jpip/opj_server.c
+        openjpeg/src/bin/jpwl/convert.c
+        openjpeg/src/bin/jpwl/convert.h
+        openjpeg/src/bin/jpwl/index.c
+        openjpeg/src/bin/jpwl/index.h
+        openjpeg/src/bin/jpwl/opj_jpwl_compress.c
+        openjpeg/src/bin/jpwl/opj_jpwl_decompress.c
+        openjpeg/src/bin/jpwl/windirent.h
+        openjpeg/src/bin/mj2/meta_out.c
+        openjpeg/src/bin/mj2/meta_out.h
+        openjpeg/src/bin/mj2/mj2_to_metadata.c
+        openjpeg/src/bin/mj2/mj2_to_metadata.h
+        openjpeg/src/bin/mj2/opj_mj2_compress.c
+        openjpeg/src/bin/mj2/opj_mj2_decompress.c
+        openjpeg/src/bin/mj2/opj_mj2_extract.c
+        openjpeg/src/bin/mj2/opj_mj2_wrap.c
+        openjpeg/src/bin/wx/OPJViewer/source/about_htm.h
+        openjpeg/src/bin/wx/OPJViewer/source/build.h
+        openjpeg/src/bin/wx/OPJViewer/source/imagjpeg2000.cpp
+        openjpeg/src/bin/wx/OPJViewer/source/imagjpeg2000.h
+        openjpeg/src/bin/wx/OPJViewer/source/imagmxf.cpp
+        openjpeg/src/bin/wx/OPJViewer/source/imagmxf.h
+        openjpeg/src/bin/wx/OPJViewer/source/OPJAbout.cpp
+        openjpeg/src/bin/wx/OPJViewer/source/OPJDialogs.cpp
+        openjpeg/src/bin/wx/OPJViewer/source/OPJThreads.cpp
+        openjpeg/src/bin/wx/OPJViewer/source/OPJViewer.cpp
+        openjpeg/src/bin/wx/OPJViewer/source/OPJViewer.h
+        openjpeg/src/bin/wx/OPJViewer/source/wxj2kparser.cpp
+        openjpeg/src/bin/wx/OPJViewer/source/wxjp2parser.cpp
+        openjpeg/src/lib/openjp2/bench_dwt.c
+        openjpeg/src/lib/openjp2/bio.c
+        openjpeg/src/lib/openjp2/bio.h
+        openjpeg/src/lib/openjp2/cidx_manager.c
+        openjpeg/src/lib/openjp2/cidx_manager.h
+        openjpeg/src/lib/openjp2/cio.c
+        openjpeg/src/lib/openjp2/cio.h
+        openjpeg/src/lib/openjp2/dwt.c
+        openjpeg/src/lib/openjp2/dwt.h
+        openjpeg/src/lib/openjp2/event.c
+        openjpeg/src/lib/openjp2/event.h
+        openjpeg/src/lib/openjp2/function_list.c
+        openjpeg/src/lib/openjp2/function_list.h
+        openjpeg/src/lib/openjp2/image.c
+        openjpeg/src/lib/openjp2/image.h
+        openjpeg/src/lib/openjp2/indexbox_manager.h
+        openjpeg/src/lib/openjp2/invert.c
+        openjpeg/src/lib/openjp2/invert.h
+        openjpeg/src/lib/openjp2/j2k.c
+        openjpeg/src/lib/openjp2/j2k.h
+        openjpeg/src/lib/openjp2/jp2.c
+        openjpeg/src/lib/openjp2/jp2.h
+        openjpeg/src/lib/openjp2/mct.c
+        openjpeg/src/lib/openjp2/mct.h
+        openjpeg/src/lib/openjp2/mqc.c
+        openjpeg/src/lib/openjp2/mqc.h
+        openjpeg/src/lib/openjp2/mqc_inl.h
+        openjpeg/src/lib/openjp2/openjpeg.c
+        openjpeg/src/lib/openjp2/openjpeg.h
+        openjpeg/src/lib/openjp2/opj_clock.c
+        openjpeg/src/lib/openjp2/opj_clock.h
+        openjpeg/src/lib/openjp2/opj_codec.h
+        openjpeg/src/lib/openjp2/opj_common.h
+        openjpeg/src/lib/openjp2/opj_includes.h
+        openjpeg/src/lib/openjp2/opj_intmath.h
+        openjpeg/src/lib/openjp2/opj_inttypes.h
+        openjpeg/src/lib/openjp2/opj_malloc.c
+        openjpeg/src/lib/openjp2/opj_malloc.h
+        openjpeg/src/lib/openjp2/opj_stdint.h
+        openjpeg/src/lib/openjp2/phix_manager.c
+        openjpeg/src/lib/openjp2/pi.c
+        openjpeg/src/lib/openjp2/pi.h
+        openjpeg/src/lib/openjp2/ppix_manager.c
+        openjpeg/src/lib/openjp2/sparse_array.c
+        openjpeg/src/lib/openjp2/sparse_array.h
+        openjpeg/src/lib/openjp2/t1.c
+        openjpeg/src/lib/openjp2/t1.h
+        openjpeg/src/lib/openjp2/t1_generate_luts.c
+        openjpeg/src/lib/openjp2/t1_luts.h
+        openjpeg/src/lib/openjp2/t2.c
+        openjpeg/src/lib/openjp2/t2.h
+        openjpeg/src/lib/openjp2/tcd.c
+        openjpeg/src/lib/openjp2/tcd.h
+        openjpeg/src/lib/openjp2/test_sparse_array.c
+        openjpeg/src/lib/openjp2/tgt.c
+        openjpeg/src/lib/openjp2/tgt.h
+        openjpeg/src/lib/openjp2/thix_manager.c
+        openjpeg/src/lib/openjp2/thread.c
+        openjpeg/src/lib/openjp2/thread.h
+        openjpeg/src/lib/openjp2/tls_keys.h
+        openjpeg/src/lib/openjp2/tpix_manager.c
+        openjpeg/src/lib/openjp3d/bio.c
+        openjpeg/src/lib/openjp3d/bio.h
+        openjpeg/src/lib/openjp3d/cio.c
+        openjpeg/src/lib/openjp3d/cio.h
+        openjpeg/src/lib/openjp3d/dwt.c
+        openjpeg/src/lib/openjp3d/dwt.h
+        openjpeg/src/lib/openjp3d/event.c
+        openjpeg/src/lib/openjp3d/event.h
+        openjpeg/src/lib/openjp3d/fix.h
+        openjpeg/src/lib/openjp3d/int.h
+        openjpeg/src/lib/openjp3d/jp3d.c
+        openjpeg/src/lib/openjp3d/jp3d.h
+        openjpeg/src/lib/openjp3d/jp3d_lib.c
+        openjpeg/src/lib/openjp3d/jp3d_lib.h
+        openjpeg/src/lib/openjp3d/mct.c
+        openjpeg/src/lib/openjp3d/mct.h
+        openjpeg/src/lib/openjp3d/mqc.c
+        openjpeg/src/lib/openjp3d/mqc.h
+        openjpeg/src/lib/openjp3d/openjp3d.c
+        openjpeg/src/lib/openjp3d/openjp3d.h
+        openjpeg/src/lib/openjp3d/opj_includes.h
+        openjpeg/src/lib/openjp3d/pi.c
+        openjpeg/src/lib/openjp3d/pi.h
+        openjpeg/src/lib/openjp3d/raw.c
+        openjpeg/src/lib/openjp3d/raw.h
+        openjpeg/src/lib/openjp3d/t1.c
+        openjpeg/src/lib/openjp3d/t1.h
+        openjpeg/src/lib/openjp3d/t1_3d.c
+        openjpeg/src/lib/openjp3d/t1_3d.h
+        openjpeg/src/lib/openjp3d/t2.c
+        openjpeg/src/lib/openjp3d/t2.h
+        openjpeg/src/lib/openjp3d/tcd.c
+        openjpeg/src/lib/openjp3d/tcd.h
+        openjpeg/src/lib/openjp3d/tgt.c
+        openjpeg/src/lib/openjp3d/tgt.h
+        openjpeg/src/lib/openjp3d/volume.c
+        openjpeg/src/lib/openjp3d/volume.h
+        openjpeg/src/lib/openjpip/auxtrans_manager.c
+        openjpeg/src/lib/openjpip/auxtrans_manager.h
+        openjpeg/src/lib/openjpip/box_manager.c
+        openjpeg/src/lib/openjpip/box_manager.h
+        openjpeg/src/lib/openjpip/boxheader_manager.c
+        openjpeg/src/lib/openjpip/boxheader_manager.h
+        openjpeg/src/lib/openjpip/byte_manager.c
+        openjpeg/src/lib/openjpip/byte_manager.h
+        openjpeg/src/lib/openjpip/cache_manager.c
+        openjpeg/src/lib/openjpip/cache_manager.h
+        openjpeg/src/lib/openjpip/cachemodel_manager.c
+        openjpeg/src/lib/openjpip/cachemodel_manager.h
+        openjpeg/src/lib/openjpip/channel_manager.c
+        openjpeg/src/lib/openjpip/channel_manager.h
+        openjpeg/src/lib/openjpip/codestream_manager.c
+        openjpeg/src/lib/openjpip/codestream_manager.h
+        openjpeg/src/lib/openjpip/dec_clientmsg_handler.c
+        openjpeg/src/lib/openjpip/dec_clientmsg_handler.h
+        openjpeg/src/lib/openjpip/faixbox_manager.c
+        openjpeg/src/lib/openjpip/faixbox_manager.h
+        openjpeg/src/lib/openjpip/ihdrbox_manager.c
+        openjpeg/src/lib/openjpip/ihdrbox_manager.h
+        openjpeg/src/lib/openjpip/imgreg_manager.c
+        openjpeg/src/lib/openjpip/imgreg_manager.h
+        openjpeg/src/lib/openjpip/imgsock_manager.c
+        openjpeg/src/lib/openjpip/imgsock_manager.h
+        openjpeg/src/lib/openjpip/index_manager.c
+        openjpeg/src/lib/openjpip/index_manager.h
+        openjpeg/src/lib/openjpip/j2kheader_manager.c
+        openjpeg/src/lib/openjpip/j2kheader_manager.h
+        openjpeg/src/lib/openjpip/jp2k_decoder.c
+        openjpeg/src/lib/openjpip/jp2k_decoder.h
+        openjpeg/src/lib/openjpip/jp2k_encoder.c
+        openjpeg/src/lib/openjpip/jp2k_encoder.h
+        openjpeg/src/lib/openjpip/jpip_parser.c
+        openjpeg/src/lib/openjpip/jpip_parser.h
+        openjpeg/src/lib/openjpip/jpipstream_manager.c
+        openjpeg/src/lib/openjpip/jpipstream_manager.h
+        openjpeg/src/lib/openjpip/manfbox_manager.c
+        openjpeg/src/lib/openjpip/manfbox_manager.h
+        openjpeg/src/lib/openjpip/marker_manager.c
+        openjpeg/src/lib/openjpip/marker_manager.h
+        openjpeg/src/lib/openjpip/metadata_manager.c
+        openjpeg/src/lib/openjpip/metadata_manager.h
+        openjpeg/src/lib/openjpip/mhixbox_manager.c
+        openjpeg/src/lib/openjpip/mhixbox_manager.h
+        openjpeg/src/lib/openjpip/msgqueue_manager.c
+        openjpeg/src/lib/openjpip/msgqueue_manager.h
+        openjpeg/src/lib/openjpip/openjpip.c
+        openjpeg/src/lib/openjpip/openjpip.h
+        openjpeg/src/lib/openjpip/placeholder_manager.c
+        openjpeg/src/lib/openjpip/placeholder_manager.h
+        openjpeg/src/lib/openjpip/query_parser.c
+        openjpeg/src/lib/openjpip/query_parser.h
+        openjpeg/src/lib/openjpip/session_manager.c
+        openjpeg/src/lib/openjpip/session_manager.h
+        openjpeg/src/lib/openjpip/sock_manager.c
+        openjpeg/src/lib/openjpip/sock_manager.h
+        openjpeg/src/lib/openjpip/target_manager.c
+        openjpeg/src/lib/openjpip/target_manager.h
+        openjpeg/src/lib/openjpwl/crc.c
+        openjpeg/src/lib/openjpwl/crc.h
+        openjpeg/src/lib/openjpwl/jpwl.c
+        openjpeg/src/lib/openjpwl/jpwl.h
+        openjpeg/src/lib/openjpwl/jpwl_lib.c
+        openjpeg/src/lib/openjpwl/rs.c
+        openjpeg/src/lib/openjpwl/rs.h
+        openjpeg/src/lib/openmj2/bio.c
+        openjpeg/src/lib/openmj2/bio.h
+        openjpeg/src/lib/openmj2/cio.c
+        openjpeg/src/lib/openmj2/cio.h
+        openjpeg/src/lib/openmj2/dwt.c
+        openjpeg/src/lib/openmj2/dwt.h
+        openjpeg/src/lib/openmj2/event.c
+        openjpeg/src/lib/openmj2/event.h
+        openjpeg/src/lib/openmj2/fix.h
+        openjpeg/src/lib/openmj2/image.c
+        openjpeg/src/lib/openmj2/image.h
+        openjpeg/src/lib/openmj2/int.h
+        openjpeg/src/lib/openmj2/j2k.c
+        openjpeg/src/lib/openmj2/j2k.h
+        openjpeg/src/lib/openmj2/j2k_lib.c
+        openjpeg/src/lib/openmj2/j2k_lib.h
+        openjpeg/src/lib/openmj2/jp2.c
+        openjpeg/src/lib/openmj2/jp2.h
+        openjpeg/src/lib/openmj2/jpt.c
+        openjpeg/src/lib/openmj2/jpt.h
+        openjpeg/src/lib/openmj2/mct.c
+        openjpeg/src/lib/openmj2/mct.h
+        openjpeg/src/lib/openmj2/mj2.c
+        openjpeg/src/lib/openmj2/mj2.h
+        openjpeg/src/lib/openmj2/mj2_convert.c
+        openjpeg/src/lib/openmj2/mj2_convert.h
+        openjpeg/src/lib/openmj2/mqc.c
+        openjpeg/src/lib/openmj2/mqc.h
+        openjpeg/src/lib/openmj2/openjpeg.c
+        openjpeg/src/lib/openmj2/openjpeg.h
+        openjpeg/src/lib/openmj2/opj_includes.h
+        openjpeg/src/lib/openmj2/opj_malloc.h
+        openjpeg/src/lib/openmj2/pi.c
+        openjpeg/src/lib/openmj2/pi.h
+        openjpeg/src/lib/openmj2/raw.c
+        openjpeg/src/lib/openmj2/raw.h
+        openjpeg/src/lib/openmj2/t1.c
+        openjpeg/src/lib/openmj2/t1.h
+        openjpeg/src/lib/openmj2/t1_luts.h
+        openjpeg/src/lib/openmj2/t2.c
+        openjpeg/src/lib/openmj2/t2.h
+        openjpeg/src/lib/openmj2/tcd.c
+        openjpeg/src/lib/openmj2/tcd.h
+        openjpeg/src/lib/openmj2/tgt.c
+        openjpeg/src/lib/openmj2/tgt.h
+        openjpeg/tests/fuzzers/fuzzingengine.c
+        openjpeg/tests/fuzzers/opj_decompress_fuzzer.cpp
+        openjpeg/tests/unit/testempty0.c
+        openjpeg/tests/unit/testempty1.c
+        openjpeg/tests/unit/testempty2.c
+        openjpeg/tests/compare_dump_files.c
+        openjpeg/tests/compare_images.c
+        openjpeg/tests/compare_raw_files.c
+        openjpeg/tests/include_openjpeg.c
+        openjpeg/tests/j2k_random_tile_access.c
+        openjpeg/tests/pdf2jp2.c
+        openjpeg/tests/ppm2rgb3.c
+        openjpeg/tests/test_decode_area.c
+        openjpeg/tests/test_tile_decoder.c
+        openjpeg/tests/test_tile_encoder.c
+        openjpeg/thirdparty/astyle/ASBeautifier.cpp
+        openjpeg/thirdparty/astyle/ASEnhancer.cpp
+        openjpeg/thirdparty/astyle/ASFormatter.cpp
+        openjpeg/thirdparty/astyle/ASLocalizer.cpp
+        openjpeg/thirdparty/astyle/ASLocalizer.h
+        openjpeg/thirdparty/astyle/ASResource.cpp
+        openjpeg/thirdparty/astyle/astyle.h
+        openjpeg/thirdparty/astyle/astyle_main.cpp
+        openjpeg/thirdparty/astyle/astyle_main.h
+        openjpeg/thirdparty/include/zconf.h
+        openjpeg/thirdparty/include/zlib.h
+        openjpeg/thirdparty/liblcms2/include/lcms2.h
+        openjpeg/thirdparty/liblcms2/include/lcms2_plugin.h
+        openjpeg/thirdparty/liblcms2/src/cmsalpha.c
+        openjpeg/thirdparty/liblcms2/src/cmscam02.c
+        openjpeg/thirdparty/liblcms2/src/cmscgats.c
+        openjpeg/thirdparty/liblcms2/src/cmscnvrt.c
+        openjpeg/thirdparty/liblcms2/src/cmserr.c
+        openjpeg/thirdparty/liblcms2/src/cmsgamma.c
+        openjpeg/thirdparty/liblcms2/src/cmsgmt.c
+        openjpeg/thirdparty/liblcms2/src/cmshalf.c
+        openjpeg/thirdparty/liblcms2/src/cmsintrp.c
+        openjpeg/thirdparty/liblcms2/src/cmsio0.c
+        openjpeg/thirdparty/liblcms2/src/cmsio1.c
+        openjpeg/thirdparty/liblcms2/src/cmslut.c
+        openjpeg/thirdparty/liblcms2/src/cmsmd5.c
+        openjpeg/thirdparty/liblcms2/src/cmsmtrx.c
+        openjpeg/thirdparty/liblcms2/src/cmsnamed.c
+        openjpeg/thirdparty/liblcms2/src/cmsopt.c
+        openjpeg/thirdparty/liblcms2/src/cmspack.c
+        openjpeg/thirdparty/liblcms2/src/cmspcs.c
+        openjpeg/thirdparty/liblcms2/src/cmsplugin.c
+        openjpeg/thirdparty/liblcms2/src/cmsps2.c
+        openjpeg/thirdparty/liblcms2/src/cmssamp.c
+        openjpeg/thirdparty/liblcms2/src/cmssm.c
+        openjpeg/thirdparty/liblcms2/src/cmstypes.c
+        openjpeg/thirdparty/liblcms2/src/cmsvirt.c
+        openjpeg/thirdparty/liblcms2/src/cmswtpnt.c
+        openjpeg/thirdparty/liblcms2/src/cmsxform.c
+        openjpeg/thirdparty/liblcms2/src/lcms2_internal.h
+        openjpeg/thirdparty/libpng/png.c
+        openjpeg/thirdparty/libpng/png.h
+        openjpeg/thirdparty/libpng/pngconf.h
+        openjpeg/thirdparty/libpng/pngdebug.h
+        openjpeg/thirdparty/libpng/pngerror.c
+        openjpeg/thirdparty/libpng/pngget.c
+        openjpeg/thirdparty/libpng/pnginfo.h
+        openjpeg/thirdparty/libpng/pnglibconf.h
+        openjpeg/thirdparty/libpng/pngmem.c
+        openjpeg/thirdparty/libpng/pngpread.c
+        openjpeg/thirdparty/libpng/pngpriv.h
+        openjpeg/thirdparty/libpng/pngread.c
+        openjpeg/thirdparty/libpng/pngrio.c
+        openjpeg/thirdparty/libpng/pngrtran.c
+        openjpeg/thirdparty/libpng/pngrutil.c
+        openjpeg/thirdparty/libpng/pngset.c
+        openjpeg/thirdparty/libpng/pngstruct.h
+        openjpeg/thirdparty/libpng/pngtrans.c
+        openjpeg/thirdparty/libpng/pngwio.c
+        openjpeg/thirdparty/libpng/pngwrite.c
+        openjpeg/thirdparty/libpng/pngwtran.c
+        openjpeg/thirdparty/libpng/pngwutil.c
+        openjpeg/thirdparty/libtiff/libport.h
+        openjpeg/thirdparty/libtiff/snprintf.c
+        openjpeg/thirdparty/libtiff/t4.h
+        openjpeg/thirdparty/libtiff/test_inline.c
+        openjpeg/thirdparty/libtiff/tif_aux.c
+        openjpeg/thirdparty/libtiff/tif_close.c
+        openjpeg/thirdparty/libtiff/tif_codec.c
+        openjpeg/thirdparty/libtiff/tif_color.c
+        openjpeg/thirdparty/libtiff/tif_compress.c
+        openjpeg/thirdparty/libtiff/tif_dir.c
+        openjpeg/thirdparty/libtiff/tif_dir.h
+        openjpeg/thirdparty/libtiff/tif_dirinfo.c
+        openjpeg/thirdparty/libtiff/tif_dirread.c
+        openjpeg/thirdparty/libtiff/tif_dirwrite.c
+        openjpeg/thirdparty/libtiff/tif_dumpmode.c
+        openjpeg/thirdparty/libtiff/tif_error.c
+        openjpeg/thirdparty/libtiff/tif_extension.c
+        openjpeg/thirdparty/libtiff/tif_fax3.c
+        openjpeg/thirdparty/libtiff/tif_fax3.h
+        openjpeg/thirdparty/libtiff/tif_fax3sm.c
+        openjpeg/thirdparty/libtiff/tif_flush.c
+        openjpeg/thirdparty/libtiff/tif_getimage.c
+        openjpeg/thirdparty/libtiff/tif_jbig.c
+        openjpeg/thirdparty/libtiff/tif_jpeg.c
+        openjpeg/thirdparty/libtiff/tif_jpeg_12.c
+        openjpeg/thirdparty/libtiff/tif_luv.c
+        openjpeg/thirdparty/libtiff/tif_lzma.c
+        openjpeg/thirdparty/libtiff/tif_lzw.c
+        openjpeg/thirdparty/libtiff/tif_next.c
+        openjpeg/thirdparty/libtiff/tif_ojpeg.c
+        openjpeg/thirdparty/libtiff/tif_open.c
+        openjpeg/thirdparty/libtiff/tif_packbits.c
+        openjpeg/thirdparty/libtiff/tif_pixarlog.c
+        openjpeg/thirdparty/libtiff/tif_predict.c
+        openjpeg/thirdparty/libtiff/tif_predict.h
+        openjpeg/thirdparty/libtiff/tif_print.c
+        openjpeg/thirdparty/libtiff/tif_read.c
+        openjpeg/thirdparty/libtiff/tif_stream.cxx
+        openjpeg/thirdparty/libtiff/tif_strip.c
+        openjpeg/thirdparty/libtiff/tif_swab.c
+        openjpeg/thirdparty/libtiff/tif_thunder.c
+        openjpeg/thirdparty/libtiff/tif_tile.c
+        openjpeg/thirdparty/libtiff/tif_unix.c
+        openjpeg/thirdparty/libtiff/tif_version.c
+        openjpeg/thirdparty/libtiff/tif_warning.c
+        openjpeg/thirdparty/libtiff/tif_win32.c
+        openjpeg/thirdparty/libtiff/tif_write.c
+        openjpeg/thirdparty/libtiff/tif_zip.c
+        openjpeg/thirdparty/libtiff/tiff.h
+        openjpeg/thirdparty/libtiff/tiffio.h
+        openjpeg/thirdparty/libtiff/tiffio.hxx
+        openjpeg/thirdparty/libtiff/tiffiop.h
+        openjpeg/thirdparty/libtiff/tiffvers.h
+        openjpeg/thirdparty/libtiff/uvcode.h
+        openjpeg/thirdparty/libz/adler32.c
+        openjpeg/thirdparty/libz/compress.c
+        openjpeg/thirdparty/libz/crc32.c
+        openjpeg/thirdparty/libz/crc32.h
+        openjpeg/thirdparty/libz/deflate.c
+        openjpeg/thirdparty/libz/deflate.h
+        openjpeg/thirdparty/libz/gzclose.c
+        openjpeg/thirdparty/libz/gzguts.h
+        openjpeg/thirdparty/libz/gzlib.c
+        openjpeg/thirdparty/libz/gzread.c
+        openjpeg/thirdparty/libz/gzwrite.c
+        openjpeg/thirdparty/libz/infback.c
+        openjpeg/thirdparty/libz/inffast.c
+        openjpeg/thirdparty/libz/inffast.h
+        openjpeg/thirdparty/libz/inffixed.h
+        openjpeg/thirdparty/libz/inflate.c
+        openjpeg/thirdparty/libz/inflate.h
+        openjpeg/thirdparty/libz/inftrees.c
+        openjpeg/thirdparty/libz/inftrees.h
+        openjpeg/thirdparty/libz/trees.c
+        openjpeg/thirdparty/libz/trees.h
+        openjpeg/thirdparty/libz/uncompr.c
+        openjpeg/thirdparty/libz/zlib.h
+        openjpeg/thirdparty/libz/zutil.c
+        openjpeg/thirdparty/libz/zutil.h
+        openjpeg/tools/travis-ci/detect-avx2.c
+        openjpeg/wrapping/java/openjp2/index.c
+        openjpeg/wrapping/java/openjp2/index.h
+        openjpeg/wrapping/java/openjp2/JavaOpenJPEG.c
+        openjpeg/wrapping/java/openjp2/JavaOpenJPEGDecoder.c
+        openjpeg/wrapping/java/openjp2/org_openJpeg_OpenJPEGJavaDecoder.h
+        openjpeg/wrapping/java/openjp2/org_openJpeg_OpenJPEGJavaEncoder.h
         tests/api/api-band-test.c
         tests/api/api-flac-test.c
         tests/api/api-h264-slice-test.c
@@ -3831,4 +5107,5 @@ add_executable(ffmpeg
         tools/uncoded_frame.c
         tools/venc_data_dump.c
         tools/yuvcmp.c
-        tools/zmqsend.c)
+        tools/zmqsend.c
+        config.h)
