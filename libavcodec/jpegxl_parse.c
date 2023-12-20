@@ -462,6 +462,8 @@ int ff_jpegxl_collect_codestream_header(const uint8_t *input_buffer, int input_l
             return AVERROR_BUFFER_TOO_SMALL;
 
         size = bytestream2_get_be32(&gb);
+        tag = bytestream2_get_le32(&gb);
+
         if (size == 1) {
             if (bytestream2_get_bytes_left(&gb) < 12)
                 return AVERROR_BUFFER_TOO_SMALL;

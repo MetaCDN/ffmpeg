@@ -18,6 +18,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
  */
 
+<<<<<<<< HEAD:libavcodec/riscv/ac3dsp_rvb.S
 #include "config.h"
 #include "libavutil/riscv/asm.S"
 
@@ -33,6 +34,21 @@ func ff_extract_exponents_rvb, zbb
         addi     t0, t0, 24 - __riscv_xlen
         sb       t0, -1(a0)
         bgtz    a2, 1b
+========
+#include "libavutil/riscv/asm.S"
+
+func ff_llvid_add_bytes_rvv, zve32x
+1:
+        vsetvli t0, a2, e8, m8, ta, ma
+        vle8.v  v0, (a1)
+        sub     a2, a2, t0
+        vle8.v  v8, (a0)
+        add     a1, t0, a1
+        vadd.vv v8, v0, v8
+        vse8.v  v8, (a0)
+        add     a0, t0, a0
+        bnez    a2, 1b
+>>>>>>>> 0a87bd02ee6c22384961c68ca4a97f9981043885:libavcodec/riscv/llviddsp_rvv.S
 
         ret
 endfunc

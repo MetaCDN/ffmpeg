@@ -35,6 +35,7 @@ OBJS-$(CONFIG_DNN)                           += dnn_filter_common.o
 include $(SRC_PATH)/libavfilter/dnn/Makefile
 
 # audio filters
+OBJS-$(CONFIG_AAP_FILTER)                    += af_aap.o
 OBJS-$(CONFIG_ABENCH_FILTER)                 += f_bench.o
 OBJS-$(CONFIG_ACOMPRESSOR_FILTER)            += af_sidechaincompress.o
 OBJS-$(CONFIG_ACONTRAST_FILTER)              += af_acontrast.o
@@ -255,7 +256,7 @@ OBJS-$(CONFIG_COREIMAGE_FILTER)              += vf_coreimage.o
 OBJS-$(CONFIG_CORR_FILTER)                   += vf_corr.o framesync.o
 OBJS-$(CONFIG_COVER_RECT_FILTER)             += vf_cover_rect.o lavfutils.o
 OBJS-$(CONFIG_CROP_FILTER)                   += vf_crop.o
-OBJS-$(CONFIG_CROPDETECT_FILTER)             += vf_cropdetect.o
+OBJS-$(CONFIG_CROPDETECT_FILTER)             += vf_cropdetect.o edge_common.o
 OBJS-$(CONFIG_CUE_FILTER)                    += f_cue.o
 OBJS-$(CONFIG_CURVES_FILTER)                 += vf_curves.o
 OBJS-$(CONFIG_DATASCOPE_FILTER)              += vf_datascope.o

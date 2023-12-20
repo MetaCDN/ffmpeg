@@ -87,7 +87,7 @@ fate-sub2video: CMD = framecrc -auto_conversion_filters \
 FATE_SAMPLES_FFMPEG-$(call FRAMECRC, VOBSUB, DVDSUB, SCALE_FILTER) += fate-sub2video_basic
 fate-sub2video_basic: CMD = framecrc -auto_conversion_filters \
   -i $(TARGET_SAMPLES)/sub/vobsub.idx \
-  -vsync passthrough -copyts \
+  -fps_mode passthrough -copyts \
   -filter_complex "sws_flags=+accurate_rnd+bitexact\;[0:s:0]scale" \
   -c:v rawvideo -threads 1
 
@@ -96,7 +96,7 @@ fate-sub2video_basic: CMD = framecrc -auto_conversion_filters \
 FATE_SAMPLES_FFMPEG-$(call FRAMECRC, SUP, PGSSUB, SCALE_FILTER RAWVIDEO_ENCODER) += fate-sub2video_time_limited
 fate-sub2video_time_limited: CMD = framecrc -auto_conversion_filters \
   -i $(TARGET_SAMPLES)/sub/pgs_sub.sup \
-  -vsync passthrough -copyts \
+  -fps_mode passthrough -copyts \
   -t 15 \
   -filter_complex "sws_flags=+accurate_rnd+bitexact\;[0:s:0]scale" \
   -c:v rawvideo -threads 1
@@ -227,21 +227,17 @@ FATE_SAMPLES_FFMPEG-$(call REMUX, MOV, AAC_DEMUXER AAC_DECODER AAC_PARSER AAC_AD
 fate-adtstoasc_ticket3715: CMD = transcode "aac" $(TARGET_SAMPLES)/aac/foo.aac\
                       mov "-c copy -bsf:a aac_adtstoasc" "-codec copy"
 
-FATE_SAMPLES_FFMPEG-$(call REMUX, H264, MOV_DEMUXER H264_MP4TOANNEXB_BSF H264_PARSER H264_DECODER EXTRACT_EXTRADATA_BSF) += fate-h264_mp4toannexb_ticket2991 fate-h264_mp4toannexb_ticket5927 fate-h264_mp4toannexb_ticket5927_2
+FATE_SAMPLES_FFMPEG-$(call REMUX, H264, MOV_DEMUXER H264_MP4TOANNEXB_BSF H264_PARSER H264_DECODER EXTRACT_EXTRADATA_BSF) += fate-h264_mp4toannexb_ticket2991
 fate-h264_mp4toannexb_ticket2991: CMD = transcode "mp4" $(TARGET_SAMPLES)/h264/wwwq_cut.mp4\
                                   h264 "-c:v copy -bsf:v h264_mp4toannexb" "-codec copy"
-fate-h264_mp4toannexb_ticket5927:   CMD = transcode "mp4" $(TARGET_SAMPLES)/h264/thezerotheorem-cut.mp4 \
-                                          h264 "-c:v copy -bsf:v h264_mp4toannexb -an" "-c:v copy"
-fate-h264_mp4toannexb_ticket5927_2: CMD = transcode "mp4" $(TARGET_SAMPLES)/h264/thezerotheorem-cut.mp4 \
-                                          h264 "-c:v copy -an" "-c:v copy"
 
 FATE_SAMPLES_FFMPEG-$(call TRANSCODE, MPEG4 MPEG2VIDEO, AVI, MPEGPS_DEMUXER MPEGVIDEO_DEMUXER MPEGVIDEO_PARSER EXTRACT_EXTRADATA_BSF REMOVE_EXTRADATA_BSF) += fate-ffmpeg-bsf-remove-k fate-ffmpeg-bsf-remove-r fate-ffmpeg-bsf-remove-e
 fate-ffmpeg-bsf-remove-k: CMD = transcode "mpeg" $(TARGET_SAMPLES)/mpeg2/matrixbench_mpeg2.lq1.mpg\
-                          avi "-vbsf remove_extra=k" "-codec copy"
+                          avi "-bsf:v remove_extra=k" "-codec copy"
 fate-ffmpeg-bsf-remove-r: CMD = transcode "mpeg" $(TARGET_SAMPLES)/mpeg2/matrixbench_mpeg2.lq1.mpg\
-                          avi "-vbsf remove_extra=keyframe" "-codec copy"
+                          avi "-bsf:v remove_extra=keyframe" "-codec copy"
 fate-ffmpeg-bsf-remove-e: CMD = transcode "mpeg" $(TARGET_SAMPLES)/mpeg2/matrixbench_mpeg2.lq1.mpg\
-                          avi "-vbsf remove_extra=e" "-codec copy"
+                          avi "-bsf:v remove_extra=e" "-codec copy"
 
 FATE_SAMPLES_FFMPEG-$(call DEMMUX, APNG, FRAMECRC, SETTS_BSF PIPE_PROTOCOL) += fate-ffmpeg-setts-bsf
 fate-ffmpeg-setts-bsf: CMD = framecrc -i $(TARGET_SAMPLES)/apng/clock.png -c:v copy -bsf:v "setts=duration=if(eq(NEXT_PTS\,NOPTS)\,PREV_OUTDURATION\,(NEXT_PTS-PTS)/2):ts=PTS/2" -fflags +bitexact

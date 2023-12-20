@@ -20,6 +20,7 @@
 
 #include "libavutil/riscv/asm.S"
 
+<<<<<<<< HEAD:libavcodec/riscv/exrdsp_rvv.S
 func ff_reorder_pixels_rvv, zve32x
         srai    a2, a2, 1
         add     t1, a1, a2
@@ -33,6 +34,20 @@ func ff_reorder_pixels_rvv, zve32x
         add     t1, t0, t1
         sh1add  a0, t0, a0
         bnez    a2, 1b
+========
+func ff_llvidenc_diff_bytes_rvv, zve32x
+1:
+        vsetvli t0, a3, e8, m8, ta, ma
+        vle8.v  v0, (a1)
+        sub     a3, a3, t0
+        vle8.v  v8, (a2)
+        add     a1, t0, a1
+        vsub.vv v8, v0, v8
+        add     a2, t0, a2
+        vse8.v  v8, (a0)
+        add     a0, t0, a0
+        bnez    a3, 1b
+>>>>>>>> 0a87bd02ee6c22384961c68ca4a97f9981043885:libavcodec/riscv/llvidencdsp_rvv.S
 
         ret
 endfunc
