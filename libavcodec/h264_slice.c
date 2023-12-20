@@ -210,10 +210,10 @@ static int alloc_picture(H264Context *h, H264Picture *pic)
         goto fail;
 
     if (h->decode_error_flags_pool) {
-            pic->hwaccel_priv_buf = ff_hwaccel_frame_priv_alloc(h->avctx, hwaccel);
+        pic->decode_error_flags = ff_refstruct_pool_get(h->decode_error_flags_pool);
         if (!pic->decode_error_flags)
             goto fail;
-            pic->hwaccel_picture_private = pic->hwaccel_priv_buf->data;
+        atomic_init(pic->decode_error_flags, 0);
     }
 
     if (CONFIG_GRAY && !h->avctx->hwaccel && h->flags & AV_CODEC_FLAG_GRAY && pic->f->data[2]) {
@@ -1551,7 +1551,7 @@ static int h264_field_start(H264Context *h, const H264SliceContext *sl,
                     ff_thread_report_progress(&h->short_ref[0]->tf, INT_MAX, 1);
             } else if (!h->frame_recovered) {
                 if (!h->avctx->hwaccel)
-                color_frame(h->short_ref[0]->f, c);
+                    color_frame(h->short_ref[0]->f, c);
                 h->short_ref[0]->gray = 1;
             }
             h->short_ref[0]->frame_num = h->poc.prev_frame_num;

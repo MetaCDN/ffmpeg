@@ -22,12 +22,8 @@
 #include <stdint.h>
 
 #include "config.h"
-
-#include <stdint.h>
-
 #include "libavutil/attributes.h"
 #include "libavutil/cpu.h"
-<<<<<<<< HEAD:libavcodec/riscv/ac3dsp_init.c
 #include "libavcodec/ac3dsp.h"
 
 void ff_extract_exponents_rvb(uint8_t *exp, int32_t *coef, int nb_coefs);
@@ -44,19 +40,5 @@ av_cold void ff_ac3dsp_init_riscv(AC3DSPContext *c)
         if (flags & AV_CPU_FLAG_RVV_F32)
             c->float_to_fixed24 = ff_float_to_fixed24_rvv;
     }
-========
-#include "libavutil/riscv/cpu.h"
-#include "libavcodec/g722dsp.h"
-
-extern void ff_g722_apply_qmf_rvv(const int16_t *prev_samples, int xout[2]);
-
-av_cold void ff_g722dsp_init_riscv(G722DSPContext *dsp)
-{
-#if HAVE_RVV
-    int flags = av_get_cpu_flags();
-
-    if ((flags & AV_CPU_FLAG_RVV_I32) && ff_get_rv_vlenb() >= 16)
-        dsp->apply_qmf = ff_g722_apply_qmf_rvv;
 #endif
->>>>>>>> 0a87bd02ee6c22384961c68ca4a97f9981043885:libavcodec/riscv/g722dsp_init.c
 }

@@ -426,10 +426,10 @@ static av_cold void mpegaudiodec_common_init_static(void)
             tmp_symbols[j] = high << 1 | ((high && low) << 4) | low;
         }
 
-        ff_init_vlc_from_lengths(&ff_huff_vlc[i], 7, j,
+        ff_huff_vlc[++i] = ff_vlc_init_tables_from_lengths(&state, 7, j,
                                                            huff_lens, 1,
                                                            tmp_symbols, 2, 2,
-                                 0, INIT_VLC_STATIC_OVERLONG, NULL);
+                                                           0, 0);
         huff_lens += j;
         huff_sym  += j;
     }

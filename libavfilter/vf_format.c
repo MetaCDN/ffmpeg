@@ -152,7 +152,7 @@ static const AVFilterPad inputs[] = {
     },
 };
 
-static const AVFilterPad avfilter_vf_format_outputs[] = {
+#if CONFIG_FORMAT_FILTER
 const AVFilter ff_vf_format = {
     .name          = "format",
     .description   = NULL_IF_CONFIG_SMALL("Convert the input video to one of the specified pixel formats."),

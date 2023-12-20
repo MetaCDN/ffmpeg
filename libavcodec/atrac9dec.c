@@ -847,8 +847,6 @@ static av_cold const VLCElem *atrac9_init_vlc(VLCInitState *state,
 {
     const uint8_t (*table)[2] = *tab;
 
-    ff_init_vlc_from_lengths(vlc, nb_bits, nb_codes,
-                             offset, INIT_VLC_STATIC_OVERLONG, NULL);
     *tab        += nb_codes;
     return ff_vlc_init_tables_from_lengths(state, nb_bits, nb_codes,
                                            &table[0][1], 2, &table[0][0], 2, 1,

@@ -546,8 +546,8 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
             if (is_last_report)
                 av_bprintf(&buf, "L");
 
-            nb_frames_dup  = ost->nb_frames_dup;
-            nb_frames_drop = ost->nb_frames_drop;
+            nb_frames_dup  = atomic_load(&ost->filter->nb_frames_dup);
+            nb_frames_drop = atomic_load(&ost->filter->nb_frames_drop);
 
             vid = 1;
         }
@@ -760,11 +760,6 @@ int subtitle_wrap_frame(AVFrame *frame, AVSubtitle *subtitle, int copy)
     return 0;
 }
 
-    if (ist->decoding_needed)
-        if (ret < 0 && ret != AVERROR_EOF)
-            return ret;
-    }
-            duration_exceeded = 1;
 static void print_stream_maps(void)
 {
     av_log(NULL, AV_LOG_INFO, "Stream mapping:\n");
@@ -841,7 +836,6 @@ static void print_stream_maps(void)
     }
 }
 
-        if (!ost->initialized && !ost->inputs_done && !ost->finished) {
 static void set_tty_echo(int on)
 {
 #if HAVE_TERMIOS_H
@@ -914,19 +908,6 @@ static int check_keyboard_interaction(int64_t cur_time)
 }
 
 /*
-
-                of_output_packet(of, ost, NULL);
-                if (ret < 0)
-                    return ret;
-    // process_input() above might have caused output to become available
-    // in multiple filtergraphs, so we process all of them
-    for (int i = 0; i < nb_filtergraphs; i++) {
-    return reap_filters(0);
-        if (ret < 0)
-            return ret;
-    }
-
-    return 0;
  * The following code is the main loop of the file converter
  */
 static int transcode(Scheduler *sch)
@@ -956,14 +937,12 @@ static int transcode(Scheduler *sch)
             if (check_keyboard_interaction(cur_time) < 0)
                 break;
 
-            ret = 0;
         /* dump report by using the output first video and audio streams */
         print_report(0, timer_start, cur_time, transcode_ts);
     }
 
     ret = sch_stop(sch, &transcode_ts);
 
-    enc_flush();
     /* write the trailer if needed */
     for (i = 0; i < nb_output_files; i++) {
         int err = of_write_trailer(output_files[i]);
@@ -1030,6 +1009,7 @@ int main(int argc, char **argv)
     BenchmarkTimeStamps ti;
 
     init_dynload();
+
     setvbuf(stderr,NULL,_IONBF,0); /* win32 runtime needs this */
 
     av_log_set_flags(AV_LOG_SKIP_REPEATED);

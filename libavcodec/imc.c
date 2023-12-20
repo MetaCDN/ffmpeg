@@ -176,10 +176,10 @@ static av_cold void imc_init_static(void)
     for (int i = 0; i < 4 ; i++) {
         for (int j = 0; j < 4; j++) {
             huffman_vlc[i][j] =
-            ff_init_vlc_from_lengths(&huffman_vlc[i][j], IMC_VLC_BITS, imc_huffman_sizes[i],
+                ff_vlc_init_tables_from_lengths(&state, IMC_VLC_BITS, imc_huffman_sizes[i],
                                                 imc_huffman_lens[i][j], 1,
                                                 imc_huffman_syms[i][j], 1, 1,
-                                     0, INIT_VLC_STATIC_OVERLONG, NULL);
+                                                0, 0);
         }
     }
 }

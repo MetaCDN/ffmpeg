@@ -1991,7 +1991,6 @@ AVStreamGroup *avformat_stream_group_create(AVFormatContext *s,
  */
 AVStream *avformat_new_stream(AVFormatContext *s, const struct AVCodec *c);
 
-#if FF_API_AVSTREAM_SIDE_DATA
 /**
  * Add an already allocated stream to a stream group.
  *

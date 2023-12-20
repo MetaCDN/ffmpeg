@@ -255,10 +255,10 @@ static av_cold void init_vlcs(void)
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 4; j++) {
             ff_vlc_init_table_sparse(block_type_vlc[i][j], FF_ARRAY_ELEMS(block_type_vlc[i][j]),
-            init_vlc(&block_type_vlc[i][j], BLOCK_TYPE_VLC_BITS, 7,
+                                     BLOCK_TYPE_VLC_BITS, 7,
                                      &block_type_tab[i][j][0][1], 2, 1,
                                      &block_type_tab[i][j][0][0], 2, 1,
-                     INIT_VLC_USE_NEW_STATIC);
+                                     NULL, 0, 0, 0);
         }
     }
 }

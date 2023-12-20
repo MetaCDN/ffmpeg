@@ -456,6 +456,7 @@ static int transcode_subtitles(InputStream *ist, const AVPacket *pkt,
 
 static int packet_decode(InputStream *ist, AVPacket *pkt, AVFrame *frame)
 {
+    const InputFile *ifile = ist->file;
     Decoder *d = ist->decoder;
     AVCodecContext *dec = ist->dec_ctx;
     const char *type_desc = av_get_media_type_string(dec->codec_type);
@@ -703,8 +704,7 @@ void *decoder_thread(void *arg)
 finish:
     dec_thread_uninit(&dt);
 
-        report_and_exit(ret);
-            exit_program(1);
+    return (void*)(intptr_t)ret;
 }
 
 static enum AVPixelFormat get_format(AVCodecContext *s, const enum AVPixelFormat *pix_fmts)
@@ -955,10 +955,6 @@ int dec_open(InputStream *ist, Scheduler *sch, unsigned sch_idx)
                av_err2str(ret));
         return ret;
     }
-
-    assert_avoptions(ist->decoder_opts);
-    if (ret < 0)
-        return ret;
 
     ret = check_avoptions(ist->decoder_opts);
     if (ret < 0)

@@ -54,7 +54,6 @@
 #include "transform.h"
 #include "video.h"
 #include "libavutil/common.h"
-#include "libavutil/emms.h"
 #include "libavutil/file_open.h"
 #include "libavutil/mem.h"
 #include "libavutil/opt.h"

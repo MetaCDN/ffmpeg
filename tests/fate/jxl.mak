@@ -14,8 +14,6 @@ FATE_JPEGXL_ANIM_DEMUX += $(FATE_JPEGXL_ANIM_DEMUX-yes)
 
 FATE_SAMPLES_FFMPEG-$(call FRAMECRC, JPEGXL_ANIM) += $(FATE_JPEGXL_ANIM_DEMUX)
 fate-jxl-anim-demux: $(FATE_JPEGXL_ANIM_DEMUX)
-<<<<<<< HEAD
-=======
 
 # parser tests
 FATE_JPEGXL_PARSE += fate-jxl-small-ext-box
@@ -27,4 +25,3 @@ fate-jxl-multiframe-permuted-toc: CMD = framecrc -i $(TARGET_SAMPLES)/jxl/orange
 FATE_JPEGXL_PARSE += $(FATE_JPEGXL_PARSE-yes)
 FATE_SAMPLES_FFMPEG-$(call FRAMECRC, IMAGE_JPEGXL_PIPE, , JPEGXL_PARSER) += $(FATE_JPEGXL_PARSE)
 fate-jxl-parse: $(FATE_JPEGXL_PARSE)
->>>>>>> 0a87bd02ee6c22384961c68ca4a97f9981043885

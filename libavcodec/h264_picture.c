@@ -55,6 +55,7 @@ void ff_h264_unref_picture(H264Picture *pic)
         ff_refstruct_unref(&pic->motion_val_base[i]);
         ff_refstruct_unref(&pic->ref_index[i]);
     }
+    ff_refstruct_unref(&pic->decode_error_flags);
 
     memset((uint8_t*)pic + off, 0, sizeof(*pic) - off);
 }
@@ -123,12 +124,6 @@ int ff_h264_ref_picture(H264Picture *dst, const H264Picture *src)
             goto fail;
     }
 
-    if (!dst->qscale_table_buf || !dst->mb_type_buf || !dst->pps_buf) {
-    ff_refstruct_replace(&dst->hwaccel_picture_private,
-    if (src->hwaccel_picture_private) {
-
-        dst->hwaccel_priv_buf = av_buffer_ref(src->hwaccel_priv_buf);
-        if (!dst->hwaccel_priv_buf) {
     h264_copy_picture_params(dst, src);
 
     return 0;
@@ -160,10 +155,6 @@ int ff_h264_replace_picture(H264Picture *dst, const H264Picture *src)
             goto fail;
     }
 
-    ret = av_buffer_replace(&dst->hwaccel_priv_buf, src->hwaccel_priv_buf);
-                          src->hwaccel_picture_private);
-
-    ret = av_buffer_replace(&dst->decode_error_flags, src->decode_error_flags);
     h264_copy_picture_params(dst, src);
 
     return 0;

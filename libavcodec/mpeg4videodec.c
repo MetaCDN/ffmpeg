@@ -3761,22 +3761,22 @@ static av_cold void mpeg4_init_static(void)
     static VLCElem vlc_buf[6498];
     VLCInitState state = VLC_INIT_STATE(vlc_buf);
 
-    INIT_VLC_STATIC_FROM_LENGTHS(&studio_luma_dc, STUDIO_INTRA_BITS, 19,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(studio_luma_dc, STUDIO_INTRA_BITS, 19,
                                        &ff_mpeg4_studio_dc_luma[0][1], 2,
                                        &ff_mpeg4_studio_dc_luma[0][0], 2, 1,
                                        0, 0);
 
-    INIT_VLC_STATIC_FROM_LENGTHS(&studio_chroma_dc, STUDIO_INTRA_BITS, 19,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(studio_chroma_dc, STUDIO_INTRA_BITS, 19,
                                        &ff_mpeg4_studio_dc_chroma[0][1], 2,
                                        &ff_mpeg4_studio_dc_chroma[0][0], 2, 1,
                                        0, 0);
 
     for (unsigned i = 0; i < 12; i++) {
         studio_intra_tab[i] =
-        ff_init_vlc_from_lengths(&studio_intra_tab[i],
+            ff_vlc_init_tables_from_lengths(&state, STUDIO_INTRA_BITS, 24,
                                             &ff_mpeg4_studio_intra[i][0][1], 2,
                                             &ff_mpeg4_studio_intra[i][0][0], 2, 1,
-                                 0, INIT_VLC_STATIC_OVERLONG, NULL);
+                                            0, 0);
     }
 
     ff_mpeg4_init_rl_intra();
@@ -3785,16 +3785,16 @@ static av_cold void mpeg4_init_static(void)
     INIT_FIRST_VLC_RL(ff_mpeg4_rl_intra, 554);
     VLC_INIT_RL(ff_rvlc_rl_inter, 1072);
     INIT_FIRST_VLC_RL(ff_rvlc_rl_intra, 1072);
-    INIT_VLC_STATIC(&dc_lum, DC_VLC_BITS, 10 /* 13 */,
+    VLC_INIT_STATIC_TABLE(dc_lum, DC_VLC_BITS, 10 /* 13 */,
                           &ff_mpeg4_DCtab_lum[0][1], 2, 1,
                           &ff_mpeg4_DCtab_lum[0][0], 2, 1, 0);
-    INIT_VLC_STATIC(&dc_chrom, DC_VLC_BITS, 10 /* 13 */,
+    VLC_INIT_STATIC_TABLE(dc_chrom, DC_VLC_BITS, 10 /* 13 */,
                           &ff_mpeg4_DCtab_chrom[0][1], 2, 1,
                           &ff_mpeg4_DCtab_chrom[0][0], 2, 1, 0);
-    INIT_VLC_STATIC_FROM_LENGTHS(&sprite_trajectory, SPRITE_TRAJ_VLC_BITS, 15,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(sprite_trajectory, SPRITE_TRAJ_VLC_BITS, 15,
                                        ff_sprite_trajectory_lens, 1,
                                        NULL, 0, 0, 0, 0);
-    INIT_VLC_STATIC(&mb_type_b_vlc, MB_TYPE_B_VLC_BITS, 4,
+    VLC_INIT_STATIC_TABLE(mb_type_b_vlc, MB_TYPE_B_VLC_BITS, 4,
                           &ff_mb_type_b_tab[0][1], 2, 1,
                           &ff_mb_type_b_tab[0][0], 2, 1, 0);
 }

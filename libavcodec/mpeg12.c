@@ -130,26 +130,26 @@ RL_VLC_ELEM ff_mpeg2_rl_vlc[674];
 
 static av_cold void mpeg12_init_vlcs(void)
 {
-    INIT_VLC_STATIC(&ff_dc_lum_vlc, DC_VLC_BITS, 12,
+    VLC_INIT_STATIC_TABLE(ff_dc_lum_vlc, DC_VLC_BITS, 12,
                           ff_mpeg12_vlc_dc_lum_bits, 1, 1,
                           ff_mpeg12_vlc_dc_lum_code, 2, 2, 0);
-    INIT_VLC_STATIC(&ff_dc_chroma_vlc,  DC_VLC_BITS, 12,
+    VLC_INIT_STATIC_TABLE(ff_dc_chroma_vlc,  DC_VLC_BITS, 12,
                           ff_mpeg12_vlc_dc_chroma_bits, 1, 1,
                           ff_mpeg12_vlc_dc_chroma_code, 2, 2, 0);
-    INIT_VLC_STATIC(&ff_mv_vlc, MV_VLC_BITS, 17,
+    VLC_INIT_STATIC_TABLE(ff_mv_vlc, MV_VLC_BITS, 17,
                           &ff_mpeg12_mbMotionVectorTable[0][1], 2, 1,
                           &ff_mpeg12_mbMotionVectorTable[0][0], 2, 1, 0);
-    INIT_VLC_STATIC(&ff_mbincr_vlc, MBINCR_VLC_BITS, 36,
+    VLC_INIT_STATIC_TABLE(ff_mbincr_vlc, MBINCR_VLC_BITS, 36,
                           &ff_mpeg12_mbAddrIncrTable[0][1], 2, 1,
                           &ff_mpeg12_mbAddrIncrTable[0][0], 2, 1, 0);
-    INIT_VLC_STATIC(&ff_mb_pat_vlc, MB_PAT_VLC_BITS, 64,
+    VLC_INIT_STATIC_TABLE(ff_mb_pat_vlc, MB_PAT_VLC_BITS, 64,
                           &ff_mpeg12_mbPatTable[0][1], 2, 1,
                           &ff_mpeg12_mbPatTable[0][0], 2, 1, 0);
 
-    INIT_VLC_STATIC(&ff_mb_ptype_vlc, MB_PTYPE_VLC_BITS, 7,
+    VLC_INIT_STATIC_TABLE(ff_mb_ptype_vlc, MB_PTYPE_VLC_BITS, 7,
                           &table_mb_ptype[0][1], 2, 1,
                           &table_mb_ptype[0][0], 2, 1, 0);
-    INIT_VLC_STATIC(&ff_mb_btype_vlc, MB_BTYPE_VLC_BITS, 11,
+    VLC_INIT_STATIC_TABLE(ff_mb_btype_vlc, MB_BTYPE_VLC_BITS, 11,
                           &table_mb_btype[0][1], 2, 1,
                           &table_mb_btype[0][0], 2, 1, 0);
 

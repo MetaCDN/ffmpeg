@@ -45,7 +45,6 @@
 #include "af_afir.h"
 #include "af_afirdsp.h"
 #include "video.h"
-#include "video.h"
 
 #define DEPTH 32
 #include "afir_template.c"

@@ -222,24 +222,7 @@ static int write_packet(Muxer *mux, OutputStream *ost, AVPacket *pkt)
     }
 
     ret = mux_fixup_ts(mux, ms, pkt);
-    // rescale timestamps to the stream timebase
-    if (ost->type == AVMEDIA_TYPE_AUDIO && !ost->enc) {
-        // use av_rescale_delta() for streamcopying audio, to preserve
-        // accuracy with coarse input timebases
-        int duration = av_get_audio_frame_duration2(ost->st->codecpar, pkt->size);
-
-        if (!duration)
-            duration = ost->st->codecpar->frame_size;
-
-        pkt->dts = av_rescale_delta(pkt->time_base, pkt->dts,
-                                    (AVRational){1, ost->st->codecpar->sample_rate}, duration,
-                                    &ms->ts_rescale_delta_last, ost->st->time_base);
-        pkt->pts = pkt->dts;
-
-        pkt->duration = av_rescale_q(pkt->duration, pkt->time_base, ost->st->time_base);
-    } else
     if (ret < 0)
-                av_log(s, loglevel, "Non-monotonous DTS in output stream "
         goto fail;
 
     ms->data_size_mux += pkt->size;
@@ -475,28 +458,15 @@ finish:
 
 static int of_streamcopy(OutputFile *of, OutputStream *ost, AVPacket *pkt)
 {
-void of_output_packet(OutputFile *of, OutputStream *ost, AVPacket *pkt)
     MuxStream  *ms = ms_from_ost(ost);
     FrameData  *fd = pkt->opaque_ref ? (FrameData*)pkt->opaque_ref->data : NULL;
     int64_t      dts = fd ? fd->dts_est : AV_NOPTS_VALUE;
-
-        if (pkt)
-            av_packet_rescale_ts(pkt, pkt->time_base, ms->bsf_ctx->time_base_in);
-                return;
-
-            if (!bsf_eof)
-                ms->bsf_pkt->time_base = ms->bsf_ctx->time_base_out;
-    return;
-    if (exit_on_error)
     int64_t start_time = (of->start_time == AV_NOPTS_VALUE) ? 0 : of->start_time;
-    int64_t ost_tb_start_time = av_rescale_q(start_time, AV_TIME_BASE_Q, ost->mux_timebase);
     int64_t ts_offset;
 
     if (of->recording_time != INT64_MAX &&
         dts >= of->recording_time + start_time)
-    if (!pkt) {
-        of_output_packet(of, ost, NULL);
-        return 0;
+        return AVERROR_EOF;
 
     if (!ms->streamcopy_started && !(pkt->flags & AV_PKT_FLAG_KEY) &&
         !ms->copy_initial_nonkeyframes)
@@ -515,21 +485,16 @@ void of_output_packet(OutputFile *of, OutputStream *ost, AVPacket *pkt)
 
     ts_offset = av_rescale_q(start_time, AV_TIME_BASE_Q, pkt->time_base);
 
-    opkt->time_base = ost->mux_timebase;
     if (pkt->pts != AV_NOPTS_VALUE)
-        opkt->pts = av_rescale_q(pkt->pts, pkt->time_base, opkt->time_base) - ost_tb_start_time;
+        pkt->pts -= ts_offset;
 
     if (pkt->dts == AV_NOPTS_VALUE) {
         pkt->dts = av_rescale_q(dts, AV_TIME_BASE_Q, pkt->time_base);
     } else if (ost->st->codecpar->codec_type == AVMEDIA_TYPE_AUDIO) {
-        opkt->pts = opkt->dts - ost_tb_start_time;
-    } else
-    opkt->dts -= ost_tb_start_time;
+        pkt->pts = pkt->dts - ts_offset;
     }
 
-    of_output_packet(of, ost, opkt);
-    if (ret < 0)
-        return ret;
+    pkt->dts -= ts_offset;
 
     ms->streamcopy_started = 1;
 

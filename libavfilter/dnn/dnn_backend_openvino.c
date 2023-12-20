@@ -64,6 +64,7 @@ typedef struct OVModel{
     ov_compiled_model_t *compiled_model;
     ov_output_const_port_t* input_port;
     ov_preprocess_input_info_t* input_info;
+    ov_output_const_port_t** output_ports;
     ov_preprocess_output_info_t* output_info;
     ov_preprocess_prepostprocessor_t* preprocess;
 #else
@@ -76,7 +77,7 @@ typedef struct OVModel{
     SafeQueue *request_queue;   // holds OVRequestItem
     Queue *task_queue;          // holds TaskItem
     Queue *lltask_queue;     // holds LastLevelTaskItem
-    const char *all_output_names;
+    int nb_outputs;
 } OVModel;
 
 // one request for one call to openvino
@@ -204,7 +205,6 @@ static int fill_model_input_ov(OVModel *ov_model, OVRequestItem *request)
     ov_tensor_t* tensor = NULL;
     ov_shape_t input_shape = {0};
     ov_element_type_e precision;
-    void *input_data_ptr = NULL;
 #else
     dimensions_t dims;
     precision_e precision;
@@ -249,12 +249,6 @@ static int fill_model_input_ov(OVModel *ov_model, OVRequestItem *request)
     input.width = dims[2];
     input.channels = dims[3];
     input.dt = precision_to_datatype(precision);
-    input.data = av_malloc(input.height * input.width * input.channels * get_datatype_size(input.dt));
-    if (!input.data) {
-        ov_shape_free(&input_shape);
-        return AVERROR(ENOMEM);
-    }
-    input_data_ptr = input.data;
 #else
     status = ie_infer_request_get_blob(request->infer_request, task->input_name, &input_blob);
     if (status != OK) {
@@ -337,23 +331,11 @@ static int fill_model_input_ov(OVModel *ov_model, OVRequestItem *request)
             av_assert0(!"should not reach here");
             break;
         }
-#if HAVE_OPENVINO2
-        status = ov_tensor_create_from_host_ptr(precision, input_shape, input.data, &tensor);
-        ov_shape_free(&input_shape);
-        if (status != OK) {
-            av_log(ctx, AV_LOG_ERROR, "Failed to create tensor from host prt.\n");
-            return ov2_map_error(status, NULL);
-        }
-        status = ov_infer_request_set_input_tensor(request->infer_request, tensor);
-        if (status != OK) {
-            av_log(ctx, AV_LOG_ERROR, "Failed to Set an input tensor for the model.\n");
-            return ov2_map_error(status, NULL);
-        }
-#endif
         input.data = (uint8_t *)input.data
                      + input.width * input.height * input.channels * get_datatype_size(input.dt);
     }
 #if HAVE_OPENVINO2
+    ov_tensor_free(tensor);
 #else
     ie_blob_free(&input_blob);
 #endif
@@ -428,53 +410,10 @@ static void infer_completion_callback(void *args)
 #else
     IEStatusCode status;
     dimensions_t dims;
-    precision_e precision;
-    DNNData output;
-#if HAVE_OPENVINO2
-    size_t* dims;
-    ov_status_e status;
-    ov_tensor_t *output_tensor;
-    ov_shape_t output_shape = {0};
-    ov_element_type_e precision;
-    memset(&output, 0, sizeof(output));
-    status = ov_infer_request_get_output_tensor_by_index(request->infer_request, 0, &output_tensor);
-    if (status != OK) {
-        av_log(ctx, AV_LOG_ERROR,
-               "Failed to get output tensor.");
-        return;
-    }
-
-    status = ov_tensor_data(output_tensor, &output.data);
-    if (status != OK) {
-        av_log(ctx, AV_LOG_ERROR,
-               "Failed to get output data.");
-        return;
-    }
-
-    status = ov_tensor_get_shape(output_tensor, &output_shape);
-    if (status != OK) {
-        av_log(ctx, AV_LOG_ERROR, "Failed to get output port shape.\n");
-        return;
-    }
-    dims = output_shape.dims;
-
-    status = ov_port_get_element_type(ov_model->output_port, &precision);
-    if (status != OK) {
-        av_log(ctx, AV_LOG_ERROR, "Failed to get output port data type.\n");
-        ov_shape_free(&output_shape);
-        return;
-    }
-    output.channels = dims[1];
-    output.height   = dims[2];
-    output.width    = dims[3];
-    av_assert0(request->lltask_count <= dims[0]);
-    ov_shape_free(&output_shape);
-#else
-    IEStatusCode status;
-    dimensions_t dims;
     ie_blob_t *output_blob = NULL;
     ie_blob_buffer_t blob_buffer;
     precision_e precision;
+    DNNData output;
     status = ie_infer_request_get_blob(request->infer_request, task->output_names[0], &output_blob);
     if (status != OK) {
         av_log(ctx, AV_LOG_ERROR,
@@ -502,7 +441,6 @@ static void infer_completion_callback(void *args)
     output.height   = dims.dims[2];
     output.width    = dims.dims[3];
     av_assert0(request->lltask_count <= dims.dims[0]);
-#endif
     output.dt       = precision_to_datatype(precision);
     output.layout   = ctx->options.layout;
     output.scale    = ctx->options.scale;
@@ -558,6 +496,7 @@ static void infer_completion_callback(void *args)
                 outputs[i].width * outputs[i].height * outputs[i].channels * get_datatype_size(outputs[i].dt);
     }
 end:
+#if HAVE_OPENVINO2
     av_freep(&outputs);
     ov_shape_free(&output_shape);
     if (output_tensor)
@@ -617,6 +556,8 @@ static void dnn_free_model_ov(DNNModel **model)
     if (ov_model->input_port)
         ov_output_const_port_free(ov_model->input_port);
     for (int i = 0; i < ov_model->nb_outputs; i++)
+        if (ov_model->output_ports[i])
+            ov_output_const_port_free(ov_model->output_ports[i]);
     av_freep(&ov_model->output_ports);
     if (ov_model->preprocess)
         ov_preprocess_prepostprocessor_free(ov_model->preprocess);
@@ -685,15 +626,15 @@ static int init_model_ov(OVModel *ov_model, const char *input_name, const char *
     }
 
     status = ov_preprocess_prepostprocessor_get_input_info_by_name(ov_model->preprocess, input_name, &ov_model->input_info);
-    status |= ov_preprocess_prepostprocessor_get_output_info_by_name(ov_model->preprocess, output_name, &ov_model->output_info);
     if (status != OK) {
+        av_log(ctx, AV_LOG_ERROR, "Failed to get input info from preprocess.\n");
         ret = ov2_map_error(status, NULL);
         goto err;
     }
 
     status = ov_preprocess_input_info_get_tensor_info(ov_model->input_info, &input_tensor_info);
-    status |= ov_preprocess_output_info_get_tensor_info(ov_model->output_info, &output_tensor_info);
     if (status != OK) {
+        av_log(ctx, AV_LOG_ERROR, "Failed to get tensor info from input.\n");
         ret = ov2_map_error(status, NULL);
         goto err;
     }
@@ -752,15 +693,16 @@ static int init_model_ov(OVModel *ov_model, const char *input_name, const char *
             ret = ov2_map_error(status, NULL);
             goto err;
         }
-    if (ov_model->model->func_type != DFT_PROCESS_FRAME)
-        status |= ov_preprocess_output_set_element_type(output_tensor_info, F32);
-    else if (fabsf(ctx->options.scale - 1) > 1e-6f || fabsf(ctx->options.mean) > 1e-6f)
-        status |= ov_preprocess_output_set_element_type(output_tensor_info, F32);
-    else
-        status |= ov_preprocess_output_set_element_type(output_tensor_info, U8);
-    if (status != OK) {
-        ret = ov2_map_error(status, NULL);
-        goto err;
+        if (ov_model->model->func_type != DFT_PROCESS_FRAME)
+            status |= ov_preprocess_output_set_element_type(output_tensor_info, F32);
+        else if (fabsf(ctx->options.scale - 1) > 1e-6f || fabsf(ctx->options.mean) > 1e-6f)
+            status |= ov_preprocess_output_set_element_type(output_tensor_info, F32);
+        else
+            status |= ov_preprocess_output_set_element_type(output_tensor_info, U8);
+        if (status != OK) {
+            av_log(ctx, AV_LOG_ERROR, "Failed to set output element type\n");
+            ret = ov2_map_error(status, NULL);
+            goto err;
         }
         ov_preprocess_output_tensor_info_free(output_tensor_info);
         output_tensor_info = NULL;
@@ -808,6 +750,7 @@ static int init_model_ov(OVModel *ov_model, const char *input_name, const char *
     ov_model_free(tmp_ov_model);
 
     //update output_port
+    if (!ov_model->output_ports) {
         ov_model->output_ports = av_calloc(nb_outputs, sizeof(*ov_model->output_ports));
         if (!ov_model->output_ports) {
             ret = AVERROR(ENOMEM);
@@ -815,12 +758,16 @@ static int init_model_ov(OVModel *ov_model, const char *input_name, const char *
         }
     } else
         for (int i = 0; i < nb_outputs; i++) {
-    }
+            ov_output_const_port_free(ov_model->output_ports[i]);
+            ov_model->output_ports[i] = NULL;
+        }
 
     for (int i = 0; i < nb_outputs; i++) {
+        status = ov_model_const_output_by_name(ov_model->ov_model, output_names[i],
                                                &ov_model->output_ports[i]);
-    if (status != OK) {
-        goto err;
+        if (status != OK) {
+            av_log(ctx, AV_LOG_ERROR, "Failed to get output port %s.\n", output_names[i]);
+            goto err;
         }
     }
     //compile network
@@ -1127,9 +1074,9 @@ static int get_input_ov(void *model, DNNData *input, const char *input_name)
     }
 
     if (dims[1] <= 3) { // NCHW
-    input->channels = dims[1];
-    input->height   = input_resizable ? -1 : dims[2];
-    input->width    = input_resizable ? -1 : dims[3];
+        input->channels = dims[1];
+        input->height   = input_resizable ? -1 : dims[2];
+        input->width    = input_resizable ? -1 : dims[3];
     } else { // NHWC
         input->height   = input_resizable ? -1 : dims[1];
         input->width    = input_resizable ? -1 : dims[2];
@@ -1351,11 +1298,6 @@ static int get_output_ov(void *model, const char *input_name, int input_width, i
         }
     }
 
-    status = ov_model_const_output_by_name(ov_model->ov_model, output_name, &ov_model->output_port);
-    if (status != OK) {
-        av_log(ctx, AV_LOG_ERROR, "Failed to get output port.\n");
-        return ov2_map_error(status, NULL);
-    }
     if (!ov_model->compiled_model) {
 #else
     if (ctx->options.input_resizable) {

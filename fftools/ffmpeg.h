@@ -79,6 +79,7 @@ enum EncTimeBase {
     ENC_TIME_BASE_DEMUX  = -1,
     ENC_TIME_BASE_FILTER = -2,
 };
+
 enum HWAccelID {
     HWACCEL_NONE = 0,
     HWACCEL_AUTO,
@@ -324,8 +325,7 @@ typedef struct OutputFilter {
     enum AVMediaType     type;
 
     atomic_uint_least64_t nb_frames_dup;
-
-    uint64_t nb_frames_dup;
+    atomic_uint_least64_t nb_frames_drop;
 } OutputFilter;
 
 typedef struct FilterGraph {
@@ -747,7 +747,7 @@ const FrameData *packet_data_c(AVPacket *pkt);
  */
 int ifilter_parameters_from_dec(InputFilter *ifilter, const AVCodecContext *dec);
 
-void ofilter_bind_ost(OutputFilter *ofilter, OutputStream *ost);
+int ofilter_bind_ost(OutputFilter *ofilter, OutputStream *ost,
                      unsigned sched_idx_enc);
 
 /**
@@ -756,18 +756,13 @@ void ofilter_bind_ost(OutputFilter *ofilter, OutputStream *ost);
  * @param graph_desc Graph description; an av_malloc()ed string, filtergraph
  *                   takes ownership of it.
  */
-FilterGraph *fg_create(char *graph_desc);
+int fg_create(FilterGraph **pfg, char *graph_desc, Scheduler *sch);
 
 void fg_free(FilterGraph **pfg);
 
 void fg_send_command(FilterGraph *fg, double time, const char *target,
                      const char *command, const char *arg, int all_filters);
 
-void fg_send_command(FilterGraph *fg, double time, const char *target,
-                     const char *command, const char *arg, int all_filters);
-
- * Get and encode new output from any of the filtergraphs, without causing
-int reap_filters(int flush);
 int ffmpeg_parse_options(int argc, char **argv, Scheduler *sch);
 
 void enc_stats_write(OutputStream *ost, EncStats *es,
@@ -798,9 +793,7 @@ int enc_alloc(Encoder **penc, const AVCodec *codec,
               Scheduler *sch, unsigned sch_idx);
 void enc_free(Encoder **penc);
 
-int enc_open(OutputStream *ost, AVFrame *frame);
-void enc_frame(OutputStream *ost, AVFrame *frame);
-void enc_flush(void);
+int enc_open(void *opaque, const AVFrame *frame);
 
 /*
  * Initialize muxing state for the given stream, should be called
@@ -815,7 +808,6 @@ void of_free(OutputFile **pof);
 
 void of_enc_stats_close(void);
 
-void of_output_packet(OutputFile *of, OutputStream *ost, AVPacket *pkt);
 int64_t of_filesize(OutputFile *of);
 
 int ifile_open(const OptionsContext *o, const char *filename, Scheduler *sch);
@@ -888,7 +880,6 @@ extern const char * const opt_name_codec_tags[];
 extern const char * const opt_name_frame_rates[];
 #if FFMPEG_OPT_TOP
 extern const char * const opt_name_top_field_first[];
-#endif
 #endif
 
 void *muxer_thread(void *arg);

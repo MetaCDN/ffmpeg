@@ -52,8 +52,8 @@ static const VLCElem *j_orient_vlc[2][4]; // [quant], [select]
 static av_cold const VLCElem *x8_init_vlc(VLCInitState *state, int nb_bits,
                                           int nb_codes, const uint8_t table[][2])
 {
-    ff_init_vlc_from_lengths(vlc, nb_bits, nb_codes, &table[0][1], 2,
-                             &table[0][0], 2, 1, 0, INIT_VLC_STATIC_OVERLONG, NULL);
+    return ff_vlc_init_tables_from_lengths(state, nb_bits, nb_codes, &table[0][1], 2,
+                                           &table[0][0], 2, 1, 0, 0);
 }
 
 static av_cold void x8_vlc_init(void)

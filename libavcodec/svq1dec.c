@@ -782,32 +782,30 @@ static av_cold void svq1_static_init(void)
     static VLCElem table[196];
     VLCInitState state = VLC_INIT_STATE(table);
 
-    INIT_VLC_STATIC(&svq1_block_type, SVQ1_BLOCK_TYPE_VLC_BITS, 4,
+    VLC_INIT_STATIC_TABLE(svq1_block_type, SVQ1_BLOCK_TYPE_VLC_BITS, 4,
                           &ff_svq1_block_type_vlc[0][1], 2, 1,
                           &ff_svq1_block_type_vlc[0][0], 2, 1, 0);
 
-    INIT_VLC_STATIC(&svq1_motion_component, 7, 33,
+    VLC_INIT_STATIC_TABLE(svq1_motion_component, 7, 33,
                           &ff_mvtab[0][1], 2, 1,
                           &ff_mvtab[0][0], 2, 1, 0);
 
     for (int i = 0; i < 6; i++) {
         svq1_intra_multistage[i] =
-        init_vlc(&svq1_intra_multistage[i], 3, 8,
+            ff_vlc_init_tables(&state, 4, 8,
                                &ff_svq1_intra_multistage_vlc[i][0][1], 2, 1,
                                &ff_svq1_intra_multistage_vlc[i][0][0], 2, 1, 0);
-                 INIT_VLC_USE_NEW_STATIC);
         svq1_inter_multistage[i] =
-        init_vlc(&svq1_inter_multistage[i], 3, 8,
+            ff_vlc_init_tables(&state, 3, 8,
                                &ff_svq1_inter_multistage_vlc[i][0][1], 2, 1,
                                &ff_svq1_inter_multistage_vlc[i][0][0], 2, 1, 0);
-                 INIT_VLC_USE_NEW_STATIC);
     }
 
-    INIT_VLC_STATIC(&svq1_intra_mean, 8, 256,
+    VLC_INIT_STATIC_TABLE(svq1_intra_mean, 8, 256,
                           &ff_svq1_intra_mean_vlc[0][1], 4, 2,
                           &ff_svq1_intra_mean_vlc[0][0], 4, 2, 0);
 
-    INIT_VLC_STATIC(&svq1_inter_mean, 9, 512,
+    VLC_INIT_STATIC_TABLE(svq1_inter_mean, 9, 512,
                           &ff_svq1_inter_mean_vlc[0][1], 4, 2,
                           &ff_svq1_inter_mean_vlc[0][0], 4, 2, 0);
 }

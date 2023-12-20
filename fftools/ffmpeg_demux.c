@@ -446,14 +446,18 @@ static int input_packet_process(Demuxer *d, AVPacket *pkt, unsigned *send_flags)
         return ret;
 
     if (f->recording_time != INT64_MAX) {
-            uint8_t *dst_data;
-            if (!dst_data) {
-                ret = AVERROR(ENOMEM);
-                goto fail;
-            memcpy(dst_data, src_sd->data, src_sd->size);
+        int64_t start_time = 0;
+        if (copy_ts) {
+            start_time += f->start_time != AV_NOPTS_VALUE ? f->start_time : 0;
+            start_time += start_at_zero ? 0 : f->start_time_effective;
+        }
+        if (ds->dts >= f->recording_time + start_time)
             *send_flags |= DEMUX_SEND_STREAMCOPY_EOF;
+    }
+
     ds->data_size += pkt->size;
     ds->nb_packets++;
+
     fd->wallclock[LATENCY_PROBE_DEMUX] = av_gettime_relative();
 
     if (debug_ts) {
@@ -992,7 +996,8 @@ static DemuxStream *demux_stream_alloc(Demuxer *d, AVStream *st)
     if (!ds)
         return NULL;
 
-                                          &f->nb_streams);
+    ds->sch_idx_stream = -1;
+    ds->sch_idx_dec    = -1;
 
     ds->ist.st         = st;
     ds->ist.file       = f;

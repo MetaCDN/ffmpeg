@@ -25,7 +25,7 @@ func ff_g722_apply_qmf_rvv, zve32x
         vsetivli    zero, 12, e16, m2, ta, ma
         vlseg2e16.v v28, (a0)
         addi        t1, t0, 12 * 2
-        vlseg2e16.v v24, (t0)
+        vle16.v     v24, (t0)
         vle16.v     v26, (t1)
         vwmul.vv    v16, v28, v24
         vwmul.vv    v20, v30, v26
@@ -55,24 +55,14 @@ const qmf_coeffs, align=2
         .short   -11
         .short   -11
         .short    53
-        .short    12
         .short  -156
-        .short    32
         .short   362
-        .short  -210
         .short  -805
-        .short   951
-        .short  3876
         .short  3876
         .short   951
-        .short  -805
         .short  -210
-        .short   362
         .short    32
-        .short  -156
         .short    12
-        .short    53
-        .short   -11
         .short   -11
         .short     3
 endconst

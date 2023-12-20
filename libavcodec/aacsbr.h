@@ -66,7 +66,6 @@ enum {
     EXTENSION_ID_PS = 2,
 };
 
-    INIT_VLC_STATIC(&vlc_sbr[num], 9, sbr_tmp[num].table_size / sbr_tmp[num].elem_size,     \
 /** Initialize SBR. */
 void AAC_RENAME(ff_aac_sbr_init)(void);
 /** Initialize one SBR context. */

@@ -1342,7 +1342,7 @@ static int skip_boxes(JXLParseContext *ctx, const uint8_t *buf, int buf_size)
 
     while (1) {
         uint64_t size;
-        int head_size = 4;
+        int head_size = 8;
 
         if (bytestream2_peek_le16(&gb) == FF_JPEGXL_CODESTREAM_SIGNATURE_LE)
             break;
@@ -1355,15 +1355,15 @@ static int skip_boxes(JXLParseContext *ctx, const uint8_t *buf, int buf_size)
         size = bytestream2_get_be32(&gb);
         bytestream2_skip(&gb, 4); // tag
         if (size == 1) {
-            if (bytestream2_get_bytes_left(&gb) < 12)
+            if (bytestream2_get_bytes_left(&gb) < 8)
                 return AVERROR_BUFFER_TOO_SMALL;
             size = bytestream2_get_be64(&gb);
-            head_size = 12;
+            head_size = 16;
         }
         if (!size)
             return AVERROR_INVALIDDATA;
         /* invalid ISOBMFF size */
-        if (size <= head_size + 4 || size > INT_MAX - ctx->skip)
+        if (size <= head_size || size > INT_MAX - ctx->skip)
             return AVERROR_INVALIDDATA;
 
         ctx->skip += size;
@@ -1460,15 +1460,15 @@ static int jpegxl_parse(AVCodecParserContext *s, AVCodecContext *avctx,
     *poutbuf_size = 0;
     *poutbuf = NULL;
 
-    if (!ctx->pc.index)
+    if (!ctx->pc.index) {
         if (ctx->pc.overread)
-        goto flush;
+            goto flush;
         pbuf = buf;
         pindex = buf_size;
     }
 
     if ((!ctx->container || !ctx->codestream_length) && !ctx->next) {
-        ret = try_parse(s, avctx, ctx, ctx->pc.buffer, ctx->pc.index);
+        ret = try_parse(s, avctx, ctx, pbuf, pindex);
         if (ret < 0)
             goto flush;
         ctx->next = ret;
@@ -1477,7 +1477,7 @@ static int jpegxl_parse(AVCodecParserContext *s, AVCodecContext *avctx,
     }
 
     if (ctx->container && ctx->next >= 0) {
-        ret = skip_boxes(ctx, ctx->pc.buffer, ctx->pc.index);
+        ret = skip_boxes(ctx, pbuf, pindex);
         if (ret < 0) {
             if (ret == AVERROR_INVALIDDATA)
                 ctx->next = -1;

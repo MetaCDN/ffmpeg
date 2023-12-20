@@ -47,9 +47,9 @@ static const VLCElem *ptype_vlc[NUM_PTYPE_VLCS],    *btype_vlc[NUM_BTYPE_VLCS];
 static av_cold const VLCElem *rv40_init_table(VLCInitState *state, int nb_bits,
                                               int nb_codes, const uint8_t (*tab)[2])
 {
-    ff_init_vlc_from_lengths(vlc, nb_bits, nb_codes,
+    return ff_vlc_init_tables_from_lengths(state, nb_bits, nb_codes,
                                            &tab[0][1], 2, &tab[0][0], 2, 1,
-                             0, INIT_VLC_USE_NEW_STATIC, NULL);
+                                           0, 0);
 }
 
 /**
@@ -81,9 +81,9 @@ static av_cold void rv40_init_tables(void)
                 syms[j] = first | (second << 8);
         }
         aic_mode2_vlc[i] =
-        ff_init_vlc_from_lengths(&aic_mode2_vlc[i], AIC_MODE2_BITS, AIC_MODE2_SIZE,
+            ff_vlc_init_tables_from_lengths(&state, AIC_MODE2_BITS, AIC_MODE2_SIZE,
                                             aic_mode2_vlc_bits[i], 1,
-                                 syms, 2, 2, 0, INIT_VLC_STATIC_OVERLONG, NULL);
+                                            syms, 2, 2, 0, 0);
     }
     for(i = 0; i < NUM_PTYPE_VLCS; i++){
         ptype_vlc[i] =

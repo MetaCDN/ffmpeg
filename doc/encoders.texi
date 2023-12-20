@@ -2779,10 +2779,6 @@ Import user data unregistered SEI if available into output. Default is 0 (off).
 @item mb_info @var{boolean}
 Set mb_info data through AVFrameSideData, only useful when used from the
 API. Default is 0 (off).
-
-@item mb_info @var{boolean}
-Set mb_info data through AVFrameSideData, only useful when used from the
-API. Default is 0 (off).
 @end table
 
 Encoding ffpresets for common usages are provided so they can be used with the

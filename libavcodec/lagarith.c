@@ -60,6 +60,7 @@ typedef struct LagarithContext {
     int zeros_rem;              /**< number of zero bytes remaining to output */
 } LagarithContext;
 
+static VLCElem lag_tab[1 << VLC_BITS];
 
 static const uint8_t lag_bits[] = {
     7, 7, 2, 7, 3, 4, 5, 6, 7, 7, 7, 7, 7, 6, 7, 4, 5, 7, 7, 7, 7,
@@ -84,6 +85,8 @@ static const uint8_t lag_symbols[] = {
 
 static av_cold void lag_init_static_data(void)
 {
+    VLC_INIT_STATIC_SPARSE_TABLE(lag_tab, VLC_BITS, FF_ARRAY_ELEMS(lag_bits),
+                                 lag_bits, 1, 1, lag_codes, 1, 1, lag_symbols, 1, 1, 0);
 }
 
 /**
@@ -133,8 +136,7 @@ static int lag_decode_prob(GetBitContext *gb, uint32_t *value)
 {
     unsigned val, bits;
 
-    for (i = 0; i < 7; i++) {
-        bit = get_bits1(gb);
+    bits = get_vlc2(gb, lag_tab, VLC_BITS, 1);
     if (bits > 31) {
         *value = 0;
         return AVERROR_INVALIDDATA;

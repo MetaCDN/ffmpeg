@@ -51,23 +51,22 @@ static av_cold void mpc7_init_static(void)
     VLCInitState state = VLC_INIT_STATE(quant_tables);
     const uint8_t *raw_quant_table = mpc7_quant_vlcs;
 
-    INIT_VLC_STATIC_FROM_LENGTHS(&scfi_vlc, MPC7_SCFI_BITS, MPC7_SCFI_SIZE,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(scfi_vlc, MPC7_SCFI_BITS, MPC7_SCFI_SIZE,
                                        &mpc7_scfi[1], 2,
                                        &mpc7_scfi[0], 2, 1, 0, 0);
-    INIT_VLC_STATIC_FROM_LENGTHS(&dscf_vlc, MPC7_DSCF_BITS, MPC7_DSCF_SIZE,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(dscf_vlc, MPC7_DSCF_BITS, MPC7_DSCF_SIZE,
                                        &mpc7_dscf[1], 2,
                                        &mpc7_dscf[0], 2, 1, -7, 0);
-    INIT_VLC_STATIC_FROM_LENGTHS(&hdr_vlc, MPC7_HDR_BITS, MPC7_HDR_SIZE,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(hdr_vlc, MPC7_HDR_BITS, MPC7_HDR_SIZE,
                                        &mpc7_hdr[1], 2,
                                        &mpc7_hdr[0], 2, 1, -5, 0);
     for (int i = 0; i < MPC7_QUANT_VLC_TABLES; i++) {
         for (int j = 0; j < 2; j++) {
             quant_vlc[i][j] =
-            ff_init_vlc_from_lengths(&quant_vlc[i][j], 9, mpc7_quant_vlc_sizes[i],
+                ff_vlc_init_tables_from_lengths(&state, 9, mpc7_quant_vlc_sizes[i],
                                                 &raw_quant_table[1], 2,
                                                 &raw_quant_table[0], 2, 1,
                                                 mpc7_quant_vlc_off[i], 0);
-                                     INIT_VLC_STATIC_OVERLONG, NULL);
             raw_quant_table += 2 * mpc7_quant_vlc_sizes[i];
         }
     }

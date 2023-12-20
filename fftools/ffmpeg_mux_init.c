@@ -800,7 +800,7 @@ static int new_stream_video(Muxer *mux, const OptionsContext *o,
         ost->vsync_method = video_sync_method;
         MATCH_PER_STREAM_OPT(fps_mode, str, fps_mode, oc, st);
         if (fps_mode) {
-            parse_and_set_vsync(fps_mode, &ost->vsync_method, ost->file_index, ost->index, 0);
+            ret = parse_and_set_vsync(fps_mode, &ost->vsync_method, ost->file->index, ost->index, 0);
             if (ret < 0)
                 return ret;
         }
@@ -1164,21 +1164,6 @@ static int ost_add(Muxer *mux, const OptionsContext *o, enum AVMediaType type,
         }
     }
 
-    if (o->streamid) {
-        AVDictionaryEntry *e;
-        char idx[16], *p;
-        snprintf(idx, sizeof(idx), "%d", ost->index);
-
-        e = av_dict_get(o->streamid, idx, NULL, 0);
-        if (e) {
-            st->id = strtol(e->value, &p, 0);
-            if (!e->value[0] || *p) {
-                av_log(ost, AV_LOG_FATAL, "Invalid stream id: %s\n", e->value);
-                return AVERROR(EINVAL);
-            }
-        }
-    }
-
     ost->par_in = avcodec_parameters_alloc();
     if (!ost->par_in)
         return AVERROR(ENOMEM);
@@ -1465,7 +1450,7 @@ static int ost_add(Muxer *mux, const OptionsContext *o, enum AVMediaType type,
         (type == AVMEDIA_TYPE_VIDEO || type == AVMEDIA_TYPE_AUDIO)) {
         if (ofilter) {
             ost->filter       = ofilter;
-            ofilter_bind_ost(ofilter, ost);
+            ret = ofilter_bind_ost(ofilter, ost, ms->sch_idx_enc);
             if (ret < 0)
                 return ret;
         } else {

@@ -46,7 +46,7 @@ FFTContext *av_fft_init(int nbits, int inverse)
 {
     int ret;
     float scale = 1.0f;
-    FFTContext *s = av_mallocz(sizeof(*s));
+    AVTXWrapper *s = av_mallocz(sizeof(*s));
     if (!s)
         return NULL;
 
@@ -85,7 +85,7 @@ FFTContext *av_mdct_init(int nbits, int inverse, double scale)
 {
     int ret;
     float scale_f = scale;
-    FFTContext *s = av_malloc(sizeof(*s));
+    AVTXWrapper *s = av_mallocz(sizeof(*s));
     if (!s)
         return NULL;
 
@@ -147,7 +147,7 @@ RDFTContext *av_rdft_init(int nbits, enum RDFTransformType trans)
     if (trans != IDFT_C2R && trans != DFT_R2C)
         return NULL;
 
-    RDFTContext *s = av_malloc(sizeof(*s));
+    s = av_mallocz(sizeof(*s));
     if (!s)
         return NULL;
 
@@ -200,7 +200,7 @@ DCTContext *av_dct_init(int nbits, enum DCTTransformType inverse)
         [DST_I] = AV_TX_FLOAT_DST_I,
     };
 
-    DCTContext *s = av_malloc(sizeof(*s));
+    AVTXWrapper *s = av_mallocz(sizeof(*s));
     if (!s)
         return NULL;
 

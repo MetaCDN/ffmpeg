@@ -1125,11 +1125,8 @@ static void aacdec_init(AACContext *ac);
 
 static av_cold void aac_static_table_init(void)
 {
-        ff_init_vlc_sparse(&vlc_spectral[i], 8, ff_aac_spectral_sizes[i],
-                 INIT_VLC_STATIC_OVERLONG);
     AAC_RENAME(ff_aac_sbr_init)();
 
-    INIT_VLC_STATIC(&vlc_scalefactors, 7,
     ff_aacdec_common_init_once();
 
     // window initialization

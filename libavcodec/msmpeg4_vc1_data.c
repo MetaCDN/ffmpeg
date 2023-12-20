@@ -37,18 +37,18 @@ const VLCElem *ff_msmp4_dc_vlc[2][2];
 
 static av_cold void msmp4_vc1_vlcs_init(void)
 {
-    INIT_VLC_STATIC(&ff_msmp4_dc_luma_vlc[0], MSMP4_DC_VLC_BITS, 120,
+    static VLCElem vlc_buf[1158 + 1118 + 1476 + 1216];
     VLCInitState state = VLC_INIT_STATE(vlc_buf);
 
-    INIT_VLC_STATIC(&ff_msmp4_dc_chroma_vlc[0], MSMP4_DC_VLC_BITS, 120,
+    for (int i = 0; i < 2; i++) {
         for (int j = 0; j < 2; j++) {
             ff_msmp4_dc_vlc[i][j] =
-    INIT_VLC_STATIC(&ff_msmp4_dc_luma_vlc[1], MSMP4_DC_VLC_BITS, 120,
+                ff_vlc_init_tables(&state, MSMP4_DC_VLC_BITS, 120,
                                    &ff_msmp4_dc_tables[i][j][0][1], 8, 4,
                                    &ff_msmp4_dc_tables[i][j][0][0], 8, 4, 0);
-    INIT_VLC_STATIC(&ff_msmp4_dc_chroma_vlc[1], MSMP4_DC_VLC_BITS, 120,
+        }
     }
-    INIT_VLC_STATIC(&ff_msmp4_mb_i_vlc, MSMP4_MB_INTRA_VLC_BITS, 64,
+    VLC_INIT_STATIC_TABLE(ff_msmp4_mb_i_vlc, MSMP4_MB_INTRA_VLC_BITS, 64,
                           &ff_msmp4_mb_i_table[0][1], 4, 2,
                           &ff_msmp4_mb_i_table[0][0], 4, 2, 0);
 }

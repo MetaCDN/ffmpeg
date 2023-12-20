@@ -636,8 +636,6 @@ static av_cold const VLCElem *build_vlc(VLCInitState *state,
         for (count += num; num < count; num++)
             lens[num] = i + 1;
     }
-    ff_init_vlc_from_lengths(vlc, CLV_VLC_BITS, num, lens, 1,
-                             *syms, 2, 2, 0, INIT_VLC_STATIC_OVERLONG, NULL);
     *syms += num;
     return ff_vlc_init_tables_from_lengths(state, CLV_VLC_BITS, num, lens, 1,
                                            symbols, 2, 2, 0, 0);
@@ -649,10 +647,10 @@ static av_cold void clv_init_static(void)
     VLCInitState state = VLC_INIT_STATE(vlc_buf);
     const uint16_t *mv_syms = clv_mv_syms, *bias_syms = clv_bias_syms;
 
-    INIT_VLC_STATIC_FROM_LENGTHS(&dc_vlc, CLV_VLC_BITS, NUM_DC_CODES,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(dc_vlc, CLV_VLC_BITS, NUM_DC_CODES,
                                        clv_dc_lens, 1,
                                        clv_dc_syms, 1, 1, -63, 0);
-    INIT_VLC_STATIC_FROM_LENGTHS(&ac_vlc, CLV_VLC_BITS, NUM_AC_CODES,
+    VLC_INIT_STATIC_TABLE_FROM_LENGTHS(ac_vlc, CLV_VLC_BITS, NUM_AC_CODES,
                                        clv_ac_bits, 1,
                                        clv_ac_syms, 2, 2, 0, 0);
     for (unsigned i = 0, j = 0, k = 0;; i++) {
@@ -664,10 +662,10 @@ static av_cold void clv_init_static(void)
             break;
         if (0x1B7 & (1 << i)) {
             lev[i].flags_cb =
-            ff_init_vlc_from_lengths(&lev[i].flags_cb, CLV_VLC_BITS, 16,
+                ff_vlc_init_tables_from_lengths(&state, CLV_VLC_BITS, 16,
                                                 clv_flags_bits[j], 1,
                                                 clv_flags_syms[j], 1, 1,
-                                     0, INIT_VLC_STATIC_OVERLONG, NULL);
+                                                0, 0);
 
             lev[i + 1].bias_cb = build_vlc(&state, clv_bias_len_counts[j],
                                            &bias_syms);

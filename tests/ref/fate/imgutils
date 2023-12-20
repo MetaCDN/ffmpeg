@@ -269,8 +269,6 @@ p412be          planes: 2, linesizes: 128 256   0   0, plane_sizes:  6144 12288 
 p412le          planes: 2, linesizes: 128 256   0   0, plane_sizes:  6144 12288     0     0, plane_offsets:  6144     0     0, total_size: 18432
 gbrap14be       planes: 4, linesizes: 128 128 128 128, plane_sizes:  6144  6144  6144  6144, plane_offsets:  6144  6144  6144, total_size: 24576
 gbrap14le       planes: 4, linesizes: 128 128 128 128, plane_sizes:  6144  6144  6144  6144, plane_offsets:  6144  6144  6144, total_size: 24576
-<<<<<<< HEAD
-=======
 
 image_fill_black tests
 yuv420p         total_size:   4608,  black_unknown_crc: 0xd00f6cc6,  black_tv_crc: 0xd00f6cc6,  black_pc_crc: 0x234969af
@@ -487,4 +485,3 @@ p412be          total_size:  18432,  black_unknown_crc: 0x26991800,  black_tv_cr
 p412le          total_size:  18432,  black_unknown_crc: 0x4028ac30,  black_tv_crc: 0x4028ac30,  black_pc_crc: 0xab7c7698
 gbrap14be       total_size:  24576,  black_unknown_crc: 0x4ec0d987,  black_tv_crc: 0x4ec0d987,  black_pc_crc: 0x4ec0d987
 gbrap14le       total_size:  24576,  black_unknown_crc: 0x13bde353,  black_tv_crc: 0x13bde353,  black_pc_crc: 0x13bde353
->>>>>>> 0a87bd02ee6c22384961c68ca4a97f9981043885

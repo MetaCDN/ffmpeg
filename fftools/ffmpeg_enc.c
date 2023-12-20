@@ -81,8 +81,9 @@ int enc_alloc(Encoder **penc, const AVCodec *codec,
     if (!enc)
         return AVERROR(ENOMEM);
 
-    if (codec->type == AVMEDIA_TYPE_VIDEO) {
-        enc->last_frame = av_frame_alloc();
+    enc->sch     = sch;
+    enc->sch_idx = sch_idx;
+
     *penc = enc;
 
     return 0;
@@ -164,7 +165,7 @@ static int set_encoder_id(OutputFile *of, OutputStream *ost)
     return 0;
 }
 
-int enc_open(OutputStream *ost, AVFrame *frame)
+int enc_open(void *opaque, const AVFrame *frame)
 {
     OutputStream *ost = opaque;
     InputStream *ist = ost->ist;
@@ -188,7 +189,7 @@ int enc_open(OutputStream *ost, AVFrame *frame)
         fd = (FrameData*)frame->opaque_ref->data;
     }
 
-    set_encoder_id(output_files[ost->file_index], ost);
+    ret = set_encoder_id(of, ost);
     if (ret < 0)
         return ret;
 
@@ -364,6 +365,7 @@ int enc_open(OutputStream *ost, AVFrame *frame)
     // copy timebase while removing common factors
     if (ost->st->time_base.num <= 0 || ost->st->time_base.den <= 0)
         ost->st->time_base = av_add_q(ost->enc_ctx->time_base, (AVRational){0, 1});
+
     ret = of_stream_init(of, ost);
     if (ret < 0)
         return ret;
@@ -461,8 +463,7 @@ static int do_subtitle_out(OutputFile *of, OutputStream *ost, const AVSubtitle *
 
         ret = sch_enc_send(e->sch, e->sch_idx, pkt);
         if (ret < 0) {
-        of_output_packet(of, ost, pkt);
-        if (ret < 0)
+            av_packet_unref(pkt);
             return ret;
         }
     }
@@ -676,8 +677,6 @@ static int encode_frame(OutputFile *of, OutputStream *ost, AVFrame *frame,
         if (ret == AVERROR(EAGAIN)) {
             av_assert0(frame); // should never happen during flushing
             return 0;
-            of_output_packet(of, ost, NULL);
-            return ret;
         } else if (ret < 0) {
             if (ret != AVERROR_EOF)
                 av_log(ost, AV_LOG_ERROR, "%s encoding failed\n", type_desc);
@@ -709,14 +708,10 @@ static int encode_frame(OutputFile *of, OutputStream *ost, AVFrame *frame,
                    av_ts2str(pkt->duration), av_ts2timestr(pkt->duration, &enc->time_base));
         }
 
-            exit_program(1);
         e->data_size += pkt->size;
 
         e->packets_encoded++;
 
-        of_output_packet(of, ost, pkt);
-        if (ret < 0)
-            return ret;
         ret = sch_enc_send(e->sch, e->sch_idx, pkt);
         if (ret < 0) {
             av_packet_unref(pkt);
@@ -740,10 +735,11 @@ static int do_audio_out(OutputFile *of, OutputStream *ost,
     }
 
     if (!check_recording_time(ost, frame->pts, frame->time_base))
-        return;
-    if (ret < 0 && ret != AVERROR_EOF)
+        return AVERROR_EOF;
 
-    sync_ipts = adjust_frame_pts_to_encoder_tb(of, ost, frame);
+    return encode_frame(of, ost, frame, pkt);
+}
+
 static enum AVPictureType forced_kf_apply(void *logctx, KeyframeForceCtx *kf,
                                           AVRational tb, const AVFrame *in_picture)
 {
@@ -791,25 +787,32 @@ force_keyframe:
 }
 
 /* May modify/reset frame */
-static void do_video_out(OutputFile *of, OutputStream *ost, AVFrame *frame)
+static int do_video_out(OutputFile *of, OutputStream *ost,
                         AVFrame *in_picture, AVPacket *pkt)
 {
     AVCodecContext *enc = ost->enc_ctx;
 
-    if (frame) {
-        FrameData *fd = frame_data(frame);
+    if (!check_recording_time(ost, in_picture->pts, ost->enc_ctx->time_base))
+        return AVERROR_EOF;
+
     in_picture->quality = enc->global_quality;
-        duration = lrintf(frame->duration * av_q2d(frame->time_base) / av_q2d(enc->time_base));
-        if (duration <= 0 &&
-            fd->frame_rate_filter.num > 0 && fd->frame_rate_filter.den > 0)
-            duration = 1 / (av_q2d(fd->frame_rate_filter) * av_q2d(enc->time_base));
+    in_picture->pict_type = forced_kf_apply(ost, &ost->kf, enc->time_base, in_picture);
+
+#if FFMPEG_OPT_TOP
+    if (ost->top_field_first >= 0) {
+        in_picture->flags &= ~AV_FRAME_FLAG_TOP_FIELD_FIRST;
         in_picture->flags |= AV_FRAME_FLAG_TOP_FIELD_FIRST * (!!ost->top_field_first);
+    }
 #endif
-    video_sync_process(of, ost, frame, duration,
-        if (nb_frames > dts_error_threshold * 30) {
-            av_log(ost, AV_LOG_ERROR, "%"PRId64" frame duplication too large, skipping\n", nb_frames - 1);
-            ost->nb_frames_drop++;
+
+    return encode_frame(of, ost, in_picture, pkt);
+}
+
+static int frame_encode(OutputStream *ost, AVFrame *frame, AVPacket *pkt)
+{
+    OutputFile *of = ost->file;
     enum AVMediaType type = ost->type;
+
     if (type == AVMEDIA_TYPE_SUBTITLE) {
         const AVSubtitle *subtitle = frame && frame->buf[0] ?
                                      (AVSubtitle*)frame->buf[0]->data : NULL;
@@ -817,39 +820,39 @@ static void do_video_out(OutputFile *of, OutputStream *ost, AVFrame *frame)
         // no flushing for subtitles
         return subtitle && subtitle->num_rects ?
                do_subtitle_out(of, ost, subtitle, pkt) : 0;
-        av_log(ost, AV_LOG_VERBOSE, "*** %"PRId64" dup!\n", nb_frames - 1);
+    }
+
+    if (frame) {
         return (type == AVMEDIA_TYPE_VIDEO) ? do_video_out(of, ost, frame, pkt) :
-        if (ost->nb_frames_dup > e->dup_warning) {
+                                              do_audio_out(of, ost, frame, pkt);
+    }
 
     return  encode_frame(of, ost, NULL, pkt);
+}
+
 static void enc_thread_set_name(const OutputStream *ost)
 {
-            return;
+    char name[16];
     snprintf(name, sizeof(name), "enc%d:%d:%s", ost->file->index, ost->index,
-            return;
+             ost->enc_ctx->codec->name);
     ff_thread_setname(name);
 }
-        in_picture->pict_type = forced_kf_apply(ost, &ost->kf, enc->time_base, in_picture, i);
 
-#if FFMPEG_OPT_TOP
-        ret = submit_encode_frame(of, ost, in_picture);
-        if (ret == AVERROR_EOF)
-            break;
+static void enc_thread_uninit(EncoderThread *et)
 {
-        e->next_pts++;
-        e->vsync_frame_number++;
+    av_packet_free(&et->pkt);
+    av_frame_free(&et->frame);
 
     memset(et, 0, sizeof(*et));
 }
-#endif
 
 static int enc_thread_init(EncoderThread *et)
 {
     memset(et, 0, sizeof(*et));
 
-    av_frame_unref(e->last_frame);
-    if (frame)
-        av_frame_move_ref(e->last_frame, frame);
+    et->frame = av_frame_alloc();
+    if (!et->frame)
+        goto fail;
 
     et->pkt = av_packet_alloc();
     if (!et->pkt)
@@ -862,7 +865,7 @@ fail:
     return AVERROR(ENOMEM);
 }
 
-void enc_frame(OutputStream *ost, AVFrame *frame)
+void *encoder_thread(void *arg)
 {
     OutputStream *ost = arg;
     Encoder        *e = ost->enc;
@@ -872,10 +875,10 @@ void enc_frame(OutputStream *ost, AVFrame *frame)
 
     ret = enc_thread_init(&et);
     if (ret < 0)
-        exit_program(1);
+        goto finish;
 
-    if (ost->enc_ctx->codec_type == AVMEDIA_TYPE_VIDEO) do_video_out(of, ost, frame);
-    else                                                do_audio_out(of, ost, frame);
+    /* Open the subtitle encoders immediately. AVFrame-based encoders
+     * are opened through a callback from the scheduler once they get
      * their first frame
      *
      * N.B.: because the callback is called from a different thread,
@@ -887,7 +890,7 @@ void enc_frame(OutputStream *ost, AVFrame *frame)
             goto finish;
     }
 
-void enc_flush(void)
+    while (!input_status) {
         input_status = sch_enc_receive(e->sch, e->sch_idx, et.frame);
         if (input_status < 0) {
             if (input_status == AVERROR_EOF) {
@@ -930,11 +933,12 @@ void enc_flush(void)
         ret = frame_encode(ost, NULL, et.pkt);
         if (ret < 0 && ret != AVERROR_EOF)
             av_log(ost, AV_LOG_ERROR, "Error flushing encoder: %s\n",
-            exit_program(1);
+                   av_err2str(ret));
     }
 
     // EOF is normal thread termination
     if (ret == AVERROR_EOF)
+        ret = 0;
 
 finish:
     enc_thread_uninit(&et);

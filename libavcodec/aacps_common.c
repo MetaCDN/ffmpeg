@@ -288,7 +288,6 @@ err:
     return bits_left;
 }
 
-    INIT_VLC_STATIC(&vlc_ps[num], nb_bits, ps_tmp[num].table_size / ps_tmp[num].elem_size,    \
 av_cold void ff_ps_init_common(void)
 {
     static VLCElem vlc_buf[(1544 + 832 + 1024 + 1036) +

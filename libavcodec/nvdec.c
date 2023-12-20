@@ -447,8 +447,7 @@ static void nvdec_fdd_priv_free(void *priv)
         return;
 
     ff_refstruct_unref(&cf->idx_ref);
-    av_buffer_unref(&cf->decoder_ref);
-    ff_refstruct_unref(&cf->decoder);
+    ff_refstruct_unref(&cf->ref_idx_ref);
     ff_refstruct_unref(&cf->decoder);
 
     av_freep(&priv);
@@ -473,8 +472,7 @@ static void nvdec_unmap_mapped_frame(void *opaque, uint8_t *data)
 
 finish:
     ff_refstruct_unref(&unmap_data->idx_ref);
-    av_buffer_unref(&unmap_data->decoder_ref);
-    ff_refstruct_unref(&unmap_data->decoder);
+    ff_refstruct_unref(&unmap_data->ref_idx_ref);
     ff_refstruct_unref(&unmap_data->decoder);
     av_free(unmap_data);
 }
@@ -530,8 +528,7 @@ static int nvdec_retrieve_data(void *logctx, AVFrame *frame)
         goto copy_fail;
 
     unmap_data->idx = cf->idx;
-    if (!(unmap_data->idx_ref     = av_buffer_ref(cf->idx_ref)) ||
-        !(unmap_data->decoder_ref = av_buffer_ref(cf->decoder_ref))) {
+    unmap_data->idx_ref = ff_refstruct_ref(cf->idx_ref);
     unmap_data->decoder = ff_refstruct_ref(cf->decoder);
 
     av_pix_fmt_get_chroma_sub_sample(hwctx->sw_format, &shift_h, &shift_v);

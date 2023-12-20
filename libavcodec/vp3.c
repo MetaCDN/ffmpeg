@@ -375,18 +375,8 @@ static av_cold int vp3_decode_end(AVCodecContext *avctx)
     av_frame_free(&s->last_frame.f);
     av_frame_free(&s->golden_frame.f);
 
-    for (i = 0; i < FF_ARRAY_ELEMS(s->coeff_vlc); i++)
-        ff_free_vlc(&s->coeff_vlc[i]);
+    ff_refstruct_unref(&s->coeff_vlc);
 
-    ff_free_vlc(&s->superblock_run_length_vlc);
-    ff_free_vlc(&s->fragment_run_length_vlc);
-    ff_free_vlc(&s->mode_code_vlc);
-    ff_free_vlc(&s->motion_vector_vlc);
-    for (j = 0; j < 2; j++)
-        for (i = 0; i < 7; i++)
-            ff_free_vlc(&s->vp4_mv_vlc[j][i]);
-    for (i = 0; i < 2; i++)
-        ff_free_vlc(&s->block_pattern_vlc[i]);
     return 0;
 }
 
@@ -1192,7 +1182,7 @@ static inline int get_coeff(GetBitContext *gb, int token, int16_t *coeff)
  * be passed into the next call to this same function.
  */
 static int unpack_vlcs(Vp3DecodeContext *s, GetBitContext *gb,
-                       VLC *table, int coeff_index,
+                       const VLCElem *vlc_table, int coeff_index,
                        int plane,
                        int eob_run)
 {
@@ -1313,7 +1303,7 @@ static void reverse_dc_prediction(Vp3DecodeContext *s,
  */
 static int unpack_dct_coeffs(Vp3DecodeContext *s, GetBitContext *gb)
 {
-    int i;
+    const VLCElem *const *coeff_vlc = s->coeff_vlc->vlc_tabs;
     int dc_y_table;
     int dc_c_table;
     int ac_y_table;
@@ -1415,7 +1405,7 @@ static int unpack_dct_coeffs(Vp3DecodeContext *s, GetBitContext *gb)
  * @return < 0 on error
  */
 static int vp4_unpack_vlcs(Vp3DecodeContext *s, GetBitContext *gb,
-                       VLC *vlc_tables[64],
+                           const VLCElem *const vlc_tables[64],
                        int plane, int eob_tracker[64], int fragment)
 {
     int token;
@@ -1535,12 +1525,12 @@ static void vp4_set_tokens_base(Vp3DecodeContext *s)
 
 static int vp4_unpack_dct_coeffs(Vp3DecodeContext *s, GetBitContext *gb)
 {
-    int i, j;
+    const VLCElem *const *coeff_vlc = s->coeff_vlc->vlc_tabs;
     int dc_y_table;
     int dc_c_table;
     int ac_y_table;
     int ac_c_table;
-    VLC *tables[2][64];
+    const VLCElem *tables[2][64];
     int eob_tracker[64];
     VP4Predictor dc_pred[6][6];
     int last_dc[NB_VP4_DC_TYPES];
@@ -2504,7 +2494,7 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
             /* init VLC tables */
             bias_tabs = CONFIG_VP4_DECODER && s->version >= 2 ? vp4_bias : vp3_bias;
             for (int i = 0; i < FF_ARRAY_ELEMS(vlcs->vlcs); i++) {
-            ret = ff_init_vlc_from_lengths(&s->coeff_vlc[i], 11, 32,
+                ret = ff_vlc_init_from_lengths(&vlcs->vlcs[i], 11, 32,
                                                &bias_tabs[i][0][1], 2,
                                                &bias_tabs[i][0][0], 2, 1,
                                                0, 0, avctx);
@@ -2513,10 +2503,10 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
                 vlcs->vlc_tabs[i] = vlcs->vlcs[i].table;
             }
         } else {
-        for (i = 0; i < FF_ARRAY_ELEMS(s->coeff_vlc); i++) {
+            for (int i = 0; i < FF_ARRAY_ELEMS(vlcs->vlcs); i++) {
                 const HuffTable *tab = &s->huffman_table[i];
 
-            ret = ff_init_vlc_from_lengths(&s->coeff_vlc[i], 11, tab->nb_entries,
+                ret = ff_vlc_init_from_lengths(&vlcs->vlcs[i], 11, tab->nb_entries,
                                                &tab->entries[0].len, sizeof(*tab->entries),
                                                &tab->entries[0].sym, sizeof(*tab->entries), 1,
                                                0, 0, avctx);
@@ -2525,18 +2515,9 @@ static av_cold int vp3_decode_init(AVCodecContext *avctx)
                 vlcs->vlc_tabs[i] = vlcs->vlcs[i].table;
             }
         }
-    ret = ff_init_vlc_from_lengths(&s->superblock_run_length_vlc, SUPERBLOCK_VLC_BITS, 34,
-    ret = ff_init_vlc_from_lengths(&s->fragment_run_length_vlc, 5, 30,
-    ret = ff_init_vlc_from_lengths(&s->mode_code_vlc, 3, 8,
-    ret = ff_init_vlc_from_lengths(&s->motion_vector_vlc, VP3_MV_VLC_BITS, 63,
-    for (j = 0; j < 2; j++)
-        for (i = 0; i < 7; i++) {
-            ret = ff_init_vlc_from_lengths(&s->vp4_mv_vlc[j][i], VP4_MV_VLC_BITS, 63,
     }
 
     ff_thread_once(&init_static_once, init_tables_once);
-    for (i = 0; i < 2; i++)
-        if ((ret = init_vlc(&s->block_pattern_vlc[i], 3, 14,
 
     return allocate_tables(avctx);
 }

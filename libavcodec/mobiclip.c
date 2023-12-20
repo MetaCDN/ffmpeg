@@ -279,7 +279,7 @@ static const VLCElem *mv_vlc[2][16];
 
 static av_cold void mobiclip_init_static(void)
 {
-    INIT_VLC_STATIC_FROM_LENGTHS(&rl_vlc[0], MOBI_RL_VLC_BITS, 104,
+    static VLCElem vlc_buf[(2 << MOBI_RL_VLC_BITS) + (2 * 16 << MOBI_MV_VLC_BITS)];
     VLCInitState state =VLC_INIT_STATE(vlc_buf);
 
     for (int i = 0; i < 2; i++) {
@@ -288,13 +288,12 @@ static av_cold void mobiclip_init_static(void)
                                             bits0, sizeof(*bits0),
                                             i ? syms1 : syms0, sizeof(*syms0), sizeof(*syms0),
                                             0, 0);
-    INIT_VLC_STATIC_FROM_LENGTHS(&rl_vlc[1], MOBI_RL_VLC_BITS, 104,
         for (int j = 0; j < 16; j++) {
             mv_vlc[i][j] =
-            ff_init_vlc_from_lengths(&mv_vlc[i][j], MOBI_MV_VLC_BITS, mv_len[j],
+                ff_vlc_init_tables_from_lengths(&state, MOBI_MV_VLC_BITS, mv_len[j],
                                                 mv_bits[i][j], sizeof(*mv_bits[i][j]),
                                                 mv_syms[i][j], sizeof(*mv_syms[i][j]), sizeof(*mv_syms[i][j]),
-                                     0, INIT_VLC_USE_NEW_STATIC, NULL);
+                                                0, 0);
         }
     }
 }

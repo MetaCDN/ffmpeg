@@ -385,8 +385,10 @@ typedef struct VAAPIEncodeContext {
     //size_t header_data_size;
 
     /**
+     * Buffered coded data of a pic if it is an non-independent frame.
      * This is a RefStruct reference.
      */
+    VABufferID     *coded_buffer_ref;
 
     /** Tail data of a pic, now only used for av1 repeat frame header. */
     AVPacket        *tail_pkt;

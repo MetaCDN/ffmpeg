@@ -164,7 +164,6 @@ static int vp9_frame_ref(VP9Frame *dst, VP9Frame *src)
                           src->hwaccel_picture_private);
 
     return 0;
-    vp9_frame_unref(avctx, dst);
 }
 
 static int update_size(AVCodecContext *avctx, int w, int h)

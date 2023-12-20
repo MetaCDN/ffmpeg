@@ -186,14 +186,14 @@ func ff_ps_hybrid_synthesis_deint_rvv, zve64x
         mv      t4, t2
         addi    a3, a3, -1
 2:
-        vsetvli     t5, t3, e32, m1, ta, ma
+        vsetvli t5, t4, e32, m4, ta, ma
         vlse64.v v16, (a1), t1 /* sizeof (float[32][2]) */
         sub     t4, t4, t5
         vnsrl.wx v24, v16, zero
         slli    t6, t5, 5 + 1 + 2
         vnsrl.wx v28, v16, t3 /* 32 */
         add     a1, a1, t6
-        vsse32.v    v17, (t4), t6
+        vse32.v v24, (a0)
         sh2add  a0, t5, a0
         vse32.v v28, (t0)
         sh2add  t0, t5, t0

@@ -411,7 +411,7 @@ static int fn(filter_channels)(AVFilterContext *ctx, void *arg, int jobnr, int n
                     break;
                 case 2:
                     k = itqfactor;
-                    g = fg / SQRT(gain);
+                    g = fg * SQRT(lin_gain);
 
                     fa[0] = ONE / (ONE + g * (g + k));
                     fa[1] = g * fa[0];

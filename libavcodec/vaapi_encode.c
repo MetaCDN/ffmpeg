@@ -781,6 +781,7 @@ static int vaapi_encode_get_coded_data(AVCodecContext *avctx,
     int ret;
 
     if (ctx->coded_buffer_ref) {
+        output_buffer_prev = *ctx->coded_buffer_ref;
         ret = vaapi_encode_get_coded_buffer_size(avctx, output_buffer_prev);
         if (ret < 0)
             goto end;
@@ -808,8 +809,7 @@ static int vaapi_encode_get_coded_data(AVCodecContext *avctx,
         goto end;
 
 end:
-    if (ctx->coded_buffer_ref) {
-    }
+    ff_refstruct_unref(&ctx->coded_buffer_ref);
     ff_refstruct_unref(&pic->output_buffer_ref);
     pic->output_buffer = VA_INVALID_ID;
 
@@ -829,6 +829,7 @@ static int vaapi_encode_output(AVCodecContext *avctx,
 
     if (pic->non_independent_frame) {
         av_assert0(!ctx->coded_buffer_ref);
+        ctx->coded_buffer_ref = ff_refstruct_ref(pic->output_buffer_ref);
 
         if (pic->tail_size) {
             if (ctx->tail_pkt->size) {

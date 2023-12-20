@@ -317,17 +317,16 @@ av_cold void ff_h264_decode_init_vlc(void)
     const VLCElem *coeff_token_vlc_original[4];
     VLCInitState state = VLC_INIT_STATE(run7_vlc_table);
 
-    init_vlc(&chroma_dc_coeff_token_vlc, CHROMA_DC_COEFF_TOKEN_VLC_BITS, 4*5,
+    VLC_INIT_STATIC_TABLE(chroma_dc_coeff_token_vlc_table,
                           CHROMA_DC_COEFF_TOKEN_VLC_BITS, 4 * 5,
                           &chroma_dc_coeff_token_len [0], 1, 1,
                           &chroma_dc_coeff_token_bits[0], 1, 1, 0);
-             INIT_VLC_USE_NEW_STATIC);
 
-    init_vlc(&chroma422_dc_coeff_token_vlc, CHROMA422_DC_COEFF_TOKEN_VLC_BITS, 4*9,
+    VLC_INIT_STATIC_TABLE(chroma422_dc_coeff_token_vlc_table,
                           CHROMA422_DC_COEFF_TOKEN_VLC_BITS, 4 * 9,
                           &chroma422_dc_coeff_token_len [0], 1, 1,
                           &chroma422_dc_coeff_token_bits[0], 1, 1, 0);
-             INIT_VLC_USE_NEW_STATIC);
+
     ff_vlc_init_tables(&state, RUN7_VLC_BITS, 16,
                        &run_len [6][0], 1, 1,
                        &run_bits[6][0], 1, 1, 0);
@@ -340,10 +339,9 @@ av_cold void ff_h264_decode_init_vlc(void)
 
     for (int i = 0; i < 4; i++) {
         coeff_token_vlc_original[i] =
-        init_vlc(&coeff_token_vlc[i], COEFF_TOKEN_VLC_BITS, 4*17,
+            ff_vlc_init_tables(&state, COEFF_TOKEN_VLC_BITS, 4*17,
                                &coeff_token_len [i][0], 1, 1,
                                &coeff_token_bits[i][0], 1, 1, 0);
-                 INIT_VLC_USE_NEW_STATIC);
     }
     for (int i = 0; i < FF_ARRAY_ELEMS(coeff_token_vlc); i++) {
         static const uint8_t coeff_token_table_index[17] = {
@@ -353,37 +351,30 @@ av_cold void ff_h264_decode_init_vlc(void)
     }
 
     for (int i = 0; i < 3; i++) {
-        init_vlc(&chroma_dc_total_zeros_vlc[i + 1],
+        chroma_dc_total_zeros_vlc[i + 1] =
             ff_vlc_init_tables(&state, CHROMA_DC_TOTAL_ZEROS_VLC_BITS, 4,
                                &chroma_dc_total_zeros_len [i][0], 1, 1,
                                &chroma_dc_total_zeros_bits[i][0], 1, 1, 0);
-                 INIT_VLC_USE_NEW_STATIC);
     }
 
     for (int i = 0; i < 7; i++) {
-        init_vlc(&chroma422_dc_total_zeros_vlc[i + 1],
+        chroma422_dc_total_zeros_vlc[i + 1] =
             ff_vlc_init_tables(&state, CHROMA422_DC_TOTAL_ZEROS_VLC_BITS, 8,
                                &chroma422_dc_total_zeros_len [i][0], 1, 1,
                                &chroma422_dc_total_zeros_bits[i][0], 1, 1, 0);
-                 INIT_VLC_USE_NEW_STATIC);
     }
 
     for (int i = 0; i < 15; i++) {
-        init_vlc(&total_zeros_vlc[i + 1],
+        total_zeros_vlc[i + 1] =
             ff_vlc_init_tables(&state, TOTAL_ZEROS_VLC_BITS, 16,
                                &total_zeros_len [i][0], 1, 1,
                                &total_zeros_bits[i][0], 1, 1, 0);
-                 INIT_VLC_USE_NEW_STATIC);
     }
     /*
      * This is a one time safety check to make sure that
      * the vlc table sizes were initialized correctly.
-        init_vlc(&run_vlc[i + 1],
-                 INIT_VLC_USE_NEW_STATIC);
      */
     av_assert1(state.size == 0);
-    init_vlc(&run7_vlc, RUN7_VLC_BITS, 16,
-             INIT_VLC_USE_NEW_STATIC);
 
     init_cavlc_level_tab();
 }

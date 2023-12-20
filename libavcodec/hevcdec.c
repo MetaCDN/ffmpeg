@@ -3405,8 +3405,7 @@ static int hevc_ref_frame(HEVCFrame *dst, HEVCFrame *src)
     dst->tab_mvf = ff_refstruct_ref(src->tab_mvf);
     dst->rpl_tab = ff_refstruct_ref(src->rpl_tab);
     dst->rpl = ff_refstruct_ref(src->rpl);
-    dst->rpl_buf = av_buffer_ref(src->rpl_buf);
-    if (!dst->rpl_buf)
+    dst->nb_rpl_elems = src->nb_rpl_elems;
 
     dst->poc        = src->poc;
     dst->ctb_count  = src->ctb_count;
@@ -3417,7 +3416,6 @@ static int hevc_ref_frame(HEVCFrame *dst, HEVCFrame *src)
                           src->hwaccel_picture_private);
 
     return 0;
-    ff_hevc_unref_frame(s, dst, ~0);
 }
 
 static av_cold int hevc_decode_free(AVCodecContext *avctx)

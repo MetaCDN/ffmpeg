@@ -1166,7 +1166,7 @@ static int opt_filter_complex(void *optctx, const char *opt, const char *arg)
     if (!graph_desc)
         return AVERROR(ENOMEM);
 
-    fg_create(graph_desc);
+    return fg_create(NULL, graph_desc, sch);
 }
 
 static int opt_filter_complex_script(void *optctx, const char *opt, const char *arg)
@@ -1176,7 +1176,7 @@ static int opt_filter_complex_script(void *optctx, const char *opt, const char *
     if (!graph_desc)
         return AVERROR(EINVAL);
 
-    fg_create(graph_desc);
+    return fg_create(NULL, graph_desc, sch);
 }
 
 void show_help_default(const char *opt, const char *arg)
