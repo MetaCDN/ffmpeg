@@ -35,21 +35,25 @@
  * - demuxers, each containing any number of demuxed streams; demuxed packets
  *   belonging to some stream are sent to any number of decoders (transcoding)
  *   and/or muxers (streamcopy);
- * - decoders, which receive encoded packets from some demuxed stream, decode
- *   them, and send decoded frames to any number of filtergraph inputs
- *   (audio/video) or encoders (subtitles);
+ * - decoders, which receive encoded packets from some demuxed stream or
+ *   encoder, decode them, and send decoded frames to any number of filtergraph
+ *   inputs (audio/video) or encoders (subtitles);
  * - filtergraphs, each containing zero or more inputs (0 in case the
  *   filtergraph contains a lavfi source filter), and one or more outputs; the
  *   inputs and outputs need not have matching media types;
- *   each filtergraph input receives decoded frames from some decoder;
+ *   each filtergraph input receives decoded frames from some decoder or another
+ *   filtergraph output;
  *   filtered frames from each output are sent to some encoder;
  * - encoders, which receive decoded frames from some decoder (subtitles) or
  *   some filtergraph output (audio/video), encode them, and send encoded
- *   packets to some muxed stream;
+ *   packets to any number of muxed streams or decoders;
  * - muxers, each containing any number of muxed streams; each muxed stream
  *   receives encoded packets from some demuxed stream (streamcopy) or some
  *   encoder (transcoding); those packets are interleaved and written out by the
  *   muxer.
+ *
+ * The structure formed by the above components is a directed acyclic graph
+ * (absence of cycles is checked at startup).
  *
  * There must be at least one muxer instance, otherwise the transcode produces
  * no output and is meaningless. Otherwise, in a generic transcoding scenario
@@ -102,7 +106,7 @@ typedef struct SchedulerNode {
     unsigned                idx_stream;
 } SchedulerNode;
 
-typedef void* (*SchThreadFunc)(void *arg);
+typedef int (*SchThreadFunc)(void *arg);
 
 #define SCH_DSTREAM(file, stream)                           \
     (SchedulerNode){ .type = SCH_NODE_TYPE_DEMUX,           \
@@ -110,9 +114,12 @@ typedef void* (*SchThreadFunc)(void *arg);
 #define SCH_MSTREAM(file, stream)                           \
     (SchedulerNode){ .type = SCH_NODE_TYPE_MUX,             \
                      .idx = file, .idx_stream = stream }
-#define SCH_DEC(decoder)                                    \
+#define SCH_DEC_IN(decoder)                                 \
     (SchedulerNode){ .type = SCH_NODE_TYPE_DEC,             \
-                    .idx = decoder }
+                     .idx = decoder }
+#define SCH_DEC_OUT(decoder, out_idx)                       \
+    (SchedulerNode){ .type = SCH_NODE_TYPE_DEC,             \
+                     .idx = decoder, .idx_stream = out_idx }
 #define SCH_ENC(encoder)                                    \
     (SchedulerNode){ .type = SCH_NODE_TYPE_ENC,             \
                     .idx = encoder }
@@ -174,8 +181,15 @@ int sch_add_demux_stream(Scheduler *sch, unsigned demux_idx);
  * @retval ">=0" Index of the newly-created decoder.
  * @retval "<0"  Error code.
  */
-int sch_add_dec(Scheduler *sch, SchThreadFunc func, void *ctx,
-                int send_end_ts);
+int sch_add_dec(Scheduler *sch, SchThreadFunc func, void *ctx, int send_end_ts);
+
+/**
+ * Add another output to decoder (e.g. for multiview video).
+ *
+ * @retval ">=0" Index of the newly-added decoder output.
+ * @retval "<0"  Error code.
+ */
+int sch_add_dec_output(Scheduler *sch, unsigned dec_idx);
 
 /**
  * Add a filtergraph to the scheduler.
@@ -225,12 +239,26 @@ int sch_add_filtergraph(Scheduler *sch, unsigned nb_inputs, unsigned nb_outputs,
  *             streams in the muxer.
  * @param ctx Muxer state; will be passed to func/init and used for logging.
  * @param sdp_auto Determines automatic SDP writing - see sch_sdp_filename().
+ * @param thread_queue_size number of packets that can be buffered before
+ *                          sending to the muxer blocks
  *
  * @retval ">=0" Index of the newly-created muxer.
  * @retval "<0"  Error code.
  */
 int sch_add_mux(Scheduler *sch, SchThreadFunc func, int (*init)(void *),
-                void *ctx, int sdp_auto);
+                void *ctx, int sdp_auto, unsigned thread_queue_size);
+
+/**
+ * Default size of a packet thread queue.  For muxing this can be overridden by
+ * the thread_queue_size option as passed to a call to sch_add_mux().
+ */
+#define DEFAULT_PACKET_THREAD_QUEUE_SIZE 8
+
+/**
+ * Default size of a frame thread queue.
+ */
+#define DEFAULT_FRAME_THREAD_QUEUE_SIZE 8
+
 /**
  * Add a muxed stream for a previously added muxer.
  *
@@ -361,7 +389,8 @@ int sch_dec_receive(Scheduler *sch, unsigned dec_idx, struct AVPacket *pkt);
  * @retval AVERROR_EOF all consumers are done, should terminate decoding
  * @retval "another negative error code" other failure
  */
-int sch_dec_send(Scheduler *sch, unsigned dec_idx, struct AVFrame *frame);
+int sch_dec_send(Scheduler *sch, unsigned dec_idx,
+                 unsigned out_idx, struct AVFrame *frame);
 
 /**
  * Called by filtergraph tasks to obtain frames for filtering. Will wait for a
@@ -388,6 +417,13 @@ int sch_dec_send(Scheduler *sch, unsigned dec_idx, struct AVFrame *frame);
  */
 int sch_filter_receive(Scheduler *sch, unsigned fg_idx,
                        unsigned *in_idx, struct AVFrame *frame);
+/**
+ * Called by filter tasks to signal that a filter input will no longer accept input.
+ *
+ * @param fg_idx Filtergraph index previously returned from sch_add_filtergraph().
+ * @param in_idx Index of the input to finish.
+ */
+void sch_filter_receive_finish(Scheduler *sch, unsigned fg_idx, unsigned in_idx);
 
 /**
  * Called by filtergraph tasks to send a filtered frame or EOF to consumers.

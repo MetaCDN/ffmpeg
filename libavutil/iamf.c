@@ -64,17 +64,17 @@ child_type *av_iamf_ ## parent_name ## _add_ ## child_name(parent_type *parent_n
 //
 #define OFFSET(x) offsetof(AVIAMFMixGain, x)
 static const AVOption mix_gain_options[] = {
-    { "subblock_duration", "set subblock_duration", OFFSET(subblock_duration), AV_OPT_TYPE_INT64, {.i64 = 1 }, 1, UINT_MAX, FLAGS },
-    { "animation_type", "set animation_type", OFFSET(animation_type), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, 2, FLAGS },
-    { "start_point_value", "set start_point_value", OFFSET(animation_type), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, -128.0, 128.0, FLAGS },
-    { "end_point_value", "set end_point_value", OFFSET(animation_type), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, -128.0, 128.0, FLAGS },
-    { "control_point_value", "set control_point_value", OFFSET(animation_type), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, -128.0, 128.0, FLAGS },
-    { "control_point_relative_time", "set control_point_relative_time", OFFSET(animation_type), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, 0.0, 1.0, FLAGS },
+    { "subblock_duration", "set subblock_duration", OFFSET(subblock_duration), AV_OPT_TYPE_UINT, {.i64 = 1 }, 1, UINT_MAX, FLAGS },
+    { "animation_type", "set animation_type", OFFSET(animation_type), AV_OPT_TYPE_UINT, {.i64 = 0 }, 0, 2, FLAGS },
+    { "start_point_value", "set start_point_value", OFFSET(start_point_value), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, -128.0, 128.0, FLAGS },
+    { "end_point_value", "set end_point_value", OFFSET(end_point_value), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, -128.0, 128.0, FLAGS },
+    { "control_point_value", "set control_point_value", OFFSET(control_point_value), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, -128.0, 128.0, FLAGS },
+    { "control_point_relative_time", "set control_point_relative_time", OFFSET(control_point_relative_time), AV_OPT_TYPE_RATIONAL, {.dbl = 0 }, 0.0, 1.0, FLAGS },
     { NULL },
 };
 
 static const AVClass mix_gain_class = {
-    .class_name     = "AVIAMFSubmixElement",
+    .class_name     = "AVIAMFMixGain",
     .item_name      = av_default_item_name,
     .version        = LIBAVUTIL_VERSION_INT,
     .option         = mix_gain_options,
@@ -83,8 +83,8 @@ static const AVClass mix_gain_class = {
 #undef OFFSET
 #define OFFSET(x) offsetof(AVIAMFDemixingInfo, x)
 static const AVOption demixing_info_options[] = {
-    { "subblock_duration", "set subblock_duration", OFFSET(subblock_duration), AV_OPT_TYPE_INT64, {.i64 = 1 }, 1, UINT_MAX, FLAGS },
-    { "dmixp_mode", "set dmixp_mode", OFFSET(dmixp_mode), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, 6, FLAGS },
+    { "subblock_duration", "set subblock_duration", OFFSET(subblock_duration), AV_OPT_TYPE_UINT, {.i64 = 1 }, 1, UINT_MAX, FLAGS },
+    { "dmixp_mode", "set dmixp_mode", OFFSET(dmixp_mode), AV_OPT_TYPE_UINT, {.i64 = 0 }, 0, 6, FLAGS },
     { NULL },
 };
 
@@ -98,7 +98,7 @@ static const AVClass demixing_info_class = {
 #undef OFFSET
 #define OFFSET(x) offsetof(AVIAMFReconGain, x)
 static const AVOption recon_gain_options[] = {
-    { "subblock_duration", "set subblock_duration", OFFSET(subblock_duration), AV_OPT_TYPE_INT64, {.i64 = 1 }, 1, UINT_MAX, FLAGS },
+    { "subblock_duration", "set subblock_duration", OFFSET(subblock_duration), AV_OPT_TYPE_UINT, {.i64 = 1 }, 1, UINT_MAX, FLAGS },
     { NULL },
 };
 
@@ -112,10 +112,10 @@ static const AVClass recon_gain_class = {
 #undef OFFSET
 #define OFFSET(x) offsetof(AVIAMFParamDefinition, x)
 static const AVOption param_definition_options[] = {
-    { "parameter_id", "set parameter_id", OFFSET(parameter_id), AV_OPT_TYPE_INT64, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
-    { "parameter_rate", "set parameter_rate", OFFSET(parameter_rate), AV_OPT_TYPE_INT64, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
-    { "duration", "set duration", OFFSET(duration), AV_OPT_TYPE_INT64, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
-    { "constant_subblock_duration", "set constant_subblock_duration", OFFSET(constant_subblock_duration), AV_OPT_TYPE_INT64, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
+    { "parameter_id", "set parameter_id", OFFSET(parameter_id), AV_OPT_TYPE_UINT, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
+    { "parameter_rate", "set parameter_rate", OFFSET(parameter_rate), AV_OPT_TYPE_UINT, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
+    { "duration", "set duration", OFFSET(duration), AV_OPT_TYPE_UINT, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
+    { "constant_subblock_duration", "set constant_subblock_duration", OFFSET(constant_subblock_duration), AV_OPT_TYPE_UINT, {.i64 = 0 }, 0, UINT_MAX, FLAGS },
     { NULL },
 };
 
@@ -244,27 +244,27 @@ AVIAMFParamDefinition *av_iamf_param_definition_alloc(enum AVIAMFParamDefinition
 static const AVOption layer_options[] = {
     { "ch_layout", "set ch_layout", OFFSET(ch_layout), AV_OPT_TYPE_CHLAYOUT, {.str = NULL }, 0, 0, FLAGS },
     { "flags", "set flags", OFFSET(flags), AV_OPT_TYPE_FLAGS,
-        {.i64 = 0 }, 0, AV_IAMF_LAYER_FLAG_RECON_GAIN, FLAGS, "flags" },
+        {.i64 = 0 }, 0, AV_IAMF_LAYER_FLAG_RECON_GAIN, FLAGS, .unit = "flags" },
             {"recon_gain",  "Recon gain is present", 0, AV_OPT_TYPE_CONST,
-                {.i64 = AV_IAMF_LAYER_FLAG_RECON_GAIN }, INT_MIN, INT_MAX, FLAGS, "flags"},
+                {.i64 = AV_IAMF_LAYER_FLAG_RECON_GAIN }, INT_MIN, INT_MAX, FLAGS, .unit = "flags"},
     { "output_gain_flags", "set output_gain_flags", OFFSET(output_gain_flags), AV_OPT_TYPE_FLAGS,
-        {.i64 = 0 }, 0, (1 << 6) - 1, FLAGS, "output_gain_flags" },
+        {.i64 = 0 }, 0, (1 << 6) - 1, FLAGS, .unit = "output_gain_flags" },
             {"FL",  "Left channel",            0, AV_OPT_TYPE_CONST,
-                {.i64 = 1 << 5 }, INT_MIN, INT_MAX, FLAGS, "output_gain_flags"},
+                {.i64 = 1 << 5 }, INT_MIN, INT_MAX, FLAGS, .unit = "output_gain_flags"},
             {"FR",  "Right channel",           0, AV_OPT_TYPE_CONST,
-                {.i64 = 1 << 4 }, INT_MIN, INT_MAX, FLAGS, "output_gain_flags"},
+                {.i64 = 1 << 4 }, INT_MIN, INT_MAX, FLAGS, .unit = "output_gain_flags"},
             {"BL",  "Left surround channel",   0, AV_OPT_TYPE_CONST,
-                {.i64 = 1 << 3 }, INT_MIN, INT_MAX, FLAGS, "output_gain_flags"},
+                {.i64 = 1 << 3 }, INT_MIN, INT_MAX, FLAGS, .unit = "output_gain_flags"},
             {"BR",  "Right surround channel",  0, AV_OPT_TYPE_CONST,
-                {.i64 = 1 << 2 }, INT_MIN, INT_MAX, FLAGS, "output_gain_flags"},
+                {.i64 = 1 << 2 }, INT_MIN, INT_MAX, FLAGS, .unit = "output_gain_flags"},
             {"TFL", "Left top front channel",  0, AV_OPT_TYPE_CONST,
-                {.i64 = 1 << 1 }, INT_MIN, INT_MAX, FLAGS, "output_gain_flags"},
+                {.i64 = 1 << 1 }, INT_MIN, INT_MAX, FLAGS, .unit = "output_gain_flags"},
             {"TFR", "Right top front channel", 0, AV_OPT_TYPE_CONST,
-                {.i64 = 1 << 0 }, INT_MIN, INT_MAX, FLAGS, "output_gain_flags"},
+                {.i64 = 1 << 0 }, INT_MIN, INT_MAX, FLAGS, .unit = "output_gain_flags"},
     { "output_gain", "set output_gain", OFFSET(output_gain), AV_OPT_TYPE_RATIONAL, { .dbl = 0 }, -128.0, 128.0, FLAGS },
     { "ambisonics_mode", "set ambisonics_mode", OFFSET(ambisonics_mode), AV_OPT_TYPE_INT,
             { .i64 = AV_IAMF_AMBISONICS_MODE_MONO },
-            AV_IAMF_AMBISONICS_MODE_MONO, AV_IAMF_AMBISONICS_MODE_PROJECTION, FLAGS, "ambisonics_mode" },
+            AV_IAMF_AMBISONICS_MODE_MONO, AV_IAMF_AMBISONICS_MODE_PROJECTION, FLAGS, .unit = "ambisonics_mode" },
         { "mono",       NULL, 0, AV_OPT_TYPE_CONST,
                    { .i64 = AV_IAMF_AMBISONICS_MODE_MONO },       .unit = "ambisonics_mode" },
         { "projection", NULL, 0, AV_OPT_TYPE_CONST,
@@ -284,12 +284,12 @@ static const AVClass layer_class = {
 static const AVOption audio_element_options[] = {
     { "audio_element_type", "set audio_element_type", OFFSET(audio_element_type), AV_OPT_TYPE_INT,
             {.i64 = AV_IAMF_AUDIO_ELEMENT_TYPE_CHANNEL },
-            AV_IAMF_AUDIO_ELEMENT_TYPE_CHANNEL, AV_IAMF_AUDIO_ELEMENT_TYPE_SCENE, FLAGS, "audio_element_type" },
+            AV_IAMF_AUDIO_ELEMENT_TYPE_CHANNEL, AV_IAMF_AUDIO_ELEMENT_TYPE_SCENE, FLAGS, .unit = "audio_element_type" },
         { "channel", NULL, 0, AV_OPT_TYPE_CONST,
                    { .i64 = AV_IAMF_AUDIO_ELEMENT_TYPE_CHANNEL }, .unit = "audio_element_type" },
         { "scene",   NULL, 0, AV_OPT_TYPE_CONST,
                    { .i64 = AV_IAMF_AUDIO_ELEMENT_TYPE_SCENE },   .unit = "audio_element_type" },
-    { "default_w", "set default_w", OFFSET(default_w), AV_OPT_TYPE_INT, {.i64 = 0 }, 0, 10, FLAGS },
+    { "default_w", "set default_w", OFFSET(default_w), AV_OPT_TYPE_UINT, {.i64 = 0 }, 0, 10, FLAGS },
     { NULL },
 };
 
@@ -361,7 +361,7 @@ void av_iamf_audio_element_free(AVIAMFAudioElement **paudio_element)
 static const AVOption submix_element_options[] = {
     { "headphones_rendering_mode", "Headphones rendering mode", OFFSET(headphones_rendering_mode), AV_OPT_TYPE_INT,
             { .i64 = AV_IAMF_HEADPHONES_MODE_STEREO },
-            AV_IAMF_HEADPHONES_MODE_STEREO, AV_IAMF_HEADPHONES_MODE_BINAURAL, FLAGS, "headphones_rendering_mode" },
+            AV_IAMF_HEADPHONES_MODE_STEREO, AV_IAMF_HEADPHONES_MODE_BINAURAL, FLAGS, .unit = "headphones_rendering_mode" },
         { "stereo",   NULL, 0, AV_OPT_TYPE_CONST,
                    { .i64 = AV_IAMF_HEADPHONES_MODE_STEREO },   .unit = "headphones_rendering_mode" },
         { "binaural", NULL, 0, AV_OPT_TYPE_CONST,
@@ -409,7 +409,7 @@ IAMF_ADD_FUNC_TEMPLATE(AVIAMFSubmix, submix, AVIAMFSubmixElement, element, s)
 static const AVOption submix_layout_options[] = {
     { "layout_type", "Layout type", OFFSET(layout_type), AV_OPT_TYPE_INT,
             { .i64 = AV_IAMF_SUBMIX_LAYOUT_TYPE_LOUDSPEAKERS },
-            AV_IAMF_SUBMIX_LAYOUT_TYPE_LOUDSPEAKERS, AV_IAMF_SUBMIX_LAYOUT_TYPE_BINAURAL, FLAGS, "layout_type" },
+            AV_IAMF_SUBMIX_LAYOUT_TYPE_LOUDSPEAKERS, AV_IAMF_SUBMIX_LAYOUT_TYPE_BINAURAL, FLAGS, .unit = "layout_type" },
         { "loudspeakers", NULL, 0, AV_OPT_TYPE_CONST,
                    { .i64 = AV_IAMF_SUBMIX_LAYOUT_TYPE_LOUDSPEAKERS }, .unit = "layout_type" },
         { "binaural",     NULL, 0, AV_OPT_TYPE_CONST,

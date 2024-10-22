@@ -68,40 +68,19 @@
 #include <conio.h>
 #endif
 
-#include "libavutil/avassert.h"
-#include "libavutil/avstring.h"
 #include "libavutil/bprint.h"
-#include "libavutil/channel_layout.h"
 #include "libavutil/dict.h"
-#include "libavutil/display.h"
-#include "libavutil/fifo.h"
-#include "libavutil/hwcontext.h"
-#include "libavutil/imgutils.h"
-#include "libavutil/intreadwrite.h"
-#include "libavutil/libm.h"
-#include "libavutil/mathematics.h"
-#include "libavutil/opt.h"
-#include "libavutil/parseutils.h"
-#include "libavutil/pixdesc.h"
-#include "libavutil/samplefmt.h"
-#include "libavutil/thread.h"
-#include "libavutil/threadmessage.h"
+#include "libavutil/mem.h"
 #include "libavutil/time.h"
-#include "libavutil/timestamp.h"
-
-#include "libavcodec/version.h"
 
 #include "libavformat/avformat.h"
 
 #include "libavdevice/avdevice.h"
 
-#include "libswresample/swresample.h"
-
 #include "cmdutils.h"
 #include "ffmpeg.h"
 #include "ffmpeg_sched.h"
 #include "ffmpeg_utils.h"
-#include "sync_queue.h"
 
 const char program_name[] = "ffmpeg";
 const int program_birth_year = 2000;
@@ -131,6 +110,9 @@ int         nb_output_files   = 0;
 FilterGraph **filtergraphs;
 int        nb_filtergraphs;
 
+Decoder     **decoders;
+int        nb_decoders;
+
 #if HAVE_TERMIOS_H
 
 /* init terminal so that we can grab keys */
@@ -154,7 +136,7 @@ void term_exit(void)
 
 static volatile int received_sigterm = 0;
 static volatile int received_nb_signals = 0;
-static atomic_int transcode_init_done = ATOMIC_VAR_INIT(0);
+static atomic_int transcode_init_done = 0;
 static volatile int ffmpeg_exited = 0;
 static int64_t copy_ts_first_pts = AV_NOPTS_VALUE;
 
@@ -303,8 +285,9 @@ static int read_key(void)
         }
         //Read it
         if(nchars != 0) {
-            read(0, &ch, 1);
-            return ch;
+            if (read(0, &ch, 1) == 1)
+                return ch;
+            return 0;
         }else{
             return -1;
         }
@@ -325,22 +308,24 @@ const AVIOInterruptCB int_cb = { decode_interrupt_cb, NULL };
 
 static void ffmpeg_cleanup(int ret)
 {
-    int i;
-
     if (do_benchmark) {
-        int maxrss = getmaxrss() / 1024;
-        av_log(NULL, AV_LOG_INFO, "bench: maxrss=%ikB\n", maxrss);
+        int64_t maxrss = getmaxrss() / 1024;
+        av_log(NULL, AV_LOG_INFO, "bench: maxrss=%"PRId64"KiB\n", maxrss);
     }
 
-    for (i = 0; i < nb_filtergraphs; i++)
+    for (int i = 0; i < nb_filtergraphs; i++)
         fg_free(&filtergraphs[i]);
     av_freep(&filtergraphs);
 
-    for (i = 0; i < nb_output_files; i++)
+    for (int i = 0; i < nb_output_files; i++)
         of_free(&output_files[i]);
 
-    for (i = 0; i < nb_input_files; i++)
+    for (int i = 0; i < nb_input_files; i++)
         ifile_close(&input_files[i]);
+
+    for (int i = 0; i < nb_decoders; i++)
+        dec_free(&decoders[i]);
+    av_freep(&decoders);
 
     if (vstats_file) {
         if (fclose(vstats_file))
@@ -404,23 +389,63 @@ InputStream *ist_iter(InputStream *prev)
     return NULL;
 }
 
+static void frame_data_free(void *opaque, uint8_t *data)
+{
+    FrameData *fd = (FrameData *)data;
+
+    avcodec_parameters_free(&fd->par_enc);
+
+    av_free(data);
+}
+
 static int frame_data_ensure(AVBufferRef **dst, int writable)
 {
-    if (!*dst) {
+    AVBufferRef *src = *dst;
+
+    if (!src || (writable && !av_buffer_is_writable(src))) {
         FrameData *fd;
 
-        *dst = av_buffer_allocz(sizeof(*fd));
-        if (!*dst)
+        fd = av_mallocz(sizeof(*fd));
+        if (!fd)
             return AVERROR(ENOMEM);
-        fd = (FrameData*)((*dst)->data);
 
-        fd->dec.frame_num = UINT64_MAX;
-        fd->dec.pts       = AV_NOPTS_VALUE;
+        *dst = av_buffer_create((uint8_t *)fd, sizeof(*fd),
+                                frame_data_free, NULL, 0);
+        if (!*dst) {
+            av_buffer_unref(&src);
+            av_freep(&fd);
+            return AVERROR(ENOMEM);
+        }
 
-        for (unsigned i = 0; i < FF_ARRAY_ELEMS(fd->wallclock); i++)
-            fd->wallclock[i] = INT64_MIN;
-    } else if (writable)
-        return av_buffer_make_writable(dst);
+        if (src) {
+            const FrameData *fd_src = (const FrameData *)src->data;
+
+            memcpy(fd, fd_src, sizeof(*fd));
+            fd->par_enc = NULL;
+
+            if (fd_src->par_enc) {
+                int ret = 0;
+
+                fd->par_enc = avcodec_parameters_alloc();
+                ret = fd->par_enc ?
+                      avcodec_parameters_copy(fd->par_enc, fd_src->par_enc) :
+                      AVERROR(ENOMEM);
+                if (ret < 0) {
+                    av_buffer_unref(dst);
+                    av_buffer_unref(&src);
+                    return ret;
+                }
+            }
+
+            av_buffer_unref(&src);
+        } else {
+            fd->dec.frame_num = UINT64_MAX;
+            fd->dec.pts       = AV_NOPTS_VALUE;
+
+            for (unsigned i = 0; i < FF_ARRAY_ELEMS(fd->wallclock); i++)
+                fd->wallclock[i] = INT64_MIN;
+        }
+    }
 
     return 0;
 }
@@ -449,21 +474,51 @@ const FrameData *packet_data_c(AVPacket *pkt)
     return ret < 0 ? NULL : (const FrameData*)pkt->opaque_ref->data;
 }
 
-void remove_avoptions(AVDictionary **a, AVDictionary *b)
+int check_avoptions_used(const AVDictionary *opts, const AVDictionary *opts_used,
+                         void *logctx, int decode)
 {
-    const AVDictionaryEntry *t = NULL;
+    const AVClass  *class = avcodec_get_class();
+    const AVClass *fclass = avformat_get_class();
 
-    while ((t = av_dict_iterate(b, t))) {
-        av_dict_set(a, t->key, NULL, AV_DICT_MATCH_CASE);
-    }
-}
+    const int flag = decode ? AV_OPT_FLAG_DECODING_PARAM :
+                              AV_OPT_FLAG_ENCODING_PARAM;
+    const AVDictionaryEntry *e = NULL;
 
-int check_avoptions(AVDictionary *m)
-{
-    const AVDictionaryEntry *t;
-    if ((t = av_dict_get(m, "", NULL, AV_DICT_IGNORE_SUFFIX))) {
-        av_log(NULL, AV_LOG_FATAL, "Option %s not found.\n", t->key);
-        return AVERROR_OPTION_NOT_FOUND;
+    while ((e = av_dict_iterate(opts, e))) {
+        const AVOption *option, *foption;
+        char *optname, *p;
+
+        if (av_dict_get(opts_used, e->key, NULL, 0))
+            continue;
+
+        optname = av_strdup(e->key);
+        if (!optname)
+            return AVERROR(ENOMEM);
+
+        p = strchr(optname, ':');
+        if (p)
+            *p = 0;
+
+        option = av_opt_find(&class, optname, NULL, 0,
+                             AV_OPT_SEARCH_CHILDREN | AV_OPT_SEARCH_FAKE_OBJ);
+        foption = av_opt_find(&fclass, optname, NULL, 0,
+                              AV_OPT_SEARCH_CHILDREN | AV_OPT_SEARCH_FAKE_OBJ);
+        av_freep(&optname);
+        if (!option || foption)
+            continue;
+
+        if (!(option->flags & flag)) {
+            av_log(logctx, AV_LOG_ERROR, "Codec AVOption %s (%s) is not a %s "
+                   "option.\n", e->key, option->help ? option->help : "",
+                   decode ? "decoding" : "encoding");
+            return AVERROR(EINVAL);
+        }
+
+        av_log(logctx, AV_LOG_WARNING, "Codec AVOption %s (%s) has not been used "
+               "for any stream. The most likely reason is either wrong type "
+               "(e.g. a video option with no video streams) or that it is a "
+               "private option of some decoder which was not actually used "
+               "for any stream.\n", e->key, option->help ? option->help : "");
     }
 
     return 0;
@@ -532,7 +587,7 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
             av_bprintf(&buf_script, "stream_%d_%d_q=%.1f\n",
                        ost->file->index, ost->index, q);
         }
-        if (!vid && ost->type == AVMEDIA_TYPE_VIDEO && ost->filter) {
+        if (!vid && ost->type == AVMEDIA_TYPE_VIDEO) {
             float fps;
             uint64_t frame_number = atomic_load(&ost->packets_written);
 
@@ -546,8 +601,10 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
             if (is_last_report)
                 av_bprintf(&buf, "L");
 
-            nb_frames_dup  = atomic_load(&ost->filter->nb_frames_dup);
-            nb_frames_drop = atomic_load(&ost->filter->nb_frames_drop);
+            if (ost->filter) {
+                nb_frames_dup  = atomic_load(&ost->filter->nb_frames_dup);
+                nb_frames_drop = atomic_load(&ost->filter->nb_frames_drop);
+            }
 
             vid = 1;
         }
@@ -570,7 +627,7 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
     speed   = pts != AV_NOPTS_VALUE && t != 0.0 ? (double)pts / AV_TIME_BASE / t : -1;
 
     if (total_size < 0) av_bprintf(&buf, "size=N/A time=");
-    else                av_bprintf(&buf, "size=%8.0fkB time=", total_size / 1024.0);
+    else                av_bprintf(&buf, "size=%8.0fKiB time=", total_size / 1024.0);
     if (pts == AV_NOPTS_VALUE) {
         av_bprintf(&buf, "N/A ");
     } else {
@@ -640,126 +697,6 @@ static void print_report(int is_last_report, int64_t timer_start, int64_t cur_ti
     first_report = 0;
 }
 
-int copy_av_subtitle(AVSubtitle *dst, const AVSubtitle *src)
-{
-    int ret = AVERROR_BUG;
-    AVSubtitle tmp = {
-        .format = src->format,
-        .start_display_time = src->start_display_time,
-        .end_display_time = src->end_display_time,
-        .num_rects = 0,
-        .rects = NULL,
-        .pts = src->pts
-    };
-
-    if (!src->num_rects)
-        goto success;
-
-    if (!(tmp.rects = av_calloc(src->num_rects, sizeof(*tmp.rects))))
-        return AVERROR(ENOMEM);
-
-    for (int i = 0; i < src->num_rects; i++) {
-        AVSubtitleRect *src_rect = src->rects[i];
-        AVSubtitleRect *dst_rect;
-
-        if (!(dst_rect = tmp.rects[i] = av_mallocz(sizeof(*tmp.rects[0])))) {
-            ret = AVERROR(ENOMEM);
-            goto cleanup;
-        }
-
-        tmp.num_rects++;
-
-        dst_rect->type      = src_rect->type;
-        dst_rect->flags     = src_rect->flags;
-
-        dst_rect->x         = src_rect->x;
-        dst_rect->y         = src_rect->y;
-        dst_rect->w         = src_rect->w;
-        dst_rect->h         = src_rect->h;
-        dst_rect->nb_colors = src_rect->nb_colors;
-
-        if (src_rect->text)
-            if (!(dst_rect->text = av_strdup(src_rect->text))) {
-                ret = AVERROR(ENOMEM);
-                goto cleanup;
-            }
-
-        if (src_rect->ass)
-            if (!(dst_rect->ass = av_strdup(src_rect->ass))) {
-                ret = AVERROR(ENOMEM);
-                goto cleanup;
-            }
-
-        for (int j = 0; j < 4; j++) {
-            // SUBTITLE_BITMAP images are special in the sense that they
-            // are like PAL8 images. first pointer to data, second to
-            // palette. This makes the size calculation match this.
-            size_t buf_size = src_rect->type == SUBTITLE_BITMAP && j == 1 ?
-                              AVPALETTE_SIZE :
-                              src_rect->h * src_rect->linesize[j];
-
-            if (!src_rect->data[j])
-                continue;
-
-            if (!(dst_rect->data[j] = av_memdup(src_rect->data[j], buf_size))) {
-                ret = AVERROR(ENOMEM);
-                goto cleanup;
-            }
-            dst_rect->linesize[j] = src_rect->linesize[j];
-        }
-    }
-
-success:
-    *dst = tmp;
-
-    return 0;
-
-cleanup:
-    avsubtitle_free(&tmp);
-
-    return ret;
-}
-
-static void subtitle_free(void *opaque, uint8_t *data)
-{
-    AVSubtitle *sub = (AVSubtitle*)data;
-    avsubtitle_free(sub);
-    av_free(sub);
-}
-
-int subtitle_wrap_frame(AVFrame *frame, AVSubtitle *subtitle, int copy)
-{
-    AVBufferRef *buf;
-    AVSubtitle *sub;
-    int ret;
-
-    if (copy) {
-        sub = av_mallocz(sizeof(*sub));
-        ret = sub ? copy_av_subtitle(sub, subtitle) : AVERROR(ENOMEM);
-        if (ret < 0) {
-            av_freep(&sub);
-            return ret;
-        }
-    } else {
-        sub = av_memdup(subtitle, sizeof(*subtitle));
-        if (!sub)
-            return AVERROR(ENOMEM);
-        memset(subtitle, 0, sizeof(*subtitle));
-    }
-
-    buf = av_buffer_create((uint8_t*)sub, sizeof(*sub),
-                           subtitle_free, NULL, 0);
-    if (!buf) {
-        avsubtitle_free(sub);
-        av_freep(&sub);
-        return AVERROR(ENOMEM);
-    }
-
-    frame->buf[0] = buf;
-
-    return 0;
-}
-
 static void print_stream_maps(void)
 {
     av_log(NULL, AV_LOG_INFO, "Stream mapping:\n");
@@ -791,7 +728,7 @@ static void print_stream_maps(void)
                 av_log(NULL, AV_LOG_INFO, " (graph %d)", ost->filter->graph->index);
 
             av_log(NULL, AV_LOG_INFO, " -> Stream #%d:%d (%s)\n", ost->file->index,
-                   ost->index, ost->enc_ctx->codec->name);
+                   ost->index, ost->enc->enc_ctx->codec->name);
             continue;
         }
 
@@ -800,9 +737,9 @@ static void print_stream_maps(void)
                ost->ist->index,
                ost->file->index,
                ost->index);
-        if (ost->enc_ctx) {
+        if (ost->enc) {
             const AVCodec *in_codec    = ost->ist->dec;
-            const AVCodec *out_codec   = ost->enc_ctx->codec;
+            const AVCodec *out_codec   = ost->enc->enc_ctx->codec;
             const char *decoder_name   = "?";
             const char *in_codec_name  = "?";
             const char *encoder_name   = "?";
@@ -883,6 +820,11 @@ static int check_keyboard_interaction(int64_t cur_time)
             (n = sscanf(buf, "%63[^ ] %lf %255[^ ] %255[^\n]", target, &time, command, arg)) >= 3) {
             av_log(NULL, AV_LOG_DEBUG, "Processing command target:%s time:%f command:%s arg:%s",
                    target, time, command, arg);
+            for (OutputStream *ost = ost_iter(NULL); ost; ost = ost_iter(ost)) {
+                if (ost->fg_simple)
+                    fg_send_command(ost->fg_simple, time, target, command, arg,
+                                    key == 'C');
+            }
             for (i = 0; i < nb_filtergraphs; i++)
                 fg_send_command(filtergraphs[i], time, target, command, arg,
                                 key == 'C');
@@ -912,7 +854,7 @@ static int check_keyboard_interaction(int64_t cur_time)
  */
 static int transcode(Scheduler *sch)
 {
-    int ret = 0, i;
+    int ret = 0;
     int64_t timer_start, transcode_ts = 0;
 
     print_stream_maps();
@@ -944,7 +886,7 @@ static int transcode(Scheduler *sch)
     ret = sch_stop(sch, &transcode_ts);
 
     /* write the trailer if needed */
-    for (i = 0; i < nb_output_files; i++) {
+    for (int i = 0; i < nb_output_files; i++) {
         int err = of_write_trailer(output_files[i]);
         ret = err_merge(ret, err);
     }
